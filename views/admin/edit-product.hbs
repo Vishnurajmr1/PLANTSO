@@ -1,0 +1,42 @@
+<main id="main">
+    {{>admin-header}}
+    {{>admin-sidebar}}
+
+
+         <!-- Example-->
+                <div class="card mb-4">
+                    <div class="card-header justify-content-between align-items-center d-flex">
+                        <h6 class="card-title m-0">Add Product</h6>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="">
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Product Name</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp" placeholder="Enter the product name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Product Image</label>
+                                <input type="file" class="form-control" id="exampleInputPassword1">
+                            </div>
+                               <div class="mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Product Description</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            </div>
+                                <label for="exampleFormControlTextarea1" class="form-label">Product Category</label>
+                             <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
+                            <option selected>Small select menu</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                            </select>
+                            {{!-- <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            </div> --}}
+                            <button type="submit" class="btn btn-primary">Add Product</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- / Example-->
+</main>
