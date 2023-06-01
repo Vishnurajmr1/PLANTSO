@@ -154,3 +154,15 @@ form.addEventListener("submit",function(event){
     this.sumbit();
   }
 }); 
+
+
+document.getElementById('categoryForm').addEventListener('submit', function(event) {
+  let categoryNameInput = document.getElementById('InputCategory');
+  let errorContainer = document.getElementById('errorContainer');
+  if (categoryNameInput.value.trim === '') {
+      event.preventDefault(); // Prevent form submission
+      errorContainer.textContent = 'Please enter a category name.'; // Display error message
+  } else {
+      errorContainer.textContent = ''; // Clear error message if valid input
+  }
+});

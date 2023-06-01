@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Allerta Stencil
+- Font Author: Copyright (c) 2009, Matt McInerney <matt@pixelspread.com> with Reserved Font Name Allerta.
+- Font Source: http://fonts.gstatic.com/s/allertastencil/v18/HTx0L209KT-LmIE9N7OR6eiycOeF-zz313DuvQ.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))

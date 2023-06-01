@@ -1,39 +1,49 @@
 <main id="main">
     {{>admin-header}}
     {{>admin-sidebar}}
-
+    
+    {{#if message}}
+    <div class="alert alert-primary d-flex align-items-center mb-4" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:">
+            <use xlink:href="#info-fill" />
+        </svg>
+        <div>
+            {{message}}
+        </div>
+    </div>
+    {{/if}}
 
          <!-- Example-->
-                <div class="card mb-4">
+                <div class="edit-form card mb-4">
                     <div class="card-header justify-content-between align-items-center d-flex">
                         <h6 class="card-title m-0">Add Product</h6>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="">
+                        <form method="POST" action="/admin/{{#if editing}}edit-product{{else}}add-product{{/if}}">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Product Name</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp" placeholder="Enter the product name">
+                                <input type="text" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp" placeholder="Enter the product name" name="title">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Product Image</label>
-                                <input type="file" class="form-control" id="exampleInputPassword1">
+                                <input type="file" class="form-control" id="exampleInputPassword1" name="imageUrl">
                             </div>
                                <div class="mb-3">
                                 <label for="exampleFormControlTextarea1" class="form-label">Product Description</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Product Price</label>
+                                <input type="number" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp" placeholder="Enter the product price" name="price">
                             </div>
                                 <label for="exampleFormControlTextarea1" class="form-label">Product Category</label>
-                             <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
-                            <option selected>Small select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                             <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example" name="categoryId" id="category">
+                            {{#each categories}}
+                            <option value="{{categoryId}}" >{{name}}</option>
+                            {{/each}}
                             </select>
-                            {{!-- <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                            </div> --}}
                             <button type="submit" class="btn btn-primary">Add Product</button>
                         </form>
                     </div>

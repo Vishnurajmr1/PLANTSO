@@ -137,18 +137,19 @@
           <div class="section__content">
             <div class="container">
               <div class="row">
+              {{#each prods}}
                 <div class="col-lg-5 col-md-5 u-s-m-b-30">
-                  <a class="collection" href="shop-side-version-2.html">
+                  <a class="collection" href="/shop">
                     <div class="aspect aspect--bg-grey aspect--square">
                       <img
                         class="aspect__img collection__img"
-                        src="images/collection/coll-1.jpg"
-                        alt=""
+                        src="{{imageUrl}}"
+                        alt="Hi "
                       />
                     </div>
                   </a>
                 </div>
-                <div class="col-lg-7 col-md-7 u-s-m-b-30">
+                {{!-- <div class="col-lg-7 col-md-7 u-s-m-b-30">
                   <a class="collection" href="shop-side-version-2.html">
                     <div class="aspect aspect--bg-grey aspect--1286-890">
                       <img
@@ -180,7 +181,8 @@
                       />
                     </div>
                   </a>
-                </div>
+                </div> --}}
+              {{/each}}
               </div>
             </div>
           </div>
@@ -265,6 +267,7 @@
                   </div>
                   <div class="filter__grid-wrapper u-s-m-t-30">
                     <div class="row">
+                      {{#each prods}}
                       <div
                         class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item headphone"
                       >
@@ -278,7 +281,7 @@
                             >
                               <img
                                 class="aspect__img"
-                                src="images/product/electronic/product2.jpg"
+                                src="{{imageUrl}}"
                                 alt=""
                             /></a>
                             <div class="product-o__action-wrap">
@@ -315,16 +318,15 @@
                               </ul>
                             </div>
                           </div>
-
                           <span class="product-o__category">
                             <a href="shop-side-version-2.html"
-                              >Electronics</a
+                              >{{category.name}}</a
                             ></span
                           >
 
                           <span class="product-o__name">
                             <a href="product-detail.html"
-                              >Red Wireless Headphone</a
+                              >{{this.title}}</a
                             ></span
                           >
                           <div class="product-o__rating gl-rating-style">
@@ -338,7 +340,7 @@
                           </div>
 
                           <span class="product-o__price"
-                            >$125.00
+                            >₹{{price}}
 
                             <span class="product-o__discount"
                               >$160.00</span
@@ -346,7 +348,8 @@
                           >
                         </div>
                       </div>
-                      <div
+                      {{/each}}
+                      {{!-- <div
                         class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item headphone"
                       >
                         <div
@@ -1065,7 +1068,7 @@
                             ></span
                           >
                         </div>
-                      </div>
+                      </div> --}}
                     </div>
                   </div>
                 </div>

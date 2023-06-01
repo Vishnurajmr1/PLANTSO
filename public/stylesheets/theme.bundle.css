@@ -25117,4 +25117,14 @@ div.modal  div.container {
             right: 20rem;
         }
     }
+.add-category{
+  justify-content: space-around;
+}
+
+.edit-form{
+  margin-left: auto;
+  width: 50%;
+  align-items: center;
+  margin-right: auto;
+}
 /* Sample form design end */

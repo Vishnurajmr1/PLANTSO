@@ -3,6 +3,16 @@
     {{>admin-sidebar}}
      <!-- Content-->
         <section class="container-fluid">
+             {{#if message}}
+               <div class="alert alert-success d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                aria-label="Success:">
+                <use xlink:href="#check-circle-fill" /></svg>
+                <div>
+                {{message}}
+                </div>
+              </div>
+            {{/if}}
         
         <div class="card mb-4">
             <div class="card-header justify-content-between align-items-center d-flex">
@@ -21,7 +31,7 @@
             </div>
             <div class="card-body">
 
-                <!-- User listing Actions-->
+                <!-- Product listing Actions-->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <form class="bg-light rounded px-3 py-1 flex-shrink-0 d-flex align-items-center">
                         <input class="form-control border-0 bg-transparent px-0 py-2 me-5 fw-bolder" type="search"
@@ -30,7 +40,7 @@
                     </form>
                     <div class="d-flex justify-content-end">
                         {{!-- <a href="#" class="btn btn-outline-secondary btn-sm text-body me-2"><i class="ri-download-fill align-bottom"></i> Export Users</a> --}}
-                        <a class="btn btn-sm btn-primary" href="/admin/newProduct"><i class="ri-add-circle-line align-bottom"></i> New Product</a>
+                        <a class="btn btn-sm btn-primary" href="/admin/add-product"><i class="ri-add-circle-line align-bottom"></i> New Product</a>
                     </div>
                 </div>
                 <!-- /user listing Actions-->
@@ -40,52 +50,43 @@
                     <table class="table m-0 table-striped">
                         <thead>
                             <tr>
-                                <th>
-                                    <div class="form-group form-check-custom mb-0 flex-shrink-0">
-                                        {{!-- <input type="checkbox" class="form-check-input" id="filter-"> --}}
-                                    </div>
-                                </th>
                                 <th>Product Name</th>
                                 <th>Image</th>
-                                {{!-- <th>Location</th> --}}
                                 <th>Category</th>
                                 <th>Description</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {{#if hasProducts}}
+                            {{#each prods}}
                             <tr>
                                 <td>
-                                    <div class="form-group form-check-custom mb-0">
-                                        {{!-- <input type="checkbox" class="form-check-input" id="filter-0"> --}}
-                                    </div>
-                                </td>
-                                <td>
                                     <div class="d-flex justify-content-start align-items-start">
-                                        <div class="avatar avatar-xs me-3 flex-shrink-0">
+                                        {{!-- <div class="avatar avatar-xs me-3 flex-shrink-0">
                                             <picture>
                                                 <img class="f-w-10 rounded-circle" src="/images/profile-small-4.jpeg"
                                                 alt="">
-                                            </picture>
-                                        </div>
+                                            </picture> 
+                                        </div> --}}
                                         <div>
-                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">Jon Smith
-                                                    <span class="d-block f-w-4 ms-1 lh-1 text-primary">
+                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">{{title}}
+                                                    {{!-- <span class="d-block f-w-4 ms-1 lh-1 text-primary">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                             <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                                                         </svg>
-                                                    </span>
+                                                    </span> --}}
                                             </p>
-                                            <span class="d-block text-muted">jon@apollo.co.uk</span>
+                                            {{!-- <span class="d-block text-muted">jon@apollo.co.uk</span> --}}
                                         </div>
                                     </div>
                                 </td>
-                                <td>Administrator</td>
-                                {{!-- <td class="text-muted"><i class="ri-map-pin-line align-bottom"></i> London, UK</td> --}}
-                                <td class="text-muted">24th Jan, 2021</td>
+                                <td><img src="{{this.imageUrl}}" alt="" width="50" height="50"></td>
+                                <td class="text-muted">{{category.name}}</td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Online</span>
+                                        {{!-- <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span>  --}}
+                                        <span class="small text-muted">{{description}}</span>
                                     </div>
                                 </td>
                                 <td>
@@ -116,6 +117,23 @@
                                     </div>
                                 </td>
                             </tr>
+                            {{/each}}
+                             {{else}}
+                  <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                    aria-label="Warning:">
+                                    <use xlink:href="#exclamation-triangle-fill" /></svg>
+                                <div>
+                                    No Product Found!
+                                </div>
+                            </div>  
+                  <div class="card-body">
+                            <a href="/admin/add-product" class="btn mb-2 btn-outline-info">Add Product</a>
+                        </div>
+                    </div>
+                    <div>
+                    </div>
+                 {{/if}}
                             {{!-- <tr>
                                 <td>
                                     <div class="form-group form-check-custom mb-0">

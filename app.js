@@ -4,11 +4,13 @@ const createError = require('http-errors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const bodyParser=require('body-parser');
 const {mongoConnect}=require('./config/mongoDb')
+
 // const mongoose=require('mongoose');
 const session=require('express-session');
 const hbs=require('express-handlebars');
-const usersRouter = require('./routes/users.Router');
+const shopRouter = require('./routes/shop.Router');
 const adminRouter = require('./routes/admin.Router');
 const app = express();
 
@@ -40,7 +42,7 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, 'public')));
 mongoConnect();
-app.use('/', usersRouter);
+app.use('/', shopRouter);
 app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler

@@ -24,16 +24,17 @@
                   </div>
                   <div class="shop-w__wrap collapse show" id="s-category">
                     <ul class="shop-w__category-list gl-scroll">
+                      {{#each prods}}
                       <li class="has-list">
 
-                        <a href="#">Electronics</a>
+                        <a href="#">{{category.name}}</a>
 
                         <span class="category-list__text u-s-m-l-6">(23)</span>
 
                         <span
                           class="js-shop-category-span is-expanded fas fa-plus u-s-m-l-6"
                         ></span>
-                        <ul style="display:block">
+                        {{!-- <ul style="display:block">
                           <li class="has-list">
 
                             <a href="#">3D Printer & Supplies</a>
@@ -251,9 +252,9 @@
                                 <a href="#">Compact Discs</a></li>
                             </ul>
                           </li>
-                        </ul>
+                        </ul> --}}
                       </li>
-                      <li class="has-list">
+                      {{!-- <li class="has-list">
 
                         <a href="#">Women's Clothing</a>
 
@@ -656,7 +657,9 @@
 
                         <span
                           class="category-list__text u-s-m-l-6"
-                        >(0)</span></li>
+                        >(0)</span>
+                        </li> --}}
+                        {{/each}}
                     </ul>
                   </div>
                 </div>
@@ -1167,6 +1170,7 @@
             </div>
             <div class="shop-p__collection">
               <div class="row is-grid-active">
+                {{#each prods}}
                 <div class="col-lg-4 col-md-6 col-sm-6">
                   <div class="product-m">
                     <div class="product-m__thumb">
@@ -1202,10 +1206,10 @@
                     <div class="product-m__content">
                       <div class="product-m__category">
 
-                        <a href="shop-side-version-2.html">Men Clothing</a></div>
+                        <a href="shop-side-version-2.html">{{category.name}}</a></div>
                       <div class="product-m__name">
 
-                        <a href="product-detail.html">New Fashion B Nice Elegant</a></div>
+                        <a href="product-detail.html">{{title}}</a></div>
                       <div class="product-m__rating gl-rating-style"><i
                           class="fas fa-star"
                         ></i><i class="fas fa-star"></i><i
@@ -1215,15 +1219,11 @@
                         ></i>
 
                         <span class="product-m__review">(23)</span></div>
-                      <div class="product-m__price">$125.00</div>
+                      <div class="product-m__price">₹{{price}}</div>
                       <div class="product-m__hover">
                         <div class="product-m__preview-description">
-
-                          <span>Lorem Ipsum is simply dummy text of the printing
-                            and typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since the 1500s,
-                            when an unknown printer took a galley of type and
-                            scrambled it to make a type specimen book.</span></div>
+                             <span>{{description}}</span>
+                            </div>
                         <div class="product-m__wishlist">
 
                           <a
@@ -1237,7 +1237,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
+                {{/each}}
+                {{!-- <div class="col-lg-4 col-md-6 col-sm-6">
                   <div class="product-m">
                     <div class="product-m__thumb">
 
@@ -2017,7 +2018,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> --}}
               </div>
             </div>
             <div class="u-s-p-y-60">

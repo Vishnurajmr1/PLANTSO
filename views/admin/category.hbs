@@ -3,7 +3,16 @@
     {{>admin-sidebar}}
      <!-- Content-->
         <section class="container-fluid">
-        
+            {{#if message}}
+               <div class="alert alert-success d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                aria-label="Success:">
+                <use xlink:href="#check-circle-fill" /></svg>
+                <div>
+                {{message}}
+                </div>
+              </div>
+            {{/if}}
         <div class="card mb-4">
             <div class="card-header justify-content-between align-items-center d-flex">
                 <h6 class="card-title m-0">Category Management</h6>
@@ -28,94 +37,125 @@
                           placeholder="Search" aria-label="Search">
                         <button class="btn btn-link p-0 text-muted" type="submit"><i class="ri-search-2-line"></i></button>
                     </form>
-                    {{!-- <div class="d-flex justify-content-end">
-                        <a href="#" class="btn btn-outline-secondary btn-sm text-body me-2"><i class="ri-download-fill align-bottom"></i> Export Users</a> 
-                        <a class="btn btn-sm btn-primary" href="#"><i class="ri-add-circle-line align-bottom"></i>Orders</a>
-                    </div> --}}
+                    <div class="d-flex justify-content-end">
+                        <a href="/admin/add-category" class="btn btn-outline-secondary btn-primary btn-sm text-body me-2"><i class="ri-add-circle-line align-bottom"></i>New Category</a> 
+                        {{!-- <a class="btn btn-sm btn-primary" href="#"><i class="ri-add-circle-line align-bottom"></i>Orders</a> --}}
+                    </div>
                 </div>
                 <!-- /user listing Actions-->
 
                 <!-- User Listing Table-->
+                {{#if hasCategory}}
                 <div class="table-responsive">
                     <table class="table m-0 table-striped">
                         <thead>
                             <tr>
-                                <th>
+                                {{!-- <th>
                                     <div class="form-group form-check-custom mb-0 flex-shrink-0">
-                                        {{!-- <input type="checkbox" class="form-check-input" id="filter-"> --}}
+                                        <input type="checkbox" class="form-check-input" id="filter-"> 
                                     </div>
-                                </th>
+                                </th> --}}
                                 <th>Category Name</th>
-                                {{!-- <th>Image</th> --}}
-                                {{!-- <th>Location</th> --}}
-                                {{!-- <th>Category</th>
-                                <th>Status</th> --}}
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
+                                {{#each categories}}
                             <tr>
-                                <td>
-                                    <div class="form-group form-check-custom mb-0">
-                                        {{!-- <input type="checkbox" class="form-check-input" id="filter-0"> --}}
-                                    </div>
-                                </td>
+                                {{!-- <td>
+                                   
+                                </td> --}}
                                 <td>
                                     <div class="d-flex justify-content-start align-items-start">
-                                        <div class="avatar avatar-xs me-3 flex-shrink-0">
+                                        {{!-- <div class="avatar avatar-xs me-3 flex-shrink-0">
                                             <picture>
                                                 <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-4.jpeg"
                                                 alt="">
                                             </picture>
-                                        </div>
+                                        </div> --}}
                                         <div>
-                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">Jon Smith
-                                                    <span class="d-block f-w-4 ms-1 lh-1 text-primary">
+                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">{{this.name}}
+                                                    {{!-- <span class="d-block f-w-4 ms-1 lh-1 text-primary">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                             <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                                                         </svg>
-                                                    </span>
+                                                    </span> --}}
                                             </p>
-                                            <span class="d-block text-muted">jon@apollo.co.uk</span>
+                                            {{!-- <span class="d-block text-muted">jon@apollo.co.uk</span> --}}
                                         </div>
                                     </div>
                                 </td>
-                                <td>Administrator</td>
-                                {{!-- <td class="text-muted"><i class="ri-map-pin-line align-bottom"></i> London, UK</td> --}}
-                                <td class="text-muted">24th Jan, 2021</td>
                                 <td>
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Online</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
+                                    <div class="dropdown" style="display: flex;gap:5px;" >
+                                          <a class="btn mb-2 btn-success-faded" href="/admin/edit-category/{{this._id}}?edit=true">Edit</a>
+                                        {{!-- <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
                                             id="dropdownOrder-0" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="ri-more-2-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-0">
-                                            <li style="display: flex;cursor:pointer;"><a class="dropdown-item" href="#" onclick="openEditForm()">Edit</a>
+                                        </button> --}}
+                                        {{!-- <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-0">
+                                            <li style="display: flex;cursor:pointer;"><a class="dropdown-item" href="/admin/edit-category/{{this._id}}?edit=true">Edit</a>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                               </svg>
-                                            </li>
-                                            <li style="display: flex;cursor:pointer"><a class="dropdown-item" href="#">View Details</a>
+                                            </li> --}}
+                                            {{!-- <li style="display: flex;cursor:pointer"><a class="dropdown-item" href="#">View Details</a>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
                                            <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"/>
                                           </svg>
-                                            </li>
-                                            <li style="display: flex;cursor:pointer;color:red"><a class="dropdown-item" href="#">Delete</a>
+                                            </li> --}}
+                                            <form action="/admin/delete-category" method="post">
+                                             <input type="hidden" name="categoryId" id="" value="{{this._id}}">
+                                            {{!-- <li style="display: flex;cursor:pointer;color:red"><button class="dropdown-item" type="submit">Delete</button>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                               <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
                                               <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
                                             </svg>
-                                            </li>
-                                        </ul>
+                                            </li> --}}
+                                                  <button type="submit" class="btn mb-2 btn-outline-danger">Delete</button>
+                                            </form>
+                                        {{!-- </ul> --}}
                                     </div>
                                 </td>
                             </tr>
+                        {{/each}}
+                 </div> 
+                 {{else}}
+                  <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                    aria-label="Warning:">
+                                    <use xlink:href="#exclamation-triangle-fill" /></svg>
+                                <div>
+                                    No Category Found!
+                                </div>
+                            </div>  
+                  <div class="card-body">
+                            <a href="/admin/add-category" class="btn mb-2 btn-outline-info">Add Category</a>
+                        </div>
+                    </div>
+                    <div>
+                    </div>
+                 {{/if}}
+
+</main>
+
+
+
+
+
+
+
+                             {{!-- <div class="form-group form-check-custom mb-0">
+                                         <input type="checkbox" class="form-check-input" id="filter-0"> 
+                                    </div> --}}
+                             {{!-- <td>Administrator</td> --}}
+                                {{!-- <td class="text-muted"><i class="ri-map-pin-line align-bottom"></i> London, UK</td> --}}
+                                {{!-- <td class="text-muted">24th Jan, 2021</td> --}}
+                                {{!-- <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Online</span>
+                                    </div>
+                                </td> --}}
                             {{!-- <tr>
                                 <td>
                                     <div class="form-group form-check-custom mb-0">
