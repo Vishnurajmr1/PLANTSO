@@ -166,3 +166,35 @@ document.getElementById('categoryForm').addEventListener('submit', function(even
       errorContainer.textContent = ''; // Clear error message if valid input
   }
 });
+
+
+function showConfirmationModal(){
+  //Display the bootstrap modal
+  $('#confirmationModal').modal('show');
+}
+
+function deleteCategory() {
+  // Make an AJAX request to delete the category
+  $.ajax({
+    url: '/admin/delete-category',
+    type: 'POST',
+    data: { categoryId: '{{this._id}}' },
+    success: function(response) {
+      // Handle the success response
+      console.log('Category deleted successfully');
+      
+      // Optionally, you can redirect to a different page or update the UI here
+    },
+    error: function(error) {
+      // Handle the error response
+      console.error('Error deleting category');
+    }
+  });
+  
+  // Close the modal
+  $('#confirmationModal').modal('hide');
+}
+
+
+
+

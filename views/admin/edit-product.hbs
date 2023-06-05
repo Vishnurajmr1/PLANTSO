@@ -40,8 +40,9 @@
                             </div>
                                 <label for="exampleFormControlTextarea1" class="form-label">Product Category</label>
                              <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example" name="categoryId" id="category">
+                                <option value="" selected>Choose Category...</option>
                             {{#each categories}}
-                            <option value="{{categoryId}}" >{{name}}</option>
+                            <option value="{{categoryId}}">{{name}}</option>
                             {{/each}}
                             </select>
                             <button type="submit" class="btn btn-primary">Add Product</button>

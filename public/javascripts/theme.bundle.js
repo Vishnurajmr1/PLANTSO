@@ -951,11 +951,17 @@
     o(278);
   },
 });
-let modal = document.getElementById('id01');
+// let modal = document.getElementById('id01');
           
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
+// window.onclick = function(event) {
+//     if (event.target == modal) {
+//         modal.style.display = "none";
+//     }
+// }
 
+setTimeout(()=>{
+  const messageContainer=document.getElementById('messageContainer');
+  if(messageContainer){
+    messageContainer.innerHTML="";
+  }
+},1000);

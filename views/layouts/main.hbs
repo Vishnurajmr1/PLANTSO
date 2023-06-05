@@ -28,7 +28,11 @@
     <link rel="stylesheet" href="/stylesheets/libs.bundle.css" />
 
     <!-- Main CSS -->
+     <link rel="stylesheet" href="/stylesheets/tailwind.css">
+
     <link rel="stylesheet" href="/stylesheets/theme.bundle.css" />
+
+
 
     <!-- Fix for custom scrollbar if JS is disabled-->
     <noscript>
@@ -44,7 +48,6 @@
 
     <!-- Page Title -->
     <title>{{pageTitle}}||</title>
-    
 </head>
 <body>
      {{{body}}}
@@ -56,6 +59,33 @@
     <!-- Theme JS -->
     <script src="/javascripts/theme.bundle.js"></script>
     <script src="/javascripts/signup.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  // When delete button is clicked
+  $(".deleteButton").click(function(e) {
+    e.preventDefault();
+    //Get the form associated with the delete button
+    const form=$(this).closest("form");
+    //Get the category ID
+    const categoryId=form.find("input[name='categoryId']").val();
+        // Show the corresponding modal
+    $(`#deleteModal-${categoryId}`).removeClass("hidden");
+    //Handle the cancel button click
+    $(`#deleteModal-${categoryId}`).find('#cancelButton').click(function(){
+      //Hide the modal
+      $(`#deleteModal-${categoryId}`).addClass('hidden'); 
+    })
+    // Handle the confirm delete button click
+    $(`#deleteModal-${categoryId}`).find("#confirmDeleteButton").click(function(){
+      // Perform the form submission
+      $('form').submit();
+    })
+  });
+});
+</script>
+
 </body>
 
 </html>

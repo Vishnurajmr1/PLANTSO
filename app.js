@@ -42,6 +42,7 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, 'public')));
 mongoConnect();
+console.clear();
 app.use('/', shopRouter);
 app.use('/admin', adminRouter);
 

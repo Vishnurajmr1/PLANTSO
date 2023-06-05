@@ -4,12 +4,14 @@ const mongoose = require('mongoose');
 const ObjectId=mongoose.Types.ObjectId;
 
 
-
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
+  const message1="Product name is required";
+  const message2="Product  with the same name already exists";
+  const successmessage="Product added successfully."
   if (!title) {
     return res.status(409).render("admin/edit-product", {
-      message: "Product name is required",
+      message: message1,
       layout: "main",
       pageTitle: "Plantso||Admin-Category",
     });
@@ -27,7 +29,7 @@ exports.postAddProduct = (req, res, next) => {
             } 
           })
           return res.status(409).render("admin/edit-product", {
-            message: "Product  with the same name already exists",
+            message: message2,
             layout: "main",
             pageTitle: "Plantso||Admin-Product",
             categories:updatedCategories
@@ -50,11 +52,10 @@ exports.postAddProduct = (req, res, next) => {
           .save()
           .then((result) => {
             console.log(result);
-            const message = "Product added successfully.";
              res
               .status(201)
               .redirect(
-                `/admin/products?message=${encodeURIComponent(message)}`
+                `/admin/products?message=${encodeURIComponent(successmessage)}`
               );
           })
           .catch((err) => {

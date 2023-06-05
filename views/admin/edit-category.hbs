@@ -1,7 +1,8 @@
 <main id="main">
     {{>admin-header}}
     {{>admin-sidebar}}
-
+    
+    <div id="messageContainer">
     {{#if message}}
     <div class="alert alert-primary d-flex align-items-center mb-4" role="alert">
         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:">
@@ -12,6 +13,7 @@
         </div>
     </div>
     {{/if}}
+     </div>
 
     <div class="card mb-4">
         <div class="card-header justify-content-between align-items-center d-flex">
