@@ -12,6 +12,7 @@ shopRouter.get('/signup',shopController.getSignupPage)
 //userRouter to handle products and homepage 
 shopRouter.get('/',shopController.getIndex);
 shopRouter.get('/shop',shopController.getProducts);
+shopRouter.get('/products/:productId',shopController.getProduct);
 shopRouter.get('/edit-profile',(req,res)=>{
   res.render('shop/edit-profile',{user:true})
 })
@@ -27,7 +28,7 @@ shopRouter.get('/profile',(req,res)=>{
 shopRouter.get('/cart',(req,res)=>{
   res.render('shop/cart',{user:true})
 })
-shopRouter.get('/product',(req,res)=>{
-  res.render('shop/product-details',{user:true})
-})
+// shopRouter.get('/product/',(req,res)=>{
+//   res.render('shop/product-detail',{user:true})
+// })
 module.exports = shopRouter;

@@ -32,6 +32,8 @@ adminRouter.post('/delete-category',adminController.postDeleteCategory);
 adminRouter.get('/products',adminController.getProducts);
 adminRouter.get("/add-product",adminController.getAddProduct);
 adminRouter.post("/add-product",adminController.postAddProduct);
+adminRouter.get("/view-product",adminController.getProduct);
+
 
 
 

@@ -1458,7 +1458,7 @@
                     <a href="index.hml">Home</a></li>
                   <li class="has-separator">
 
-                    <a href="shop-side-version-2.html">Electronics</a></li>
+                    <a href="shop-side-version-2.html">{{category.name}}</a></li>
                   <li class="has-separator">
 
                     <a href="shop-side-version-2.html">DSLR Cameras</a></li>
@@ -1557,12 +1557,11 @@
               <!--====== Product Right Side Details ======-->
               <div class="pd-detail">
                 <div>
-
-                  <span class="pd-detail__name">Nikon Camera 4k Lens Zoom Pro</span></div>
+                  <span class="pd-detail__name">{{product.title}}</span></div>
                 <div>
                   <div class="pd-detail__inline">
 
-                    <span class="pd-detail__price">$6.99</span>
+                    <span class="pd-detail__price">{{product.price}}</span>
 
                     <span class="pd-detail__discount">(76% OFF)</span><del
                       class="pd-detail__del"
@@ -1584,7 +1583,7 @@
                 <div class="u-s-m-b-15">
                   <div class="pd-detail__inline">
 
-                    <span class="pd-detail__stock">200 in stock</span>
+                    <span class="pd-detail__stock">{{stock}} in stock</span>
 
                     <span class="pd-detail__left">Only 2 left</span></div>
                 </div>

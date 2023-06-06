@@ -47,6 +47,8 @@
                         </thead>
                         <tbody>
                              {{#each categories}}
+                             {{#if this.isDeleted}}
+                             {{else}}
                             <tr>
                                 <td>
                                     <div class="d-flex justify-content-start align-items-start">
@@ -96,6 +98,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            {{/if}}
                         {{/each}}
                  </div> 
                  {{else}}

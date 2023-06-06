@@ -25128,3 +25128,29 @@ div.modal  div.container {
   margin-right: auto;
 }
 /* Sample form design end */
+  #prodTable .table {
+        border-collapse: collapse;
+    }
+
+    #prodTable   .table th,
+    #prodTable .table td {
+        border: 1px solid #dee2e6;
+        padding: 8px;
+    }
+
+    #prodTable .description-box {
+        max-height: 100px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    #prodTable .description-box::after {
+        content: "";
+        text-transform: capitalize;
+        display: block;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 20px;
+    }

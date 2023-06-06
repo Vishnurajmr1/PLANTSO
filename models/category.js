@@ -7,6 +7,11 @@ const categorySchema=new Schema({
         type:String,
         required:true,
         unique:true
+    },
+    isDeleted:{
+        type:Boolean,
+        required:true,
+        default:false
     }
 });
 

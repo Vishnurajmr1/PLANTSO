@@ -6,22 +6,6 @@ exports.getLoginPage = (req, res, next) => {
 exports.getSignupPage = (req, res, next) => {
   res.render("shop/signup", { layout: "noLayout" });
 };
-exports.getProducts = (req, res, next) => {
-  Product.find()
-    .populate("category")
-    .lean()
-    .then((products) => {
-      console.log(products);
-      res.render("shop/storelist", {
-        prods: products,
-        user: true,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-
 
 exports.getIndex = (req, res, next) => {
   Product.find()
@@ -38,3 +22,30 @@ exports.getIndex = (req, res, next) => {
       console.log(err);
     });
 };
+exports.getProducts = (req, res, next) => {
+  Product.find()
+    .populate("category")
+    .lean()
+    .then((products) => {
+      console.log(products);
+      res.render("shop/storelist", {
+        prods: products,
+        user: true,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+exports.getProduct=(req,res,next)=>{
+  const prodId=req.params.productId;
+  Product.findById(prodId).lean()
+  .then(product=>{
+    res.render('shop/product-detail',{
+      product:product,
+      user:true,
+    })
+  })
+  .catch(err=>console.log(err));
+}

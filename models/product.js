@@ -24,10 +24,18 @@ const productSchema=new Schema({
         ref:'Category',
         required:true
     },
+    stock:{
+        type:Number,
+        required:true,
+        default:0
+    },
     dateCreated:{
         type:Date,
         default:Date.now,
     },
+    index:{
+        type:Number,
+        default:0,
+    }
 });
-
 module.exports=mongoose.model('Product',productSchema);
