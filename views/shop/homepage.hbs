@@ -137,25 +137,14 @@
           <div class="section__content">
             <div class="container">
               <div class="row">
-              {{#each prods}}
                 <div class="col-lg-5 col-md-5 u-s-m-b-30">
                   <a class="collection" href="/shop">
+                  {{log prods.[0].imageUrl}}
                     <div class="aspect aspect--bg-grey aspect--square">
                       <img
                         class="aspect__img collection__img"
-                        src="{{imageUrl}}"
-                        alt="Hi "
-                      />
-                    </div>
-                  </a>
-                </div>
-                {{!-- <div class="col-lg-7 col-md-7 u-s-m-b-30">
-                  <a class="collection" href="shop-side-version-2.html">
-                    <div class="aspect aspect--bg-grey aspect--1286-890">
-                      <img
-                        class="aspect__img collection__img"
-                        src="images/collection/coll-2.jpg"
-                        alt=""
+                        src="{{prods.[0].imageUrl}}"
+                        alt="Hi"
                       />
                     </div>
                   </a>
@@ -165,8 +154,19 @@
                     <div class="aspect aspect--bg-grey aspect--1286-890">
                       <img
                         class="aspect__img collection__img"
-                        src="images/collection/coll-3.jpg"
-                        alt=""
+                        src="{{prods1.[0].imageUrl}}"
+                        alt="Hi"
+                      />
+                    </div>
+                  </a>
+                </div>
+                  <div class="col-lg-7 col-md-7 u-s-m-b-30">
+                  <a class="collection" href="shop-side-version-2.html">
+                    <div class="aspect aspect--bg-grey aspect--1286-890">
+                      <img
+                        class="aspect__img collection__img"
+                        src="{{prods2.[0].imageUrl}}"
+                        alt="Hi"
                       />
                     </div>
                   </a>
@@ -176,13 +176,12 @@
                     <div class="aspect aspect--bg-grey aspect--square">
                       <img
                         class="aspect__img collection__img"
-                        src="images/collection/coll-4.jpg"
-                        alt=""
+                        src="{{prods3.[0].imageUrl}}"
+                        alt="HI"
                       />
                     </div>
                   </a>
-                </div> --}}
-              {{/each}}
+                </div>
               </div>
             </div>
           </div>
@@ -234,7 +233,6 @@
                         type="button"
                         data-filter=".headphone"
                       >
-                        HEADPHONES
                       </button>
                     </div>
                     <div class="filter__category-wrapper">
@@ -267,7 +265,7 @@
                   </div>
                   <div class="filter__grid-wrapper u-s-m-t-30">
                     <div class="row">
-                      {{#each prods}}
+                      {{#each allProds}}
                       <div
                         class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item headphone"
                       >
@@ -2199,3 +2197,6 @@
         </div>
       </footer>
 </main>
+
+
+

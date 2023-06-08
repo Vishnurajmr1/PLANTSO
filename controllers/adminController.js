@@ -1,76 +1,8 @@
 const Category = require("../models/category");
-const product = require("../models/product");
 const Product = require("../models/product");
 const mongoose = require('mongoose');
 const ObjectId=mongoose.Types.ObjectId;
 
-
-// exports.postAddProduct = (req, res, next) => {
-//   const title = req.body.title;
-//   const message1="Product name is required";
-//   const message2="Product  with the same name already exists";
-//   const successmessage="Product added successfully."
-//   if (!title) {
-//     return res.status(409).render("admin/edit-product", {
-//       message: message1,
-//       layout: "main",
-//       pageTitle: "Plantso||Admin-Category",
-//     });
-//   } else {
-//     Product.findOne({ title: title })
-//       .then((existingProduct) => {
-//         if (existingProduct) {
-//         Category.find({isDeleted:false})
-//         .then((categories)=>{
-//           const updatedCategories=categories.map(category=>{
-//             return{
-//               ...category,
-//               categoryId:category._id,
-//               name: category.name.charAt(0).toUpperCase()+category.name.slice(1)
-//             } 
-//           })
-//           return res.status(409).render("admin/edit-product", {
-//             message: message2,
-//             layout: "main",
-//             pageTitle: "Plantso||Admin-Product",
-//             categories:updatedCategories
-//           });
-//         })
-//         }
-//         else{
-//         const imageUrl = req.body.imageUrl;
-//         const price = req.body.price;
-//         const description = req.body.description;
-//         const stock=req.body.stock;
-//         const categoryId =new ObjectId(req.body.categoryId);
-//         const product = new Product({
-//           title: title,
-//           price: price,
-//           description: description,
-//           imageUrl: imageUrl,
-//           category: categoryId,
-//           stock:stock
-//         });
-//         product
-//           .save()
-//           .then((result) => {
-//             console.log(result);
-//              res
-//               .status(201)
-//               .redirect(
-//                 `/admin/products?message=${encodeURIComponent(successmessage)}`
-//               );
-//           })
-//           .catch((err) => {
-//             console.log(err);
-//           });
-//         }
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   }
-// };
 
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
@@ -179,7 +111,8 @@ exports.getProducts = (req, res, next) => {
         pageTitle: "Admin Products",
         path: "/admin/products",
         hasProducts: products.length > 0,
-        layout:'main'
+        layout:'main',
+        title: "Products",
       });
     })
     .catch((err) => {
@@ -191,21 +124,70 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct=(req,res,next)=>{
   const prodId=req.params.productId;
-  const editMode = req.query.edit;
-  if (!editMode) {
-    return res.redirect("/admin/list-product");
-  }
-  Product.findById(prodId)
+  Product.findById(prodId).populate('category').lean()
   .then(product=>{
-    res.render("admin/edit-product", {
-      pageTitle:"Plantso||Admin-editProduct",
+    res.render("admin/view-detail", {
+      pageTitle:"Plantso||Admin-viewProduct",
       layout:'main',
       title:'Products',
       product:product
-      // categories:updatedCategories
     });
   })
   .catch(err=>console.log(err));
+}
+
+//Get the edit product page
+exports.getEditProduct=(req,res,next)=>{
+  const editMode=req.query.edit;
+  const prodId=req.params.productId;
+  Category.find({isDeleted:false})
+  .lean()
+  .then(categories=>{
+    if(!editMode){
+      return res.redirect('/admin/products');
+    }
+  // const category=Category.find();
+  Product.findById(prodId).populate('category').lean()
+  .then(product=>{
+    if(!product){
+      return res.redirect('/admin/products');
+    }
+    res.render('admin/edit-product',{
+      editing:editMode,
+      product: product,
+      layout: "main",
+      pageTitle: "Plantso||Edit-Product",
+      // categories:category
+    });
+  })
+  .catch(err=>console.log(err));
+  })
+  .catch(err=>console.log(err));
+};
+//Post method to edit product
+exports.postEditProduct=(req,res,next)=>{
+  const prodId=req.body.productId;
+  const updatedTitle=req.body.title;
+  const updatedImageUrl = req.body.imageUrl;
+  const updatedPrice = req.body.price;
+  const updatedDescription = req.body.description;
+  const updatedStock = req.body.stock;
+  const updatedCategoryId = new ObjectId(req.body.categoryId);
+  Product.findById(prodId).then(product=>{
+    product.title=updatedTitle;
+    product.price=updatedPrice;
+    product.stock=updatedStock;
+    product.imageUrl=updatedImageUrl;
+    product.description=updatedDescription;
+    product.category=updatedCategoryId;
+   return  product.save()
+  })
+  .then(result=>{
+    console.log('UPDATED PRODUCT!');
+    res.redirect("/admin/products");
+  })
+  .catch(err=>console.log(err));
+
 }
 exports.getCategories = (req, res, next) => {
   const message = req.query.message;
@@ -379,3 +361,81 @@ exports.postEditCategory = (req, res, next) => {
 };
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+// exports.postAddProduct = (req, res, next) => {
+//   const title = req.body.title;
+//   const message1="Product name is required";
+//   const message2="Product  with the same name already exists";
+//   const successmessage="Product added successfully."
+//   if (!title) {
+//     return res.status(409).render("admin/edit-product", {
+//       message: message1,
+//       layout: "main",
+//       pageTitle: "Plantso||Admin-Category",
+//     });
+//   } else {
+//     Product.findOne({ title: title })
+//       .then((existingProduct) => {
+//         if (existingProduct) {
+//         Category.find({isDeleted:false})
+//         .then((categories)=>{
+//           const updatedCategories=categories.map(category=>{
+//             return{
+//               ...category,
+//               categoryId:category._id,
+//               name: category.name.charAt(0).toUpperCase()+category.name.slice(1)
+//             } 
+//           })
+//           return res.status(409).render("admin/edit-product", {
+//             message: message2,
+//             layout: "main",
+//             pageTitle: "Plantso||Admin-Product",
+//             categories:updatedCategories
+//           });
+//         })
+//         }
+//         else{
+//         const imageUrl = req.body.imageUrl;
+//         const price = req.body.price;
+//         const description = req.body.description;
+//         const stock=req.body.stock;
+//         const categoryId =new ObjectId(req.body.categoryId);
+//         const product = new Product({
+//           title: title,
+//           price: price,
+//           description: description,
+//           imageUrl: imageUrl,
+//           category: categoryId,
+//           stock:stock
+//         });
+//         product
+//           .save()
+//           .then((result) => {
+//             console.log(result);
+//              res
+//               .status(201)
+//               .redirect(
+//                 `/admin/products?message=${encodeURIComponent(successmessage)}`
+//               );
+//           })
+//           .catch((err) => {
+//             console.log(err);
+//           });
+//         }
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   }
+// };

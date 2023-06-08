@@ -415,6 +415,7 @@ body {
 .gl-scroll::-webkit-scrollbar-thumb:hover {
   background: #555; }
 
+
 /*
   * Global Rating Style apply on any div that has `i` element as children
  */
@@ -4471,7 +4472,9 @@ input::-ms-clear {
   display: block;
   color: #333333;
   font-size: 16px;
-  font-weight: 600; }
+  font-weight: 600; 
+  text-transform: capitalize;
+}
 
 .pd-detail__price {
   color: #116466;

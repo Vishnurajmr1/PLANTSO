@@ -13,7 +13,6 @@ const hbs=require('express-handlebars');
 const shopRouter = require('./routes/shop.Router');
 const adminRouter = require('./routes/admin.Router');
 const app = express();
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine(
