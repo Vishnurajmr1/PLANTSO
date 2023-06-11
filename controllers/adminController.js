@@ -53,7 +53,6 @@ exports.postAddProduct = (req, res, next) => {
             category: categoryId,
             stock: stock,
           });
-
           product
             .save()
             .then((result) => {
@@ -152,11 +151,22 @@ exports.getEditProduct=(req,res,next)=>{
     if(!product){
       return res.redirect('/admin/products');
     }
+    const selectedCategoryId=product.category._id;
+    const selectedCategory=categories.find((category)=>String(category._id)===String(selectedCategoryId))
+    console.log(product.category._id);
+    const otherCategory=categories.filter(
+      (category)=>String(category._id)!==String(selectedCategoryId));
+      console.log(selectedCategoryId);
+      console.log(selectedCategory);
+      console.log(otherCategory);
     res.render('admin/edit-product',{
       editing:editMode,
       product: product,
       layout: "main",
       pageTitle: "Plantso||Edit-Product",
+      selectedCategory:selectedCategory,
+      otherCategories:otherCategory,
+
       // categories:category
     });
   })
@@ -180,15 +190,85 @@ exports.postEditProduct=(req,res,next)=>{
     product.imageUrl=updatedImageUrl;
     product.description=updatedDescription;
     product.category=updatedCategoryId;
-   return  product.save()
+   return product.save()
   })
   .then(result=>{
     console.log('UPDATED PRODUCT!');
     res.redirect("/admin/products");
   })
   .catch(err=>console.log(err));
-
 }
+
+//Deleting the product
+// exports.postDeleteProduct=(req,res,next)=>{
+//   const prodId=req.body.productId;
+//   Product.findByIdAndRemove(prodId)
+//   .then(()=>{
+//     console.log('DESTROYED PRODUCT');
+//     res.redirect('/admin/products');
+//   })
+//   .catch(err=>console.log(err));
+// }
+// exports.postDeleteProduct=(req,res,next)=>{
+//   const prodId=req.body.productId;
+//   Product.findById(prodId)
+//   .then((product)=>{
+//     if(!product){
+//       return res.status(404).render("admin/products", {
+//         message: "Product not found",
+//         layout: "main",
+//         pageTitle: "Plantso || Admin - Products"
+//       });
+//     }
+//      // Update the product's isDeleted flag
+//      product.$isDeleted = true;
+
+//      // Save the updated product
+//      return product.save();
+//     // console.log('DESTROYED PRODUCT');
+//     // res.redirect('/admin/products');
+//   }).then(()=>{
+//     // Product deletion successful
+//     const message = "Product deleted successfully";
+//     res.redirect(`/admin/products?message=${encodeURIComponent(message)}`);
+//   })
+//   .catch(err=>console.log(err));
+// }
+
+exports.postDeleteProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+
+  Product.findByIdAndRemove(prodId)
+    .then(deletedProduct => {
+      if (!deletedProduct) {
+        // Product not found
+        const message = "Product not found";
+        return res.status(404).render("admin/products", {
+          message: message,
+          layout: "main",
+          pageTitle: "Plantso || Admin - Products"
+        });
+      }
+
+      // Product deletion successful
+      // const message = "Product deleted successfully";
+      // res.redirect(`/admin/products?message=${encodeURIComponent(message)}`);
+       res.redirect('admin/products');
+    })
+    .catch(err => {
+      console.error(err);
+      // Handle the error
+      const message = "An error occurred while deleting the product";
+      res.status(500).render("admin/products", {
+        message: message,
+        layout: "main",
+        pageTitle: "Plantso || Admin - Products"
+      });
+    });
+};
+
+
+
 exports.getCategories = (req, res, next) => {
   const message = req.query.message;
   Category.find()
@@ -222,37 +302,52 @@ exports.postAddCategory = (req, res, next) => {
       pageTitle: "Plantso||Admin-Category",
     });
   } else {
-    Category.findOne({ name: categoryName})
+    Category.findOne({ name:categoryName})
       .then((existingCategory) => {
         if (existingCategory) {
-          return res.status(409).render("admin/edit-category", {
-            message: "Category already exists",
-            layout: "main",
-            pageTitle: "Plantso||Admin-Category",
-          });
-        }
-        const category = new Category({ name: categoryName ,isDeleted:false});
-        category
+          if(existingCategory.isDeleted){
+            existingCategory.isDeleted=false;
+            existingCategory
+            .save()
+            .then((savedCategory)=>{
+              console.log(savedCategory);
+              const message="Category added Successfully.";
+              return res.status(201).redirect(
+                `/admin/category?message=${encodeURIComponent(message)}`
+              );
+            })
+            .catch((err)=>
+            console.log(err));
+          }else{
+            return res.status(409).render("admin/edit-category", {
+              message: "Category already exists",
+              layout: "main",
+              pageTitle: "Plantso||Admin-Category",
+            });
+          }
+        }else{
+          const category = new Category({ name: categoryName ,isDeleted:false});
+          category
           .save()
           .then((savedCategory) => {
             console.log(savedCategory);
             const message = "Category added successfully.";
             return res
-              .status(201)
-              .redirect(
-                `/admin/category?message=${encodeURIComponent(message)}`
+            .status(201)
+            .redirect(
+              `/admin/category?message=${encodeURIComponent(message)}`
               );
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   }
 };
-
 exports.getEditCategory=(req,res,next)=>{
   const editMode = req.query.edit;
   console.log(editMode);
@@ -303,7 +398,7 @@ exports.postDeleteCategory=(req,res,next)=>{
     }
     category.isDeleted=true;
     category.save()
-    .then(savedCategory=>{
+    .then(()=>{
       const message="Category deleted successfully";
       res.redirect(`/admin/category?message=${encodeURIComponent(message)}`);
     })

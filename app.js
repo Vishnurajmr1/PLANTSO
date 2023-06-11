@@ -5,6 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser=require('body-parser');
+const cors = require('cors');
 const {mongoConnect}=require('./config/mongoDb')
 
 // const mongoose=require('mongoose');
@@ -28,6 +29,7 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 app.use(cookieParser());
 app.use(
   session({

@@ -48,11 +48,21 @@
                             <div class="mb-3">
                                 <label for="exampleFormControlTextarea1" class="form-label">Product Category</label>
                              <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example" name="categoryId" id="category">
+                                {{#if editing}}
+                                {{#if selectedCategory}}
+                                <option value="{{selectedCategory._id}}"selected>{{selectedCategory.name}}</option>
+                                {{else}}
+                                <option disabled selected>No category selected</option>
+                                {{/if}}
+                                {{#each otherCategories}}
+                               <option value="{{_id}}">{{name}}</option>
+                                {{/each}}
+                                {{else}}
                                 <option value="" selected>Choose Category...</option>
-                                {{!-- <option value={{#if editing}}{{category.name}}{{/if}} selected></option> --}}
                             {{#each categories}}
                             <option value="{{categoryId}}">{{name}}</option>
                             {{/each}}
+                            {{/if}}
                             </select>
                             </div>
                             <div class="mt-5">

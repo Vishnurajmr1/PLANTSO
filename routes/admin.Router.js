@@ -34,9 +34,8 @@ adminRouter.get("/add-product",adminController.getAddProduct);
 adminRouter.post("/add-product",adminController.postAddProduct);
 adminRouter.get("/view-product/:productId",adminController.getProduct);
 adminRouter.get('/edit-product/:productId',adminController.getEditProduct);
-adminRouter.post('/edit-product/',adminController.postEditProduct);
-
-
+adminRouter.post('/edit-product',adminController.postEditProduct);
+adminRouter.post('/delete-product',adminController.postDeleteProduct);
 
 
 
