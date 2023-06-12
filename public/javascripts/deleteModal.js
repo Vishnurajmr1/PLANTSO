@@ -1,4 +1,4 @@
-
+// previous code start
 
 // Get the delete buttons
 const deleteButtons = document.querySelectorAll(".deleteButton");
@@ -57,13 +57,13 @@ function handleDelete(event) {
     openDeleteModal(event);
   
     // Attach the event listener to the confirm delete button
-    confirmDeleteButton.addEventListener("click", handleConfirmDelete);
+    confirmDeleteButton.addEventListener("click",()=> handleConfirmDelete(endpoint));
   
-    function handleConfirmDelete() {
+    function handleConfirmDelete(endpoint) {
       fetch(endpoint, {
         method: "POST",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type":"application/x-www-form-urlencoded",
         },
         body: new URLSearchParams(new FormData(form)),
       })
@@ -71,12 +71,15 @@ function handleDelete(event) {
           if (response.ok) {
             // Delete operation was successful
             closeDeleteModal(); // Close the delete modal
-            let message;
+            
             if(endpoint.includes('delete-product')){
-                message="Product deleted successfully";
-                window.location.href=`/admin/product?message=${encodeURIComponent(message)}`;
+               const  message="Product deleted successfully";
+                // response.redirected(`/admin/products?message=${encodeURIComponent(message)}`);
+                window.location.href=`/admin/products?message=${encodeURIComponent(message)}`
+                // window.location.href=`/admin/category?message=${encodeURIComponent(message)}`; // Refresh the page or perform any other necessary action
+                // window.location.href=`/admin/product?message=${encodeURIComponent(message)}`;
             }else if(endpoint.includes('delete-category')){
-                 message="Category deleted successfully";
+                const message="Category deleted successfully";
             // res.redirect(`/admin/category?message=${encodeURIComponent(message)}`);
                 window.location.href=`/admin/category?message=${encodeURIComponent(message)}`; // Refresh the page or perform any other necessary action
             }
@@ -88,9 +91,98 @@ function handleDelete(event) {
         .catch((error) => {
           // Network or fetch error occurred
           console.error("An error occurred while deleting.");
-        });
+        })
     }
   }
+
+//previous code end
+
+// const deleteButtons = document.querySelectorAll(".deleteButton");
+
+// function openDeleteModal(event){
+//    event.preventDefault();
+
+//     const deleteModal=document.getElementById('deleteModal');
+//     const modalTitle = deleteModal.querySelector(".modal-title");
+//     const modalBody = deleteModal.querySelector(".modal-body");
+
+
+//     const title = event.target.dataset.title;
+//     const body = event.target.dataset.body;
+
+//     modalTitle.textContent = title;
+//     modalBody.textContent = body;
+
+//     deleteModal.classList.remove("hidden");
+    
+//     //Store the form element in the variable
+//     const form=event.target.closest('form');
+
+//     //Attach the event listener to the confirm delete button
+//       const confirmDeleteButton = document.getElementById("confirmDeleteButton");
+//      confirmDeleteButton.addEventListener("click", handleDelete);
+
+//      // Attach the event listener to the cancel button
+//      const cancelButton = deleteModal.querySelector("#cancelButton");
+//      cancelButton.addEventListener("click", closeDeleteModal); 
+// }
+// // // Function to close the delete modal
+// function closeDeleteModal() {
+//   const deleteModal = document.getElementById("deleteModal");
+//   deleteModal.classList.add("hidden");
+// }
+
+// // ... previous code ...
+
+// function handleDelete(event) {
+//   event.preventDefault();
+
+//   const form = event.target.closest("form");
+//   const endpoint = form.action;
+
+//   // Remove the event listener for the confirm delete button
+//   const confirmDeleteButton = document.querySelector("#confirmDeleteButton");
+//   confirmDeleteButton.removeEventListener("click", handleDelete);
+
+//   // Show the confirmation modal
+//   openDeleteModal(event);
+// }
+
+//   function handleConfirmDelete() {
+//     fetch(endpoint, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/x-www-form-urlencoded",
+//       },
+//       body: new URLSearchParams(new FormData(form)),
+//     })
+//       .then((response) => {
+//         if (response.ok) {
+//           // Delete operation was successful
+//           closeDeleteModal(); // Close the delete modal
+
+//           if (endpoint.includes("delete-product")) {
+//             const message = "Product deleted successfully";
+//             console.log(message + "🚀🚀");
+//             window.location.href = "/admin/product";
+//           } else if (endpoint.includes("delete-category")) {
+//             const message = "Category deleted successfully";
+//             window.location.href = "/admin/category?message=" + encodeURIComponent(message);
+//           }
+//         } else {
+//           // Error occurred during the delete operation
+//           console.error("An error occurred while deleting.");
+//         }
+//       })
+//       .catch((error) => {
+//         // Network or fetch error occurred
+//         console.error("An error occurred while deleting.");
+//       });
+//   }
+
+
+
+
 
 
 

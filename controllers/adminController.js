@@ -251,9 +251,11 @@ exports.postDeleteProduct = (req, res, next) => {
       }
 
       // Product deletion successful
-      // const message = "Product deleted successfully";
+      const message = "Product deleted successfully";
+      return res.redirect(`/admin/products?message=${encodeURIComponent(message)}`);
+
       // res.redirect(`/admin/products?message=${encodeURIComponent(message)}`);
-       res.redirect('admin/products');
+      //  res.redirect('admin/products');
     })
     .catch(err => {
       console.error(err);
@@ -266,8 +268,6 @@ exports.postDeleteProduct = (req, res, next) => {
       });
     });
 };
-
-
 
 exports.getCategories = (req, res, next) => {
   const message = req.query.message;
@@ -385,8 +385,7 @@ exports.getEditCategory=(req,res,next)=>{
 // another method to hide the category which is deleted
 exports.postDeleteCategory=(req,res,next)=>{
   const catId=req.body.categoryId;
-  const categoryMessage="Category not found"
-  console.log(catId);
+  const categoryMessage="Category not found";
   Category.findById(catId)
   .then(category=>{
     if(!category){
@@ -396,11 +395,17 @@ exports.postDeleteCategory=(req,res,next)=>{
         pageTitle:'Plantso||Admin-Category',
       });
     }
-    category.isDeleted=true;
-    category.save()
+    //Delete the products under the category
+    Product.deleteMany({category:catId})
     .then(()=>{
-      const message="Category deleted successfully";
-      res.redirect(`/admin/category?message=${encodeURIComponent(message)}`);
+      //Set the category as deleted
+      category.isDeleted=true;
+      category.save()
+      .then(()=>{
+        const message="Category deleted successfully";
+        res.redirect(`/admin/category?message=${encodeURIComponent(message)}`);
+      })
+      .catch(err=>console.log(err));
     })
     .catch(err=>console.log(err));
   })

@@ -49,6 +49,7 @@
                 <!-- /user listing Actions-->
 
                 <!-- Product Listing Table-->
+                 {{#if hasProducts}}
                 <div class="table-responsive" id="prodTable">
                     <table class="table m-0 table-striped">
                         <thead>
@@ -64,7 +65,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{#if hasProducts}}
                             {{#each prods}}
                             <tr>
                                 <td class="small text-muted capitalize text-center">{{serialNumber}}</td>
@@ -156,7 +156,6 @@
                     <div>
                     </div>
                  {{/if}}
-
                        </tbody>
                     </table>
                 </div>    
