@@ -48,6 +48,7 @@ function handleDelete(event) {
   
     const form = event.target.closest("form");
     const endpoint = form.action;
+    console.log(endpoint);
   
     // Remove the event listener for the confirm delete button
     const confirmDeleteButton = document.getElementById("confirmDeleteButton");
@@ -74,13 +75,11 @@ function handleDelete(event) {
             
             if(endpoint.includes('delete-product')){
                const  message="Product deleted successfully";
-                // response.redirected(`/admin/products?message=${encodeURIComponent(message)}`);
                 window.location.href=`/admin/products?message=${encodeURIComponent(message)}`
                 // window.location.href=`/admin/category?message=${encodeURIComponent(message)}`; // Refresh the page or perform any other necessary action
                 // window.location.href=`/admin/product?message=${encodeURIComponent(message)}`;
             }else if(endpoint.includes('delete-category')){
                 const message="Category deleted successfully";
-            // res.redirect(`/admin/category?message=${encodeURIComponent(message)}`);
                 window.location.href=`/admin/category?message=${encodeURIComponent(message)}`; // Refresh the page or perform any other necessary action
             }
           } else {

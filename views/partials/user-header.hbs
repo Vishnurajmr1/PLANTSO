@@ -1143,6 +1143,8 @@
                                     <div class="mini-product-container gl-scroll u-s-m-b-15">
 
                                         <!--====== Card for mini cart ======-->
+                                        {{log locals.user.name}}
+                                        {{#each user.cart}}
                                         <div class="card-mini-product">
                                             <div class="mini-product">
                                                 <div class="mini-product__image-wrapper">
@@ -1158,7 +1160,7 @@
 
                                                     <span class="mini-product__name">
 
-                                                        <a href="product-detail.html">Yellow Wireless Headphone</a></span>
+                                                        <a href="product-detail.html">Yellow  Headphone</a></span>
 
                                                     <span class="mini-product__quantity">1 x</span>
 
@@ -1167,11 +1169,12 @@
 
                                             <a class="mini-product__delete-link far fa-trash-alt"></a>
                                         </div>
+                                        {{/each}}
                                         <!--====== End - Card for mini cart ======-->
 
 
                                         <!--====== Card for mini cart ======-->
-                                        <div class="card-mini-product">
+                                        {{!-- <div class="card-mini-product">
                                             <div class="mini-product">
                                                 <div class="mini-product__image-wrapper">
 
@@ -1194,12 +1197,12 @@
                                             </div>
 
                                             <a class="mini-product__delete-link far fa-trash-alt"></a>
-                                        </div>
+                                        </div> --}}
                                         <!--====== End - Card for mini cart ======-->
 
 
                                         <!--====== Card for mini cart ======-->
-                                        <div class="card-mini-product">
+                                        {{!-- <div class="card-mini-product">
                                             <div class="mini-product">
                                                 <div class="mini-product__image-wrapper">
 
@@ -1222,12 +1225,12 @@
                                             </div>
 
                                             <a class="mini-product__delete-link far fa-trash-alt"></a>
-                                        </div>
+                                        </div> --}}
                                         <!--====== End - Card for mini cart ======-->
 
 
                                         <!--====== Card for mini cart ======-->
-                                        <div class="card-mini-product">
+                                        {{!-- <div class="card-mini-product">
                                             <div class="mini-product">
                                                 <div class="mini-product__image-wrapper">
 
@@ -1250,7 +1253,7 @@
                                             </div>
 
                                             <a class="mini-product__delete-link far fa-trash-alt"></a>
-                                        </div>
+                                        </div> --}}
                                         <!--====== End - Card for mini cart ======-->
                                     </div>
                                     <!--====== End - Mini Product Container ======-->

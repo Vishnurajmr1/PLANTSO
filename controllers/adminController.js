@@ -19,7 +19,6 @@ exports.postAddProduct = (req, res, next) => {
           name: category.name.charAt(0).toUpperCase() + category.name.slice(1),
         };
       });
-
       if (!title) {
         return res.status(409).render("admin/edit-product", {
           message: message1,
@@ -28,7 +27,6 @@ exports.postAddProduct = (req, res, next) => {
           categories: updatedCategories,
         });
       }
-
       Product.findOne({ title: title })
         .then((existingProduct) => {
           if (existingProduct) {
@@ -45,6 +43,7 @@ exports.postAddProduct = (req, res, next) => {
           const description = req.body.description;
           const stock = req.body.stock;
           const categoryId = new ObjectId(req.body.categoryId);
+          console.log(req.user)
           const product = new Product({
             title: title,
             price: price,
@@ -52,6 +51,7 @@ exports.postAddProduct = (req, res, next) => {
             imageUrl: imageUrl,
             category: categoryId,
             stock: stock,
+            userId:req.user,
           });
           product
             .save()
@@ -98,6 +98,7 @@ exports.getProducts = (req, res, next) => {
   const message = req.query.message;
   Product.find()
   .populate('category')
+  // .populate('userId','name')
   .lean()
     .then((products) => {
       products.forEach((product,index)=>{

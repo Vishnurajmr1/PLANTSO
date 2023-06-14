@@ -150,7 +150,7 @@
                   </a>
                 </div>
                 <div class="col-lg-7 col-md-7 u-s-m-b-30">
-                  <a class="collection" href="shop-side-version-2.html">
+                  <a class="collection" href="/shop">
                     <div class="aspect aspect--bg-grey aspect--1286-890">
                       <img
                         class="aspect__img collection__img"
@@ -161,7 +161,7 @@
                   </a>
                 </div>
                   <div class="col-lg-7 col-md-7 u-s-m-b-30">
-                  <a class="collection" href="shop-side-version-2.html">
+                  <a class="collection" href="/shop">
                     <div class="aspect aspect--bg-grey aspect--1286-890">
                       <img
                         class="aspect__img collection__img"
@@ -172,7 +172,7 @@
                   </a>
                 </div>
                 <div class="col-lg-5 col-md-5 u-s-m-b-30">
-                  <a class="collection" href="shop-side-version-2.html">
+                  <a class="collection" href="/shop">
                     <div class="aspect aspect--bg-grey aspect--square">
                       <img
                         class="aspect__img collection__img"
@@ -231,7 +231,7 @@
                       <button
                         class="btn filter__btn filter__btn--style-1"
                         type="button"
-                        data-filter=".headphone"
+                        data-filter="{{category}}"
                       >
                       </button>
                     </div>
@@ -296,6 +296,7 @@
                                 </li>
                                 <li>
                                   <a
+                                    onclick="addToCart('{{this._id}}')"
                                     data-modal="modal"
                                     data-modal-id="#add-to-cart"
                                     data-tooltip="tooltip"
@@ -324,6 +325,7 @@
 
                           <span class="product-o__name">
                             <a href="product-detail.html"
+                            id="productName{{this._id}}"
                               >{{this.title}}</a
                             ></span
                           >
@@ -338,12 +340,13 @@
                           </div>
 
                           <span class="product-o__price"
+                          id="productPrice{{this._id}}"
                             >₹{{price}}
 
-                            <span class="product-o__discount"
+                            {{!-- <span class="product-o__discount"
                               >$160.00</span
-                            ></span
-                          >
+                            > --}}
+                            </span>
                         </div>
                       </div>
                       {{/each}}
@@ -1939,7 +1942,7 @@
 
 
 
-        <!--====== Add to Cart Modal ======-->
+        {{!-- <!--====== Add to Cart Modal ======-->
       <div class="modal fade" id="add-to-cart">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content modal-radius modal-shadow">
@@ -2004,7 +2007,72 @@
           </div>
         </div>
       </div>
-      <!--====== End - Add to Cart Modal ======-->
+      <!--====== End - Add to Cart Modal ======--> --}}
+
+      <!--====== Add to Cart Modal ======-->
+  <div id="modal-view" hidden>
+<div class="modal fade" id="add-to-cart">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-radius modal-shadow">
+
+        <button  
+          class="btn dismiss-button fas fa-times"
+          type="button"
+          data-dismiss="modal"
+        ></button>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <div class="success u-s-m-b-30">
+                <div class="success__text-wrap"><i class="fas fa-check"></i>
+
+                  <span>Item is added successfully!</span></div>
+                <div class="success__img-wrap">
+
+                  <img
+                    class="u-img-fluid"
+                    src="{{product.imageUrl}}"
+                    alt="Demo product"
+                  /></div>
+                <div class="success__info-wrap">
+                  
+
+                  <span class="success__name" id="prodName"></span>
+
+                  <span class="success__quantity">Quantity: 1</span>
+
+                  <span class="success__price" id="prodPrice"></span></div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <div class="s-option">
+
+                <span class="s-option__text">1 item (s) in your cart</span>
+                <div class="s-option__link-box">
+                  <a
+                    class="s-option__link btn--e-white-brand-shadow"
+                    data-dismiss="modal"
+                  >CONTINUE SHOPPING</a>
+
+                  <a
+                    class="s-option__link btn--e-white-brand-shadow"
+                    href="/cart"
+                  >VIEW CART</a>
+
+                  <a
+                    class="s-option__link btn--e-brand-shadow"
+                    href="checkout.html"
+                  >PROCEED TO CHECKOUT</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+  <!--====== End - Add to Cart Modal ======-->
 
          <!--====== Main Footer ======-->
       <footer>
@@ -2197,6 +2265,34 @@
         </div>
       </footer>
 </main>
+
+
+<script>
+   function addToCart(productId){
+    fetch("/cart", {
+    method: "POST",
+    headers:{
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify({productId}),
+    }).then(async(res)=>{
+     res =  await res.json();
+     
+
+     let productName = document.getElementById(`productName${productId}`).textContent
+     let productPrice = document.getElementById(`productPrice${productId}`).textContent
+
+     document.getElementById(`prodName`).textContent = productName
+      document.getElementById(`prodPrice`).textContent = productPrice
+
+    document.getElementById('modal-view').hidden = false;
+
+    }).catch((err)=>{
+      console.log(err)
+    })
+
+  }
+</script>
 
 
 

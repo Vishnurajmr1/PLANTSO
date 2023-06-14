@@ -1,3 +1,4 @@
+const Category = require("../models/category");
 const Product = require("../models/product");
 
 exports.getLoginPage = (req, res, next) => {
@@ -8,7 +9,6 @@ exports.getSignupPage = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-
   Product.find()
     .populate("category")
     .lean()
@@ -31,26 +31,28 @@ exports.getIndex = (req, res, next) => {
       console.log(err);
     });
 };
-exports.getProducts = (req, res, next) => {
-  Product.find()
+
+exports.getProducts = async (req, res, next) => {
+  try {
+    const products =  await Product.find()
     .populate("category")
+    .populate('userId','name')
     .lean()
-    .then((products) => {
-      console.log(products);
+    const categories =  await Category.find({isDeleted:false}).lean()
+      console.log(categories);
       res.render("shop/storelist", {
         prods: products,
         user: true,
+        categories:categories,
       });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  } catch (error) {
+    console.log(error)
+  }   
 };
-
 exports.getProduct=(req,res,next)=>{
   const prodId=req.params.productId;
   console.log(prodId);
-  Product.findById(prodId).populate('category').lean()
+  Product.findById(prodId).populate('category').populate('userId','name').lean()
   .then(product=>{
     res.render('shop/product-detail',{
       product:product,
@@ -59,3 +61,71 @@ exports.getProduct=(req,res,next)=>{
   })
   .catch(err=>console.log(err));
 }
+
+// exports.getCart = (req, res, next) => {
+//   req.user
+//   .addToCart()
+//   .then(products => {
+//       console.log(products);
+//       res.render('shop/cart', {
+//         path: '/cart',
+//         pageTitle: 'Your Cart',
+//         products: products,
+//         user:true
+//       });
+//     })
+//     .catch(err => console.log(err));
+// };
+
+
+
+// exports.getCart = (req, res, next) => {
+//   const productId = req.params.productId; // Assuming you're retrieving the product ID from the request parameters
+
+//   Product.findById(productId)
+//     .then(product => {
+//       if (!product) {
+//         // Handle the case where the product is not found
+//         return res.redirect('/error-page'); // Redirect to an error page or handle it as per your requirement
+//       }
+
+//       return req.user.addToCart(product); // Pass the product object to the addToCart function
+//     })
+//     .then(() => {
+//       return req.user.populate('cart.items.productId').execPopulate(); // Populate the cart items with product details
+//     })
+//     .then(user => {
+//       console.log(user.cart.items);
+//       res.render('shop/cart', {
+//         path: '/cart',
+//         pageTitle: 'Your Cart',
+//         products: user.cart.items,
+//         user: true
+//       });
+//     })
+//     .catch(err => console.log(err));
+// };
+
+
+exports.getCart=(req,res,next)=>{
+ 
+    // console.log(products);
+    res.render('shop/cart',{
+      // products:products,
+      user:true,
+    })
+}
+exports.postCart = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.findById(prodId)
+    .then(product => {      
+      return req.user.addToCart(product);
+    })
+    .then((result) => {
+        console.log(result);
+        return res.json({success:true,message:'product added to cart sucessfully'});
+    }).catch((err)=>{
+        console.log(err);
+        return res.json({success:false,message:'oops!something wrong.product not added'});
+    })
+};

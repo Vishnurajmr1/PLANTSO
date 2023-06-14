@@ -24,16 +24,16 @@
                   </div>
                   <div class="shop-w__wrap collapse show" id="s-category">
                     <ul class="shop-w__category-list gl-scroll">
-                      {{#each prods}}
+                      {{#each categories}}
                       <li class="has-list">
 
-                        <a href="#">{{category.name}}</a>
+                        <a href="#" style="text-transform: capitalize;font-weight:bold">{{this.name}}</a>
 
-                        <span class="category-list__text u-s-m-l-6">(23)</span>
+                        {{!-- <span class="category-list__text u-s-m-l-6">(23)</span> --}}
 
-                        <span
+                        {{!-- <span
                           class="js-shop-category-span is-expanded fas fa-plus u-s-m-l-6"
-                        ></span>
+                        ></span> --}}
                         {{!-- <ul style="display:block">
                           <li class="has-list">
 
@@ -664,7 +664,7 @@
                   </div>
                 </div>
               </div>
-              <div class="u-s-m-b-30">
+              {{!-- <div class="u-s-m-b-30">
                 <div class="shop-w shop-w--style">
                   <div class="shop-w__intro-wrap">
                     <h1 class="shop-w__h">RATING</h1>
@@ -797,12 +797,11 @@
                     </ul>
                   </div>
                 </div>
-              </div>
+              </div> --}}
               <div class="u-s-m-b-30">
                 <div class="shop-w shop-w--style">
                   <div class="shop-w__intro-wrap">
                     <h1 class="shop-w__h">PRICE</h1>
-
                     <span
                       class="fas fa-minus shop-w__toggle"
                       data-target="#s-price"
@@ -843,7 +842,7 @@
                   </div>
                 </div>
               </div>
-              <div class="u-s-m-b-30">
+              {{!-- <div class="u-s-m-b-30">
                 <div class="shop-w shop-w--style">
                   <div class="shop-w__intro-wrap">
                     <h1 class="shop-w__h">MANUFACTURER</h1>
@@ -904,8 +903,8 @@
                     </ul>
                   </div>
                 </div>
-              </div>
-              <div class="u-s-m-b-30">
+              </div> --}}
+              {{!-- <div class="u-s-m-b-30">
                 <div class="shop-w shop-w--style">
                   <div class="shop-w__intro-wrap">
                     <h1 class="shop-w__h">COLOR</h1>
@@ -1117,14 +1116,14 @@
                     </ul>
                   </div>
                 </div>
-              </div>
+              </div> --}}
             </div>
           </div>
         </div>
         <div class="col-lg-9 col-md-12">
           <div class="shop-p">
             <div class="shop-p__toolbar u-s-m-b-30">
-              <div class="shop-p__meta-wrap u-s-m-b-60">
+              {{!-- <div class="shop-p__meta-wrap u-s-m-b-60">
 
                 <span class="shop-p__meta-text-1">FOUND 18 RESULTS</span>
                 <div class="shop-p__meta-text-2">
@@ -1137,7 +1136,7 @@
                     tablets</a>
 
                   <a class="gl-tag btn--e-brand-shadow" href="#">books & audible</a></div>
-              </div>
+              </div> --}}
               <div class="shop-p__tool-style">
                 <div class="tool-style__group u-s-m-b-8">
 
@@ -1185,7 +1184,6 @@
                           alt=""
                         /></a>
                       <div class="product-m__quick-look">
-
                         <a
                           class="fas fa-search"
                           data-modal="modal"
@@ -1195,12 +1193,14 @@
                           title="Quick Look"
                         ></a></div>
                       <div class="product-m__add-cart">
-
-                        <a
+                        <a onclick="addToCart('{{this._id}}')"
                           class="btn--e-brand"
                           data-modal="modal"
+                          data-target="#add-to-cart"
                           data-modal-id="#add-to-cart"
-                        >Add to Cart</a></div>
+                          {{!-- data-product-id="{{_id}}" --}}
+                        >Add to Cart</a>
+                        </div>
                     </div>
                     <div class="product-m__content">
                       <div class="product-m__category">
@@ -1208,7 +1208,7 @@
                         <a href="shop-side-version-2.html">{{category.name}}</a></div>
                       <div class="product-m__name">
 
-                        <a href="product-detail.html">{{title}}</a></div>
+                        <a href="product-detail.html" id="productName{{this._id}}">{{title}}</a></div>
                       <div class="product-m__rating gl-rating-style"><i
                           class="fas fa-star"
                         ></i><i class="fas fa-star"></i><i
@@ -1218,7 +1218,7 @@
                         ></i>
 
                         <span class="product-m__review">(23)</span></div>
-                      <div class="product-m__price">₹{{price}}</div>
+                      <div class="product-m__price" id="productPrice{{this._id}}">₹{{price}}</div>
                       <div class="product-m__hover">
                         <div class="product-m__preview-description">
                              <span>{{description}}</span>
@@ -2324,11 +2324,12 @@
   <!--====== End - Quick Look Modal ======-->
 
   <!--====== Add to Cart Modal ======-->
-  <div class="modal fade" id="add-to-cart">
+  <div id="modal-view" hidden>
+<div class="modal fade" id="add-to-cart">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content modal-radius modal-shadow">
 
-        <button
+        <button  
           class="btn dismiss-button fas fa-times"
           type="button"
           data-dismiss="modal"
@@ -2344,16 +2345,17 @@
 
                   <img
                     class="u-img-fluid"
-                    src="images/product/electronic/product1.jpg"
-                    alt=""
+                    src="{{product.imageUrl}}"
+                    alt="Demo product"
                   /></div>
                 <div class="success__info-wrap">
+                  
 
-                  <span class="success__name">Beats Bomb Wireless Headphone</span>
+                  <span class="success__name" id="prodName"></span>
 
                   <span class="success__quantity">Quantity: 1</span>
 
-                  <span class="success__price">$170.00</span></div>
+                  <span class="success__price" id="prodPrice"></span></div>
               </div>
             </div>
             <div class="col-lg-6 col-md-12">
@@ -2361,7 +2363,6 @@
 
                 <span class="s-option__text">1 item (s) in your cart</span>
                 <div class="s-option__link-box">
-
                   <a
                     class="s-option__link btn--e-white-brand-shadow"
                     data-dismiss="modal"
@@ -2369,7 +2370,7 @@
 
                   <a
                     class="s-option__link btn--e-white-brand-shadow"
-                    href="cart.html"
+                    href="/cart"
                   >VIEW CART</a>
 
                   <a
@@ -2383,5 +2384,34 @@
       </div>
     </div>
   </div>
+  </div>
+  
   <!--====== End - Add to Cart Modal ======-->
 </main>
+
+<script>
+   function addToCart(productId){
+    fetch("/cart", {
+    method: "POST",
+    headers:{
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify({productId}),
+    }).then(async(res)=>{
+     res =  await res.json();
+     
+
+     let productName = document.getElementById(`productName${productId}`).textContent
+     let productPrice = document.getElementById(`productPrice${productId}`).textContent
+
+     document.getElementById(`prodName`).textContent = productName
+      document.getElementById(`prodPrice`).textContent = productPrice
+
+    document.getElementById('modal-view').hidden = false;
+
+    }).catch((err)=>{
+      console.log(err)
+    })
+
+  }
+</script>

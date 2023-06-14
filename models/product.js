@@ -36,6 +36,11 @@ const productSchema=new Schema({
     index:{
         type:Number,
         default:0,
+    },
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
+        required:true
     }
 });
 module.exports=mongoose.model('Product',productSchema);
