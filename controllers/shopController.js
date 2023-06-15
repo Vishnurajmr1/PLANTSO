@@ -114,10 +114,12 @@ exports.getCart=(req,res,next)=>{
   .then(user=>{
     // console.log(user.cart.items);
     const products=user.cart.items.map(item=>({
+      productId:item.productId._id,
       product:item.productId.title,
       quantity:item.quantity,
       price:item.productId.price,
-      category:item.productId.category
+      category:item.productId.category,
+      stock:item.productId.stock,
     }));
     res.render('shop/cart',{
       products:products,
@@ -140,5 +142,18 @@ exports.postCart = (req, res, next) => {
     }).catch((err)=>{
         console.log(err);
         return res.json({success:false,message:'oops!something wrong.product not added'});
+    })
+};
+
+exports.postCartDeleteProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  req.user
+  .removeFromCart(prodId)
+    .then((result) => {
+        console.log(result);
+        return res.json({success:true,message:'product deleted from  cart sucessfully'});
+    }).catch((err)=>{
+        console.log(err);
+        return res.json({success:false,message:'oops!something wrong.product not deleted from cart'});
     })
 };

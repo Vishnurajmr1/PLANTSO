@@ -13,7 +13,7 @@
                 <a href="/">Home</a></li>
               <li class="is-marked">
 
-                <a href="cart.html">Cart</a></li>
+                <a href="/cart">Cart</a></li>
             </ul>
           </div>
         </div>
@@ -50,8 +50,7 @@
 
                   <!--====== Row ======-->
                   {{#each products}}
-                  {{log this.product}}
-                  <tr>
+                  <tr id="product-{{this.productId}}">
                     <td>
                       <div class="table-p__box">
                         <div class="table-p__img-wrap">
@@ -65,27 +64,29 @@
 
                           <span class="table-p__name">
 
-                            <a href="product-detail.html">{{this.product}}</a></span>
+                            <a href="/">{{this.product}}</a></span>
 
                           <span class="table-p__category">
 
                             <a
+
                               href="shop-side-version-2.html"
+                              id="quantity-{{this.productId}}"
                             >Quantity:({{this.quantity}})</a></span>
-                          {{!-- <ul class="table-p__variant-list">
+                            <ul class="table-p__variant-list">
                             <li>
 
-                              <span>Size: 22</span></li>
-                            <li>
-
-                              <span>Color: Red</span></li>
-                          </ul> --}}
+                              <span>InStock:{{this.stock}}</span></li>
+                            {{!-- <li> 
+                              <span>Color: Red</span>
+                             </li> --}}
+                          </ul> 
                         </div>
                       </div>
                     </td>
                     <td>
 
-                      <span class="table-p__price">₹{{this.price}}</span></td>
+                      <span class="table-p__price" id="price-{{this.productId}}" data-price="{{this.price}}">₹{{this.price}}</span></td>
                     <td>
                       <div class="table-p__input-counter-wrap">
 
@@ -94,29 +95,30 @@
 
                           <span
                             class="input-counter__minus fas fa-minus"
+                            onclick="decrementQuantity('{{this.productId}}')"
                           ></span>
 
                           <input
                             class="input-counter__text input-counter--text-primary-style"
                             type="text"
-                            value="1"
+                            value="{{this.quantity}}"
                             data-min="1"
-                            data-max="1000"
+                            data-max="{{this.stock}}"
+                            {{!-- id="quantity-{{this.productId}}" --}}
+                            onchange="calculatePrice('{{this.productId}}')"
                           />
-
                           <span
                             class="input-counter__plus fas fa-plus"
+                            onclick="incrementQuantity('{{this.productId}}')"
                           ></span></div>
                         <!--====== End - Input Counter ======-->
                       </div>
                     </td>
                     <td>
                       <div class="table-p__del-wrap">
-
-                        <a
-                          class="far fa-trash-alt table-p__delete-link"
-                          href="#"
-                        ></a></div>
+                        <a id="deleteButton" class="far fa-trash-alt table-p__delete-link" onclick="deleteFromCart('{{this.productId}}')"></a>
+                        </div>
+                   
                     </td>
                   </tr>
                   {{/each}}
@@ -269,7 +271,7 @@
             <div class="route-box">
               <div class="route-box__g1">
 
-                <a class="route-box__link" href="shop-side-version-2.html"><i
+                <a class="route-box__link" href="/shop"><i
                     class="fas fa-long-arrow-alt-left"
                   ></i>
 
@@ -423,3 +425,96 @@
   <!--====== End - Section 3 ======-->
 
 </main>
+<script>
+/*
+document.getElementById('deleteButton').addEventListener('onclick',(e)=>{
+e.preventDefault();
+  console.log('hi')
+  fetch('/delete_post',{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json'
+    }
+  }).then((result)=>{
+    res.json(success:true,message:"Product from cart deleted successfully")
+  }).catch((err)=>{
+    res.json(success:false,message:'Product is not deleted');
+  })
+}) */
+
+function deleteFromCart(productId){
+  fetch('/cart-delete-item',{
+    method:"POST",
+    headers:{
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify({productId}),
+  }).then(async(res)=>{
+   const response=await res.json();
+    console.log(response);
+    console.log(productId);
+    if(response.success){
+      Swal.fire(
+  'Success',
+  'Product deleted from cart successfully',
+  'success'
+   )
+   const deletedItem=document.getElementById(`product-${productId}`);
+   console.log(deletedItem);
+   if(deletedItem){
+    deletedItem.remove();
+   }
+    }else{
+      Swal.fire(
+  'Error',
+  'Oops!Something went wrong.Product not deleted from cart',
+  'error'
+)
+      console.log('Error:Product not deleted from cart');
+    }
+  })
+  .catch((err)=>{
+    console.log(err);
+  })
+}
+
+function incrementQuantity(productId){
+  const quantityElement=document.getElementById(`quantity-${productId}`);
+  const priceElement=document.getElementById(`price-${productId}`);
+  const price=priceElement.dataset.price;
+  const currentQuantity=parseInt(quantityElement.innerText.match(/\d+/)[0]);
+  const maxQuantity=parseInt(quantityElement.dataset.max);
+  console.log(quantityElement);
+  console.log(currentQuantity);
+  console.log(price);
+   console.log(currentQuantity, maxQuantity);
+  if(currentQuantity<maxQuantity){
+    const newQuantity=currentQuantity+1;
+    quantityElement.innerText=quantityElement.innerText.replace(/\d/,newQuantity);
+    calculatePrice(productId);
+  }
+}
+function decrementQuantity(productId) {
+  const quantityElement = document.getElementById(`quantity-${productId}`);
+  const priceElement = document.getElementById(`price-${productId}`);
+  const currentQuantity=parseInt(quantityElement.value);
+  const minQuantity=parseInt(quantityElement.dataset.min);
+  if (currentQuantity>minQuantity) {
+    quantityElement.value=currentQuantity+1;
+    calculatePrice(productId);
+  }
+}
+
+function calculatePrice(productId){
+  const quantityInput = document.getElementById(`quantity-${productId}`);
+  const priceElement = document.getElementById(`price-${productId}`);
+  const price = parseFloat(priceElement.getAttribute('data-price'));
+  const quantity = parseInt(quantityInput.value);
+  if(!isNaN(price)&& !isNaN(quantity)){
+
+  const totalPrice = price * quantity;
+  priceElement.textContent = `₹${totalPrice.toFixed(2)}`;
+  }
+}
+
+</script>
