@@ -1130,21 +1130,20 @@
                                 <a href="wishlist.html"><i class="far fa-heart"></i></a></li>
                             <li class="has-dropdown">
 
-                                <a class="mini-cart-shop-link"><i class="fas fa-shopping-bag"></i>
+                                <a class="mini-cart-shop-link" href="/cart"><i class="fas fa-shopping-bag"></i>
 
                                     <span class="total-item-round">2</span></a>
 
                                 <!--====== Dropdown ======-->
 
-                                <span class="js-menu-toggle"></span>
-                                <div class="mini-cart">
+                                {{!-- <span class="js-menu-toggle"></span> --}}
+                                {{!-- <div class="mini-cart"> --}}
 
                                     <!--====== Mini Product Container ======-->
-                                    <div class="mini-product-container gl-scroll u-s-m-b-15">
+                                    {{!-- <div class="mini-product-container gl-scroll u-s-m-b-15"> --}}
 
                                         <!--====== Card for mini cart ======-->
-                                        {{log locals.user.name}}
-                                        {{#each user.cart}}
+                                        {{!-- {{#each user.cart}}
                                         <div class="card-mini-product">
                                             <div class="mini-product">
                                                 <div class="mini-product__image-wrapper">
@@ -1169,7 +1168,7 @@
 
                                             <a class="mini-product__delete-link far fa-trash-alt"></a>
                                         </div>
-                                        {{/each}}
+                                        {{/each}} --}}
                                         <!--====== End - Card for mini cart ======-->
 
 
@@ -1255,12 +1254,12 @@
                                             <a class="mini-product__delete-link far fa-trash-alt"></a>
                                         </div> --}}
                                         <!--====== End - Card for mini cart ======-->
-                                    </div>
+                                    {{!-- </div> --}}
                                     <!--====== End - Mini Product Container ======-->
 
 
                                     <!--====== Mini Product Statistics ======-->
-                                    <div class="mini-product-stat">
+                                    {{!-- <div class="mini-product-stat">
                                         <div class="mini-total">
 
                                             <span class="subtotal-text">SUBTOTAL</span>
@@ -1271,9 +1270,9 @@
                                             <a class="mini-link btn--e-brand-b-2" href="checkout.html">PROCEED TO CHECKOUT</a>
 
                                             <a class="mini-link btn--e-transparent-secondary-b-2" href="cart.html">VIEW CART</a></div>
-                                    </div>
+                                    </div> --}}
                                     <!--====== End - Mini Product Statistics ======-->
-                                </div>
+                                {{!-- </div> --}}
                                 <!--====== End - Dropdown ======-->
                             </li>
                         </ul>

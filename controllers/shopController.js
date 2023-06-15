@@ -1,5 +1,6 @@
 const Category = require("../models/category");
 const Product = require("../models/product");
+const User = require('../models/user');
 
 exports.getLoginPage = (req, res, next) => {
   res.render("shop/login", { layout: "noLayout" });
@@ -108,17 +109,29 @@ exports.getProduct=(req,res,next)=>{
 
 
 exports.getCart=(req,res,next)=>{
- 
-    // console.log(products);
+  req.user
+  .populate('cart.items.productId')
+  .then(user=>{
+    // console.log(user.cart.items);
+    const products=user.cart.items.map(item=>({
+      product:item.productId.title,
+      quantity:item.quantity,
+      price:item.productId.price,
+      category:item.productId.category
+    }));
     res.render('shop/cart',{
-      // products:products,
-      user:true,
+      products:products,
+      user:true
     })
+  })
+  .catch(err=>{
+    console.log(err);
+  })
 }
 exports.postCart = (req, res, next) => {
   const prodId = req.body.productId;
   Product.findById(prodId)
-    .then(product => {      
+    .then(product => {     
       return req.user.addToCart(product);
     })
     .then((result) => {

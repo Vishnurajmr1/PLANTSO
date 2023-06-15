@@ -1180,7 +1180,7 @@
                       >
                         <img
                           class="aspect__img"
-                          src="images/product/men/product6.jpg"
+                          src=""
                           alt=""
                         /></a>
                       <div class="product-m__quick-look">
@@ -1216,12 +1216,11 @@
                         ></i><i class="far fa-star"></i><i
                           class="far fa-star"
                         ></i>
-
                         <span class="product-m__review">(23)</span></div>
                       <div class="product-m__price" id="productPrice{{this._id}}">₹{{price}}</div>
                       <div class="product-m__hover">
                         <div class="product-m__preview-description">
-                             <span>{{description}}</span>
+                            <span>{{description}}</span>
                             </div>
                         <div class="product-m__wishlist">
 
@@ -2093,35 +2092,35 @@
 
                       <img
                         class="u-img-fluid"
-                        src="images/product/product-d-1.jpg"
+                        {{!-- src="images/product/product-d-1.jpg" --}}
                         alt=""
                       /></div>
                     <div>
 
                       <img
                         class="u-img-fluid"
-                        src="images/product/product-d-2.jpg"
+                        {{!-- src="images/product/product-d-2.jpg" --}}
                         alt=""
                       /></div>
                     <div>
 
                       <img
                         class="u-img-fluid"
-                        src="images/product/product-d-3.jpg"
+                        {{!-- src="images/product/product-d-3.jpg" --}}
                         alt=""
                       /></div>
                     <div>
 
                       <img
                         class="u-img-fluid"
-                        src="images/product/product-d-4.jpg"
+                        {{!-- src="images/product/product-d-4.jpg" --}}
                         alt=""
                       /></div>
                     <div>
 
                       <img
                         class="u-img-fluid"
-                        src="images/product/product-d-5.jpg"
+                        {{!-- src="images/product/product-d-5.jpg" --}}
                         alt=""
                       /></div>
                   </div>
@@ -2132,35 +2131,35 @@
 
                       <img
                         class="u-img-fluid"
-                        src="images/product/product-d-1.jpg"
+                        {{!-- src="images/product/product-d-1.jpg" --}}
                         alt=""
                       /></div>
                     <div>
 
                       <img
                         class="u-img-fluid"
-                        src="images/product/product-d-2.jpg"
+                        {{!-- src="images/product/product-d-2.jpg" --}}
                         alt=""
                       /></div>
                     <div>
 
                       <img
                         class="u-img-fluid"
-                        src="images/product/product-d-3.jpg"
+                        {{!-- src="images/product/product-d-3.jpg" --}}
                         alt=""
                       /></div>
                     <div>
 
                       <img
                         class="u-img-fluid"
-                        src="images/product/product-d-4.jpg"
+                        {{!-- src="images/product/product-d-4.jpg" --}}
                         alt=""
                       /></div>
                     <div>
 
                       <img
                         class="u-img-fluid"
-                        src="images/product/product-d-5.jpg"
+                        {{!-- src="images/product/product-d-5.jpg" --}}
                         alt=""
                       /></div>
                   </div>
@@ -2399,6 +2398,7 @@
     body: JSON.stringify({productId}),
     }).then(async(res)=>{
      res =  await res.json();
+     console.log(productId)
      
 
      let productName = document.getElementById(`productName${productId}`).textContent

@@ -4,12 +4,12 @@ const shopController=require('../controllers/shopController');
 
 /* GET users listing. */
 
-shopRouter.use(async(req,res,next)=>{
-  const user=await req.user
-  .populate('cart.items.productId');
-  res.locals.user = user;
-  next()
-})
+// shopRouter.use(async(req,res,next)=>{
+//   const user=await req.user
+//   .populate('cart.items.productId');
+//   res.locals.user = user;
+//   next()
+// })
 
 //userRouter to handle signup and login
 shopRouter.get('/login',shopController.getLoginPage);

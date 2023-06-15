@@ -10,7 +10,7 @@
             <ul class="breadcrumb__list">
               <li class="has-separator">
 
-                <a href="index.html">Home</a></li>
+                <a href="/">Home</a></li>
               <li class="is-marked">
 
                 <a href="cart.html">Cart</a></li>
@@ -49,11 +49,13 @@
                 <tbody>
 
                   <!--====== Row ======-->
+                  {{#each products}}
+                  {{log this.product}}
                   <tr>
                     <td>
                       <div class="table-p__box">
                         <div class="table-p__img-wrap">
-
+                        
                           <img
                             class="u-img-fluid"
                             src="images/product/electronic/product3.jpg"
@@ -63,28 +65,27 @@
 
                           <span class="table-p__name">
 
-                            <a href="product-detail.html">Yellow Wireless
-                              Headphone</a></span>
+                            <a href="product-detail.html">{{this.product}}</a></span>
 
                           <span class="table-p__category">
 
                             <a
                               href="shop-side-version-2.html"
-                            >Electronics</a></span>
-                          <ul class="table-p__variant-list">
+                            >Quantity:({{this.quantity}})</a></span>
+                          {{!-- <ul class="table-p__variant-list">
                             <li>
 
                               <span>Size: 22</span></li>
                             <li>
 
                               <span>Color: Red</span></li>
-                          </ul>
+                          </ul> --}}
                         </div>
                       </div>
                     </td>
                     <td>
 
-                      <span class="table-p__price">$125.00</span></td>
+                      <span class="table-p__price">₹{{this.price}}</span></td>
                     <td>
                       <div class="table-p__input-counter-wrap">
 
@@ -118,10 +119,11 @@
                         ></a></div>
                     </td>
                   </tr>
+                  {{/each}}
                   <!--====== End - Row ======-->
 
                   <!--====== Row ======-->
-                  <tr>
+                  {{!-- <tr>
                     <td>
                       <div class="table-p__box">
                         <div class="table-p__img-wrap">
@@ -187,11 +189,11 @@
                           href="#"
                         ></a></div>
                     </td>
-                  </tr>
+                  </tr> --}}
                   <!--====== End - Row ======-->
 
                   <!--====== Row ======-->
-                  <tr>
+                  {{!-- <tr>
                     <td>
                       <div class="table-p__box">
                         <div class="table-p__img-wrap">
@@ -257,7 +259,7 @@
                           href="#"
                         ></a></div>
                     </td>
-                  </tr>
+                  </tr> --}}
                   <!--====== End - Row ======-->
                 </tbody>
               </table>
