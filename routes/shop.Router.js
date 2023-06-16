@@ -24,7 +24,8 @@ shopRouter.get('/products/:productId',shopController.getProduct);
 
 shopRouter.get('/cart',shopController.getCart);
 shopRouter.post('/cart',shopController.postCart);
-shopRouter.post('/cart-delete-item',shopController.postCartDeleteProduct)
+shopRouter.post('/cart-delete-item',shopController.postCartDeleteProduct);
+// shopRouter.patch('/cart',shopController.updateQuantity);
 shopRouter.get('/edit-profile',(req,res)=>{
   res.render('shop/edit-profile',{user:true})
 })

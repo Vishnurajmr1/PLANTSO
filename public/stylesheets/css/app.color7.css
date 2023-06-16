@@ -6418,3 +6418,23 @@ input::-ms-clear {
 #js-product-detail-modal-thumbnail:hover .pt-prev, #js-product-detail-modal-thumbnail:hover .pt-next {
   opacity: .8; }
 
+
+  .product-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  
+  .product-info a {
+    color: black;
+    white-space: nowrap;
+  }
+
+  .table-header {
+    background-color: #f5f5f5;
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
+    /* Add any other custom styles you want */
+  }
+  

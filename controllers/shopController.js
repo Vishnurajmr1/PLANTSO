@@ -117,7 +117,7 @@ exports.getCart=(req,res,next)=>{
       productId:item.productId._id,
       product:item.productId.title,
       quantity:item.quantity,
-      price:item.productId.price,
+      price:item.productId.price.toFixed(2),
       category:item.productId.category,
       stock:item.productId.stock,
     }));
