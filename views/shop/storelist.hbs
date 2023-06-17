@@ -2322,8 +2322,8 @@
   </div>
   <!--====== End - Quick Look Modal ======-->
 
-  <!--====== Add to Cart Modal ======-->
-  <div id="modal-view" hidden>
+  <!--====== Add to Cart Modal(1) ======-->
+<div id="modal-view" hidden>
 <div class="modal fade" id="add-to-cart">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content modal-radius modal-shadow">
@@ -2385,7 +2385,45 @@
   </div>
   </div>
   
-  <!--====== End - Add to Cart Modal ======-->
+  <!--====== End - Add to Cart Modal(1) ======-->
+
+    <!--====== Add to Cart Modal(2) ======-->
+
+<div id="modal-view-stock" hidden aria-hidden="true">
+  <div class="modal fade" id="stock-not-available">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-radius modal-shadow">
+         <button  
+          class="btn dismiss-button fas fa-times"
+          type="button"
+          data-bs-toggle="modal"
+        ></button>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="stock-not-available u-s-m-b-30">
+                <div class="stock-not-available__text-wrap">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <span>Currently, the stock is not available.</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <div class="s-option">
+                <span class="s-option__text">Please choose a different product or continue shopping.</span>
+                <div class="s-option__link-box">
+                  <a class="s-option__link btn--e-white-brand-shadow" data-bs-dismiss="modal" href="/shop">CONTINUE SHOPPING</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <!--====== End - Add to Cart Modal(2) ======-->
 </main>
 
 <script>
@@ -2397,21 +2435,72 @@
     },
     body: JSON.stringify({productId}),
     }).then(async(res)=>{
-     res =  await res.json();
-     console.log(productId)
-     
+    const response =  await res.json();
+     console.log(response);
+     console.log(productId);
+     let productName = document.getElementById(`productName${productId}`).textContent;
+     let productPrice = document.getElementById(`productPrice${productId}`).textContent;
+     if(response.success){
+       /* Swal.fire(
+        'Success',
+        'Product added to cart successfully',
+        'success'
+      ); */
+       document.getElementById(`prodName`).textContent = productName;
+      document.getElementById(`prodPrice`).textContent = productPrice;
+      document.getElementById('modal-view').hidden = false;
 
-     let productName = document.getElementById(`productName${productId}`).textContent
-     let productPrice = document.getElementById(`productPrice${productId}`).textContent
+      const deletedItem=document.getElementById(`product-${productId}`);
+      console.log(deletedItem);
+      if(deletedItem){
+        deletedItem.remove();
+      }
+     }else{
+      /*
+       Swal.fire(
+        'Error',
+        'Oops! Something went wrong. Product not added to cart',
+        'error'
+      );*/
+      document.getElementById(`prodName`).textContent = "Stock Not Available",
+      document.getElementById(`prodPrice`).textContent = "";
+       document.getElementById('modal-view-stock').hidden = false;
+      
+      /*const modalViewStock=document.getElementById('modal-view-stock');
+      modalViewStock.style.display='block';
+      modalViewStock.classList.add('show');
+      document.body.classList.add('modal-open');
+      */
+      //document.getElementById('modal-view-stock').hidden = false;
+      // Check if the error message is related to stock availability
+       if(response.message==='Currently,the Stock is not available'){
+        document.getElementById('stock-not-available').style.display = 'block';
+        document.getElementById('stock-not-available').classList.add('show');
+        document.body.classList.add('modal-open');
+     // document.getElementById('modal-view-stock').hidden = false;
+       }
+       console.log('Error:Product not added to cart');
+     }
+     /*
+     let productName = document.getElementById(`productName${productId}`).textContent;
+     let productPrice = document.getElementById(`productPrice${productId}`).textContent;
+     let productStock=Response.productStock;
+     let productQuantity=Response.productQuantity;
+     console.log(productStock,productQuantity);
 
-     document.getElementById(`prodName`).textContent = productName
+     if(productQuantity>productStock){
+       document.getElementById(`prodName`).textContent = "Stock Not Available",
+      document.getElementById(`prodPrice`).textContent = "";
+      document.getElementById('modal-view').hidden = false;
+     }else{
+      //Show modal with success message
+      document.getElementById(`prodName`).textContent = productName
       document.getElementById(`prodPrice`).textContent = productPrice
-
-    document.getElementById('modal-view').hidden = false;
-
+      document.getElementById('modal-view').hidden = false;
+     }
+     */
     }).catch((err)=>{
       console.log(err)
-    })
-
+    });
   }
 </script>

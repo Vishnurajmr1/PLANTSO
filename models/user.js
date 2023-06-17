@@ -20,6 +20,7 @@ const userSchema = new Schema({
           required: true,
         },
         quantity: { type: Number, required: true },
+        price:{type:Number,required:true},
       },
     ],
   },
@@ -64,7 +65,9 @@ userSchema.methods.addToCart = function (product) {
 
     if (currentQuantity + 1 <= stockLimit) {
       newQuantity = currentQuantity + 1;
+      newPrice=product.price*newQuantity;
       updatedCartItems[cartProductIndex].quantity = newQuantity;
+      updatedCartItems[cartProductIndex].price=newPrice;
     } else {
       // Handle the case where quantity exceeds the stock limit
       throw new Error('Cannot add more quantity than available in stock.');
@@ -73,9 +76,9 @@ userSchema.methods.addToCart = function (product) {
     updatedCartItems.push({
       productId: product._id,
       quantity: newQuantity,
+      price:newPrice,
     });
   }
-
   const updatedCart = {
     items: updatedCartItems,
   };

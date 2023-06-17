@@ -1,4 +1,5 @@
 const Category = require("../models/category");
+const product = require("../models/product");
 const Product = require("../models/product");
 const User = require('../models/user');
 
@@ -117,34 +118,73 @@ exports.getCart=(req,res,next)=>{
       productId:item.productId._id,
       product:item.productId.title,
       quantity:item.quantity,
+      updatedPrice:item.price.toFixed(2),
       price:item.productId.price.toFixed(2),
       category:item.productId.category,
       stock:item.productId.stock,
     }));
     res.render('shop/cart',{
       products:products,
-      user:true
+      user:true,
+      hasProducts:products.length>0,
     })
   })
   .catch(err=>{
     console.log(err);
   })
 }
-exports.postCart = (req, res, next) => {
-  const prodId = req.body.productId;
-  Product.findById(prodId)
-    .then(product => {     
-      return req.user.addToCart(product);
-    })
-    .then((result) => {
-        console.log(result);
-        return res.json({success:true,message:'product added to cart sucessfully'});
-    }).catch((err)=>{
-        console.log(err);
-        return res.json({success:false,message:'oops!something wrong.product not added'});
-    })
-};
+// exports.postCart = (req, res, next) => {
+//   const prodId = req.body.productId;
+//   Product.findById(prodId)
+//     .then(product => {     
+//       return req.user.addToCart(product);
+//     })
+//     .then((result) => {
+//         console.log(result);
+//         return res.json({success:true,message:'product added to cart sucessfully'});
+//     }).catch((err)=>{
+//         console.log(err);
+//         return res.json({success:false,message:'oops!something wrong.product not added'});
+//     })
+// };
 
+
+
+//post cart sample
+
+exports.postCart=async (req,res,next)=>{
+  try{
+  const prodId=req.body.productId;
+  const product=await Product.findById(prodId);
+
+  if(!product){
+    return res.status(400).json({success:false,message:'Product Not Found!'});
+  }
+      // Retrieve productStock and productQuantity values
+     const result=await req.user.addToCart(product);
+     console.log(result);
+        return res.json({
+            success:true,
+            message:'Product added to cart successfully',
+            // productStock,
+            // productQuantity
+          });
+      }   
+      catch(err){
+        console.log(err);
+          // Handle the specific error when quantity exceeds stock
+          if(err.message==='Cannot add more quantity than available in stock.'){
+            return res.json({
+            success:false,
+            message:'Currently,the Stock is not available'
+            });
+          }
+          return res.json({
+            success:false,
+            message:'Oops!Something went wrong.Product not added to cart'
+          });   
+  };
+};
 exports.postCartDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
   req.user
@@ -157,3 +197,42 @@ exports.postCartDeleteProduct = (req, res, next) => {
         return res.json({success:false,message:'oops!something wrong.product not deleted from cart'});
     })
 };
+
+exports.updateQuantity=async (req,res,next)=>{
+  try{
+    const {productId,quantity}=req.body;
+
+    console.log(productId)
+    console.log(quantity)
+
+    const cartItem=req.user.cart.items.find(item=>item.productId.toString()===productId.toString());
+
+    const product=await Product.findById(productId);
+    if(!product){
+      return res.status(400).json({success:false,message:'Product Not Found!'});
+    }
+
+    const currentQuantity=cartItem.quantity;
+
+    if(currentQuantity>=1){
+      cartItem.quantity=quantity;
+      // Calculate the updated price based on the quantity
+      const productPrice = parseFloat(product.price);
+      const updatedPrice = (productPrice * quantity).toFixed(2);
+      console.log(productPrice)
+      console.log(updatedPrice)
+      cartItem.price=parseFloat(updatedPrice);
+      
+      await req.user.save();
+      
+      //Prepare the response Data
+      const responseData={updatedPrice:updatedPrice};
+      return res.json(responseData);
+    }else{
+      throw new Error('Quantity cannot be less than 1');
+    }
+  }catch(error){
+    console.log('There was a problem with updating the product quantity:',error);
+    return res.status(500).json({error:'Internal server error'});
+  }
+}

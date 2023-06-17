@@ -6438,3 +6438,15 @@ input::-ms-clear {
     /* Add any other custom styles you want */
   }
   
+  .custom-title-class {
+    color: blue;
+    font-size: 24px;
+  }
+  
+  .custom-content-class {
+    font-weight: bold;
+  }
+
+  .highlighted-text {
+    font-weight: bold;
+  }
