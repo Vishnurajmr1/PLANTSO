@@ -6,10 +6,27 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser=require('body-parser');
 const cors = require('cors');
+// const multer=require('multer');
 const {mongoConnect}=require('./config/mongoDb');
+const upload = require("./config/multer");
 const User=require('./models/user');
 
 // const mongoose=require('mongoose');
+// const fileStorage=multer.diskStorage({
+//   destination:(req,file,cb)=>{
+//     cb(null,'./public/images/product-images/');
+//   },
+//   filename:(req,file,cb)=>{
+//     cb(null,new Date().toISOString()+'-'+file.originalname);
+//   },
+// });
+// const fileFilter=(req,file,cb)=>{
+//   if(file.mimetype=== 'image/png'||file.mimetype==='image/jpg'||file.mimetype==='image/jpeg'){
+//     cb(null,true);
+//   }else{
+//     cb(null,false);
+//   }
+// }
 const session=require('express-session');
 const hbs=require('express-handlebars');
 const shopRouter = require('./routes/shop.Router');
@@ -30,6 +47,8 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(upload.single('image'));
 app.use(cors());
 app.use(cookieParser());
 app.use(
@@ -42,7 +61,7 @@ app.use(
     },
   })
 );
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, '')));
 
 app.use((req,res,next)=>{
   User.findById('648a8549452437be8afd60e3')

@@ -21,15 +21,20 @@
                         <h6 class="card-title m-0">Add Product</h6>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="/admin/{{#if editing}}edit-product{{else}}add-product{{/if}}">
+                        <form  action="/admin/{{#if editing}}edit-product{{else}}add-product{{/if}}" method="POST" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Product Name</label>
                                 <input type="text" class="form-control" id="exampleInputEmail1"
                                     aria-describedby="emailHelp" placeholder="Enter the product name" name="title" value="{{#if editing}}{{product.title}}{{/if}}">
                             </div>
-                            <div class="mb-3">
+                            {{!-- <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Product Image</label>
                                 <input type="file" class="form-control" id="exampleInputPassword1" name="imageUrl" value="{{#if editing}}{{product.imageUrl}}{{/if}}">
+                            </div> --}}
+                              <div class="mb-3">
+                                <label for="image" class="form-label">Product Image</label>
+                                {{!-- <input type="file" class="form-control" id="image" name="image" value="{{#if editing}}{{product.imageUrl}}{{/if}}"> --}}
+                                <input type="file" class="form-control" id="image" name="image">
                             </div>
                                <div class="mb-3">
                                 <label for="exampleFormControlTextarea1" class="form-label">Product Description</label>

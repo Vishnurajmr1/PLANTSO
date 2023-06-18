@@ -1,5 +1,6 @@
 const express = require('express');
 const adminController=require('../controllers/adminController');
+const upload=require('../config/multer');
 const  adminRouter = express.Router();
 
 /* GET home page. */

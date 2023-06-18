@@ -208,6 +208,7 @@ exports.updateQuantity=async (req,res,next)=>{
     const cartItem=req.user.cart.items.find(item=>item.productId.toString()===productId.toString());
 
     const product=await Product.findById(productId);
+
     if(!product){
       return res.status(400).json({success:false,message:'Product Not Found!'});
     }
@@ -216,17 +217,26 @@ exports.updateQuantity=async (req,res,next)=>{
 
     if(currentQuantity>=1){
       cartItem.quantity=quantity;
+      console.log(cartItem.quantity)
+      
       // Calculate the updated price based on the quantity
       const productPrice = parseFloat(product.price);
-      const updatedPrice = (productPrice * quantity).toFixed(2);
+      const updatedPrice = (productPrice * cartItem.quantity).toFixed(2);
       console.log(productPrice)
-      console.log(updatedPrice)
-      cartItem.price=parseFloat(updatedPrice);
-      
+      console.log( updatedPrice)
+      cartItem.price=parseFloat(updatedPrice);      
+
+
       await req.user.save();
-      
+
+      const cartTotal = req.user.cart.items.reduce((accumulator, item) => {
+        return accumulator + item.price;
+      }, 0);
+
+      console.log( cartTotal)
+
       //Prepare the response Data
-      const responseData={updatedPrice:updatedPrice};
+      const responseData={updatedPrice,cartTotal};
       return res.json(responseData);
     }else{
       throw new Error('Quantity cannot be less than 1');

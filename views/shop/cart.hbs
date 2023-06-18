@@ -276,7 +276,7 @@
                         <tbody>
                           <tr>
                             <td>SHIPPING</td>
-                            <td>$4.00</td>
+                            <td>$0.00</td>
                           </tr>
                           <tr>
                             <td>TAX</td>
@@ -284,11 +284,11 @@
                           </tr>
                           <tr>
                             <td>SUBTOTAL</td>
-                            <td>$379.00</td>
+                            <td id="subTotal">$379.00</td>
                           </tr>
                           <tr>
                             <td>GRAND TOTAL</td>
-                            <td>$379.00</td>
+                            <td id="grandTotal">$379.00</td>
                           </tr>
                         </tbody>
                       </table>
@@ -458,7 +458,6 @@ function incrementQuantity(productId){
   const quantity=parseInt(quantityElement.value);
   //const maxQunatity=parseInt(quantityElement.getAttribute("max"));
   const maxQuantity = parseInt(quantityElement.dataset.max);
-
   if(quantity<maxQuantity){
     //quantityElement.value=quantity+1;
     // const newQuantity=quantity+1;
@@ -528,15 +527,19 @@ function updateProductQuantity(productId, quantity) {
       throw new Error('Network response was not ok.');
     })
     .then(function (data) {
-      console.log(data+'😂😂');
+      console.log(data);
 
       //Update the price in the HTML based on the received data
 
       const priceElement=document.getElementById(`price-${productId}`);
+      const subTotal=document.getElementById('subTotal');
+      const grandTotal=document.getElementById('grandTotal');
       if(priceElement){
         console.log(priceElement.textContent);
         priceElement.textContent=`₹${data.updatedPrice}`;
         priceElement.dataset.price=data.updatedPrice;
+        subTotal.textContent=`₹${data.cartTotal}`
+        grandTotal.textContent=`₹${data.cartTotal}`
         console.log(`After update${priceElement.textContent}`);
       }
     })
