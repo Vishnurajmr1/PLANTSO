@@ -24,11 +24,16 @@
                   </div>
                   <div class="shop-w__wrap collapse show" id="s-category">
                     <ul class="shop-w__category-list gl-scroll">
+                       <li class="has-list">
+
+                        <a href="" style="text-transform:uppercase;font-weight:bold">ALL</a>
+                      </li>
                       {{#each categories}}
                       <li class="has-list">
 
-                        <a href="#" style="text-transform: capitalize;font-weight:bold">{{this.name}}</a>
-
+                        <a href="#" style="text-transform: uppercase;font-weight:bold">{{this.name}}</a>
+                      </li>
+                       {{/each}}
                         {{!-- <span class="category-list__text u-s-m-l-6">(23)</span> --}}
 
                         {{!-- <span
@@ -81,6 +86,7 @@
                           </li>
                           <li class="has-list">
 
+                     
                             <a href="#">Media Players</a>
 
                             <span
@@ -253,7 +259,6 @@
                             </ul>
                           </li>
                         </ul> --}}
-                      </li>
                       {{!-- <li class="has-list">
 
                         <a href="#">Women's Clothing</a>
@@ -659,7 +664,7 @@
                           class="category-list__text u-s-m-l-6"
                         >(0)</span>
                         </li> --}}
-                        {{/each}}
+                       
                     </ul>
                   </div>
                 </div>
@@ -798,7 +803,7 @@
                   </div>
                 </div>
               </div> --}}
-              <div class="u-s-m-b-30">
+              {{!-- <div class="u-s-m-b-30">
                 <div class="shop-w shop-w--style">
                   <div class="shop-w__intro-wrap">
                     <h1 class="shop-w__h">PRICE</h1>
@@ -841,7 +846,7 @@
                     </form>
                   </div>
                 </div>
-              </div>
+              </div> --}}
               {{!-- <div class="u-s-m-b-30">
                 <div class="shop-w shop-w--style">
                   <div class="shop-w__intro-wrap">
@@ -1117,6 +1122,57 @@
                   </div>
                 </div>
               </div> --}}
+
+              {{!-- start of round  --}}
+               <div class="u-s-m-b-30">
+                <div class="shop-w shop-w--style">
+                  <div class="shop-w__intro-wrap">
+                    <h1 class="shop-w__h">PRICE</h1>
+                    <span
+                      class="fas fa-minus shop-w__toggle"
+                      data-target="#s-price"
+                      data-toggle="collapse"
+                    ></span>
+                  </div>
+                  <div class="shop-w__wrap collapse show" id="s-price">
+                    {{!-- <form class="shop-w__form-p">
+                      <div class="shop-w__form-p-wrap">
+                        <div>
+
+                          <label for="price-min"></label>
+
+                          <input
+                            class="input-text input-text--primary-style"
+                            type="text"
+                            id="price-min"
+                            placeholder="Min"
+                          /></div>
+                        <div>
+
+                          <label for="price-max"></label>
+
+                          <input
+                            class="input-text input-text--primary-style"
+                            type="text"
+                            id="price-max"
+                            placeholder="Max"
+                          /></div>
+                        <div>
+
+                          <button
+                            class="btn btn--icon fas fa-angle-right btn--e-transparent-platinum-b-2"
+                            type="submit"
+                          ></button></div>
+                      </div>
+                    </form> --}}
+                    <div class="slidecontainer">
+                     <input type="range" min="" max="" value="" class="slider" id="myRange">
+                     <p>Value: ₹<span id="demo"></span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {{!-- end of the round  --}}
             </div>
           </div>
         </div>
@@ -1180,8 +1236,9 @@
                       >
                         <img
                           class="aspect__img"
-                          src=""
+                          src="{{this.imageUrl}}"
                           alt=""
+                          id="productImage{{this._id}}"
                         /></a>
                       <div class="product-m__quick-look">
                         <a
@@ -1209,14 +1266,15 @@
                       <div class="product-m__name">
 
                         <a href="product-detail.html" id="productName{{this._id}}">{{title}}</a></div>
-                      <div class="product-m__rating gl-rating-style"><i
+                      {{!-- <div class="product-m__rating gl-rating-style"><i
                           class="fas fa-star"
                         ></i><i class="fas fa-star"></i><i
                           class="fas fa-star-half-alt"
                         ></i><i class="far fa-star"></i><i
                           class="far fa-star"
                         ></i>
-                        <span class="product-m__review">(23)</span></div>
+                        <span class="product-m__review">(23)</span>
+                        </div> --}}
                       <div class="product-m__price" id="productPrice{{this._id}}">₹{{price}}</div>
                       <div class="product-m__hover">
                         <div class="product-m__preview-description">
@@ -2344,15 +2402,16 @@
 
                   <img
                     class="u-img-fluid"
-                    src="{{product.imageUrl}}"
+                    src=""
                     alt="Demo product"
+                    id="prodImage"
                   /></div>
                 <div class="success__info-wrap">
                   
 
                   <span class="success__name" id="prodName"></span>
 
-                  <span class="success__quantity">Quantity: 1</span>
+                  <span class="success__quantity" id="prodQuantity"></span>
 
                   <span class="success__price" id="prodPrice"></span></div>
               </div>
@@ -2360,7 +2419,8 @@
             <div class="col-lg-6 col-md-12">
               <div class="s-option">
 
-                <span class="s-option__text">1 item (s) in your cart</span>
+                <span class="s-option__text" id="cartItemCount"></span>
+                {{!-- item (s) in your cart --}}
                 <div class="s-option__link-box">
                   <a
                     class="s-option__link btn--e-white-brand-shadow"
@@ -2426,7 +2486,7 @@
   <!--====== End - Add to Cart Modal(2) ======-->
 </main>
 
-<script>
+{{!-- <script>
    function addToCart(productId){
     fetch("/cart", {
     method: "POST",
@@ -2440,14 +2500,14 @@
      console.log(productId);
      let productName = document.getElementById(`productName${productId}`).textContent;
      let productPrice = document.getElementById(`productPrice${productId}`).textContent;
+     let productImage = document.getElementById(`productImage${productId}`).src;
+    // let productQuantity=parseInt(document.getElementById(`productQuantity${productId}`).value);
      if(response.success){
-       /* Swal.fire(
-        'Success',
-        'Product added to cart successfully',
-        'success'
-      ); */
        document.getElementById(`prodName`).textContent = productName;
       document.getElementById(`prodPrice`).textContent = productPrice;
+      document.getElementById(`prodImage`).src = productImage;
+     // document.getElementById(`prodQuantity`).textContent = `Quantity:${productQuantity}`;
+
       document.getElementById('modal-view').hidden = false;
 
       const deletedItem=document.getElementById(`product-${productId}`);
@@ -2456,12 +2516,6 @@
         deletedItem.remove();
       }
      }else{
-      /*
-       Swal.fire(
-        'Error',
-        'Oops! Something went wrong. Product not added to cart',
-        'error'
-      );*/
       document.getElementById(`prodName`).textContent = "Stock Not Available",
       document.getElementById(`prodPrice`).textContent = "";
        document.getElementById('modal-view-stock').hidden = false;
@@ -2503,4 +2557,67 @@
       console.log(err)
     });
   }
-</script>
+
+
+  function updatePriceRange(){
+    const productPrices=Array.from(document.getElementsByClassName('product-m__price'))
+    .map((priceElement)=>parseFloat(priceElement.textContent.replace('₹','').trim()));
+    console.log(productPrices)
+
+    const minPrice=Math.min(...productPrices);
+    const maxPrice=Math.max(...productPrices);
+    const rangeInput=document.getElementById('myRange');
+    rangeInput.min=minPrice;
+    rangeInput.max=maxPrice;
+    rangeInput.value=minPrice;
+    //const demoSpan = document.getElementById('demo');
+    //demoSpan.textContent = `₹${minPrice}`;
+  }
+
+  //Call the function to update  the price range initially
+
+  updatePriceRange();
+/*
+function updatePriceRange() {
+  // Get all product price elements
+  const productPriceElements = document.getElementsByClassName('product-o__price');
+  
+  // Create an array to store product prices
+  const productPrices = [];
+
+  // Loop through each product price element
+  for (let i = 0; i < productPriceElements.length; i++) {
+    const priceText = productPriceElements[i].textContent; // Get the price text
+    const priceValue = parseFloat(priceText.replace('₹', '')); // Extract the numerical value
+    productPrices.push(priceValue); // Add the price to the array
+  }
+
+  // Find the minimum and maximum prices
+  const minPrice = Math.min(...productPrices);
+  const maxPrice = Math.max(...productPrices);
+
+  // Update the range input
+  const rangeInput = document.getElementById('myRange');
+  rangeInput.min = minPrice;
+  rangeInput.max = maxPrice;
+  rangeInput.value = minPrice;
+
+  // Update the demo span
+  const demoSpan = document.getElementById('demo');
+  demoSpan.textContent = minPrice;
+}
+
+// Call the function to update the price range initially
+updatePriceRange();
+
+*/
+
+let slider = document.getElementById("myRange");
+let output = document.getElementById("demo");
+output.innerHTML =slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = `${this.value}`;
+}
+
+</script> --}}

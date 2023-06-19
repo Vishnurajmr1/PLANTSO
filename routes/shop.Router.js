@@ -1,6 +1,7 @@
 const express = require('express');
 const shopRouter = express.Router();
 const shopController=require('../controllers/shopController');
+const productController=require('../controllers/productController');
 
 /* GET users listing. */
 
@@ -26,6 +27,7 @@ shopRouter.get('/cart',shopController.getCart);
 shopRouter.post('/cart',shopController.postCart);
 shopRouter.post('/cart-delete-item',shopController.postCartDeleteProduct);
 shopRouter.patch('/cart',shopController.updateQuantity);
+shopRouter.get('/filterview/:categoryId',productController.getProductsByCategory);
 shopRouter.get('/edit-profile',(req,res)=>{
   res.render('shop/edit-profile',{user:true})
 })
@@ -35,9 +37,18 @@ shopRouter.get('/account',(req,res)=>{
 shopRouter.get('/profile',(req,res)=>{
   res.render('shop/profile',{user:true})
 })
+shopRouter.get('/checkout',(req,res)=>{
+  res.render('shop/checkout',{user:true})
+})
 
-shopRouter.get('/cart',(req,res)=>{
-  res.render('shop/cart',{})
+shopRouter.get('/orders',(req,res)=>{
+  res.render('shop/orders',{user:true})
+})
+shopRouter.get('/myorders',(req,res)=>{
+  res.render('shop/order-details',{user:true})
+})
+shopRouter.get('/wishlist',(req,res)=>{
+  res.render('shop/wishlist',{user:true})
 })
 
 module.exports = shopRouter;

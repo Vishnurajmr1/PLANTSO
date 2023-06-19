@@ -1,5 +1,4 @@
 const Category = require("../models/category");
-const product = require("../models/product");
 const Product = require("../models/product");
 const User = require('../models/user');
 
@@ -20,18 +19,28 @@ exports.getIndex = (req, res, next) => {
       const Prods2=products.slice(2,3);
       const Prods3=products.slice(3,4);
 
+    Category.find({isDeleted:false})
+    .limit(4)
+    .lean()
+    .then((categories)=>{
       res.render("shop/homepage", {
         prods:Prods,
         prods1:Prods1,
         prods2:Prods2,
         prods3:Prods3,
         allProds: products,
+        categories:categories,
         user: true,
       });
     })
     .catch((err) => {
       console.log(err);
     });
+
+  })
+  .catch((err)=>{
+    console.log(err);
+  })
 };
 
 exports.getProducts = async (req, res, next) => {
@@ -122,6 +131,7 @@ exports.getCart=(req,res,next)=>{
       price:item.productId.price.toFixed(2),
       category:item.productId.category,
       stock:item.productId.stock,
+      imageUrl:item.productId.imageUrl,
     }));
     res.render('shop/cart',{
       products:products,

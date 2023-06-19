@@ -57,6 +57,7 @@ userSchema.methods.addToCart = function (product) {
   });
 
   let newQuantity = 1;
+  let newPrice=product.price;
   const updatedCartItems = [...this.cart.items];
 
   if (cartProductIndex >= 0) {

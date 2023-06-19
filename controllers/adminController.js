@@ -53,6 +53,7 @@ exports.postAddProduct = (req, res, next) => {
          
             const fileName = req.file.filename;
             const basePath = `/images/product-images/`;
+            console.log(`${fileName}🙋🙋`);
           const imageUrl = `${basePath}${fileName}`;
           const product = new Product({
             title: title,
@@ -211,9 +212,10 @@ exports.postEditProduct = (req, res, next) => {
       product.title = updatedTitle;
       product.price = updatedPrice;
       product.stock = updatedStock;
-      console.log(image.path+'🤷‍♀️🤷‍♀️🤷‍♀️');
       if (image) {
-        product.imageUrl = image.path;
+        const fileName = req.file.filename;
+        const basePath = `/images/product-images/`;
+        product.imageUrl = `${basePath}${fileName}`;;
       }
       product.description = updatedDescription;
       product.category = updatedCategoryId;

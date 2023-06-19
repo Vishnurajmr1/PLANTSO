@@ -10,13 +10,13 @@
             <ul class="pd-breadcrumb__list">
               <li class="has-separator">
 
-                <a href="index.hml">Home</a></li>
+                <a href="/">Home</a></li>
               <li class="has-separator">
 
-                <a href="shop-side-version-2.html" style="text-transform: capitalize;">{{product.category.name}}</a></li>
+                <a href="/shop" style="text-transform: capitalize;">{{product.category.name}}</a></li>
               <li class="is-marked">
 
-                <a href="shop-side-version-2.html">{{product.title}}</a></li>
+                <a href="#">{{product.title}}</a></li>
             </ul>
           </div>
           <!--====== End - Product Breadcrumb ======-->
@@ -27,24 +27,24 @@
               <div id="pd-o-initiate">
                 <div
                   class="pd-o-img-wrap"
-                  data-src="images/product/product-d-1.jpg"
+                  data-src="{{product.imageUrl}}"
                 >
 
                   <img
                     class="u-img-fluid"
-                    src="images/product/product-d-1.jpg"
-                    data-zoom-image="images/product/product-d-1.jpg"
+                    src="{{product.imageUrl}}"
+                    data-zoom-image="{{product.imageUrl}}"
                     alt=""
                   /></div>
                 <div
                   class="pd-o-img-wrap"
-                  data-src="images/product/product-d-2.jpg"
+                  data-src="{{product.imageUrl}}"
                 >
 
                   <img
                     class="u-img-fluid"
-                    src="images/product/product-d-2.jpg"
-                    data-zoom-image="images/product/product-d-2.jpg"
+                    src="{{product.imageUrl}}"
+                    data-zoom-image="{{product.imageUrl}}"
                     alt=""
                   /></div>
                 <div
@@ -54,13 +54,13 @@
 
                   <img
                     class="u-img-fluid"
-                    src="images/product/product-d-3.jpg"
+                    src="{{product.imageUrl}}"
                     data-zoom-image="images/product/product-d-3.jpg"
                     alt=""
                   /></div>
                 <div
                   class="pd-o-img-wrap"
-                  data-src="images/product/product-d-4.jpg"
+                  data-src="{{product.imageUrl}}"
                 >
 
                   <img
@@ -91,35 +91,35 @@
 
                     <img
                       class="u-img-fluid"
-                      src="images/product/product-d-1.jpg"
+                      src="{{product.imageUrl}}"
                       alt=""
                     /></div>
                   <div>
 
                     <img
                       class="u-img-fluid"
-                      src="images/product/product-d-2.jpg"
+                      src="{{product.imageUrl}}"
                       alt=""
                     /></div>
                   <div>
 
                     <img
                       class="u-img-fluid"
-                      src="images/product/product-d-3.jpg"
+                      src="{{product.imageUrl}}"
                       alt=""
                     /></div>
                   <div>
 
                     <img
                       class="u-img-fluid"
-                      src="images/product/product-d-4.jpg"
+                      src="{{product.imageUrl}}"
                       alt=""
                     /></div>
                   <div>
 
                     <img
                       class="u-img-fluid"
-                      src="images/product/product-d-5.jpg"
+                      src="{{product.imageUrl}}"
                       alt=""
                     /></div>
                 </div>
@@ -140,11 +140,12 @@
 
                 <span class="pd-detail__price">₹{{product.price}}</span>
 
-                <span class="pd-detail__discount">(76% OFF)</span><del
+                {{!-- <span class="pd-detail__discount">(76% OFF)</span><del
                   class="pd-detail__del"
-                >$28.97</del></div>
+                >$28.97</del> --}}
+                </div>
             </div>
-            <div class="u-s-m-b-15">
+            {{!-- <div class="u-s-m-b-15">
               <div class="pd-detail__rating gl-rating-style"><i
                   class="fas fa-star"
                 ></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
@@ -154,21 +155,18 @@
                 <span class="pd-detail__review u-s-m-l-4">
 
                   <a data-click-scroll="#view-review">23 Reviews</a></span></div>
-            </div>
+            </div> --}}
             <div class="u-s-m-b-15">
               <div class="pd-detail__inline">
 
                 <span class="pd-detail__stock">{{product.stock}} in stock</span>
 
-                <span class="pd-detail__left">Only 2 left</span></div>
+                {{!-- <span class="pd-detail__left">Only 2 left</span></div> --}}
             </div>
             <div class="u-s-m-b-15">
 
-              <span class="pd-detail__preview-desc">Lorem Ipsum is simply dummy
-                text of the printing and typesetting industry. Lorem Ipsum has
-                been the industry's standard dummy text ever since the 1500s,
-                when an unknown printer took a galley of type and scrambled it
-                to make a type specimen book.</span></div>
+              <span class="pd-detail__preview-desc">{{product.description}}
+                </span></div>
             <div class="u-s-m-b-15">
               <div class="pd-detail__inline">
 
@@ -178,9 +176,9 @@
 
                   <a href="signin.html">Add to Wishlist</a>
 
-                  <span class="pd-detail__click-count">(222)</span></span></div>
+                  {{!-- <span class="pd-detail__click-count">(222)</span></span></div> --}}
             </div>
-            <div class="u-s-m-b-15">
+            {{!-- <div class="u-s-m-b-15">
               <div class="pd-detail__inline">
 
                 <span class="pd-detail__click-wrap"><i
@@ -190,7 +188,7 @@
                   <a href="signin.html">Email me When the price drops</a>
 
                   <span class="pd-detail__click-count">(20)</span></span></div>
-            </div>
+            </div> --}}
             <div class="u-s-m-b-15">
               <ul class="pd-social-list">
                 <li>
@@ -382,7 +380,7 @@
                 <li class="nav-item">
 
                   <a
-                    class="nav-link"
+                    class="nav-link active"
                     data-toggle="tab"
                     href="#pd-desc"
                   >DESCRIPTION</a></li>
@@ -396,7 +394,7 @@
                 <li class="nav-item">
 
                   <a
-                    class="nav-link active"
+                    class="nav-link "
                     id="view-review"
                     data-toggle="tab"
                     href="#pd-rev"
@@ -408,25 +406,15 @@
             <div class="tab-content">
 
               <!--====== Tab 1 ======-->
-              <div class="tab-pane" id="pd-desc">
+              <div class="tab-pane show active" id="pd-desc">
                 <div class="pd-tab__desc">
                   <div class="u-s-m-b-15">
-                    <p>Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry. Lorem Ipsum has been the industry's
-                      standard dummy text ever since the 1500s, when an unknown
-                      printer took a galley of type and scrambled it to make a
-                      type specimen book. It has survived not only five
-                      centuries, but also the leap into electronic typesetting,
-                      remaining essentially unchanged. It was popularised in the
-                      1960s with the release of Letraset sheets containing Lorem
-                      Ipsum passages, and more recently with desktop publishing
-                      software like Aldus PageMaker including versions of Lorem
-                      Ipsum.</p>
+                    <p>{{product.description}}</p>
                   </div>
-                  <div class="u-s-m-b-30"><iframe
+                  {{!-- <div class="u-s-m-b-30"><iframe
                       src="https://www.youtube.com/embed/qKqSBm07KZk"
                       allowfullscreen
-                    ></iframe></div>
+                    ></iframe></div> --}}
                   <div class="u-s-m-b-30">
                     <ul>
                       <li><i class="fas fa-check u-s-m-r-8"></i>
@@ -448,22 +436,22 @@
                       <table>
                         <tbody>
                           <tr>
-                            <td>Main Material</td>
-                            <td>Cotton</td>
+                            <td>Product Name</td>
+                            <td>{{product.title}}</td>
                           </tr>
                           <tr>
                             <td>Color</td>
                             <td>Green, Blue, Red</td>
                           </tr>
                           <tr>
-                            <td>Sleeves</td>
-                            <td>Long Sleeve</td>
+                            <td>Price</td>
+                            <td>₹ {{product.price}}</td>
                           </tr>
                           <tr>
-                            <td>Top Fit</td>
-                            <td>Regular</td>
+                            <td>Product Category</td>
+                            <td style="text-transform: capitalize;">{{product.category.name}}</td>
                           </tr>
-                          <tr>
+                          {{!-- <tr>
                             <td>Print</td>
                             <td>Not Printed</td>
                           </tr>
@@ -482,7 +470,7 @@
                           <tr>
                             <td>Shipping Weight (kg)</td>
                             <td>0.5</td>
-                          </tr>
+                          </tr> --}}
                         </tbody>
                       </table>
                     </div>
@@ -514,7 +502,7 @@
               <!--====== End - Tab 2 ======-->
 
               <!--====== Tab 3 ======-->
-              <div class="tab-pane fade show active" id="pd-rev">
+              <div class="tab-pane fade  " id="pd-rev">
                 <div class="pd-tab__rev">
                   <div class="u-s-m-b-30">
                     <div class="pd-tab__rev-score">
@@ -1452,16 +1440,16 @@
                 <ul class="pd-breadcrumb__list">
                   <li class="has-separator">
 
-                    <a href="index.hml">Home</a></li>
+                    <a href="/">Home</a></li>
                   <li class="has-separator">
 
-                    <a href="shop-side-version-2.html">{{category.name}}</a></li>
-                  <li class="has-separator">
+                    <a href="/shop">{{category.name}}</a></li>
+                  {{!-- <li class="has-separator">
 
-                    <a href="shop-side-version-2.html">DSLR Cameras</a></li>
+                    <a href="shop-side-version-2.html">DSLR Cameras</a></li> --}}
                   <li class="is-marked">
 
-                    <a href="shop-side-version-2.html">{{product.name}}</a></li>
+                    <a href="#">{{product.name}}</a></li>
                 </ul>
               </div>
               <!--====== End - Product Breadcrumb ======-->
@@ -1554,7 +1542,6 @@
               <!--====== Product Right Side Details ======-->
               <div class="pd-detail">
                 <div>
-                  {{log product}}
                   <span class="pd-detail__name">{{product.title}}</span></div>
                 <div>
                   <div class="pd-detail__inline">
@@ -1583,7 +1570,7 @@
 
                     <span class="pd-detail__stock">{{product.stock}} in stock</span>
 
-                    <span class="pd-detail__left">Only 2 left</span></div>
+                    {{!-- <span class="pd-detail__left">Only 2 left</span></div> --}}
                 </div>
                 <div class="u-s-m-b-15">
 

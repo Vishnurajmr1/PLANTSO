@@ -48,17 +48,17 @@
           <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
             <div class="table-responsive">
               <table class="table-p">
-                <thead>
+                {{!-- <thead>
                   <tr>
                     <th  class="table-header">ProductDetails</th>
                     <th class="table-header">Quantity * Price</th>
-                    {{!-- <th class="table-header">TotalPrice</th> --}}
+                     <th class="table-header">TotalPrice</th> 
                     <th class="table-header">SUBTOTAL</th>
                     <th class="table-header">Actions</th>
 
                     <th class="table-header">Remove</th>
                   </tr>
-                </thead>
+                </thead> --}}
                 <tbody>
 
                   <!--====== Row ======-->
@@ -70,7 +70,7 @@
                         
                           <img
                             class="u-img-fluid"
-                            src="images/product/electronic/product3.jpg"
+                            src="{{this.imageUrl}}"
                             alt=""
                           /></div>
                         <div class="table-p__info">
@@ -83,7 +83,7 @@
 
                             <a
 
-                              href="shop-side-version-2.html"
+                              href="/cart"
                               id="quantity-{{this.productId}}"
                             >Quantity:[{{this.quantity}}]</a></span>
                             <ul class="table-p__variant-list">
@@ -100,7 +100,7 @@
                     <td>
                       <div class="product-info">
                          <a
-                              href="shop-side-version-2.html"
+                              href=""
                               class="quantity-{{this.productId}}"
                             >{{this.quantity}}</a>x
                             <span class="table-p__price"  data-price="{{this.price}}">{{this.price}}</span>
@@ -169,7 +169,7 @@
 
                   <span>CLEAR CART</span></a>
 
-                <a class="route-box__link" href="cart.html"><i
+                <a class="route-box__link" href="/deleteAllCart"><i
                     class="fas fa-sync"
                   ></i>
 
@@ -188,12 +188,12 @@
 
     <!--====== Section Content ======-->
     <div class="section__content">
-      <div class="container">
+      <div class="container" >
         <div class="row">
           <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
-            <form class="f-cart">
-              <div class="row">
-                <div class="col-lg-4 col-md-6 u-s-m-b-30">
+            <form class="f-cart" >
+              {{!-- <div class="row"> --}}
+                {{!-- <div class="col-lg-4 col-md-6 u-s-m-b-30">
                   <div class="f-cart__pad-box">
                     <h1 class="gl-h1">ESTIMATE SHIPPING AND TAXES</h1>
 
@@ -254,8 +254,8 @@
                       free shipping is available otherwise our flat rate charges
                       or country delivery charges will be apply.</span>
                   </div>
-                </div>
-                <div class="col-lg-4 col-md-6 u-s-m-b-30">
+                </div> --}}
+                {{!-- <div class="col-lg-4 col-md-6 u-s-m-b-30">
                   <div class="f-cart__pad-box">
                     <h1 class="gl-h1">NOTE</h1>
 
@@ -268,8 +268,8 @@
                         id="f-cart-note"
                       ></textarea></div>
                   </div>
-                </div>
-                <div class="col-lg-4 col-md-6 u-s-m-b-30">
+                </div> --}}
+                <div class="col-lg-12 col-md-6 u-s-m-b-30" >
                   <div class="f-cart__pad-box">
                     <div class="u-s-m-b-30">
                       <table class="f-cart__table">
@@ -299,7 +299,7 @@
                         PROCEED TO CHECKOUT</button></div>
                   </div>
                 </div>
-              </div>
+              {{!-- </div> --}}
             </form>
           </div>
         </div>
@@ -339,23 +339,9 @@
   <!--====== End - Section 3 ======-->
 
 </main>
-<script>
-/*
-document.getElementById('deleteButton').addEventListener('onclick',(e)=>{
-e.preventDefault();
-  console.log('hi')
-  fetch('/delete_post',{
-    method:'POST',
-    headers:{
-      'Content-Type':'application/json'
-    }
-  }).then((result)=>{
-    res.json(success:true,message:"Product from cart deleted successfully")
-  }).catch((err)=>{
-    res.json(success:false,message:'Product is not deleted');
-  })
-}) */
 
+<script>
+  /*
 function deleteFromCart(productId,productName){
   console.log(productName);
         Swal.fire({
@@ -393,6 +379,13 @@ function deleteFromCart(productId,productName){
         if(deletedItem){
           deletedItem.remove();
         }
+        const cartItmesCount=document.getElementsByClassName('cart-item').length;
+        if(cartItmesCount===0){
+
+          setTimeout(()=>{
+          window.location.reload()
+          },2000)
+        }
           }else{
             Swal.fire(
         'Error',
@@ -409,13 +402,8 @@ function deleteFromCart(productId,productName){
     });
         
 }
-
-
 const minusBtn=document.querySelectorAll(".input-counter__minus");
 const plusBtn=document.querySelectorAll(".input-counter__plus");
-
-console.log(minusBtn)
-console.log(plusBtn)
 
 minusBtn.forEach((button)=>{
   button.addEventListener('click',decrementQuantity);
@@ -429,55 +417,22 @@ plusBtn.forEach((button)=>{
 
 function decrementQuantity(productId){
   const quantityElement = document.querySelector(`input[data-product-id="${productId}"]`);
-  //const quantityElement=document.querySelector(`input[data-product-id="${productId}"]`); 
   const quantity=parseInt(quantityElement.value);
   const minQunatity=parseInt(quantityElement.dataset.min);
-  //const minQunatity=parseInt(quantityElement.dataset.min);
-console.log(productId)
-  console.log(quantityElement)
-  console.log(quantity+'😂😂😂');
-  console.log(minQunatity+'😂😂😂');
   if(quantity>minQunatity){
-    //quantityElement.value=quantity-1;
-    //const newQuantity=quantity-1;
-    //quantityElement.value=newQuantity;
-    //quantityElement.setAttribute('value',newQuantity);
     updateQuantitySpan(productId,quantity-1);
-    //updatePriceSpan(productId,quantity-1);
-    console.log(quantityElement+'‼️‼️‼️')
-   //updateProductQuantity(productId,quantity);
-    //calculatePrice(productId);
-
   }
 }
 
 function incrementQuantity(productId){
   const quantityElement = document.querySelector(`input[data-product-id="${productId}"]`);
 
-  // const quantityElement=document.querySelector(`input[data-product-id]="${productId}"]`)
   const quantity=parseInt(quantityElement.value);
-  //const maxQunatity=parseInt(quantityElement.getAttribute("max"));
   const maxQuantity = parseInt(quantityElement.dataset.max);
   if(quantity<maxQuantity){
-    //quantityElement.value=quantity+1;
-    // const newQuantity=quantity+1;
-    //quantityElement.value=newQuantity; 
-    //quantityElement.setAttribute('value',newQuantity);
     updateQuantitySpan(productId,quantity+1);
-    //updatePriceSpan(productId,quantity+1);
-    //calculatePrice(productId); 
-
   }
-  console.log(productId)
-  console.log(quantityElement.value)
-  console.log(quantityElement)
-  console.log(quantityElement.dataset)
-  console.log(quantityElement.dataset.max)
-  console.log(quantity+'😂😂😂');
-  console.log(maxQuantity+'😂😂😂');
 }
-
-
 function updateQuantitySpan(productId,quantity){
 
   const specificLink=document.querySelector(`#quantity-${productId}`)
@@ -488,26 +443,8 @@ function updateQuantitySpan(productId,quantity){
      span.textContent = `${quantity}`;
     }
   });
-  //console.log(productId+'😂😂😂')
-  //console.log(quantity+'🎭🎭🎭') 
   updateProductQuantity(productId,quantity);
-  //quantityId.textContent = `Quantity:${quantity}`;
 }
-/*
-function updatePriceSpan(productId,quantity){
-  const priceSpan=document.querySelector(`#price-${productId}`);
-  const price=parseFloat(priceSpan.dataset.price);
-  console.log(priceSpan);
-  if(!isNaN(price)){
-  const newPrice=price*quantity;
-  priceSpan.innerText=`₹${newPrice.toFixed(2)}`;
-  console.log(newPrice);
-  }else{
-    // Handle the case where price is NaN
-    priceSpan.innerText = 'Invalid Price';
-  }
-}
-*/
 
 function updateProductQuantity(productId, quantity) {
   fetch('/cart', {
@@ -527,26 +464,24 @@ function updateProductQuantity(productId, quantity) {
       throw new Error('Network response was not ok.');
     })
     .then(function (data) {
-      console.log(data);
-
       //Update the price in the HTML based on the received data
-
       const priceElement=document.getElementById(`price-${productId}`);
       const subTotal=document.getElementById('subTotal');
       const grandTotal=document.getElementById('grandTotal');
       if(priceElement){
-        console.log(priceElement.textContent);
         priceElement.textContent=`₹${data.updatedPrice}`;
         priceElement.dataset.price=data.updatedPrice;
         subTotal.textContent=`₹${data.cartTotal}`
         grandTotal.textContent=`₹${data.cartTotal}`
-        console.log(`After update${priceElement.textContent}`);
       }
     })
     .catch(function (error) {
       console.error('There was a problem with the updating product operation:', error);
     });
 }
+*/
 
-
-</script>
+function deleteAllFromCart(){
+  fetch:('/deleteAllCart')
+}
+</script> 
