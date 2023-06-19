@@ -2,6 +2,7 @@ const express = require('express');
 const shopRouter = express.Router();
 const shopController=require('../controllers/shopController');
 const productController=require('../controllers/productController');
+const orderController=require('../controllers/orderController');
 
 /* GET users listing. */
 
@@ -28,6 +29,8 @@ shopRouter.post('/cart',shopController.postCart);
 shopRouter.post('/cart-delete-item',shopController.postCartDeleteProduct);
 shopRouter.patch('/cart',shopController.updateQuantity);
 shopRouter.get('/filterview/:categoryId',productController.getProductsByCategory);
+shopRouter.post('/create-order',orderController.postOrder);
+shopRouter.get('/orders',orderController.getOrders);
 shopRouter.get('/edit-profile',(req,res)=>{
   res.render('shop/edit-profile',{user:true})
 })

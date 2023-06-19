@@ -163,7 +163,7 @@
                   <span>CONTINUE SHOPPING</span></a></div>
               <div class="route-box__g2">
 
-                <a class="route-box__link" href="cart.html"><i
+                <a class="route-box__link" href="/create-order"><i
                     class="fas fa-trash"
                   ></i>
 
@@ -182,18 +182,10 @@
     <!--====== End - Section Content ======-->
   </div>
   <!--====== End - Section 2 ======-->
+{{!-- start of deleted div 
 
-  <!--====== Section 3 ======-->
-  <div class="u-s-p-b-60">
-
-    <!--====== Section Content ======-->
-    <div class="section__content">
-      <div class="container" >
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
-            <form class="f-cart" >
-              {{!-- <div class="row"> --}}
-                {{!-- <div class="col-lg-4 col-md-6 u-s-m-b-30">
+      <div class="row"> 
+                 <div class="col-lg-4 col-md-6 u-s-m-b-30">
                   <div class="f-cart__pad-box">
                     <h1 class="gl-h1">ESTIMATE SHIPPING AND TAXES</h1>
 
@@ -254,8 +246,8 @@
                       free shipping is available otherwise our flat rate charges
                       or country delivery charges will be apply.</span>
                   </div>
-                </div> --}}
-                {{!-- <div class="col-lg-4 col-md-6 u-s-m-b-30">
+                </div> 
+                 <div class="col-lg-4 col-md-6 u-s-m-b-30">
                   <div class="f-cart__pad-box">
                     <h1 class="gl-h1">NOTE</h1>
 
@@ -268,45 +260,65 @@
                         id="f-cart-note"
                       ></textarea></div>
                   </div>
-                </div> --}}
-                <div class="col-lg-12 col-md-6 u-s-m-b-30" >
-                  <div class="f-cart__pad-box">
-                    <div class="u-s-m-b-30">
-                      <table class="f-cart__table">
-                        <tbody>
-                          <tr>
-                            <td>SHIPPING</td>
-                            <td>$0.00</td>
-                          </tr>
-                          <tr>
-                            <td>TAX</td>
-                            <td>$0.00</td>
-                          </tr>
-                          <tr>
-                            <td>SUBTOTAL</td>
-                            <td id="subTotal">$379.00</td>
-                          </tr>
-                          <tr>
-                            <td>GRAND TOTAL</td>
-                            <td id="grandTotal">$379.00</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div>
+                </div> 
 
-                      <button class="btn btn--e-brand-b-2" type="submit">
-                        PROCEED TO CHECKOUT</button></div>
-                  </div>
+  </div>
+ end of deleted div--}}
+
+  <!--====== Section 3 ======-->
+ <div class="u-s-p-b-60">
+    <!--====== Section Content ======-->
+  <div class="section__content">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 order-lg-2">
+           <form class="f-cart" action="/create-order" method="POST">
+            <div class="col-lg-12 col-md-6 u-s-m-b-30">
+              <div class="f-cart__pad-box">
+                <div class="u-s-m-b-30">
+                  <table class="f-cart__table">
+                    <tbody>
+                      <tr>
+                        <td>SHIPPING</td>
+                        <td>$0.00</td>
+                      </tr>
+                      <tr>
+                        <td>TAX</td>
+                        <td>$0.00</td>
+                      </tr>
+                      <tr>
+                        <td>SUBTOTAL</td>
+                        <td id="subTotal">$379.00</td>
+                      </tr>
+                      <tr>
+                        <td>GRAND TOTAL</td>
+                        <td id="grandTotal">$379.00</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-              {{!-- </div> --}}
-            </form>
-          </div>
+                <div>
+                  {{!-- <button class="btn btn--e-brand-b-2" type="submit">
+                    PROCEED TO CHECKOUT
+                  </button> --}}
+                   <button class="btn btn--e-brand-b-2" type="submit">
+                    ORDER NOW!
+                  </button>
+                  
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 order-lg-1 u-s-m-b-30">
+          <!-- Add other columns or elements here -->
         </div>
       </div>
     </div>
-    <!--====== End - Section Content ======-->
   </div>
+</div>
+
+    <!--====== End - Section Content ======-->
   {{else}}
    <!--======emptycart Section 1 ======-->
   <div class="u-s-p-y-60">

@@ -107,7 +107,7 @@
                                         <div class="dash__pad-2">
                                             <h1 class="dash__h1 u-s-m-b-14">My Orders</h1>
 
-                                            <span class="dash__text u-s-m-b-30">Here you can see all products that have been delivered.</span>
+                                            <span class="dash__text u-s-m-b-30">Here you can see all products that have been orderd.</span>
                                             <form class="m-order u-s-m-b-30">
                                                 <div class="m-order__select-wrapper">
 
@@ -121,12 +121,14 @@
                                                     </select></div>
                                             </form>
                                             <div class="m-order__list">
+                                                {{#if hasOrders}}
+                                                {{#each orders}}
                                                 <div class="m-order__get">
                                                     <div class="manage-o__header u-s-m-b-30">
                                                         <div class="dash-l-r">
                                                             <div>
-                                                                <div class="manage-o__text-2 u-c-secondary">Order #305423126</div>
-                                                                <div class="manage-o__text u-c-silver">Placed on 26 Oct 2016 09:08:37</div>
+                                                                <div class="manage-o__text-2 u-c-secondary">Order #{{_id}}</div>
+                                                                <div class="manage-o__text u-c-silver">Placed on {{dateCreated}}</div>
                                                             </div>
                                                             <div>
                                                                 <div class="dash__link dash__link--brand">
@@ -135,12 +137,15 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="" style="display:grid;gap:2rem;">
+                                                {{#each products}}
+                                                    {{log product.title}}
                                                     <div class="manage-o__description">
                                                         <div class="description__container">
                                                             <div class="description__img-wrap">
 
-                                                                <img class="u-img-fluid" src="images/product/electronic/product3.jpg" alt=""></div>
-                                                            <div class="description-title">Yellow Wireless Headphone</div>
+                                                                <img class="u-img-fluid" src="{{product.imageUrl}}" alt=""></div>
+                                                            <div class="description-title">{{product.title}}</div>
                                                         </div>
                                                         <div class="description__info-wrap">
                                                             <div>
@@ -150,91 +155,47 @@
 
                                                                 <span class="manage-o__text-2 u-c-silver">Quantity:
 
-                                                                    <span class="manage-o__text-2 u-c-secondary">1</span></span></div>
+                                                                    <span class="manage-o__text-2 u-c-secondary">{{quantity}}</span></span></div>
                                                             <div>
 
-                                                                <span class="manage-o__text-2 u-c-silver">Total:
+                                                                <span class="manage-o__text-2 u-c-silver">Total: 
 
-                                                                    <span class="manage-o__text-2 u-c-secondary">$16.00</span></span></div>
+                                                                    <span class="manage-o__text-2 u-c-secondary">₹ {{product.price}}</span></span></div>
                                                         </div>
                                                     </div>
+                                                    {{/each}}
                                                 </div>
-                                                <div class="m-order__get">
-                                                    <div class="manage-o__header u-s-m-b-30">
-                                                        <div class="dash-l-r">
-                                                            <div>
-                                                                <div class="manage-o__text-2 u-c-secondary">Order #305423126</div>
-                                                                <div class="manage-o__text u-c-silver">Placed on 26 Oct 2016 09:08:37</div>
+                                                {{/each}}
+                                                 {{else}}
+
+                                             <!--======empty order Section 1 ======-->
+                                            <div class="u-s-p-y-60">
+
+                                                        <!--====== emptycartSection Content ======-->
+                                                        <div class="section__content">
+                                                        <div class="container">
+                                                            <div class="row">
+                                                            <div class="col-lg-12 col-md-12 u-s-m-b-30">
+                                                                <div class="empty">
+                                                                <div class="empty__wrap">
+
+                                                                    <span class="empty__big-text">EMPTY</span>
+
+                                                                    <span class="empty__text-1">No Orders Please visit our shoplist page.</span>
+
+                                                                    <a
+                                                                    class="empty__redirect-link btn--e-brand"
+                                                                    href="/shop"
+                                                                    >CONTINUE SHOPPING</a></div>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <div class="dash__link dash__link--brand">
-
-                                                                    <a href="dash-manage-order.html">MANAGE</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="manage-o__description">
-                                                        <div class="description__container">
-                                                            <div class="description__img-wrap">
-
-                                                                <img class="u-img-fluid" src="images/product/women/product8.jpg" alt=""></div>
-                                                            <div class="description-title">New Dress D Nice Elegant</div>
-                                                        </div>
-                                                        <div class="description__info-wrap">
-                                                            <div>
-
-                                                                <span class="manage-o__badge badge--shipped">Shipped</span></div>
-                                                            <div>
-
-                                                                <span class="manage-o__text-2 u-c-silver">Quantity:
-
-                                                                    <span class="manage-o__text-2 u-c-secondary">1</span></span></div>
-                                                            <div>
-
-                                                                <span class="manage-o__text-2 u-c-silver">Total:
-
-                                                                    <span class="manage-o__text-2 u-c-secondary">$16.00</span></span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="m-order__get">
-                                                    <div class="manage-o__header u-s-m-b-30">
-                                                        <div class="dash-l-r">
-                                                            <div>
-                                                                <div class="manage-o__text-2 u-c-secondary">Order #305423126</div>
-                                                                <div class="manage-o__text u-c-silver">Placed on 26 Oct 2016 09:08:37</div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="dash__link dash__link--brand">
-
-                                                                    <a href="dash-manage-order.html">MANAGE</a></div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="manage-o__description">
-                                                        <div class="description__container">
-                                                            <div class="description__img-wrap">
-
-                                                                <img class="u-img-fluid" src="images/product/men/product8.jpg" alt=""></div>
-                                                            <div class="description-title">New Fashion D Nice Elegant</div>
                                                         </div>
-                                                        <div class="description__info-wrap">
-                                                            <div>
-
-                                                                <span class="manage-o__badge badge--delivered">Delivered</span></div>
-                                                            <div>
-
-                                                                <span class="manage-o__text-2 u-c-silver">Quantity:
-
-                                                                    <span class="manage-o__text-2 u-c-secondary">1</span></span></div>
-                                                            <div>
-
-                                                                <span class="manage-o__text-2 u-c-silver">Total:
-
-                                                                    <span class="manage-o__text-2 u-c-secondary">$16.00</span></span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                        <!--====== End - emptycart Section Content ======-->
+                                             </div>
+                                             <!--====== End - empty order Section 1 ======-->
+                                                {{/if}} 
                                             </div>
                                         </div>
                                     </div>
