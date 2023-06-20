@@ -27,10 +27,12 @@ const User=require('./models/user');
 //     cb(null,false);
 //   }
 // }
+
 const session=require('express-session');
 const hbs=require('express-handlebars');
-const shopRouter = require('./routes/shop.Router');
-const adminRouter = require('./routes/admin.Router');
+const shopRoutes = require('./routes/shop.Router');
+const adminRoutes = require('./routes/admin.Router');
+const authRoutes = require('./routes/auth');
 const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -100,8 +102,11 @@ const setInitialUser=async()=>{
 }
 console.clear();
 setInitialUser();
-app.use('/', shopRouter);
-app.use('/admin', adminRouter);
+app.use('/admin',adminRoutes);
+app.use(shopRoutes);
+app.use(authRoutes);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

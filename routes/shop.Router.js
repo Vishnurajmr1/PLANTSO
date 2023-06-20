@@ -14,8 +14,8 @@ const orderController=require('../controllers/orderController');
 // })
 
 //userRouter to handle signup and login
-shopRouter.get('/login',shopController.getLoginPage);
-shopRouter.get('/signup',shopController.getSignupPage)
+// shopRouter.get('/login',shopController.getLoginPage);
+// shopRouter.get('/signup',shopController.getSignupPage)
 
 //userRouter to handle products and homepage 
 shopRouter.get('/',shopController.getIndex);

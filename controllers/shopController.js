@@ -2,15 +2,16 @@ const Category = require("../models/category");
 const Product = require("../models/product");
 const User = require('../models/user');
 
-exports.getLoginPage = (req, res, next) => {
-  res.render("shop/login", { layout: "noLayout" });
-};
-exports.getSignupPage = (req, res, next) => {
-  res.render("shop/signup", { layout: "noLayout" });
-};
+// exports.getLoginPage = (req, res, next) => {
+//   res.render("shop/login", { layout: "noLayout" });
+// };
+// exports.getSignupPage = (req, res, next) => {
+//   res.render("shop/phoneotp", { layout: "noLayout" });
+// };
 
 exports.getIndex = (req, res, next) => {
   Product.find()
+    .sort({_id:1})
     .populate("category")
     .lean()
     .then((products) => {
@@ -19,6 +20,7 @@ exports.getIndex = (req, res, next) => {
       const Prods2=products.slice(2,3);
       const Prods3=products.slice(3,4);
 
+      const reverseProducts=products.slice().reverse();
     Category.find({isDeleted:false})
     .limit(4)
     .lean()
@@ -29,8 +31,10 @@ exports.getIndex = (req, res, next) => {
         prods2:Prods2,
         prods3:Prods3,
         allProds: products,
+        reverseProds:reverseProducts,
         categories:categories,
         user: true,
+        isAuthenticated:req.isLoggedIn
       });
     })
     .catch((err) => {

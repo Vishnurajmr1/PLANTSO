@@ -47,26 +47,32 @@
 
                                 <span class="js-menu-toggle"></span>
                                 <ul style="width:120px">
+                                    {{log isAuthenticated🙋}}
+                                    {{#if isAuthenticated}}
                                     <li>
-
                                         <a href="dashboard.html"><i class="fas fa-user-circle u-s-m-r-6"></i>
 
-                                            <span>Account</span></a></li>
-                                    <li>
+                                            <span>Account</span></a>
+                                    </li>
+                                     <li>
 
+                                        <a href="/logout"><i class="fas fa-lock-open u-s-m-r-6"></i>
+
+                                            <span>LogOut</span></a>
+                                    </li>
+                                    {{else}}
+                                    <li>
                                         <a href="/signup"><i class="fas fa-user-plus u-s-m-r-6"></i>
 
-                                            <span>Signup</span></a></li>
+                                            <span>Signup</span></a>
+                                            </li>
                                     <li>
 
                                         <a href="/login"><i class="fas fa-lock u-s-m-r-6"></i>
 
-                                            <span>Signin</span></a></li>
-                                    <li>
-
-                                        <a href="signup.html"><i class="fas fa-lock-open u-s-m-r-6"></i>
-
-                                            <span>LogOut</span></a></li>
+                                            <span>Login</span></a>
+                                            </li>
+                                            {{/if}}
                                 </ul>
                                 <!--====== End - Dropdown ======-->
                             </li>
@@ -885,13 +891,13 @@
                                         <ul style="width:200px">
                                             <li>
 
-                                                <a href="signin.html">Signin / Already Registered</a></li>
+                                                <a href="/login">Login / Already Registered</a></li>
                                             <li>
 
-                                                <a href="signup.html">Signup / Register</a></li>
+                                                <a href="/signup">Signup / Register</a></li>
                                             <li>
 
-                                                <a href="lost-password.html">Lost Password</a></li>
+                                                <a href="/lostpass">Lost Password</a></li>
                                         </ul>
                                         <!--====== End - Dropdown ======-->
                                     </li>
