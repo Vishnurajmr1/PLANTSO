@@ -166,7 +166,8 @@
             <div class="u-s-m-b-15">
 
               <span class="pd-detail__preview-desc">{{product.description}}
-                </span></div>
+                </span>
+                </div>
             <div class="u-s-m-b-15">
               <div class="pd-detail__inline">
 
@@ -176,7 +177,7 @@
 
                   <a href="signin.html">Add to Wishlist</a>
 
-                  {{!-- <span class="pd-detail__click-count">(222)</span></span></div> --}}
+                  </div> 
             </div>
             {{!-- <div class="u-s-m-b-15">
               <div class="pd-detail__inline">
@@ -218,9 +219,11 @@
                     ></i></a></li>
               </ul>
             </div>
+
+            {{!-- variants --}}
             <div class="u-s-m-b-15">
               <form class="pd-detail__form">
-                <div class="u-s-m-b-15">
+                {{!-- <div class="u-s-m-b-15">
 
                   <span class="pd-detail__label u-s-m-b-8">Color:</span>
                   <div class="pd-detail__color">
@@ -270,9 +273,8 @@
                         style="background-color: #1D3461"
                       ></label></div>
                   </div>
-                </div>
-                <div class="u-s-m-b-15">
-
+                </div> --}}
+                {{!-- <div class="u-s-m-b-15">
                   <span class="pd-detail__label u-s-m-b-8">Size:</span>
                   <div class="pd-detail__size">
                     <div class="size__radio">
@@ -318,35 +320,39 @@
                         for="xxl"
                       >XXL</label></div>
                   </div>
-                </div>
+                </div> --}}
                 <div class="pd-detail-inline-2">
                   <div class="u-s-m-b-15">
 
                     <!--====== Input Counter ======-->
                     <div class="input-counter">
-
-                      <span class="input-counter__minus fas fa-minus"></span>
-
+                      <span class="input-counter__minus fas fa-minus"
+                      >
+                      </span>
                       <input
                         class="input-counter__text input-counter--text-primary-style"
                         type="text"
-                        value="1"
+                        value='1'
                         data-min="1"
-                        data-max="1000"
+                        data-max="{{product.stock}}"
+                        data-stock="{{product.stock}}"
+                        id="quantity-{{product._id}}"
+                        data-product-id="{{product._id}}"
                       />
-
                       <span
                         class="input-counter__plus fas fa-plus"
-                      ></span></div>
+                        {{!-- onclick="IncrementQuantity('{{product._id}}')" --}}
+                      >
+                      </span></div>
                     <!--====== End - Input Counter ======-->
                   </div>
                   <div class="u-s-m-b-15">
-
-                    <button class="btn btn--e-brand-b-2" type="submit">Add to
+                    <button class="btn btn--e-brand-b-2" type="sumbit" >Add to
                       Cart</button></div>
                 </div>
               </form>
             </div>
+            {{!-- end of variants --}}
             <div class="u-s-m-b-15">
 
               <span class="pd-detail__label u-s-m-b-8">Product Policy:</span>
@@ -969,18 +975,18 @@
       <div class="container">
         <div class="slider-fouc">
           <div class="owl-carousel product-slider" data-item="4">
+            {{#each otherProducts}}
             <div class="u-s-m-b-30">
               <div class="product-o product-o--hover-on">
                 <div class="product-o__wrap">
-
                   <a
                     class="aspect aspect--bg-grey aspect--square u-d-block"
-                    href="product-detail.html"
+                    href="/products/{{this._id}}"
                   >
 
                     <img
                       class="aspect__img"
-                      src="images/product/electronic/product1.jpg"
+                      src="{{this.imageUrl}}"
                       alt=""
                     /></a>
                   <div class="product-o__action-wrap">
@@ -997,6 +1003,7 @@
                       <li>
 
                         <a
+                         onclick="addToCart('{{this._id}}')"
                           data-modal="modal"
                           data-modal-id="#add-to-cart"
                           data-tooltip="tooltip"
@@ -1025,25 +1032,28 @@
 
                 <span class="product-o__category">
 
-                  <a href="shop-side-version-2.html">Electronics</a></span>
+                  <a href="/category">{{this.category.name}}</a></span>
 
                 <span class="product-o__name">
 
-                  <a href="product-detail.html">Beats Bomb Wireless Headphone</a></span>
-                <div class="product-o__rating gl-rating-style"><i
+                  <a href="product-detail.html">{{this.title}}</a></span>
+                {{!-- <div class="product-o__rating gl-rating-style"><i
                     class="fas fa-star"
                   ></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
                     class="fas fa-star"
                   ></i><i class="fas fa-star"></i>
 
-                  <span class="product-o__review">(20)</span></div>
+                  <span class="product-o__review">(20)</span>
+                  </div> --}}
 
-                <span class="product-o__price">$125.00
+                  
+                <span class="product-o__price">₹{{this.price}}
+                  </span>
 
-                  <span class="product-o__discount">$160.00</span></span>
               </div>
             </div>
-            <div class="u-s-m-b-30">
+            {{/each}}
+            {{!-- <div class="u-s-m-b-30">
               <div class="product-o product-o--hover-on">
                 <div class="product-o__wrap">
 
@@ -1412,7 +1422,7 @@
 
                   <span class="product-o__discount">$160.00</span></span>
               </div>
-            </div>
+            </div> --}}
           </div>
         </div>
       </div>
@@ -1753,3 +1763,67 @@
   </div>
   <!--====== End - Add to Cart Modal ======-->
 </main>
+
+<script>
+  let addToCartForm=document.querySelector('.pd-detail__form')
+
+  addToCartForm.addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent form submission
+
+  let productId=addToCartForm.querySelector('.input-counter__text').getAttribute('data-product-id');
+
+  //Get the selected quantity
+
+  let quantityInput=addToCartForm.querySelector('.input-counter__text');
+  let quantity=parseInt(quantityInput.value);
+  console.log(productId)
+  console.log(quantity);
+
+  let requestData={
+    productId:productId,
+    quantity:quantity
+  }
+
+    fetch('/cart', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestData)
+  })
+  .then(async (res) => {
+    const response = await res.json();
+    console.log(response);
+
+    // Handle the response from the server
+    if (response.success) {
+      Swal.fire({
+  position: 'top-end',
+  icon: 'success',
+  title: 'Product added to cart successfully',
+  showConfirmButton: false,
+  timer: 1500
+});
+
+      // Product added to cart successfully
+      // Handle success scenario as needed
+    } else {
+      Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'Product not added to cart!',
+});
+
+      // Product not added to cart
+      // Handle error scenario as needed
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+    // Handle the error
+  });
+  
+})
+
+  // Call the addToCart method on the user object (replace `user` with your user object)
+</script>

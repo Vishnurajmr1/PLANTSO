@@ -21,6 +21,7 @@
     </div>
   </div>
   <!--====== End - Section 1 ======-->
+{{!-- {{#if isAuthenticated}} --}}
 {{#if hasProducts}}
   <!--====== Section 2 ======-->
   <div class="u-s-p-b-60">
@@ -48,20 +49,10 @@
           <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
             <div class="table-responsive">
               <table class="table-p">
-                {{!-- <thead>
-                  <tr>
-                    <th  class="table-header">ProductDetails</th>
-                    <th class="table-header">Quantity * Price</th>
-                     <th class="table-header">TotalPrice</th> 
-                    <th class="table-header">SUBTOTAL</th>
-                    <th class="table-header">Actions</th>
-
-                    <th class="table-header">Remove</th>
-                  </tr>
-                </thead> --}}
                 <tbody>
 
                   <!--====== Row ======-->
+                  {{#if isAuthenticated}}
                   {{#each products}}
                   <tr id="product-{{this.productId}}">
                     <td>
@@ -145,6 +136,7 @@
                     </td>
                   </tr>
                   {{/each}}
+                 
                   
                   <!--====== End - Row ======-->
 
@@ -317,9 +309,10 @@
     </div>
   </div>
 </div>
-
+  {{/if}}
+{{/if}}
     <!--====== End - Section Content ======-->
-  {{else}}
+{{#unless isAuthenticated}}
    <!--======emptycart Section 1 ======-->
   <div class="u-s-p-y-60">
 
@@ -346,8 +339,43 @@
     </div>
     <!--====== End - emptycart Section Content ======-->
   </div>
+{{/unless}}
+ 
   <!--====== End - emptycart Section 1 ======-->
-  {{/if}}
+
+    {{#unless hasProducts}}
+   <!--======emptycart Section 1 ======-->
+  <div class="u-s-p-y-60">
+
+    <!--====== emptycartSection Content ======-->
+    <div class="section__content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 u-s-m-b-30">
+            <div class="empty">
+              <div class="empty__wrap">
+
+                <span class="empty__big-text">EMPTY</span>
+
+                <span class="empty__text-1">No items found on your cart.</span>
+
+                <a
+                  class="empty__redirect-link btn--e-brand"
+                  href="/shop"
+                >CONTINUE SHOPPING</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--====== End - emptycart Section Content ======-->
+  </div>
+  {{/unless}}
+ 
+  <!--====== End - emptycart Section 1 ======-->
+
+{{!-- {{/if}} --}}
+
   <!--====== End - Section 3 ======-->
 
 </main>

@@ -6,34 +6,33 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser=require('body-parser');
 const cors = require('cors');
-// const multer=require('multer');
+
+//config files used for database configuration
 const {mongoConnect}=require('./config/mongoDb');
+//used for multer configuration 
 const upload = require("./config/multer");
+//used for middleware user to get user model
 const User=require('./models/user');
-
-// const mongoose=require('mongoose');
-// const fileStorage=multer.diskStorage({
-//   destination:(req,file,cb)=>{
-//     cb(null,'./public/images/product-images/');
-//   },
-//   filename:(req,file,cb)=>{
-//     cb(null,new Date().toISOString()+'-'+file.originalname);
-//   },
-// });
-// const fileFilter=(req,file,cb)=>{
-//   if(file.mimetype=== 'image/png'||file.mimetype==='image/jpg'||file.mimetype==='image/jpeg'){
-//     cb(null,true);
-//   }else{
-//     cb(null,false);
-//   }
-// }
-
+//used for session handling
 const session=require('express-session');
+const MongoDBStore=require('connect-mongodb-session')(session);
+
+
+//requiring hbs module using npm 
 const hbs=require('express-handlebars');
+
+//Routes used in the web
 const shopRoutes = require('./routes/shop.Router');
 const adminRoutes = require('./routes/admin.Router');
 const authRoutes = require('./routes/auth');
+
+
 const app = express();
+
+const store=new MongoDBStore({
+  uri:process.env.MONGO_URL,
+  collection:'sessions'
+});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine(
@@ -49,10 +48,14 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+//static files path set using express-static
 app.use(express.static(path.join(__dirname, 'public')));
+//multer middleware used
 app.use(upload.single('image'));
 app.use(cors());
 app.use(cookieParser());
+
+//session config necessary data
 app.use(
   session({
     secret:process.env.SESSION_SECRET,
@@ -61,9 +64,10 @@ app.use(
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7,// 1 week
     },
+    store:store
   })
 );
-// app.use(express.static(path.join(__dirname, '')));
+
 
 app.use((req,res,next)=>{
   User.findById('648a8549452437be8afd60e3')
@@ -102,12 +106,25 @@ const setInitialUser=async()=>{
 }
 console.clear();
 setInitialUser();
+//Routes used 
+
+app.use((req,res,next)=>{
+  if(!req.session.user){
+   return next(); 
+  }
+  User.findById(req.session.user._id)
+  .then(user=>{
+    req.user=user;
+    next()
+  })
+  .catch(err=>console.log(err));
+})
 app.use('/admin',adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
 
 
-
+//Error page rendering
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -125,3 +142,31 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
+
+
+
+
+
+
+
+
+
+
+// const mongoose=require('mongoose');
+// const fileStorage=multer.diskStorage({
+//   destination:(req,file,cb)=>{
+//     cb(null,'./public/images/product-images/');
+//   },
+//   filename:(req,file,cb)=>{
+//     cb(null,new Date().toISOString()+'-'+file.originalname);
+//   },
+// });
+// const fileFilter=(req,file,cb)=>{
+//   if(file.mimetype=== 'image/png'||file.mimetype==='image/jpg'||file.mimetype==='image/jpeg'){
+//     cb(null,true);
+//   }else{
+//     cb(null,false);
+//   }
+// }

@@ -47,18 +47,25 @@
 
                                 <span class="js-menu-toggle"></span>
                                 <ul style="width:120px">
-                                    {{log isAuthenticated🙋}}
                                     {{#if isAuthenticated}}
+                                    {{#if username}}
                                     <li>
+                                        <a href="/account"><i class="fas fa-user-circle u-s-m-r-6"></i>
+                                            <span>{{username.name}}</span></a>
+                                    </li>
+                                    {{/if}}
+                                    {{!-- <li>
                                         <a href="dashboard.html"><i class="fas fa-user-circle u-s-m-r-6"></i>
 
                                             <span>Account</span></a>
-                                    </li>
+                                    </li> --}}
+
                                      <li>
-
-                                        <a href="/logout"><i class="fas fa-lock-open u-s-m-r-6"></i>
-
-                                            <span>LogOut</span></a>
+                                        <a href="#"  onclick="event.preventDefault();logout()">
+                                        <i class="fas fa-user-plus u-s-m-r-6"></i>
+                                            <span>Logout</span>
+                                            </a>
+                                        <form id="logoutForm" action="/logout" method="POST" style="display: none;"></form>
                                     </li>
                                     {{else}}
                                     <li>
@@ -67,7 +74,6 @@
                                             <span>Signup</span></a>
                                             </li>
                                     <li>
-
                                         <a href="/login"><i class="fas fa-lock u-s-m-r-6"></i>
 
                                             <span>Login</span></a>
@@ -863,11 +869,12 @@
                                 <ul style="width:170px">
                                     <li class="has-dropdown has-dropdown--ul-left-100">
 
-                                        <a>Home<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
+                                        <a href="/">Home</a>
 
                                         <!--====== Dropdown ======-->
 
-                                        <span class="js-menu-toggle"></span>
+                                    </li>
+                                        {{!-- <span class="js-menu-toggle"></span>
                                         <ul style="width:118px">
                                             <li>
 
@@ -878,10 +885,9 @@
                                             <li>
 
                                                 <a href="index-3.html">Home 3</a></li>
-                                        </ul>
+                                        </ul> --}}
                                         <!--====== End - Dropdown ======-->
-                                    </li>
-                                    <li class="has-dropdown has-dropdown--ul-left-100">
+                                    {{!-- <li class="has-dropdown has-dropdown--ul-left-100">
 
                                         <a>Account<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
 
@@ -897,13 +903,15 @@
                                                 <a href="/signup">Signup / Register</a></li>
                                             <li>
 
-                                                <a href="/lostpass">Lost Password</a></li>
+                                                <a href="/lostpass">Lost Password</a>
+                                                </li>
                                         </ul>
                                         <!--====== End - Dropdown ======-->
-                                    </li>
+                                    </li> --}}
+                                    {{#if isAuthenticated}}
                                     <li class="has-dropdown has-dropdown--ul-left-100">
 
-                                        <a href="dashboard.html">Dashboard<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
+                                        <a href="dashboard.html">Account<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
 
                                         <!--====== Dropdown ======-->
 
@@ -918,20 +926,23 @@
                                                 <span class="js-menu-toggle"></span>
                                                 <ul style="width:180px">
                                                     <li>
-
                                                         <a href="dash-edit-profile.html">Edit Profile</a></li>
                                                     <li>
 
                                                         <a href="dash-address-book.html">Edit Address Book</a></li>
                                                     <li>
 
-                                                        <a href="dash-manage-order.html">Manage Order</a></li>
+                                                        <a href="dash-manage-order.html">Manage Order</a>
+                                                        </li>
                                                 </ul>
                                                 <!--====== End - Dropdown ======-->
                                             </li>
                                             <li>
-
-                                                <a href="dash-my-profile.html">My Profile</a></li>
+                                                <a href="dash-my-profile.html">My Profile</a>
+                                                </li>
+                                                 <li>
+                                                <a href="dash-my-profile.html">Change Password</a>
+                                                </li>
                                             <li class="has-dropdown has-dropdown--ul-left-100">
 
                                                 <a href="dash-address-book.html">Address Book<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
@@ -965,9 +976,20 @@
 
                                                 <a href="dash-cancellation.html">My Returns & Cancellations</a></li>
                                         </ul>
+                                        {{/if}}
                                         <!--====== End - Dropdown ======-->
                                     </li>
-                                    <li class="has-dropdown has-dropdown--ul-left-100">
+
+                                  <li>
+                                        <a href="about.html">About us</a>
+                                        </li>
+                                    <li>
+                                        <a href="contact.html">Contact</a>
+                                        </li>
+                                    
+                                </ul>
+                                    {{!-- No used in dropdown --}}
+                                    {{!-- <li class="has-dropdown has-dropdown--ul-left-100">
 
                                         <a>Empty<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
 
@@ -986,8 +1008,8 @@
                                                 <a href="empty-wishlist.html">Empty Wishlist</a></li>
                                         </ul>
                                         <!--====== End - Dropdown ======-->
-                                    </li>
-                                    <li class="has-dropdown has-dropdown--ul-left-100">
+                                    </li> --}}
+                                    {{!-- <li class="has-dropdown has-dropdown--ul-left-100">
 
                                         <a>Product Details<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
 
@@ -1049,32 +1071,27 @@
                                                 <a href="shop-list-full.html">Shop List Full Width</a></li>
                                         </ul>
                                         <!--====== End - Dropdown ======-->
-                                    </li>
-                                    <li>
+                                    </li> --}}
+                                    {{!-- <li>
+                                        <a href="cart.html">Cart</a>
+                                        </li> --}}
+                                    {{!-- <li>
+                                        <a href="wishlist.html">Wishlist</a>
+                                        </li> --}}
+                                    {{!-- <li>
+                                        <a href="checkout.html">Checkout</a>
+                                        </li> --}}
+                                    {{!-- <li>
+                                        <a href="faq.html">FAQ</a>
+                                        </li> --}}
 
-                                        <a href="cart.html">Cart</a></li>
-                                    <li>
-
-                                        <a href="wishlist.html">Wishlist</a></li>
-                                    <li>
-
-                                        <a href="checkout.html">Checkout</a></li>
-                                    <li>
-
-                                        <a href="faq.html">FAQ</a></li>
-                                    <li>
-
-                                        <a href="about.html">About us</a></li>
-                                    <li>
-
-                                        <a href="contact.html">Contact</a></li>
-                                    <li>
-
-                                        <a href="404.html">404</a></li>
-                                </ul>
+                                        {{!-- <li>
+                                        <a href="404.html">404</a>
+                                        </li> --}}
+                                  
                                 <!--====== End - Dropdown ======-->
                             </li>
-                            <li class="has-dropdown">
+                            {{!-- <li class="has-dropdown">
 
                                 <a>BLOG<i class="fas fa-angle-down u-s-m-l-6"></i></a>
 
@@ -1099,7 +1116,7 @@
                                         <a href="blog-detail.html">Blog Details</a></li>
                                 </ul>
                                 <!--====== End - Dropdown ======-->
-                            </li>
+                            </li> --}}
                             <li>
 
                                 <a href="shop-side-version-2.html">VALUE OF THE DAY</a></li>
@@ -1119,7 +1136,7 @@
 
                     <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-shopping-bag toggle-button-shop" type="button"></button>
 
-                    <span class="total-item-round">2</span>
+                    <span class="total-item-round">{{totalProduct}}</span>
 
                     <!--====== Menu ======-->
                     <div class="ah-lg-mode">
@@ -1138,7 +1155,7 @@
 
                                 <a class="mini-cart-shop-link" href="/cart"><i class="fas fa-shopping-bag"></i>
 
-                                    <span class="total-item-round">2</span></a>
+                                    <span class="total-item-round">{{totalProduct}}</span></a>
 
                                 <!--====== Dropdown ======-->
 
@@ -1565,3 +1582,13 @@
     </div>
   </div> --}}
   <!--====== End - Quick Look Modal ======-->
+
+
+  <script>
+  function logout() {
+    // Perform any additional logic before logging out if needed
+
+    // Submit the logout form programmatically
+    document.getElementById("logoutForm").submit();
+  }
+</script>

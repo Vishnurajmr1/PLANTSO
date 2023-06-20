@@ -36,7 +36,8 @@ exports.getOrders=(req,res,next)=>{
         res.render('shop/orders',{
             user:true,
             orders:orders,
-            hasOrders:orders.length>0
+            hasOrders:orders.length>0,
+            isAuthenticated: req.session.isLoggedIn
         })
     })
     .catch(err=>console.log(err));

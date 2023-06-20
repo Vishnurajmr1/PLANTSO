@@ -312,22 +312,28 @@ slider.oninput = function() {
 
 
 // Get the close button element
-let closeButton = document.querySelector('#stock-not-available .dismiss-button');
+// let closeButton = document.querySelector('#stock-not-available .dismiss-button');
 
 // Add an event listener to the close button
-closeButton.addEventListener('click', function() {
-  // Get the modal element
-  let modal = document.querySelector('#stock-not-available');
+// closeButton.addEventListener('click', function() {
+//   // Get the modal element
+//   let modal = document.querySelector('#stock-not-available');
 
-  // Close the modal by removing the 'show' class
-  modal.classList.remove('show');
+//   // Close the modal by removing the 'show' class
+//   modal.classList.remove('show');
+//   // Hide the modal by setting the 'hidden' attribute
+//   modal.setAttribute('hidden', 'true');
 
-  if(modal.setAttribute=='hidden'){
-    window.location.reload()
-  }
-
-  // Hide the modal by setting the 'hidden' attribute
-  modal.setAttribute('hidden', 'true');
-});
+//     // Check if the modal is completely hidden
+//     let modalHiddenInterval = setInterval(function() {
+//       let isModalHidden = window.getComputedStyle(modal).getPropertyValue('display') === 'none';
+  
+//       // Reload the window if the modal is hidden
+//       if (isModalHidden) {
+//         clearInterval(modalHiddenInterval);
+//         window.location.reload();
+//       }
+//     }, 100);
+// });
 
 

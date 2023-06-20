@@ -19,7 +19,6 @@ exports.getIndex = (req, res, next) => {
       const Prods1=products.slice(1,2);
       const Prods2=products.slice(2,3);
       const Prods3=products.slice(3,4);
-
       const reverseProducts=products.slice().reverse();
     Category.find({isDeleted:false})
     .limit(4)
@@ -34,7 +33,10 @@ exports.getIndex = (req, res, next) => {
         reverseProds:reverseProducts,
         categories:categories,
         user: true,
-        isAuthenticated:req.isLoggedIn
+        isAuthenticated: req.session.isLoggedIn,
+        username:req.session.user,
+      totalProduct:req.user.cart.items.length,
+
       });
     })
     .catch((err) => {
@@ -54,11 +56,12 @@ exports.getProducts = async (req, res, next) => {
     .populate('userId','name')
     .lean()
     const categories =  await Category.find({isDeleted:false}).lean()
-      console.log(categories);
       res.render("shop/storelist", {
         prods: products,
-        user: true,
+        user:true,
         categories:categories,
+        isAuthenticated: req.session.isLoggedIn,
+        username:req.session.user
       });
   } catch (error) {
     console.log(error)
@@ -66,61 +69,31 @@ exports.getProducts = async (req, res, next) => {
 };
 exports.getProduct=(req,res,next)=>{
   const prodId=req.params.productId;
-  console.log(prodId);
-  Product.findById(prodId).populate('category').populate('userId','name').lean()
-  .then(product=>{
+  const getProductPromise=
+  Product.findById(prodId)
+  .populate('category')
+  .populate('userId','name')
+  .lean()
+
+  //Fetch all products except the one with the specified productId
+  const getOtherProductsPromise=Product.find({_id:{$ne:prodId}})
+  .populate('category')
+  .limit(10)
+  .lean();
+  Promise.all([getProductPromise,getOtherProductsPromise])
+  .then(([product,otherProducts])=>{
     res.render('shop/product-detail',{
       product:product,
+      otherProducts:otherProducts,
       user:true,
+      isAuthenticated: req.session.isLoggedIn,
+      username:req.session.user,
+      totalProduct:req.user.cart.items.length,
+
     })
   })
   .catch(err=>console.log(err));
 }
-
-// exports.getCart = (req, res, next) => {
-//   req.user
-//   .addToCart()
-//   .then(products => {
-//       console.log(products);
-//       res.render('shop/cart', {
-//         path: '/cart',
-//         pageTitle: 'Your Cart',
-//         products: products,
-//         user:true
-//       });
-//     })
-//     .catch(err => console.log(err));
-// };
-
-
-
-// exports.getCart = (req, res, next) => {
-//   const productId = req.params.productId; // Assuming you're retrieving the product ID from the request parameters
-
-//   Product.findById(productId)
-//     .then(product => {
-//       if (!product) {
-//         // Handle the case where the product is not found
-//         return res.redirect('/error-page'); // Redirect to an error page or handle it as per your requirement
-//       }
-
-//       return req.user.addToCart(product); // Pass the product object to the addToCart function
-//     })
-//     .then(() => {
-//       return req.user.populate('cart.items.productId').execPopulate(); // Populate the cart items with product details
-//     })
-//     .then(user => {
-//       console.log(user.cart.items);
-//       res.render('shop/cart', {
-//         path: '/cart',
-//         pageTitle: 'Your Cart',
-//         products: user.cart.items,
-//         user: true
-//       });
-//     })
-//     .catch(err => console.log(err));
-// };
-
 
 exports.getCart=(req,res,next)=>{
   req.user
@@ -140,29 +113,16 @@ exports.getCart=(req,res,next)=>{
     res.render('shop/cart',{
       products:products,
       user:true,
-      hasProducts:products.length>0,
+      hasProducts:req.user.cart.items.length>0,
+      isAuthenticated: req.session.isLoggedIn,
+      username:req.session.user,
+      totalProduct:req.user.cart.items.length,
     })
   })
   .catch(err=>{
     console.log(err);
   })
 }
-// exports.postCart = (req, res, next) => {
-//   const prodId = req.body.productId;
-//   Product.findById(prodId)
-//     .then(product => {     
-//       return req.user.addToCart(product);
-//     })
-//     .then((result) => {
-//         console.log(result);
-//         return res.json({success:true,message:'product added to cart sucessfully'});
-//     }).catch((err)=>{
-//         console.log(err);
-//         return res.json({success:false,message:'oops!something wrong.product not added'});
-//     })
-// };
-
-
 
 //post cart sample
 

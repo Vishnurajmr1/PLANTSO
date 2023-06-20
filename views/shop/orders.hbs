@@ -120,8 +120,9 @@
                                                         <option>All Orders</option>
                                                     </select></div>
                                             </form>
-                                            <div class="m-order__list">
                                                 {{#if hasOrders}}
+                                             <div class="m-order__list">
+                                                <div class="empty">
                                                 {{#each orders}}
                                                 <div class="m-order__get">
                                                     <div class="manage-o__header u-s-m-b-30">
@@ -137,8 +138,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="" style="display:grid;gap:2rem;">
-                                                {{#each products}}
+                                                <div class="" style="display:grid;gap:2rem;">
+                                                 {{#each products}}
                                                     {{log product.title}}
                                                     <div class="manage-o__description">
                                                         <div class="description__container">
@@ -163,11 +164,11 @@
                                                                     <span class="manage-o__text-2 u-c-secondary">₹ {{product.price}}</span></span></div>
                                                         </div>
                                                     </div>
-                                                    {{/each}}
+                                               {{/each}} 
+                                               </div>
                                                 </div>
                                                 {{/each}}
-                                                 {{else}}
-
+                                                {{else}} 
                                              <!--======empty order Section 1 ======-->
                                             <div class="u-s-p-y-60">
 
