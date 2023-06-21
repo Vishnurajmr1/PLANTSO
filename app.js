@@ -68,44 +68,20 @@ app.use(
   })
 );
 
-
-app.use((req,res,next)=>{
-  User.findById('648a8549452437be8afd60e3')
-  .then(user=>{
-    req.user=user;
-    next();
-  })
-  .catch(err=>console.log(err));
-});
 const setInitialUser=async()=>{
   try{
     //Connect to MongoDB
     await mongoConnect();
-
-    //Check if a user already exists
-    const existingUser=await User.findOne({name:'Max'});
-
-    if(existingUser){
-      console.log('User already exists in the database');
-      return;
-    }
-    //Create new user
-    const user = new User({
-      name:'Max',
-      email: 'max@test.com',
-      cart:{
-        items:[]
-      }
-    });
-
-    await user.save();
     console.log('User saved to MongoDB');
   }catch (error) {
     console.error('Error connecting to MongoDB:', error);
   }
 }
+mongoConnect();
 console.clear();
-setInitialUser();
+//setInitialUser();
+
+
 //Routes used 
 
 app.use((req,res,next)=>{
@@ -115,7 +91,7 @@ app.use((req,res,next)=>{
   User.findById(req.session.user._id)
   .then(user=>{
     req.user=user;
-    next()
+    next();
   })
   .catch(err=>console.log(err));
 })

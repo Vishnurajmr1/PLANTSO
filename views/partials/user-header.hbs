@@ -988,135 +988,7 @@
                                         </li>
                                     
                                 </ul>
-                                    {{!-- No used in dropdown --}}
-                                    {{!-- <li class="has-dropdown has-dropdown--ul-left-100">
-
-                                        <a>Empty<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
-
-                                        <!--====== Dropdown ======-->
-
-                                        <span class="js-menu-toggle"></span>
-                                        <ul style="width:200px">
-                                            <li>
-
-                                                <a href="empty-search.html">Empty Search</a></li>
-                                            <li>
-
-                                                <a href="empty-cart.html">Empty Cart</a></li>
-                                            <li>
-
-                                                <a href="empty-wishlist.html">Empty Wishlist</a></li>
-                                        </ul>
-                                        <!--====== End - Dropdown ======-->
-                                    </li> --}}
-                                    {{!-- <li class="has-dropdown has-dropdown--ul-left-100">
-
-                                        <a>Product Details<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
-
-                                        <!--====== Dropdown ======-->
-
-                                        <span class="js-menu-toggle"></span>
-                                        <ul style="width:200px">
-                                            <li>
-
-                                                <a href="product-detail.html">Product Details</a></li>
-                                            <li>
-
-                                                <a href="product-detail-variable.html">Product Details Variable</a></li>
-                                            <li>
-
-                                                <a href="product-detail-affiliate.html">Product Details Affiliate</a></li>
-                                        </ul>
-                                        <!--====== End - Dropdown ======-->
-                                    </li>
-                                    <li class="has-dropdown has-dropdown--ul-left-100">
-
-                                        <a>Shop Grid Layout<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
-
-                                        <!--====== Dropdown ======-->
-
-                                        <span class="js-menu-toggle"></span>
-                                        <ul style="width:200px">
-                                            <li>
-
-                                                <a href="shop-grid-left.html">Shop Grid Left Sidebar</a></li>
-                                            <li>
-
-                                                <a href="shop-grid-right.html">Shop Grid Right Sidebar</a></li>
-                                            <li>
-
-                                                <a href="shop-grid-full.html">Shop Grid Full Width</a></li>
-                                            <li>
-
-                                                <a href="shop-side-version-2.html">Shop Side Version 2</a></li>
-                                        </ul>
-                                        <!--====== End - Dropdown ======-->
-                                    </li>
-                                    <li class="has-dropdown has-dropdown--ul-left-100">
-
-                                        <a>Shop List Layout<i class="fas fa-angle-down i-state-right u-s-m-l-6"></i></a>
-
-                                        <!--====== Dropdown ======-->
-
-                                        <span class="js-menu-toggle"></span>
-                                        <ul style="width:200px">
-                                            <li>
-
-                                                <a href="shop-list-left.html">Shop List Left Sidebar</a></li>
-                                            <li>
-
-                                                <a href="shop-list-right.html">Shop List Right Sidebar</a></li>
-                                            <li>
-
-                                                <a href="shop-list-full.html">Shop List Full Width</a></li>
-                                        </ul>
-                                        <!--====== End - Dropdown ======-->
-                                    </li> --}}
-                                    {{!-- <li>
-                                        <a href="cart.html">Cart</a>
-                                        </li> --}}
-                                    {{!-- <li>
-                                        <a href="wishlist.html">Wishlist</a>
-                                        </li> --}}
-                                    {{!-- <li>
-                                        <a href="checkout.html">Checkout</a>
-                                        </li> --}}
-                                    {{!-- <li>
-                                        <a href="faq.html">FAQ</a>
-                                        </li> --}}
-
-                                        {{!-- <li>
-                                        <a href="404.html">404</a>
-                                        </li> --}}
-                                  
-                                <!--====== End - Dropdown ======-->
                             </li>
-                            {{!-- <li class="has-dropdown">
-
-                                <a>BLOG<i class="fas fa-angle-down u-s-m-l-6"></i></a>
-
-                                <!--====== Dropdown ======-->
-
-                                <span class="js-menu-toggle"></span>
-                                <ul style="width:200px">
-                                    <li>
-
-                                        <a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
-                                    <li>
-
-                                        <a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-                                    <li>
-
-                                        <a href="blog-sidebar-none.html">Blog Sidebar None</a></li>
-                                    <li>
-
-                                        <a href="blog-masonry.html">Blog Masonry</a></li>
-                                    <li>
-
-                                        <a href="blog-detail.html">Blog Details</a></li>
-                                </ul>
-                                <!--====== End - Dropdown ======-->
-                            </li> --}}
                             <li>
 
                                 <a href="shop-side-version-2.html">VALUE OF THE DAY</a></li>
@@ -1136,8 +1008,11 @@
 
                     <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-shopping-bag toggle-button-shop" type="button"></button>
 
-                    <span class="total-item-round">{{totalProduct}}</span>
-
+                     {{#if isAuthenticated}}
+                        <span class="total-item-round">{{username}}</span></a>
+                         {{else}}
+                        <span class="total-item-round">0</span></a>
+                        {{/if}}
                     <!--====== Menu ======-->
                     <div class="ah-lg-mode">
 
@@ -1154,8 +1029,11 @@
                             <li class="has-dropdown">
 
                                 <a class="mini-cart-shop-link" href="/cart"><i class="fas fa-shopping-bag"></i>
-
+                            {{#if isAuthenticated}}
                                     <span class="total-item-round">{{totalProduct}}</span></a>
+                                    {{else}}
+                                    <span class="total-item-round">0</span></a>
+                                    {{/if}}
 
                                 <!--====== Dropdown ======-->
 

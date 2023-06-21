@@ -143,7 +143,7 @@ function deleteFromCart(productId,productName){
           },2000)
         }
           }else{
-            Swal.fire(
+          Swal.fire(
         'Error',
         'Oops!Something went wrong.Product not deleted from cart',
         'error'
@@ -247,8 +247,6 @@ function updateProductQuantity(productId, quantity) {
     body: JSON.stringify({productId}),
     }).then(async(res)=>{
     const response =  await res.json();
-     console.log(response);
-     console.log(productId);
      let productName = document.getElementById(`productName${productId}`).textContent;
      let productPrice = document.getElementById(`productPrice${productId}`).textContent;
      let productImage = document.getElementById(`productImage${productId}`).src;
@@ -277,6 +275,10 @@ function updateProductQuantity(productId, quantity) {
         document.body.classList.add('modal-open');
      // document.getElementById('modal-view-stock').hidden = false;
        }
+      document.getElementById(`prodName`).textContent = productName;
+      document.getElementById(`prodPrice`).textContent = productPrice;
+      document.getElementById(`prodImage`).src = productImage;
+      document.getElementById('modal-view').hidden = false;
        console.log('Error:Product not added to cart');
      }
     }).catch((err)=>{

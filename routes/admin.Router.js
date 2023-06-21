@@ -1,5 +1,7 @@
 const express = require('express');
 const adminController=require('../controllers/adminController');
+const productController=require('../controllers/productController');
+const orderController=require('../controllers/orderController');
 const upload=require('../config/multer');
 const  adminRouter = express.Router();
 
@@ -38,6 +40,10 @@ adminRouter.get('/edit-product/:productId',adminController.getEditProduct);
 adminRouter.post('/edit-product',adminController.postEditProduct);
 adminRouter.post('/delete-product',adminController.postDeleteProduct);
 
+
+//Order Admin Routes
+
+adminRouter.get('/orders',orderController.getAllOrders);
 
 
 

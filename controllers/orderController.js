@@ -42,3 +42,21 @@ exports.getOrders=(req,res,next)=>{
     })
     .catch(err=>console.log(err));
 }
+
+
+exports.getAllOrders=(req,res,next)=>{
+    Order.find()
+    .lean()
+    .then(orders=>{
+        console.log(orders); 
+        console.log('hiii'); 
+        res.render('admin/list-orders',{
+            orders:orders,
+        })
+    })
+    .catch(err=>{
+        console.log(err);
+        res.status(500).json({error:'An error occurred while fetching orders'});
+    })
+}
+

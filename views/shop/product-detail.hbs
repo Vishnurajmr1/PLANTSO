@@ -1808,12 +1808,15 @@
       // Product added to cart successfully
       // Handle success scenario as needed
     } else {
-      Swal.fire({
-  icon: 'error',
-  title: 'Oops...',
-  text: 'Product not added to cart!',
-});
-
+     Swal.fire({
+          icon: 'warning',
+          title: 'Product not added to cart!',
+          text: 'Please try to login.',
+          footer: '<a href="/login">Please Login</a>',
+          showCancelButton: true,
+          cancelButtonText: 'Close',
+          showConfirmButton: false
+        })
       // Product not added to cart
       // Handle error scenario as needed
     }

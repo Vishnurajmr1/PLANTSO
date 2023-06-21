@@ -313,6 +313,7 @@
 {{/if}}
     <!--====== End - Section Content ======-->
 {{#unless isAuthenticated}}
+{{!-- {{#unless hasProducts}} --}}
    <!--======emptycart Section 1 ======-->
   <div class="u-s-p-y-60">
 
@@ -339,13 +340,14 @@
     </div>
     <!--====== End - emptycart Section Content ======-->
   </div>
+  {{!-- {{/unless}} --}}
 {{/unless}}
  
   <!--====== End - emptycart Section 1 ======-->
 
-    {{#unless hasProducts}}
+    {{!-- {{#unless hasProducts}} --}}
    <!--======emptycart Section 1 ======-->
-  <div class="u-s-p-y-60">
+  {{!-- <div class="u-s-p-y-60">
 
     <!--====== emptycartSection Content ======-->
     <div class="section__content">
@@ -369,8 +371,8 @@
       </div>
     </div>
     <!--====== End - emptycart Section Content ======-->
-  </div>
-  {{/unless}}
+  </div> --}}
+  {{!-- {{/unless}} --}}
  
   <!--====== End - emptycart Section 1 ======-->
 
@@ -519,9 +521,9 @@ function updateProductQuantity(productId, quantity) {
       console.error('There was a problem with the updating product operation:', error);
     });
 }
-*/
 
 function deleteAllFromCart(){
   fetch:('/deleteAllCart')
 }
+*/
 </script> 

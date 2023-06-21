@@ -36,6 +36,8 @@
                 <!-- /user listing Actions-->
 
                 <!-- User Listing Table-->
+                {{!-- {{#if hasOrders}} --}}
+               
                 <div class="table-responsive">
                     <table class="table m-0 table-striped">
                         <thead>
@@ -53,6 +55,7 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
+                             {{#each orders}}
                         <tbody>
                             <tr>
                                 <td>
@@ -69,7 +72,7 @@
                                             </picture>
                                         </div>
                                         <div>
-                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">Jon Smith
+                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">{{_id}}
                                                     <span class="d-block f-w-4 ms-1 lh-1 text-primary">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                             <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
@@ -116,6 +119,9 @@
                                     </div>
                                 </td>
                             </tr>
+                        </div>
+                    {{/each}}
+                {{!-- {{/if}} --}}
                             {{!-- <tr>
                                 <td>
                                     <div class="form-group form-check-custom mb-0">
@@ -417,10 +423,10 @@
                                         </ul>
                                     </div>
                                 </td>
-                            </tr> --}}
+                            {{!-- </tr>  --}}
                         </tbody>
                     </table>
-                </div>    
+                {{--</div>    
                 <!-- /User Listing Table-->
                 <nav>
                     <ul class="pagination justify-content-end mt-3 mb-0">
@@ -432,7 +438,7 @@
                     </ul>
                   </nav>
             </div>
-        </div>
+       
 
         <!-- Footer -->
         <footer class="  footer">
@@ -692,7 +698,7 @@
               </div>
             </div>
           </div>        
-          <!-- / Footer-->         --}}
+          <!-- / Footer-->--}}
 
         </section>
         <!-- / Content-->

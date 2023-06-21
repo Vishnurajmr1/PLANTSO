@@ -35,8 +35,7 @@ exports.getIndex = (req, res, next) => {
         user: true,
         isAuthenticated: req.session.isLoggedIn,
         username:req.session.user,
-      totalProduct:req.user.cart.items.length,
-
+      // totalProduct:req.user.cart.items.length,
       });
     })
     .catch((err) => {
@@ -74,7 +73,6 @@ exports.getProduct=(req,res,next)=>{
   .populate('category')
   .populate('userId','name')
   .lean()
-
   //Fetch all products except the one with the specified productId
   const getOtherProductsPromise=Product.find({_id:{$ne:prodId}})
   .populate('category')
@@ -88,8 +86,7 @@ exports.getProduct=(req,res,next)=>{
       user:true,
       isAuthenticated: req.session.isLoggedIn,
       username:req.session.user,
-      totalProduct:req.user.cart.items.length,
-
+      // totalProduct:totalProduct,
     })
   })
   .catch(err=>console.log(err));
@@ -116,7 +113,7 @@ exports.getCart=(req,res,next)=>{
       hasProducts:req.user.cart.items.length>0,
       isAuthenticated: req.session.isLoggedIn,
       username:req.session.user,
-      totalProduct:req.user.cart.items.length,
+      // totalProduct:req.user.cart.items.length,
     })
   })
   .catch(err=>{
@@ -134,15 +131,23 @@ exports.postCart=async (req,res,next)=>{
   if(!product){
     return res.status(400).json({success:false,message:'Product Not Found!'});
   }
-      // Retrieve productStock and productQuantity values
-     const result=await req.user.addToCart(product);
-     console.log(result);
-        return res.json({
-            success:true,
-            message:'Product added to cart successfully',
-            // productStock,
-            // productQuantity
-          });
+  
+  if(req.user){
+    const result=await req.user.addToCart(product);
+    console.log(result);
+    return res.json({
+        success:true,
+        message:'Product added to cart successfully',
+        // productStock,
+        // productQuantity
+      });
+  }else{
+    return res.json({
+      success:false,
+       message:'Oops!Something went wrong.Product not added to cart'
+    })
+  }
+      // Retrieve productStock and productQuantity values 
       }   
       catch(err){
         console.log(err);
