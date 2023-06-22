@@ -36,7 +36,4 @@ adminRouter.post('/delete-product',isAdmin.isAdmin,adminController.postDeletePro
 
 adminRouter.get('/orders',orderController.getAllOrders);
 
-
-
-
 module.exports = adminRouter;

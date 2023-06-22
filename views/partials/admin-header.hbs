@@ -581,8 +581,8 @@
                 class="d-flex align-items-start justify-content-between flex-grow-1"
               >
                 <div>
-                  <p class="lh-1 mb-2 fw-semibold text-body">John Daniels</p>
-                  <p class="text-muted lh-1 mb-2 small">john@email.com</p>
+                  <p class="lh-1 mb-2 fw-semibold text-body">{{loggedUser.name}}</p>
+                  <p class="text-muted lh-1 mb-2 small">{{loggedUser.email}}</p>
                 </div>
                 <small
                   class="badge bg-success-faded text-success rounded-pill"
@@ -599,7 +599,11 @@
             <li><a
                 class="dropdown-item d-flex align-items-center"
                 href="#"
+                onclick="event.preventDefault();logout()"
               >Logout</a></li>
+               <form id="logoutForm" action="/logout" method="POST" style="display: none;">
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                </form>
           </ul>
         </div>
         <!-- / Profile Menu-->
@@ -629,3 +633,12 @@
         </div>         
         <!-- / Breadcrumbs-->
 </header>
+
+ <script>
+  function logout() {
+    // Perform any additional logic before logging out if needed
+
+    // Submit the logout form programmatically
+    document.getElementById("logoutForm").submit();
+  }
+</script>

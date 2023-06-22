@@ -20,6 +20,9 @@
           >{{message}}</h5>
         {{/if}}
       {{/if}}
+      {{#if errorMessage}}
+          <h5 class="text-red-600 font-semibold" id="error-message">{{errorMessage}}</h5>
+      {{/if}}
       <form action="/signup" method="POST" class="flex flex-col gap-4 mt-4">
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <div id="name-field" class="flex flex-col gap-2">

@@ -2,7 +2,8 @@
 
 // Get the delete buttons
 const deleteButtons = document.querySelectorAll(".deleteButton");
-
+let csrf=null;
+csrfToken = document.querySelector('input[name="_csrf"]').value;
 // Function to open the delete modal
 function openDeleteModal(event) {
   event.preventDefault();
@@ -18,6 +19,9 @@ function openDeleteModal(event) {
   modalBody.textContent = body;
 
   deleteModal.classList.remove("hidden");
+
+   console.log(csrfToken+'🙂🙂🙂');
+
   
   // Store the form element in a variable
   const form = event.target.closest("form");
@@ -43,6 +47,9 @@ deleteButtons.forEach((button) => {
 // const confirmDeleteButton = document.getElementById("confirmDeleteButton");
 // confirmDeleteButton.addEventListener("click", handleDelete);
 
+
+
+
 function handleDelete(event) {
     event.preventDefault();
   
@@ -55,18 +62,16 @@ function handleDelete(event) {
     confirmDeleteButton.removeEventListener("click", handleConfirmDelete);
   
     // Show the confirmation modal
-    openDeleteModal(event);
+    openDeleteModal(event);    // Attach the event listener to the confirm delete button
+    confirmDeleteButton.addEventListener("click",()=> handleConfirmDelete(endpoint,csrfToken));
   
-    // Attach the event listener to the confirm delete button
-    confirmDeleteButton.addEventListener("click",()=> handleConfirmDelete(endpoint));
-  
-  function handleConfirmDelete(endpoint) {
-  const csrfToken = document.querySelector('[name="_csrf"]').value;
-      fetch(endpoint, {
+  function handleConfirmDelete(endpoint,csrfToken) {
+
+    fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type":"application/x-www-form-urlencoded",
-          'X-CSRF-Token': csrfToken
+          'X-CSRF-Token': csrfToken,
         },
         body: new URLSearchParams(new FormData(form)),
       })
@@ -246,7 +251,6 @@ function updateProductQuantity(productId, quantity) {
 //Add To Cart
 function addToCart(productId){
   const csrfToken = document.querySelector('[name="_csrf"]').value;
-  console.log(csrfToken+'🙂🙂🙂');
     fetch("/cart", {
     method: "POST",
     headers:{
@@ -293,12 +297,15 @@ function addToCart(productId){
        console.log('Error:Product not added to cart');
      }
     }).catch((err)=>{
-      Swal.fire(
-        'Error',
-        'Oops!Something went wrong.Product not added to cart',
-        'error'
-        
-      )
+      let productName = document.getElementById(`productName${productId}`).textContent;
+     let productPrice = document.getElementById(`productPrice${productId}`).textContent;
+     let productImage = document.getElementById(`productImage${productId}`).src;
+      document.getElementById(`prodName`).textContent = productName;
+      document.getElementById(`prodPrice`).textContent = productPrice;
+      document.getElementById(`prodImage`).src = productImage;
+      document.getElementById('modal-view').hidden = false;
+       console.log('Error:Product not added to cart');
+       document.getElementById('modal-view').hidden = false;
       console.log(err)
     });
   }

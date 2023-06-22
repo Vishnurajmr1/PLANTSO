@@ -48,10 +48,10 @@
                                 <span class="js-menu-toggle"></span>
                                 <ul style="width:120px">
                                     {{#if isAuthenticated}}
-                                    {{#if username}}
+                                    {{#if loggedUser}}
                                     <li>
                                         <a href="/account"><i class="fas fa-user-circle u-s-m-r-6"></i>
-                                            <span>{{username.name}}</span></a>
+                                            <span>{{loggedUser.name}}</span></a>
                                     </li>
                                     {{/if}}
                                     {{!-- <li>
@@ -60,7 +60,6 @@
                                             <span>Account</span></a>
                                     </li> --}}
                                      <li>
-                                        {{log csrfToken}}
                                         <a href="#"  onclick="event.preventDefault();logout()">
                                         <i class="fas fa-user-plus u-s-m-r-6"></i>
                                             <span>Logout</span>
@@ -1010,12 +1009,10 @@
 
                     <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-shopping-bag toggle-button-shop" type="button"></button>
 
-                                {{#if isAuthenticated}}
                                     {{#if totalProduct}}
                                     <span class="total-item-round">{{totalProduct}}</span></a>
                                     {{else}}
                                     <span class="total-item-round">0</span></a>
-                                    {{/if}}
                                     {{/if}}
                     <!--====== Menu ======-->
                     <div class="ah-lg-mode">
@@ -1033,12 +1030,10 @@
                             <li class="has-dropdown">
 
                                 <a class="mini-cart-shop-link" href="/cart"><i class="fas fa-shopping-bag"></i>
-                            {{#if isAuthenticated}}
                                     {{#if totalProduct}}
                                     <span class="total-item-round">{{totalProduct}}</span></a>
                                     {{else}}
                                     <span class="total-item-round">0</span></a>
-                                    {{/if}}
                                     {{/if}}
 
                                 <!--====== Dropdown ======-->

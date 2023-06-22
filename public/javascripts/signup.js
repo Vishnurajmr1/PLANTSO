@@ -29,6 +29,7 @@ const otpError = document.getElementById("otpError");
 var sendOTPBtn = document.getElementById("sendOTPBtn");
 const verifyOTPBtn = document.getElementById("verifyOTPBtn");
 const signupBtn = document.getElementById("signupBtn");
+const resetpass=document.getElementById('reset');
 
 // Hide the phone and OTP fields by default
 // phoneField.style.display='none';
@@ -41,9 +42,10 @@ phoneLogoButton.addEventListener("click", () => {
   emailField.classList.add("hidden");
   passwordField.classList.add("hidden");
   phoneLogoButton.classList.add("hidden");
+  resetpass.classList.add("hidden");
   // Show phone and OTP fields
   phoneField.classList.remove("hidden");
-  otpField.classList.remove("hidden");
+  // otpField.classList.remove("hidden");
   emailLogoButton.classList.remove("hidden");
 });
 
@@ -56,6 +58,8 @@ emailLogoButton.addEventListener("click", () => {
   emailField.classList.remove("hidden");
   passwordField.classList.remove("hidden");
   phoneLogoButton.classList.remove("hidden");
+  resetpass.classList.remove("hidden");
+
 });
 
 //To hide and show the password togglebutton

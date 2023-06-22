@@ -2,7 +2,7 @@ const Category = require("../models/category");
 const Product = require("../models/product");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
-const Order=require('../controllers/orderController');
+const Order = require("../controllers/orderController");
 
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
@@ -54,7 +54,6 @@ exports.postAddProduct = (req, res, next) => {
 
           const fileName = req.file.filename;
           const basePath = `/images/product-images/`;
-          console.log(`${fileName}🙋🙋`);
           const imageUrl = `${basePath}${fileName}`;
           const product = new Product({
             title: title,
@@ -210,6 +209,9 @@ exports.postEditProduct = (req, res, next) => {
   const updatedCategoryId = new ObjectId(req.body.categoryId);
   Product.findById(prodId)
     .then((product) => {
+      if(product.userId.toString()!==req.user._id.toString()){
+        return res.redirect('/');
+      }
       product.title = updatedTitle;
       product.price = updatedPrice;
       product.stock = updatedStock;
@@ -220,11 +222,10 @@ exports.postEditProduct = (req, res, next) => {
       }
       product.description = updatedDescription;
       product.category = updatedCategoryId;
-      return product.save();
-    })
-    .then((result) => {
-      console.log("UPDATED PRODUCT!");
-      res.redirect("/admin/products");
+      return product.save() .then((result) => {
+        console.log("UPDATED PRODUCT!");
+        res.redirect("/admin/products");
+      });
     })
     .catch((err) => console.log(err));
 };
@@ -267,8 +268,7 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-
-  Product.findByIdAndRemove(prodId)
+  Product.deleteOne({_id:prodId,userId:req.user._id})
     .then((deletedProduct) => {
       if (!deletedProduct) {
         // Product not found
@@ -277,17 +277,20 @@ exports.postDeleteProduct = (req, res, next) => {
           message: message,
           layout: "main",
           pageTitle: "Plantso || Admin - Products",
+          title: "Products",
         });
       }
-
       // Product deletion successful
-      const message = "Product deleted successfully";
-      return res.redirect(
-        `/admin/products?message=${encodeURIComponent(message)}`
-      );
-
-      // res.redirect(`/admin/products?message=${encodeURIComponent(message)}`);
-      //  res.redirect('admin/products');
+      // const message = "Product deleted successfully";
+      // return res.redirect(
+      //   `/admin/products?message=${encodeURIComponent(message)}`
+      // )
+    }).then(result=>{
+       // Product deletion successful
+       const message = "Product deleted successfully";
+       return res.redirect(
+         `/admin/products?message=${encodeURIComponent(message)}`
+       )
     })
     .catch((err) => {
       console.error(err);
@@ -297,6 +300,7 @@ exports.postDeleteProduct = (req, res, next) => {
         message: message,
         layout: "main",
         pageTitle: "Plantso || Admin - Products",
+        title: "Products",
       });
     });
 };
@@ -323,6 +327,7 @@ exports.getAddCategory = (req, res, next) => {
   res.render("admin/edit-category", {
     pageTitle: "Plantso||Admin-Category",
     layout: "main",
+    title: "categories",
   });
 };
 exports.postAddCategory = (req, res, next) => {
@@ -356,6 +361,7 @@ exports.postAddCategory = (req, res, next) => {
               message: "Category already exists",
               layout: "main",
               pageTitle: "Plantso||Admin-Category",
+              title: "categories",
             });
           }
         } else {
@@ -404,6 +410,7 @@ exports.getEditCategory = (req, res, next) => {
         category: category,
         layout: "main",
         pageTitle: "Plantso||Edit-category",
+        title: "categories",
       });
     });
 };
@@ -576,6 +583,7 @@ exports.getIndex = (req, res, next) => {
   res.render("admin/index", {
     pageTitle: "Plantso||Admin-Dashboard",
     layout: "main",
+    title: "Dashboard",
   });
 };
 
@@ -583,20 +591,21 @@ exports.getUser = (req, res, next) => {
   res.render("admin/list-users", {
     pageTitle: "Plantso||Admin-UserList",
     layout: "main",
+    title: "users",
   });
 };
 
 exports.getOrders = (req, res, next) => {
   Order.getAllOrders()
-  .then(orders=>{
-    res.render("admin/user-list", {
-      pageTitle: "Plantso||Admin-UserList",
-      layout: "main",
-      orders:orders,//Pass the orders to the view
+    .then((orders) => {
+      res.render("admin/user-list", {
+        pageTitle: "Plantso||Admin-UserList",
+        layout: "main",
+        orders: orders, //Pass the orders to the view
+        title: "orders",
+      });
+    })
+    .catch((error) => {
+      console.log(error);
     });
-  })
-  .catch(error=>{
-    console.log(error);
-  })
-  
 };

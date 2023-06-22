@@ -1,5 +1,5 @@
-
-<section class="bg-gray-50 min-h-screen flex items-center justify-center">
+<main>
+<section class="bg-gray-50 flex items-center justify-center">
     {{!-- {{! login container }} --}}
     <div class="bg-gray-100 flex rounded-2xl shadow-lg max-w-5xl p-5 items-center">
       {{! form }}
@@ -13,7 +13,10 @@
               <h5 class="text-red-600 font-semibold" id="error-message">{{message}}</h5>
               {{/if}}
       {{/if}}
-              <h5 class="text-red-600 font-semibold" id="errorMessage"></h5>
+      {{#if errorMessage}}
+            <h5 class="text-red-600 font-semibold" id="error-message">{{errorMessage}}</h5>
+      {{/if}}
+        <h5 class="text-red-600 font-semibold" id="errorMessage"></h5>
       <form action="/login" 
         method="POST"
         class="flex flex-col gap-4 mt-4">
@@ -47,8 +50,20 @@
             </div>
             <div id="phone-field" class="hidden flex-col gap-2">
               <label for="phone" class="font-semibold text-xs">Phone Number</label>
+              <div class="flex">
+                  <select name="countryCode" id="countryCode" class="p-2 mt-1 rounded-xl border focus:outline-none focus:ring focus:border-blue-500">
+                      <option value="+91">+91</option>
+                      <option value="+1">+1</option>
+                      <option value="+44">+44</option>
+                      <option value="+86">+86</option>
+                      <option value="+81">+81</option>
+              </select>
               <input type="tel" name="phone" id="phone" class="p-2 mt-1 w-full rounded-xl border focus:outline-none focus:ring focus:border-blue-500" placeholder="Phone number">
+              </div>
             </div>
+             <div class=" text-xs text-right" id="reset">
+          <a href="/reset">Forgot your password?</a>
+          </div>
             <div id="otp-field" class="hidden flex-col gap-2">
               <label for="phone" class="font-semibold text-xs">OTP</label>
               <div class="relative">
@@ -74,9 +89,7 @@
           <img src="/images/img/gmail.png" class="mr-3" alt="">
         </button>
         </div>
-        <div class="mt-2 text-xs border-b border-gray-400 py-4">
-          <a href="">Forgot your password?</a>
-          </div>
+       
           <div class="text-xs flex justify-between 
           items-center mt-3">
             <p>Don't have an account?</p>
@@ -91,3 +104,4 @@
 </section>
 
 <script src="/javascripts/signup.js"></script>
+</main>

@@ -7,6 +7,7 @@ const logger = require('morgan');
 const bodyParser=require('body-parser');
 const cors = require('cors');
 const csrf=require('csurf');
+const flash=require('connect-flash');
 
 //config files used for database configuration
 const {mongoConnect}=require('./config/mongoDb');
@@ -72,6 +73,7 @@ app.use(
   })
 );
 app.use(csrfProtection);
+app.use(flash());
 
 const setInitialUser=async()=>{
   try{
@@ -104,9 +106,19 @@ app.use((req,res,next)=>{
 app.use((req,res,next)=>{
   res.locals.isAuthenticated=req.session.isLoggedIn;
   res.locals.csrfToken=req.csrfToken();
-  res.locals.username=req.session.user;
+  res.locals.loggedUser=req.session.user;
   next();
 });
+
+const calculateTotalProduct = (req, res, next) => {
+  if (req.user && req.user.cart && req.user.cart.items) {
+    res.locals.totalProduct = req.user.cart.items.length;
+  } else {
+    res.locals.totalProduct = 0;
+  }
+  next();
+};
+app.use('/',calculateTotalProduct);
 
 app.use('/admin',adminRoutes);
 app.use(shopRoutes);

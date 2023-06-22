@@ -127,7 +127,6 @@
                                           </svg>
                                             </li>
                                             <form id="deleteProductForm" action="/admin/delete-product" method="post">
-                                            <input type="hidden" name="_csrf" value="{{csrfToken}}">
                                             <input type="hidden" name="productId" value="{{this._id}}">
                                             <li style="display: flex;cursor:pointer;color:red"><button type="submit" class="dropdown-item deleteButton" data-title="Delete Product" data-body="Are you sure you want to delete this Product?" onclick="handleDelete(event,this.closest('form'))">Delete</button>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -141,6 +140,7 @@
                                 </td>
                             </tr>
                             {{/each}}
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
                              {{else}}
                   <div class="alert alert-danger d-flex align-items-center" role="alert">
                                 <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
