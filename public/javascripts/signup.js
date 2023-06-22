@@ -178,10 +178,14 @@ function showConfirmationModal() {
 
 function deleteCategory() {
   // Make an AJAX request to delete the category
+  const csrfToken = document.querySelector('[name="_csrf"]').value;
   $.ajax({
     url: "/admin/delete-category",
     type: "POST",
     data: { categoryId: "{{this._id}}" },
+    headers:{
+      'X-CSRF-Token': csrfToken
+    },
     success: function (response) {
       // Handle the success response
       console.log("Category deleted successfully");
@@ -193,7 +197,6 @@ function deleteCategory() {
       console.error("Error deleting category");
     },
   });
-
   // Close the modal
   $("#confirmationModal").modal("hide");
 }
@@ -327,17 +330,22 @@ function validateOTP() {
   }
 }
 
+
 function sendOTPToServer() {
+  const csrfToken = document.querySelector('[name="_csrf"]').value;
   const phoneInput = document.getElementById("phone");
   const countryCode = document.getElementById("countryCode");
   const code=countryCode.value.trim();
   const phone=phoneInput.value.trim();
   const phoneNumber = `${code}${phone}`;
   console.log(phoneNumber+'hiii');
+  console.log(csrfToken);
   fetch('/verify-otp', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
+      'X-CSRF-Token': csrfToken
+
     },
     body: JSON.stringify({
       phone: phoneNumber 
@@ -347,6 +355,7 @@ function sendOTPToServer() {
       if (response.ok) {
         return response.json();
       }
+      console.log(response);
       throw new Error('Network response was not ok.');
     })
     .then(data=>{
@@ -375,7 +384,16 @@ function sendOTPToServer() {
      
     })
     .catch(function (error) {
-      console.error('There was a problem with the updating product operation:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Something went wrong.',
+        text: 'Please try again later.',
+        footer: '<a href="/">Go Back</a>',
+        showCancelButton: true,
+        cancelButtonText: 'Close',
+        showConfirmButton: false
+      })
+      console.log(error.message);
     });
 }
 

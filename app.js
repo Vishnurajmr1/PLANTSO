@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser=require('body-parser');
 const cors = require('cors');
+const csrf=require('csurf');
 
 //config files used for database configuration
 const {mongoConnect}=require('./config/mongoDb');
@@ -33,6 +34,8 @@ const store=new MongoDBStore({
   uri:process.env.MONGO_URL,
   collection:'sessions'
 });
+
+const csrfProtection=csrf();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine(
@@ -48,6 +51,7 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
 //static files path set using express-static
 app.use(express.static(path.join(__dirname, 'public')));
 //multer middleware used
@@ -67,6 +71,7 @@ app.use(
     store:store
   })
 );
+app.use(csrfProtection);
 
 const setInitialUser=async()=>{
   try{
@@ -95,6 +100,14 @@ app.use((req,res,next)=>{
   })
   .catch(err=>console.log(err));
 })
+
+app.use((req,res,next)=>{
+  res.locals.isAuthenticated=req.session.isLoggedIn;
+  res.locals.csrfToken=req.csrfToken();
+  res.locals.username=req.session.user;
+  next();
+});
+
 app.use('/admin',adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);

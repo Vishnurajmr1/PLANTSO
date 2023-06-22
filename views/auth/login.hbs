@@ -17,6 +17,7 @@
       <form action="/login" 
         method="POST"
         class="flex flex-col gap-4 mt-4">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <div id="email-field"  class="flex flex-col gap-2">
               <label for="email" class="font-semibold text-xs">Email</label>
              <div class="relative">

@@ -49,10 +49,7 @@ exports.getAllOrders=(req,res,next)=>{
     .lean()
     .then(orders=>{
         console.log(orders); 
-        console.log('hiii'); 
-        res.render('admin/list-orders',{
-            orders:orders,
-        })
+        console.log('hiii');
     })
     .catch(err=>{
         console.log(err);

@@ -25,6 +25,9 @@
           class="flex flex-col gap-4 mt-4"
           id="otpform"
         >
+        {{log csrfToken}}
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        {{!-- <input type="hidden" name="csrf-token" value="{{csrfToken}}"> --}}
           <div id="phone-field" class="flex-col gap-2">
             <label for="phone" class="font-semibold text-xs">Phone Number</label>
             <div class="relative">

@@ -59,13 +59,15 @@
 
                                             <span>Account</span></a>
                                     </li> --}}
-
                                      <li>
+                                        {{log csrfToken}}
                                         <a href="#"  onclick="event.preventDefault();logout()">
                                         <i class="fas fa-user-plus u-s-m-r-6"></i>
                                             <span>Logout</span>
                                             </a>
-                                        <form id="logoutForm" action="/logout" method="POST" style="display: none;"></form>
+                                        <form id="logoutForm" action="/logout" method="POST" style="display: none;">
+                                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                                        </form>
                                     </li>
                                     {{else}}
                                     <li>
@@ -1008,11 +1010,13 @@
 
                     <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-shopping-bag toggle-button-shop" type="button"></button>
 
-                     {{#if isAuthenticated}}
-                        <span class="total-item-round">{{username}}</span></a>
-                         {{else}}
-                        <span class="total-item-round">0</span></a>
-                        {{/if}}
+                                {{#if isAuthenticated}}
+                                    {{#if totalProduct}}
+                                    <span class="total-item-round">{{totalProduct}}</span></a>
+                                    {{else}}
+                                    <span class="total-item-round">0</span></a>
+                                    {{/if}}
+                                    {{/if}}
                     <!--====== Menu ======-->
                     <div class="ah-lg-mode">
 
@@ -1030,9 +1034,11 @@
 
                                 <a class="mini-cart-shop-link" href="/cart"><i class="fas fa-shopping-bag"></i>
                             {{#if isAuthenticated}}
+                                    {{#if totalProduct}}
                                     <span class="total-item-round">{{totalProduct}}</span></a>
                                     {{else}}
                                     <span class="total-item-round">0</span></a>
+                                    {{/if}}
                                     {{/if}}
 
                                 <!--====== Dropdown ======-->

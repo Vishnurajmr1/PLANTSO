@@ -2,6 +2,7 @@ const Category = require("../models/category");
 const Product = require("../models/product");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
+const Order=require('../controllers/orderController');
 
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
@@ -50,10 +51,10 @@ exports.postAddProduct = (req, res, next) => {
               categories: updatedCategories,
             });
           }
-         
-            const fileName = req.file.filename;
-            const basePath = `/images/product-images/`;
-            console.log(`${fileName}🙋🙋`);
+
+          const fileName = req.file.filename;
+          const basePath = `/images/product-images/`;
+          console.log(`${fileName}🙋🙋`);
           const imageUrl = `${basePath}${fileName}`;
           const product = new Product({
             title: title,
@@ -215,7 +216,7 @@ exports.postEditProduct = (req, res, next) => {
       if (image) {
         const fileName = req.file.filename;
         const basePath = `/images/product-images/`;
-        product.imageUrl = `${basePath}${fileName}`;;
+        product.imageUrl = `${basePath}${fileName}`;
       }
       product.description = updatedDescription;
       product.category = updatedCategoryId;
@@ -571,3 +572,31 @@ exports.postEditCategory = (req, res, next) => {
 //   }
 // };
 
+exports.getIndex = (req, res, next) => {
+  res.render("admin/index", {
+    pageTitle: "Plantso||Admin-Dashboard",
+    layout: "main",
+  });
+};
+
+exports.getUser = (req, res, next) => {
+  res.render("admin/list-users", {
+    pageTitle: "Plantso||Admin-UserList",
+    layout: "main",
+  });
+};
+
+exports.getOrders = (req, res, next) => {
+  Order.getAllOrders()
+  .then(orders=>{
+    res.render("admin/user-list", {
+      pageTitle: "Plantso||Admin-UserList",
+      layout: "main",
+      orders:orders,//Pass the orders to the view
+    });
+  })
+  .catch(error=>{
+    console.log(error);
+  })
+  
+};

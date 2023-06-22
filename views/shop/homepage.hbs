@@ -237,7 +237,7 @@
                         data-filter="{{this.name}}"
                         onclick="filterview('{{this._id}}')"
                       >
-                      {{this.name}}
+                      {{this.name}} 
                       </button>
                     </div>
                     {{/each}}
@@ -313,6 +313,7 @@
                                     title="Add to Cart"
                                     ><i class="fas fa-plus-circle"></i
                                   ></a>
+                                   <input type="hidden" name="_csrf" value="{{csrfToken}}">
                                 </li>
                                 {{!-- {{/if}} --}}
                                 <li>
@@ -1156,7 +1157,9 @@
                       </ul>
                     </div>
                     <div class="u-s-m-b-15">
-                      <form class="pd-detail__form">
+                      <form class="pd-detail__form" id="pd-detail__form">
+                        {{log csrfToken}}
+                      <input type="hidden" name="_csrf" value="{{csrfToken}}" id="csrfToken">
                         <div class="pd-detail-inline-2">
                           <div class="u-s-m-b-15">
                             <!--====== Input Counter ======-->
@@ -1774,6 +1777,3 @@
   }
         */
 </script> --}}
-
-
-

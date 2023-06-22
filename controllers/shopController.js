@@ -33,9 +33,7 @@ exports.getIndex = (req, res, next) => {
         reverseProds:reverseProducts,
         categories:categories,
         user: true,
-        isAuthenticated: req.session.isLoggedIn,
-        username:req.session.user,
-      // totalProduct:req.user.cart.items.length,
+        totalProduct:req.user.cart.items.length,
       });
     })
     .catch((err) => {
@@ -59,8 +57,7 @@ exports.getProducts = async (req, res, next) => {
         prods: products,
         user:true,
         categories:categories,
-        isAuthenticated: req.session.isLoggedIn,
-        username:req.session.user
+        totalProduct:req.user.cart.items.length,
       });
   } catch (error) {
     console.log(error)
@@ -84,8 +81,7 @@ exports.getProduct=(req,res,next)=>{
       product:product,
       otherProducts:otherProducts,
       user:true,
-      isAuthenticated: req.session.isLoggedIn,
-      username:req.session.user,
+      totalProduct:req.user.cart.items.length,
       // totalProduct:totalProduct,
     })
   })
@@ -111,8 +107,7 @@ exports.getCart=(req,res,next)=>{
       products:products,
       user:true,
       hasProducts:req.user.cart.items.length>0,
-      isAuthenticated: req.session.isLoggedIn,
-      username:req.session.user,
+      totalProduct:req.user.cart.items.length,
       // totalProduct:req.user.cart.items.length,
     })
   })
@@ -127,11 +122,10 @@ exports.postCart=async (req,res,next)=>{
   try{
   const prodId=req.body.productId;
   const product=await Product.findById(prodId);
-
+  console.log(prodId,product);
   if(!product){
     return res.status(400).json({success:false,message:'Product Not Found!'});
   }
-  
   if(req.user){
     const result=await req.user.addToCart(product);
     console.log(result);

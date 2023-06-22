@@ -21,6 +21,7 @@
         </div>
         <div class="card-body">
             <form id="categoryForm" method="POST" action="/admin/{{#if editing}}edit-category{{else}}add-category{{/if}}">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
                 <div class="mb-3">
                     <label for="categoryname" class="form-label">Category Name</label>
                     <input type="text" class="form-control" id="InputCategory"

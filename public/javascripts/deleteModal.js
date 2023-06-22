@@ -60,11 +60,13 @@ function handleDelete(event) {
     // Attach the event listener to the confirm delete button
     confirmDeleteButton.addEventListener("click",()=> handleConfirmDelete(endpoint));
   
-    function handleConfirmDelete(endpoint) {
+  function handleConfirmDelete(endpoint) {
+  const csrfToken = document.querySelector('[name="_csrf"]').value;
       fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type":"application/x-www-form-urlencoded",
+          'X-CSRF-Token': csrfToken
         },
         body: new URLSearchParams(new FormData(form)),
       })
@@ -99,6 +101,7 @@ function handleDelete(event) {
 //Cart management script
 
 function deleteFromCart(productId,productName){
+  const csrfToken = document.querySelector('[name="_csrf"]').value;
   console.log(productName);
         Swal.fire({
           title:'Are you Sure?',
@@ -117,7 +120,8 @@ function deleteFromCart(productId,productName){
             fetch('/cart-delete-item',{
           method:"POST",
           headers:{
-            'Content-Type':'application/json'
+            'Content-Type':'application/json',
+            'X-CSRF-Token': csrfToken
           },
           body: JSON.stringify({productId}),
         }).then(async(res)=>{
@@ -203,10 +207,12 @@ function updateQuantitySpan(productId,quantity){
 }
 
 function updateProductQuantity(productId, quantity) {
+  const csrfToken = document.querySelector('[name="_csrf"]').value;
   fetch('/cart', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
+      'X-CSRF-Token': csrfToken
     },
     body: JSON.stringify({
       quantity: quantity,
@@ -236,17 +242,22 @@ function updateProductQuantity(productId, quantity) {
     });
 }
 
-//Add To Cart
 
-   function addToCart(productId){
+//Add To Cart
+function addToCart(productId){
+  const csrfToken = document.querySelector('[name="_csrf"]').value;
+  console.log(csrfToken+'🙂🙂🙂');
     fetch("/cart", {
     method: "POST",
     headers:{
-      'Content-Type':'application/json'
+      'Content-Type':'application/json',
+      'X-CSRF-Token':csrfToken
     },
     body: JSON.stringify({productId}),
     }).then(async(res)=>{
+      console.log(res);
     const response =  await res.json();
+    console.log(response);
      let productName = document.getElementById(`productName${productId}`).textContent;
      let productPrice = document.getElementById(`productPrice${productId}`).textContent;
      let productImage = document.getElementById(`productImage${productId}`).src;
@@ -282,6 +293,12 @@ function updateProductQuantity(productId, quantity) {
        console.log('Error:Product not added to cart');
      }
     }).catch((err)=>{
+      Swal.fire(
+        'Error',
+        'Oops!Something went wrong.Product not added to cart',
+        'error'
+        
+      )
       console.log(err)
     });
   }
@@ -337,5 +354,6 @@ slider.oninput = function() {
 //       }
 //     }, 100);
 // });
+
 
 

@@ -22,6 +22,7 @@
                     </div>
                     <div class="card-body">
                         <form  action="/admin/{{#if editing}}edit-product{{else}}add-product{{/if}}" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="_csrf" value="{{csrfToken}}">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Product Name</label>
                                 <input type="text" class="form-control" id="exampleInputEmail1"

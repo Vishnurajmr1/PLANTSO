@@ -21,6 +21,7 @@
         {{/if}}
       {{/if}}
       <form action="/signup" method="POST" class="flex flex-col gap-4 mt-4">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <div id="name-field" class="flex flex-col gap-2">
           <label for="name" class="font-semibold text-xs">Username</label>
           <div class="relative">

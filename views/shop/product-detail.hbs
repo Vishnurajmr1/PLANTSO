@@ -223,6 +223,7 @@
             {{!-- variants --}}
             <div class="u-s-m-b-15">
               <form class="pd-detail__form">
+                  <input type="hidden" name="_csrf" value="{{csrfToken}}">
                 {{!-- <div class="u-s-m-b-15">
 
                   <span class="pd-detail__label u-s-m-b-8">Color:</span>
@@ -1646,6 +1647,7 @@
                 </div>
                 <div class="u-s-m-b-15">
                   <form class="pd-detail__form" action="/cart" method="post">
+                     <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <div class="pd-detail-inline-2">
                       <div class="u-s-m-b-15">
 

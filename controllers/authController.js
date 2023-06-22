@@ -1,24 +1,56 @@
 require('dotenv').config();
+const bcrypt=require('bcryptjs');
 const User = require('../models/user');
 const twilio=require('twilio');
 const accountSid=process.env.TWILIO_ACCOUNT_SID;
 const authToken=process.env.TWILIO_AUTH_TOKEN;
 const servicesSid=process.env.TWILIO_SERVICES_SID;
 const client=twilio(accountSid,authToken);
+
 exports.getLogin = (req, res, next) => {
   res.render("auth/login",{
     layout: "noLayout",
   });
 };
 exports.postLogin = (req, res, next) => {
-  User.findById('648a8549452437be8afd60e3')
+  const email=req.body.email;
+  const password=req.body.password;
+  User.findOne({email:email})
     .then(user => {
-      req.session.isLoggedIn = true;
-      req.session.user = user;
-      req.session.save(err=>{
-        console.log(err);
-         res.redirect('/');
+      if(!user){
+        return res.redirect('/login');
+      }
+      bcrypt.compare(password,user.password)
+      .then(doMatch=>{
+        if(doMatch){
+          req.session.isLoggedIn = true;
+          req.session.user = user;
+          //Check if the user is an admin
+          if(user.is_Admin){
+            req.session.isAdmin=true;
+            req.session.save(err=>{
+              if(err){
+                console.log(err);
+              }
+              res.redirect('/admin');
+            });
+          }else{
+            req.session.isAdmin=false;
+            req.session.save(err=>{
+              if(err){
+                console.log(err);
+              }
+              res.redirect('/');
+            });
+          }
+        }else{
+          res.redirect('/login');
+        }
       })
+      .catch(err=>{
+      console.log(err);
+      res.redirect('/login');
+      });
     })
     .catch(err => console.log(err));
 };
@@ -49,17 +81,20 @@ exports.postSignup = (req, res, next) => {
     if(userDoc){
       return res.redirect('/signup');
     }
-    const user=new User({
-      name:name,
-      email:email,
-      phone:phone,
-      password:password,
-      cart:{items:[]}
-    });
-    return user.save();
-  })
-  .then(result=>{
-    res.redirect('/login');
+    return bcrypt.hash(password,12)
+    .then(hashedPassword=>{
+      const user=new User({
+        name:name,
+        email:email,
+        phone:phone,
+        password:hashedPassword,
+        cart:{items:[]}
+      });
+      return user.save();
+    })
+    .then(result=>{
+      res.redirect('/login');
+    })
   })
   .catch(err=>{
     console.log(err);
@@ -125,6 +160,9 @@ exports.getOtpSignup=(req,res,next)=>{
     conosle.log(error.message);
   }
 }
+
+
+
 
 
 // const verifyOtp = async function (req, res) {
