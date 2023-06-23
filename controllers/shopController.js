@@ -1,6 +1,9 @@
+require('dotenv').config()
 const Category = require("../models/category");
 const Product = require("../models/product");
 const User = require("../models/user");
+
+const stripe=require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 
 
@@ -220,5 +223,116 @@ exports.updateQuantity = async (req, res, next) => {
       error
     );
     return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+//checkout controller
+
+
+// exports.getCheckout=(req,res,next)=>{
+//   req.user
+//   .populate("cart.items.productId")
+//   .then((user) => {
+//     const products = user.cart.items.map((item) => ({
+//       productId: item.productId._id,
+//       product: item.productId.title,
+//       quantity: item.quantity,
+//       updatedPrice: item.price.toFixed(2),
+//       price: item.productId.price.toFixed(2),
+//       category: item.productId.category,
+//       stock: item.productId.stock,
+//       imageUrl: item.productId.imageUrl,
+//     }));
+//     res.render("shop/checkout", {
+//       products: products,
+//       user: true,
+//       hasProducts: req.user.cart.items.length > 0,
+//     });
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+// }
+
+
+//sample checkout working 
+// exports.getCheckout = async (req, res, next) => {
+//   req.user
+//   .populate("cart.items.productId")
+//   .then((user) => {
+//     // console.log(user.cart.items);
+//     const products = user.cart.items.map((item) => ({
+//       productId: item.productId._id,
+//       product: item.productId.title,
+//       quantity: item.quantity,
+//       updatedPrice: item.price.toFixed(2),
+//       price: item.productId.price.toFixed(2),
+//       category: item.productId.category,
+//       stock: item.productId.stock,
+//       imageUrl: item.productId.imageUrl,
+//     }));
+//     const price=products.price;
+//     res.render("shop/checkout", {
+//       products: products,
+//       user: true,
+//       hasProducts: req.user.cart.items.length > 0,
+
+//       // totalProduct:req.user.cart.items.length,
+//     });
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+// };
+
+
+
+
+exports.getCheckout = async (req, res, next) => {
+  try {
+    const user = await req.user.populate("cart.items.productId");
+    const products = user.cart.items.map((item) => {
+      const quantity = item.quantity;
+      const price = item.productId.price;
+      const subtotal = quantity * price;
+      return {
+        productId: item.productId._id,
+        product: item.productId.title,
+        quantity: quantity,
+        updatedPrice: item.price.toFixed(2),
+        price: price.toFixed(2),
+        category: item.productId.category,
+        stock: item.productId.stock,
+        imageUrl: item.productId.imageUrl,
+        subtotal: subtotal.toFixed(2), // Add subtotal to the product object
+      };
+    });
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: products.map((item) => ({
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: item.product,
+          },
+          unit_amount: parseFloat(item.price) * 100,
+        },
+        quantity: item.quantity,
+      })),
+      mode: "payment",
+      success_url:req.protocol+'://'+req.get('host')+'/checkout/success', // Replace with your success URL
+      cancel_url:req.protocol+'://'+req.get('host')+'/checkout/cancel', // Replace with your cancel URL
+    });
+    const total = products.reduce((sum, item) => sum + parseFloat(item.subtotal), 0).toFixed(2);
+    res.render("shop/checkout", {
+      products: products,
+      user: true,
+      hasProducts: products.length > 0,
+      totalSum: total,
+      sessionId:session.id,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error occurred while fetching user cart.");
   }
 };

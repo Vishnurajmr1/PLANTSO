@@ -6,6 +6,7 @@ const adminController=require('../controllers/adminController');
 const productController=require('../controllers/productController');
 const orderController=require('../controllers/orderController');
 const upload=require('../config/multer');
+const {body}=require('express-validator');
 const  adminRouter = express.Router();
 
 /* GET home page. */
@@ -25,10 +26,25 @@ adminRouter.post('/delete-category',isAdmin.isAdmin,adminController.postDeleteCa
 //Product Admin Routers
 adminRouter.get('/products',isAdmin.isAdmin,adminController.getProducts);
 adminRouter.get("/add-product",isAdmin.isAdmin,adminController.getAddProduct);
-adminRouter.post("/add-product",isAdmin.isAdmin,adminController.postAddProduct);
+adminRouter.post("/add-product",[
+    body('title')
+    .isAlphanumeric()
+    .isLength({min:3})
+    .trim(),
+    body('price').isNumeric(),
+    body('description').isLength({min:5,max:400}).trim(),
+    body('stock').isNumeric()
+],isAdmin.isAdmin,adminController.postAddProduct);
 adminRouter.get("/view-product/:productId",isAdmin.isAdmin,adminController.getProduct);
 adminRouter.get('/edit-product/:productId',isAdmin.isAdmin,adminController.getEditProduct);
-adminRouter.post('/edit-product',isAdmin.isAdmin,adminController.postEditProduct);
+adminRouter.post('/edit-product',[body('title')
+.isAlphanumeric()
+.isLength({min:3})
+.trim(),
+body('price').isNumeric(),
+body('description').isLength({min:5,max:400}).trim(),
+body('stock').isNumeric()
+],isAdmin.isAdmin,adminController.postEditProduct);
 adminRouter.post('/delete-product',isAdmin.isAdmin,adminController.postDeleteProduct);
 
 

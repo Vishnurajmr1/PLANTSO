@@ -84,6 +84,11 @@ const setInitialUser=async()=>{
     console.error('Error connecting to MongoDB:', error);
   }
 }
+
+app.use((req, res, next) => {
+  res.header('Cache-Control', 'no-cache,private,no-Store,must-revalidate,max-scale=0,post-check=0,pre-check=0');
+  next();
+})
 mongoConnect();
 console.clear();
 //setInitialUser();

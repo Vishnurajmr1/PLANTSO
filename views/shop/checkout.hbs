@@ -245,27 +245,30 @@
 
                                     <!--====== Order Summary ======-->
                                     <div class="o-summary">
+                                    {{!-- {{#if hasProducts}} --}}
                                         <div class="o-summary__section u-s-m-b-30">
                                             <div class="o-summary__item-wrap gl-scroll">
+                                                {{#each products}}
                                                 <div class="o-card">
                                                     <div class="o-card__flex">
                                                         <div class="o-card__img-wrap">
 
-                                                            <img class="u-img-fluid" src="images/product/electronic/product3.jpg" alt=""></div>
+                                                            <img class="u-img-fluid" src="{{this.imageUrl}}" alt="{{this.productId.title}}"></div>
                                                         <div class="o-card__info-wrap">
 
                                                             <span class="o-card__name">
+                                                                {{log this.productId}}
+                                                                <a href="/products/{{this.productId}}">{{this.product}}</a></span>
 
-                                                                <a href="product-detail.html">Yellow Wireless Headphone</a></span>
+                                                            <span class="o-card__quantity">Quantity x {{this.quantity}}</span>
 
-                                                            <span class="o-card__quantity">Quantity x 1</span>
-
-                                                            <span class="o-card__price">$150.00</span></div>
+                                                            <span class="o-card__price">₹{{this.price}}</span></div>
                                                     </div>
 
-                                                    <a class="o-card__del far fa-trash-alt"></a>
+                                                    {{!-- <a class="o-card__del far fa-trash-alt"></a> --}}
                                                 </div>
-                                                <div class="o-card">
+                                                {{/each}}
+                                                {{!-- <div class="o-card">
                                                     <div class="o-card__flex">
                                                         <div class="o-card__img-wrap">
 
@@ -318,9 +321,10 @@
                                                     </div>
 
                                                     <a class="o-card__del far fa-trash-alt"></a>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
+                                        {{!-- {{/if}} --}}
                                         <div class="o-summary__section u-s-m-b-30">
                                             <div class="o-summary__box">
                                                 <h1 class="checkout-f__h1">SHIPPING & BILLING</h1>
@@ -346,19 +350,19 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>SHIPPING</td>
-                                                            <td>$4.00</td>
+                                                            <td>₹0.00</td>
                                                         </tr>
                                                         <tr>
                                                             <td>TAX</td>
-                                                            <td>$0.00</td>
+                                                            <td>₹0.00</td>
                                                         </tr>
                                                         <tr>
                                                             <td>SUBTOTAL</td>
-                                                            <td>$379.00</td>
+                                                            <td>₹{{totalSum}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td>GRAND TOTAL</td>
-                                                            <td>$379.00</td>
+                                                            <td>₹{{totalSum}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -453,8 +457,21 @@
                                                         <a class="gl-link">Terms of Service.</a>
                                                     </div>
                                                     <div>
-
-                                                        <button class="btn btn--e-brand-b-2" type="submit">PLACE ORDER</button></div>
+                                                        <button class="btn btn--e-brand-b-2" id="order-btn">PLACE ORDER</button>
+                                                         <script src="https://js.stripe.com/v3/"></script>
+                                                         <script>
+                                                            var stripe=Stripe('pk_test_51NM52USGoyjO6bGWzt6sBpPIgATb25DWYwIDfxfWYMKfMHMN4UxOeJj3RJy5Tgz20px7SWSnl4pMlfZr181itejI00yTNJJYdu');
+                                                            var orderBtn=document.getElementById('order-btn');
+                                                            orderBtn.addEventListener('click',function(){
+                                                                event.preventDefault();//prevent form submission
+                                                                stripe.redirectToCheckout({
+                                                                    sessionId:`{{sessionId}}`
+                                                                }).then(function(result){
+                                                                    console.log(result);
+                                                                })
+                                                            });
+                                                         </script>
+                                                        </div>
                                                 </form>
                                             </div>
                                         </div>
@@ -470,4 +487,7 @@
             <!--====== End - Section 3 ======-->
         </div>
         <!--====== End - App Content ======-->
+        <div>
+          <script src="https://js.stripe.com/v3/"></script>
+        </div>
 </main>

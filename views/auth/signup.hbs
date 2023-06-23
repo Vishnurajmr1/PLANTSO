@@ -23,7 +23,7 @@
       {{#if errorMessage}}
           <h5 class="text-red-600 font-semibold" id="error-message">{{errorMessage}}</h5>
       {{/if}}
-      <form action="/signup" method="POST" class="flex flex-col gap-4 mt-4">
+      <form action="/signup" method="POST" class="flex flex-col gap-4 mt-4 form-control">
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <div id="name-field" class="flex flex-col gap-2">
           <label for="name" class="font-semibold text-xs">Username</label>
@@ -49,6 +49,7 @@
               id="email"
               placeholder="Email"
               oninput="validateEmail()"
+              value="{{oldInput.email}}"
               required
             />
             <p id="email-error" class="hidden text-red-500 text-xs mt-1">Please
@@ -97,6 +98,7 @@
               id="password"
               placeholder="Password"
               oninput="validatePassword()"
+               value="{{oldInput.password}}"
               required
             />
             <svg
@@ -141,6 +143,7 @@
               name="confirmpassword"
               id="confirmpassword"
               placeholder="Re-enter the password"
+               value="{{oldInput.confirmPassword}}"
               oninput="validatePassword()"
               required
             />

@@ -21,7 +21,12 @@ shopRouter.post('/cart',isAuth.isauth,shopController.postCart);
 shopRouter.post('/cart-delete-item',isAuth.isauth,shopController.postCartDeleteProduct);
 shopRouter.patch('/cart',isAuth.isauth,shopController.updateQuantity);
 shopRouter.get('/filterview/:categoryId',productController.getProductsByCategory);
-shopRouter.post('/create-order',isAuth.isauth,orderController.postOrder);
+//router used for checkout 
+shopRouter.get('/checkout',isAuth.isauth,shopController.getCheckout);
+shopRouter.get('/checkout/success',orderController.getCheckoutSuccess);
+shopRouter.get('/checkout/cancel',shopController.getCheckout);
+//orders router
+// shopRouter.post('/create-order',isAuth.isauth,orderController.postOrder);
 shopRouter.get('/orders',isAuth.isauth,orderController.getOrders);
 shopRouter.get('/edit-profile',(req,res)=>{
   res.render('shop/edit-profile',{user:true})

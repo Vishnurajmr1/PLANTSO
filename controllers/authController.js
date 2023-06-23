@@ -9,7 +9,7 @@ const servicesSid = process.env.TWILIO_SERVICES_SID;
 const client = twilio(accountSid, authToken);
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
-const {validateResult}=require('express-validator');
+// const {validateResult}=require('express-validator')
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
@@ -67,15 +67,12 @@ exports.postLogin = (req, res, next) => {
             req.session.isLoggedIn = true;
             req.session.user = user;
             console.log(email);
-            transporter.sendMail({
-              to: email,
-              from: "arunkumararun20123@gmail.com",
-              subject: "Login Succeeded!",
-              html: `<p>"Congratulations,${req.session.user.name},on a successful login👏!We're here to assist you in finding the perfect products. Enjoy your time on Plantso!😊"<p>`,
-            });
           } else {
             req.flash("error", "Password doesn't match!");
-            res.redirect("/login");
+           return   res.render("auth/login", {
+            layout: "noLayout",
+            errorMessage: message,
+          });
           }
         })
         .catch((err) => {
@@ -134,6 +131,12 @@ exports.postSignup = (req, res, next) => {
         })
         .then((result) => {
           res.redirect("/login");
+          transporter.sendMail({
+            to: email,
+            from: "arunkumararun20123@gmail.com",
+            subject: "Login Succeeded!",
+            html: `<p>"Congratulations,${req.session.user.name},on a successful login👏!We're here to assist you in finding the perfect products. Enjoy your time on Plantso!😊"<p>`,
+          });
         });
     })
     .catch((err) => {

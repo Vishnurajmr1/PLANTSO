@@ -1,3 +1,4 @@
+// const {validationResult}=require('express-validator')
 const Category = require("../models/category");
 const Product = require("../models/product");
 const mongoose = require("mongoose");
@@ -42,13 +43,28 @@ exports.postAddProduct = (req, res, next) => {
           const price = req.body.price;
           const description = req.body.description;
           const stock = req.body.stock;
-          const categoryId = new ObjectId(req.body.categoryId);
+          const categoryId =new ObjectId(req.body.categoryId);
+          if(stock<=0 || price<=0){
+            return res.status(422).render("admin/edit-product", {
+              layout: "main",
+              pageTitle: "Plantso||Admin-Product",
+              categories: updatedCategories,
+              errorMessage:'Price or stock should be Integer.',
+              oldInput:{
+                title:title,
+                description:description,
+                stock:stock,
+                price:price,
+              }
+            });
+          }
           if (!image) {
-            return res.status(409).render("admin/edit-product", {
+            return res.status(422).render("admin/edit-product", {
               message: message3,
               layout: "main",
               pageTitle: "Plantso||Admin-Product",
               categories: updatedCategories,
+              errorMessage:'Attached file is not an image.'
             });
           }
 
@@ -104,6 +120,12 @@ exports.getAddProduct = (req, res, next) => {
         layout: "main",
         title: "Products",
         categories: updatedCategories,
+        oldInput:{
+          title:'',
+          description:'',
+          stock:'',
+          price:''
+        }
       });
     })
     .catch((err) => {
