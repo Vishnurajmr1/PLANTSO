@@ -4,7 +4,7 @@
     {{>deleteModal}}
 
      <!-- Content-->
-        <section class="container-fluid">
+        <section class="container-fluid d-flex flex-column justify-content-center align-items-center">
             <div id="messageContainer">
             {{#if message}}
                <div class="alert alert-success d-flex align-items-center" role="alert">
@@ -26,15 +26,16 @@
                 <!-- User listing Actions-->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <form class="bg-light rounded px-3 py-1 flex-shrink-0 d-flex align-items-center">
-                        <input class="form-control border-0 bg-transparent px-0 py-2 me-5 fw-bolder" type="search"
+                        <input class="form-control border-0 bg-transparent px-0 py-2 me-5 fw-bolder h-[36px]" type="search"
                           placeholder="Search" aria-label="Search">
                         <button class="btn btn-link p-0 text-muted" type="submit"><i class="ri-search-2-line"></i></button>
                     </form>
-                      <div class="d-flex justify-content-end">
-                        {{!-- <a href="#" class="btn btn-outline-secondary btn-sm text-body me-2"><i class="ri-download-fill align-bottom"></i> Export Users</a> --}}
+                      <div class="d-flex justify-content-end ml-4">
                         <a class="btn btn-sm btn-primary" href="/admin/add-category"><i class="ri-add-circle-line align-bottom"></i> New Category</a>
                     </div>
                 </div>
+
+                                  {{!-- <a href="#" class="btn btn-outline-secondary btn-sm text-body me-2"><i class="ri-download-fill align-bottom"></i> Export Users</a> --}}
                 <!-- /user listing Actions-->
 
                 <!-- User Listing Table-->
@@ -42,11 +43,11 @@
                 <div class="table-responsive">
                     <table class="table m-0 table-striped">
                         <thead>
-                            <tr>
-                                <th>Category Name</th>
-                                <th>Actions</th>
+                            <tr >
+                                <th class="align-top">Category Name</th>
+                                <th class="text-center align-top">Actions</th>
                             </tr>
-                        </thead>
+                        </thead>    
                         <tbody>
                              {{#each categories}}
                              {{#if this.isDeleted}}
@@ -61,10 +62,10 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="dropdown" style="display: flex;gap:5px;" >
-                                          <a class="btn mb-2 btn-success-faded" href="/admin/edit-category/{{this._id}}?edit=true">Edit</a>
+                                    <div class="dropdown flex" >
+                                          <a class="btn mb-2  ml-5 btn-success-faded" href="/admin/edit-category/{{this._id}}?edit=true">Edit</a>
 
-                                            <form id="deleteCategoryForm" action="/admin/delete-category" method="post">
+                                            <form id="deleteCategoryForm" action="/admin/delete-category" method="post" class="ml-3">
                                                     <input type="hidden" name="categoryId" id="categoryId" value="{{this._id}}">
                                                   <button type="submit" class="btn mb-2 btn-outline-danger deleteButton" data-title="Delete Category" data-body="Are you sure you want to delete this Category?By confirming products under this category also get deleted" onclick="handleDelete(event, this.closest('form'))">Delete</button>
                                             </form>
@@ -120,7 +121,6 @@
                  {{/if}}
                  {{log csrfToken}}
   <input type="hidden" name="_csrf" value="{{csrfToken}}" id="csrfToken">
-
 </main>
 
 

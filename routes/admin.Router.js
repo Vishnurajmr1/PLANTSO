@@ -11,8 +11,8 @@ const  adminRouter = express.Router();
 
 /* GET home page. */
 adminRouter.get('/',isAdmin.isAdmin,adminController.getIndex);
-adminRouter.get('/users',adminController.getUser);
-adminRouter.get('/orders',adminController.getOrders);
+// adminRouter.get('/users',adminController.getUser);
+// adminRouter.get('/orders',adminController.getOrders);
 
 
 //Category Admin Routers
@@ -47,9 +47,9 @@ body('stock').isNumeric()
 ],isAdmin.isAdmin,adminController.postEditProduct);
 adminRouter.post('/delete-product',isAdmin.isAdmin,adminController.postDeleteProduct);
 
-
+//user managment Admin Routes
+adminRouter.get('/users',isAdmin.isAdmin,adminController.getUsers);
 //Order Admin Routes
-
-adminRouter.get('/orders',orderController.getAllOrders);
+adminRouter.get('/orders',isAdmin.isAdmin,adminController.getOrders);
 
 module.exports = adminRouter;

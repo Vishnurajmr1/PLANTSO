@@ -7,17 +7,6 @@
         <div class="card mb-4">
             <div class="card-header justify-content-between align-items-center d-flex">
                 <h6 class="card-title m-0">Order Management</h6>
-                {{!-- <div class="dropdown">
-                    <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                        id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="ri-more-2-line"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </div> --}}
             </div>
             <div class="card-body">
 
@@ -29,39 +18,32 @@
                         <button class="btn btn-link p-0 text-muted" type="submit"><i class="ri-search-2-line"></i></button>
                     </form>
                     {{!-- <div class="d-flex justify-content-end">
-                        <a href="#" class="btn btn-outline-secondary btn-sm text-body me-2"><i class="ri-download-fill align-bottom"></i> Export Users</a> 
-                        <a class="btn btn-sm btn-primary" href="#"><i class="ri-add-circle-line align-bottom"></i>Orders</a>
+                        <a class="btn btn-sm btn-primary" href="#"><i class="ri-add-circle-line align-bottom"></i> New User</a>
                     </div> --}}
                 </div>
                 <!-- /user listing Actions-->
 
                 <!-- User Listing Table-->
-                {{!-- {{#if hasOrders}} --}}
-               
-                <div class="table-responsive">
+                {{!-- <div class="table-responsive">
                     <table class="table m-0 table-striped">
                         <thead>
                             <tr>
                                 <th>
-                                    <div class="form-group form-check-custom mb-0 flex-shrink-0">
-                                        {{!-- <input type="checkbox" class="form-check-input" id="filter-"> --}}
-                                    </div>
+                                    Order Id
                                 </th>
-                                <th>Product Name</th>
-                                <th>Image</th>
-                                {{!-- <th>Location</th> --}}
-                                <th>Category</th>
+                                <th>Name</th>
+                                <th>Phone NO</th>
+                                <th>Location</th>
+                                <th>Ordered Date</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                             {{#each orders}}
                         <tbody>
+                            {{#each orders}}
                             <tr>
                                 <td>
-                                    <div class="form-group form-check-custom mb-0">
-                                        {{!-- <input type="checkbox" class="form-check-input" id="filter-0"> --}}
-                                    </div>
+                                   #{{this._id}}
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-start align-items-start">
@@ -72,24 +54,30 @@
                                             </picture>
                                         </div>
                                         <div>
-                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">{{_id}}
+                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">{{this.user.userId.name}}
                                                     <span class="d-block f-w-4 ms-1 lh-1 text-primary">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                             <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                                                         </svg>
                                                     </span>
                                             </p>
-                                            <span class="d-block text-muted">jon@apollo.co.uk</span>
+                                            <span class="d-block text-muted">{{this.user.userId.email}}</span>
                                         </div>
                                     </div>
                                 </td>
-                                <td>Administrator</td>
-                                {{!-- <td class="text-muted"><i class="ri-map-pin-line align-bottom"></i> London, UK</td> --}}
-                                <td class="text-muted">24th Jan, 2021</td>
+                                <td>{{this.user.userId.phone}}</td>
+                                <td class="text-muted"><i class="ri-map-pin-line align-bottom"></i> London, UK</td>
+                                <td class="text-muted">{{formatDate dateCreated}}</td>
                                 <td>
+                                    {{#if this.user.userId.status}}
                                     <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Online</span>
+                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Active</span>
                                     </div>
+                                    {{else}}
+                                    <div class="d-flex align-items-center">
+                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">InActive</span>
+                                    </div>
+                                    {{/if}}
                                 </td>
                                 <td>
                                     <div class="dropdown">
@@ -98,16 +86,23 @@
                                             <i class="ri-more-2-line"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-0">
-                                            <li style="display: flex;cursor:pointer;"><a class="dropdown-item" href="#" onclick="openEditForm()">Edit</a>
+                                            <li style="display: flex;cursor:pointer;"><a class="dropdown-item" href="#" onclick="document.getElementById('id01').style.display='block'">Edit</a>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                               </svg>
                                             </li>
-                                            <li style="display: flex;cursor:pointer"><a class="dropdown-item" href="#">View Details</a>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
-                                           <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"/>
-                                          </svg>
+                                            <li style="display: flex;"><a class="dropdown-item" href="#" onclick="document.getElementById('viewDetails').style.display='block'">View Details</a>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-slash-circle" viewBox="0 0 16 16">
+                                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                              <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"/>
+                                            </svg>
+                                            </li>
+                                             <li style="display: flex;"> <a class="dropdown-item" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">View Details</a>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                            </svg>
                                             </li>
                                             <li style="display: flex;cursor:pointer;color:red"><a class="dropdown-item" href="#">Delete</a>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -117,317 +112,132 @@
                                             </li>
                                         </ul>
                                     </div>
+                                    <!-- The form -->
+                                    <!--Step 1:Adding HTML-->
+                             <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
+                                <div id="id01" class="modal">
+                                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span>
+                                    <form class="modal-content animate" action="/action_page.php">
+                                        <div class="container">
+                                            <label><b>OrderId</b></label>
+                                            <input type="text" placeholder="Username" name="username" value="#{{this._id}}" required readonly>
+                                            <label><b>Change status</b></label>
+                                            <select name="status" id="">
+                                                <option value="">Change status</option>
+                                                <option value="">Processing</option>
+                                                <option value="">Cancelled</option>
+                                                <option value="">Delivered</option>
+                                            </select>
+                                            <input type="email" placeholder="Enter Email" name="email" required>
+                                            <label><b>Phone No:</b></label>
+                                            <input type="number" placeholder="Enter PhoneNumber" name="phno" required>
+                                            <div class="clearfix">
+                                                <button type="submit" class="signupbtn">Update Order</button>
+                                                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Go Back</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                        end of the form
+                        view Details
+                         <div id="viewDetails" class="modal">
+                                    <span onclick="document.getElementById('viewDetails').style.display='none'" class="close" title="Close Modal">×</span>
+                                    <form class="modal-content animate" action="/action_page.php">
+                                        <div class="container">
+                                            <label><b>OrderId</b></label>
+                                            <input type="text" placeholder="Username" name="username" value="#{{this._id}}" required readonly>
+                                            <label><b>Change status</b></label>
+                                            <select name="status" id="">
+                                                <option value="">Accepted</option>
+                                                <option value="">In Progress</option>
+                                                <option value="">Shipped</option>
+                                                <option value="">Delivered</option>
+                                                <option value="">Completed</option>
+                                            </select>
+                                            <input type="email" placeholder="Enter Email" name="email" required>
+                                            <label><b>Phone No:</b></label>
+                                            <input type="number" placeholder="Enter PhoneNumber" name="phno" required>
+                                            <div class="clearfix">
+                                                <button type="submit" class="signupbtn">Update Order</button>
+                                                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Go Back</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                        End of details
                                 </td>
                             </tr>
-                        </div>
-                    {{/each}}
-                {{!-- {{/if}} --}}
-                            {{!-- <tr>
-                                <td>
-                                    <div class="form-group form-check-custom mb-0">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex justify-content-start align-items-start">
-                                            <button class="btn-icon bg-primary-faded text-primary fw-bolder me-3">A</button>
-                                        <div>
-                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">Anne Kimber
-                                            </p>
-                                            <span class="d-block text-muted">anne.kimber@apollo.co.uk</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Sales Leader</td>
-                                <td class="text-muted"><i class="ri-map-pin-line align-bottom"></i> Manchester, UK</td>
-                                <td class="text-muted">3rd Apr, 2021</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-danger d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Offline</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                            id="dropdownOrder-1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-more-2-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-1">
-                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr> --}}
-                            {{!-- <tr>
-                                <td>
-                                    <div class="form-group form-check-custom mb-0">
-                                        {{!-- <input type="checkbox" class="form-check-input" id="filter-2"> 
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex justify-content-start align-items-start">
-                                        <div class="avatar avatar-xs me-3 flex-shrink-0">
-                                            <picture>
-                                                <img class="f-w-10 rounded-circle" src="/images/profile-small-2.jpeg"
-                                                alt="">
-                                            </picture>
-                                        </div>
-                                        <div>
-                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">Patrick Patel
-                                                    <span class="d-block f-w-4 ms-1 lh-1 text-primary">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                                        </svg>
-                                                    </span>
-                                            </p>
-                                            <span class="d-block text-muted">patrick@apollo.co.uk</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>IT Support</td>
-                                <td class="text-muted"><i class="ri-map-pin-line align-bottom"></i> New York, US</td>
-                                <td class="text-muted">17th Feb, 2021</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Online</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                            id="dropdownOrder-2" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-more-2-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-2">
-                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr> --}}
-                            {{!-- <tr>
-                                <td>
-                                    <div class="form-group form-check-custom mb-0">
-                                        {{!-- <input type="checkbox" class="form-check-input" id="filter-3"> 
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex justify-content-start align-items-start">
-                                        <div class="avatar avatar-xs me-3 flex-shrink-0">
-                                            <picture>
-                                                <img class="f-w-10 rounded-circle" src="/images/profile-small-3.jpeg"
-                                                alt="">
-                                            </picture>
-                                        </div>
-                                        <div>
-                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">Robert Smith
-                                                    <span class="d-block f-w-4 ms-1 lh-1 text-primary">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                                        </svg>
-                                                    </span>
-                                            </p>
-                                            <span class="d-block text-muted">rob@apollo.co.uk</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Team Leader</td>
-                                <td class="text-muted"><i class="ri-map-pin-line align-bottom"></i> Canberra, AU</td>
-                                <td class="text-muted">24th March, 2021</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Online</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                            id="dropdownOrder-3" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-more-2-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-3">
-                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr> --}}
-                            {{!-- <tr>
-                                <td>
-                                    <div class="form-group form-check-custom mb-0">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex justify-content-start align-items-start">
-                                            <button class="btn-icon bg-primary-faded text-primary fw-bolder me-3">B</button>
-                                        <div>
-                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">Barry Rogan
-                                            </p>
-                                            <span class="d-block text-muted">barry.rogan@apollo.co.uk</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Sales Support</td>
-                                <td class="text-muted"><i class="ri-map-pin-line align-bottom"></i> London, UK</td>
-                                <td class="text-muted">3rd May, 2021</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-danger d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Offline</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                            id="dropdownOrder-4" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-more-2-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-4">
-                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr> --}}
-                            {{!-- <tr>
-                                <td>
-                                    <div class="form-group form-check-custom mb-0">
-                                         <input type="checkbox" class="form-check-input" id="filter-5"> 
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex justify-content-start align-items-start">
-                                            <button class="btn-icon bg-primary-faded text-primary fw-bolder me-3">K</button>
-                                        <div>
-                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">Karin Frum
-                                            </p>
-                                            <span class="d-block text-muted">karin.frum@apollo.co.uk</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Customer Support</td>
-                                <td class="text-muted"><i class="ri-map-pin-line align-bottom"></i> Manchester, UK</td>
-                                <td class="text-muted">11th Apr, 2021</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-danger d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Offline</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                            id="dropdownOrder-5" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-more-2-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-5">
-                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr> --}}
-                            {{!-- <tr>
-                                <td>
-                                    <div class="form-group form-check-custom mb-0">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex justify-content-start align-items-start">
-                                        <div class="avatar avatar-xs me-3 flex-shrink-0">
-                                            <picture>
-                                                <img class="f-w-10 rounded-circle" src="/images/profile-small-5.jpeg"
-                                                alt="">
-                                            </picture>
-                                        </div>
-                                        <div>
-                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">Onome Sanomi
-                                                    <span class="d-block f-w-4 ms-1 lh-1 text-primary">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                                        </svg>
-                                                    </span>
-                                            </p>
-                                            <span class="d-block text-muted">onome@apollo.co.uk</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Administrator</td>
-                                <td class="text-muted"><i class="ri-map-pin-line align-bottom"></i> London, UK</td>
-                                <td class="text-muted">24th Jan, 2021</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Online</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                            id="dropdownOrder-6" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-more-2-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-6">
-                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr> --}}
-                            {{!-- <tr>
-                                <td>
-                                    <div class="form-group form-check-custom mb-0">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex justify-content-start align-items-start">
-                                        <div class="avatar avatar-xs me-3 flex-shrink-0">
-                                            <picture>
-                                                <img class="f-w-10 rounded-circle" src="/images/profile-small-6.jpeg"
-                                                alt="">
-                                            </picture>
-                                        </div>
-                                        <div>
-                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">Kevin Smith
-                                                    <span class="d-block f-w-4 ms-1 lh-1 text-primary">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                                        </svg>
-                                                    </span>
-                                            </p>
-                                            <span class="d-block text-muted">kevin@apollo.co.uk</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Administrator</td>
-                                <td class="text-muted"><i class="ri-map-pin-line align-bottom"></i> London, UK</td>
-                                <td class="text-muted">19th Mar, 2021</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Online</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                            id="dropdownOrder-7" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-more-2-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-7">
-                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            {{!-- </tr>  --}}
+                            {{/each}}
                         </tbody>
                     </table>
-                {{--</div>    
+                </div>     --}}
                 <!-- /User Listing Table-->
+
+                  <!-- Latest Orders-->
+                <div class="col-12">
+                    <div class="card mb-4 h-100">
+                        <div class="card-header justify-content-between align-items-center d-flex">
+                            <h6 class="card-title m-0">Full orders List</h6>
+                            <a href="#" class="btn btn-outline-secondary btn-sm text-body"><i class="ri-download-2-line align-middle"></i> Export</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table m-0 table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Billing Name</th>
+                                            <th>Date</th>
+                                            <th>Payment Method</th>
+                                            <th>Items</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each orders}}
+                                        <tr>
+                                            <td>
+                                                <span class="fw-bolder">#{{this._id}}</span>
+                                            </td>
+                                            <td>{{this.user.userId.name}}</td>
+                                            <td class="text-muted">{{formatDate dateCreated}}</td>
+                                            <td class="text-muted">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="ri-visa-line ri-lg me-2"></i> **** 6789
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">{{this.products.length}}</td>
+                                            <th class="text-muted">$123.99</th>
+                                            <td><span class="badge rounded-pill bg-success-faded text-success">completed</span></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
+                                                        id="dropdownOrder-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="ri-more-2-line"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-0">
+                                                        <li><a class="dropdown-item" href="#">Edit Order
+                                                        </a>
+                                                            <i class="bi bi-eye"></i>
+
+                                                        </li>
+                                                        <li><a class="dropdown-item" href="#">View Details</a></li>
+                                                        <li><a class="dropdown-item" href="#">Delete Order</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>    
+                        
+                        </div>
+                    </div>
+                </div>
+                <!-- Latest Orders-->
                 <nav>
                     <ul class="pagination justify-content-end mt-3 mb-0">
                       <li class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -438,7 +248,7 @@
                     </ul>
                   </nav>
             </div>
-       
+        </div>
 
         <!-- Footer -->
         <footer class="  footer">
@@ -479,16 +289,16 @@
         <!-- Default Example Offcanvas Import-->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Order Details</h5>
               <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-              <div>
+              {{!-- <div>
                 Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
-              </div>
+              </div> --}}
               <div class="dropdown mt-3">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                  Dropdown button
+               {{this._id}}
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <li><a class="dropdown-item" href="#">Action</a></li>
@@ -510,7 +320,7 @@
                 <li class="list-group-item pt-0 pb-5 list-group-activity d-flex align-items-start">
                   <div class="avatar avatar-xs me-3 flex-shrink-0">
                     <picture>
-                      <img class="f-w-10 rounded-circle" src="./assets/images/profile-small-7.jpeg" alt="">
+                      <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-7.jpeg" alt="">
                     </picture>
                     <span class="avatar-dot bg-success"></span>
                   </div>
@@ -534,7 +344,7 @@
                 <li class="list-group-item pt-0 pb-5 list-group-activity d-flex align-items-start">
                   <div class="avatar avatar-xs me-3 flex-shrink-0">
                     <picture>
-                      <img class="f-w-10 rounded-circle" src="./assets/images/profile-small-2.jpeg" alt="">
+                      <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-2.jpeg" alt="">
                     </picture>
                     <span class="avatar-dot bg-success"></span>
                   </div>
@@ -549,7 +359,7 @@
                 <li class="list-group-item pt-0 pb-5 list-group-activity d-flex align-items-start">
                   <div class="avatar avatar-xs me-3 flex-shrink-0">
                     <picture>
-                      <img class="f-w-10 rounded-circle" src="./assets/images/profile-small-3.jpeg" alt="">
+                      <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-3.jpeg" alt="">
                     </picture>
                     <span class="avatar-dot bg-success"></span>
                   </div>
@@ -561,11 +371,11 @@
                     <span class="small d-block text-muted">Created 2 new products in Mens Shoes</span>
                       <div class="bg-light border rounded-md p-2 mt-2 d-flex justify-content-start align-items-start">
                         <picture class="me-2">
-                          <img class="f-w-12 rounded" src="./assets/images/1.png"
+                          <img class="f-w-12 rounded" src="/images/profiles/1.png"
                             alt="">
                         </picture>
                         <picture>
-                          <img class="f-w-12 rounded" src="./assets/images/3.png"
+                          <img class="f-w-12 rounded" src="/images/profiles/3.png"
                             alt="">
                         </picture>
                       </div>
@@ -574,7 +384,7 @@
                 <li class="list-group-item pt-0 pb-5 list-group-activity d-flex align-items-start">
                   <div class="avatar avatar-xs me-3 flex-shrink-0">
                     <picture>
-                      <img class="f-w-10 rounded-circle" src="./assets/images/profile-small-4.jpeg" alt="">
+                      <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-4.jpeg" alt="">
                     </picture>
                     <span class="avatar-dot bg-success"></span>
                   </div>
@@ -699,7 +509,6 @@
             </div>
           </div>        
           <!-- / Footer-->--}}
-
         </section>
         <!-- / Content-->
 </main>

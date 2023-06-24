@@ -7,28 +7,28 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  phone:{
-    type:String,
-    required:true,
+  phone: {
+    type: String,
+    required: true,
   },
   email: {
     type: String,
     required: true,
   },
-  password:{
-    type:String,
-    required:true,
+  password: {
+    type: String,
+    required: true,
   },
-  status:{
-    type:Boolean,
-    default:true,
+  status: {
+    type: Boolean,
+    default: true,
   },
-  is_Admin:{
-    type:Boolean,
-    default:false
+  is_Admin: {
+    type: Boolean,
+    default: false,
   },
-  resetToken:String,
-  resetTokenExpiration:Date,
+  resetToken: String,
+  resetTokenExpiration: Date,
   cart: {
     items: [
       {
@@ -38,9 +38,17 @@ const userSchema = new Schema({
           required: true,
         },
         quantity: { type: Number, required: true },
-        price:{type:Number,required:true},
+        price: { type: Number, required: true },
       },
     ],
+  },
+  total:{
+    type:Number,
+    default:0,
+  },
+  dateCreated: {
+    type: Date,
+    default: Date.now,
   },
 });
 
@@ -68,14 +76,13 @@ const userSchema = new Schema({
 //   return this.save();
 // };
 
-
 userSchema.methods.addToCart = function (product) {
   const cartProductIndex = this.cart.items.findIndex((cp) => {
     return cp.productId.toString() === product._id.toString();
   });
 
   let newQuantity = 1;
-  let newPrice=product.price;
+  let newPrice = product.price;
   const updatedCartItems = [...this.cart.items];
 
   if (cartProductIndex >= 0) {
@@ -84,18 +91,18 @@ userSchema.methods.addToCart = function (product) {
 
     if (currentQuantity + 1 <= stockLimit) {
       newQuantity = currentQuantity + 1;
-      newPrice=product.price*newQuantity;
+      newPrice = product.price * newQuantity;
       updatedCartItems[cartProductIndex].quantity = newQuantity;
-      updatedCartItems[cartProductIndex].price=newPrice;
+      updatedCartItems[cartProductIndex].price = newPrice;
     } else {
       // Handle the case where quantity exceeds the stock limit
-      throw new Error('Cannot add more quantity than available in stock.');
+      throw new Error("Cannot add more quantity than available in stock.");
     }
   } else {
     updatedCartItems.push({
       productId: product._id,
       quantity: newQuantity,
-      price:newPrice,
+      price: newPrice,
     });
   }
   const updatedCart = {
@@ -105,18 +112,17 @@ userSchema.methods.addToCart = function (product) {
   return this.save();
 };
 
-userSchema.methods.removeFromCart=function(productId){
-  const updatedCartItems=this.cart.items.filter(item=>{
-    return item.productId.toString()!==productId.toString();
+userSchema.methods.removeFromCart = function (productId) {
+  const updatedCartItems = this.cart.items.filter((item) => {
+    return item.productId.toString() !== productId.toString();
   });
-  this.cart.items=updatedCartItems;
+  this.cart.items = updatedCartItems;
   return this.save();
 };
 
-userSchema.methods.clearCart=function(){
-  this.cart={items:[]};
+userSchema.methods.clearCart = function () {
+  this.cart = { items: [] };
   return this.save();
-}
-
+};
 
 module.exports = mongoose.model("User", userSchema);

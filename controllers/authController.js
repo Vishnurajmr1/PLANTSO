@@ -135,7 +135,7 @@ exports.postSignup = (req, res, next) => {
             to: email,
             from: "arunkumararun20123@gmail.com",
             subject: "Login Succeeded!",
-            html: `<p>"Congratulations,${req.session.user.name},on a successful login👏!We're here to assist you in finding the perfect products. Enjoy your time on Plantso!😊"<p>`,
+            html: `<p>"Congratulations,${name},on a successful login👏!We're here to assist you in finding the perfect products. Enjoy your time on Plantso!😊"<p>`,
           });
         });
     })

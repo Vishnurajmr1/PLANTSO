@@ -3,7 +3,9 @@ const Category = require("../models/category");
 const Product = require("../models/product");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
-const Order = require("../controllers/orderController");
+const orderController = require("../controllers/orderController");
+const adminUserHelpers=require('../helpers/adminUserHelper');
+
 
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
@@ -618,10 +620,12 @@ exports.getUser = (req, res, next) => {
 };
 
 exports.getOrders = (req, res, next) => {
-  Order.getAllOrders()
-    .then((orders) => {
-      res.render("admin/user-list", {
-        pageTitle: "Plantso||Admin-UserList",
+  console.log('hiii')
+  orderController.getAllOrders()
+  .then(orders => {
+      console.log(orders);
+      res.render("admin/list-orders", {
+        pageTitle: "Plantso||Admin-OrderList",
         layout: "main",
         orders: orders, //Pass the orders to the view
         title: "orders",
@@ -629,5 +633,34 @@ exports.getOrders = (req, res, next) => {
     })
     .catch((error) => {
       console.log(error);
+      res.status(500).json({error:"An error occured while fetching orders"});
     });
 };
+
+exports.getUsers = (req, res, next) => {
+  adminUserHelpers.viewAllUser()
+  .then(users => {
+      console.log(users);
+      res.render("admin/list-users", {
+        pageTitle: "Plantso||Admin-UserList",
+        layout: "main",
+        users: users, //Pass the orders to the view
+        title: "users",
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({error:"An error occured while fetching users"});
+    });
+};
+
+exports.blockUser=(req,res,next)=>{
+  adminUserHelpers.blockUnblockUsers(req.body)
+  .then(userStatus=>{
+    res.json(userStatus);
+  })
+  .catch((error) => {
+    console.log(error);
+    res.status(500).json({error:"An error occured while blocking users"});
+  });
+}

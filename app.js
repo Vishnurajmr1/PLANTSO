@@ -8,6 +8,7 @@ const bodyParser=require('body-parser');
 const cors = require('cors');
 const csrf=require('csurf');
 const flash=require('connect-flash');
+const helperFunctions=require('./src/registerHelpers');
 
 //config files used for database configuration
 const {mongoConnect}=require('./config/mongoDb');
@@ -37,15 +38,24 @@ const store=new MongoDBStore({
 });
 
 const csrfProtection=csrf();
-// view engine setup
+
+// const formatDate=function (date) {
+//   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+//   return date.toLocaleDateString(undefined, options);
+// };
+
 app.set('views', path.join(__dirname, 'views'));
 app.engine(
-  "hbs",
+  'hbs',
   hbs.engine({
-    extname: ".hbs",
-    layoutsDir: __dirname +"/views/layouts",
-    defaultLayout: "layout",
-    partialsDir: __dirname +"/views/partials/",
+    extname: '.hbs',
+    layoutsDir: __dirname + '/views/layouts',
+    defaultLayout: 'layout',
+    partialsDir: __dirname + '/views/partials/',
+    // helpers:{
+    //   formatDate:formatDate,
+    // }
+    helpers:helperFunctions,
   })
 );
 app.set('view engine', 'hbs');
@@ -123,6 +133,23 @@ const calculateTotalProduct = (req, res, next) => {
   }
   next();
 };
+
+const addUserProductsLengthToContext=async(req,res,next)=>{
+  try{
+    if(req.user){
+      const userId=req.user._id;
+      const userProductsLength=await helperFunctions.getUserProductsLength(userId);
+      res.locals.userProductsLength=userProductsLength;
+    }else{
+      res.locals.userProductsLength=0;
+    }
+    next()
+  }catch(error){
+    console.log(error);
+    next(error);
+  }
+}
+app.use('/',addUserProductsLengthToContext);
 app.use('/',calculateTotalProduct);
 
 app.use('/admin',adminRoutes);

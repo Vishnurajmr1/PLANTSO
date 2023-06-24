@@ -1,7 +1,7 @@
 const Order = require("../models/order");
 const Category = require("../models/category");
 const Product = require("../models/product");
-const User = require("../models/user");
+const User = require('../models/user');
 
 exports.getCheckoutSuccess = (req, res, next) => {
   req.user
@@ -37,6 +37,7 @@ exports.postOrder = (req, res, next) => {
       });
       const order = new Order({
         user: {
+          username:req.user.name,
           email: req.user.email,
           userId: req.user,
         },
@@ -62,23 +63,59 @@ exports.getOrders = (req, res, next) => {
         user: true,
         orders: orders,
         hasOrders: orders.length > 0,
+        title:'Orders',
+        path:'/orders'
       });
     })
     .catch((err) => console.log(err));
 };
 
-exports.getAllOrders = (req, res, next) => {
-  Order.find()
+exports.getAllOrders =() => {
+  return new Promise((resolve,reject)=>{
+    Order.find()
+    .populate('user.userId')
     .lean()
     .then((orders) => {
       console.log(orders);
-      console.log("hiii");
+      resolve(orders);
     })
     .catch((err) => {
-      console.log(err);
-      res
-        .status(500)
-        .json({ error: "An error occurred while fetching orders" });
+      console.log(err.message);
+      reject(err)
     });
+  });
 };
+
+exports.getOrder =(orderId) => {
+  return new Promise((resolve,reject)=>{
+    Order.findById(orderId)
+    .populate('user.userId')
+    .lean()
+    .then((order) => {
+      console.log(order);
+      resolve(order);
+    })
+    .catch((err) => {
+      console.log(err.message);
+      reject(err)
+    });
+  });
+};
+
+
+// exports.getAllOrders =(req,res,next) => {
+//     Order.find()
+//     .lean()
+//     .then((orders) => {
+//       res.render("admin/list-orders", {
+//         pageTitle: "Plantso||Admin-OrderList",
+//         layout: "main",
+//         // orders: orders, //Pass the orders to the view
+//         title: "orders",
+//       });
+//     })
+//     .catch((err) => {
+//       console.log(err.message);
+//     });
+// };
 

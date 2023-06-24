@@ -2,6 +2,7 @@ require('dotenv').config()
 const Category = require("../models/category");
 const Product = require("../models/product");
 const User = require("../models/user");
+const orderController=require('../controllers/orderController');
 
 const stripe=require('stripe')(process.env.STRIPE_SECRET_KEY)
 
@@ -335,4 +336,22 @@ exports.getCheckout = async (req, res, next) => {
     console.log(error);
     res.status(500).send("Error occurred while fetching user cart.");
   }
+};
+
+
+exports.getOrder = (req, res, next) => {
+  const orderId = req.params.orderId;
+  console.log(orderId);
+  orderController.getOrder(orderId)
+  .then(order=>{
+    res.render('shop/order-details',{
+    user: true,
+    order:order,
+    title:'orderDetail',
+    path:'/orderDetails/'
+    })
+  }).catch(error=>{
+    console.log(error);
+    res.status(500).json({error:"An error occurred while fetching order details"});
+  })
 };

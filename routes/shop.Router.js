@@ -28,6 +28,7 @@ shopRouter.get('/checkout/cancel',shopController.getCheckout);
 //orders router
 // shopRouter.post('/create-order',isAuth.isauth,orderController.postOrder);
 shopRouter.get('/orders',isAuth.isauth,orderController.getOrders);
+shopRouter.get('/orderDetails/:orderId',shopController.getOrder);
 shopRouter.get('/edit-profile',(req,res)=>{
   res.render('shop/edit-profile',{user:true})
 })

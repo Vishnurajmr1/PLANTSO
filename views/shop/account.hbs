@@ -30,7 +30,8 @@
       <div class="dash">
         <div class="container">
           <div class="row">
-            <div class="col-lg-3 col-md-12">
+            {{>account-detail-sidebar}}
+            {{!-- <div class="col-lg-3 col-md-12">
 
               <!--====== Dashboard Features ======-->
               <div
@@ -108,7 +109,7 @@
                 </div>
               </div>
               <!--====== End - Dashboard Features ======-->
-            </div>
+            </div> --}}
             <div class="col-lg-9 col-md-12">
               <div
                 class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30"
@@ -133,17 +134,16 @@
 
                             <a href="dash-edit-profile.html">Edit</a></div>
 
-                          <span class="dash__text">John Doe</span>
+                          <span class="dash__text">{{loggedUser.name}}</span>
 
-                          <span class="dash__text">johndoe@domain.com</span>
+                          <span class="dash__text">{{loggedUser.email}}</span>
                           <div
-                            class="dash__link dash__link--secondary u-s-m-t-8"
-                          >
-
+                            class="dash__link dash__link--secondary u-s-m-t-8">
                             <a
                               data-modal="modal"
                               data-modal-id="#dash-newsletter"
-                            >Subscribe Newsletter</a></div>
+                            >Subscribe Newsletter</a>
+                            </div>
                         </div>
                       </div>
                     </div>
