@@ -41,10 +41,10 @@ const userSchema = new Schema({
         price: { type: Number, required: true },
       },
     ],
-  },
-  total:{
-    type:Number,
-    default:0,
+    totalPrice:{
+      type:Number,
+      default:0,
+    },
   },
   dateCreated: {
     type: Date,
@@ -105,8 +105,14 @@ userSchema.methods.addToCart = function (product) {
       price: newPrice,
     });
   }
+
+  const totalPrice=updatedCartItems.reduce((sum,item)=>{
+    return sum+item.price;
+  },0);
+  
   const updatedCart = {
     items: updatedCartItems,
+    totalPrice:totalPrice,
   };
   this.cart = updatedCart;
   return this.save();
@@ -116,12 +122,21 @@ userSchema.methods.removeFromCart = function (productId) {
   const updatedCartItems = this.cart.items.filter((item) => {
     return item.productId.toString() !== productId.toString();
   });
+
+  const removedCartItem=this.cart.items.find((item)=>{
+    return item.productId.toString()===productId.toString();
+  });
+  if(removedCartItem){
+    const removedProductPrice=parseFloat(removedCartItem.price);
+    this.cart.totalPrice=(parseFloat(this.cart.totalPrice)-removedProductPrice).toFixed(2);
+  }
+  
   this.cart.items = updatedCartItems;
   return this.save();
 };
 
 userSchema.methods.clearCart = function () {
-  this.cart = { items: [] };
+  this.cart = { items: [],totalPrice:0 };
   return this.save();
 };
 

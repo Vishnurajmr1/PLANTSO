@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const mongoose=require('mongoose');
 
 exports.viewAllUser = async () => {
   try {
@@ -13,18 +14,23 @@ exports.viewAllUser = async () => {
 };
 
 exports.blockUnblockUsers = async (userInfo) => {
-  const userId = userInfo;
-  let { currentStatus } = userInfo;
-  console.log(currentStatus);
+  let {userId,currStatus}=userInfo;
   try {
-    if (currentStatus === "true") {
-      currentStatus = false;
-    } else {
-      currentStatus = true;
+
+    if(currStatus){
+      currStatus=false;
+    }else{
+      currStatus=true;
     }
-    await User.updateOne({ _id: userId }, { $set: { status: currentStatus } });
-    return currentStatus;
+    await User.updateOne({ _id:new mongoose.Types.ObjectId(userId)},{ $set: { status: currStatus } });
+    return currStatus;
   } catch (error) {
     throw new Error(error);
   }
 };
+
+
+
+
+
+

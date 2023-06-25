@@ -44,6 +44,10 @@ exports.postLogin = (req, res, next) => {
         .compare(password, user.password)
         .then((doMatch) => {
           if (doMatch) {
+            if(!user.status){
+              req.flash("error","Your account has been blocked by the admin.Please Contact Admin!");
+              return res.redirect('/login');
+            }
             //Check if the user is an admin
             if (user.is_Admin) {
               console.log(user.is_Admin);
@@ -82,11 +86,28 @@ exports.postLogin = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
-exports.postLogout = (req, res, next) => {
-  req.session.destroy((err) => {
-    res.redirect("/");
-  });
-};
+
+
+// exports.postLogout = (req, res, next) => {
+//   req.session.destroy((err) => {
+//     res.redirect("/");
+//   });
+// };
+
+exports.postLogout=(req,res,next)=>{
+  if(req.session.isAdmin){
+    //Destroy admin session
+    req.session.isAdmin=false;
+    req.session.destroy((err)=>{
+      res.redirect('/login');
+    })
+  }else{
+    //Destroy user session
+    req.session.destroy((err)=>{
+      res.redirect('/');
+    })
+  }
+}
 
 //Signup controller
 

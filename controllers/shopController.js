@@ -97,10 +97,12 @@ exports.getCart = (req, res, next) => {
         stock: item.productId.stock,
         imageUrl: item.productId.imageUrl,
       }));
+      const totalPrice=user.cart.totalPrice.toFixed(2);
       res.render("shop/cart", {
         products: products,
         user: true,
         hasProducts: req.user.cart.items.length > 0,
+        totalPrice:totalPrice,
         // totalProduct:req.user.cart.items.length,
       });
     })
@@ -122,6 +124,13 @@ exports.postCart = async (req, res, next) => {
         .json({ success: false, message: "Product Not Found!" });
     }
     if (req.user) {
+      if(req.user.is_Admin){
+        //User is an Admin
+        return res.json({
+          success:false,
+          message:"Admin users cannot make purchases."
+        })
+      }
       const result = await req.user.addToCart(product);
       console.log(result);
       return res.json({
@@ -182,7 +191,6 @@ exports.updateQuantity = async (req, res, next) => {
     const cartItem = req.user.cart.items.find(
       (item) => item.productId.toString() === productId.toString()
     );
-
     const product = await Product.findById(productId);
 
     if (!product) {
@@ -204,16 +212,20 @@ exports.updateQuantity = async (req, res, next) => {
       console.log(updatedPrice);
       cartItem.price = parseFloat(updatedPrice);
 
+      // const cartTotal = req.user.cart.items.reduce((accumulator, item) => {
+      //   return accumulator + item.price;
+      // }, 0);
+      req.user.cart.totalPrice=req.user.cart.items.reduce((accumulator,item)=>
+        accumulator+item.price,0
+      ).toFixed(2);
+
+      // cartItem.totalPrice=totalPrice;
       await req.user.save();
-
-      const cartTotal = req.user.cart.items.reduce((accumulator, item) => {
-        return accumulator + item.price;
-      }, 0);
-
-      console.log(cartTotal);
-
       //Prepare the response Data
-      const responseData = { updatedPrice, cartTotal };
+      const responseData = { 
+        updatedPrice:updatedPrice,
+        cartTotal:req.user.cart.totalPrice.toFixed(2)
+      };
       return res.json(responseData);
     } else {
       throw new Error("Quantity cannot be less than 1");
@@ -348,7 +360,7 @@ exports.getOrder = (req, res, next) => {
     user: true,
     order:order,
     title:'orderDetail',
-    path:'/orderDetails/'
+    path:'/orders'
     })
   }).catch(error=>{
     console.log(error);

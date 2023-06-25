@@ -73,9 +73,21 @@ exports.getOrders = (req, res, next) => {
 exports.getAllOrders =() => {
   return new Promise((resolve,reject)=>{
     Order.find()
+    .populate({
+      path:'products.product',
+      populate:{
+        path:'category',
+        model:'Category',
+      },
+    })
     .populate('user.userId')
     .lean()
     .then((orders) => {
+      orders.forEach((order)=>{
+        order.products.forEach((product)=>{
+          product.totalPrice=product.product.price*product.quantity;
+        })
+      })
       console.log(orders);
       resolve(orders);
     })

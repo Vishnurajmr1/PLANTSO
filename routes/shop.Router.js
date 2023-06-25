@@ -41,13 +41,6 @@ shopRouter.get('/profile',(req,res)=>{
 shopRouter.get('/checkout',(req,res)=>{
   res.render('shop/checkout',{user:true})
 })
-
-shopRouter.get('/orders',(req,res)=>{
-  res.render('shop/orders',{user:true})
-})
-shopRouter.get('/myorders',(req,res)=>{
-  res.render('shop/order-details',{user:true})
-})
 shopRouter.get('/wishlist',(req,res)=>{
   res.render('shop/wishlist',{user:true})
 })

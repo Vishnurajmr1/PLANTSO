@@ -79,11 +79,11 @@
                                 <td>
                                     {{#if this.status}}
                                     <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Online</span>
+                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Active</span>
                                     </div>
                                     {{else}}
                                     <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-danger d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Inactive</span>
+                                        <span class="f-w-2 f-h-2 bg-danger d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Blocked</span>
                                     </div>
                                     {{/if}}
                                 </td>
@@ -101,7 +101,8 @@
                                               </svg>
                                               </a>
                                             </li>
-                                            <li><a class="dropdown-item" href="#" style="display: flex;justify-content: space-between;">{{#if this.status}}Block{{else}}Unblock{{/if}}
+                                    
+                                            <li><a class="dropdown-item" href="#" style="display: flex;justify-content: space-between;" onclick="blockUnblockUsers('{{this._id}}',{{this.status}})">{{#if this.status}}Block{{else}}Unblock{{/if}}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" {{#if this.status}}fill="yellow"{{else}}fill="green"{{/if}} class="bi bi-slash-circle" viewBox="0 0 16 16">
                                               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                               <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"/>
@@ -122,16 +123,19 @@
                              {{!-- <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button> --}}
                                 <div id="id01" class="modal">
                                     <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span>
-                                    <form class="modal-content animate" action="/action_page.php">
+                                    <form class="modal-content animate" action="/action_page.php" method="post">
                                         <div class="container">
                                             <label><b>Username</b></label>
-                                            <input type="text" placeholder="Username" name="username" required>
+                                            <input type="text" placeholder="Username" name="name" value="{{this.name}}">
+                                            <span id="nameError"></span>
                                             <label><b>Email</b></label>
-                                            <input type="email" placeholder="Enter Email" name="email" required>
+                                            <input type="email" placeholder="Enter Email" name="email" value="{{this.email}}">
+                                            <span id="emailError"></span>
                                             <label><b>Phone No:</b></label>
-                                            <input type="number" placeholder="Enter PhoneNumber" name="phno" required>
+                                            <input type="text" placeholder="Enter PhoneNumber" name="phone" value="{{this.phone}}">
+                                            <span id="phoneError"></span>
                                             <div class="clearfix">
-                                                <button type="submit" class="signupbtn">Update User</button>
+                                            <button type="submit" class="signupbtn">Update User</button>
                                                 <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Go Back</button>
                                             </div>
                                         </div>
@@ -414,8 +418,9 @@
                 </div>
               </div>
             </div>
-          </div>        
-          <!-- / Footer-->         --}}
+          </div>  
+
+           <!-- / Footer-->--}}
 
         </section>
         <!-- / Content-->

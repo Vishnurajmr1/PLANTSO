@@ -13,6 +13,14 @@ exports.postAddProduct = (req, res, next) => {
   const message2 = "Product with the same name already exists";
   const message3 = "Attached file is not an image.";
   const successMessage = "Product added successfully.";
+  const image = req.file;
+  const price = req.body.price;
+  const description = req.body.description;
+  const stock = req.body.stock;
+  const categoryId =new ObjectId(req.body.categoryId);
+  const fileName = req.file.filename;
+  const basePath = `/images/product-images/`;
+  const imageUrl = `${basePath}${fileName}`;
 
   Category.find({ isDeleted: false })
     .then((categories) => {
@@ -39,13 +47,14 @@ exports.postAddProduct = (req, res, next) => {
               layout: "main",
               pageTitle: "Plantso||Admin-Product",
               categories: updatedCategories,
+              oldInput:{
+                title:title,
+                description:description,
+                stock:stock,
+                price:price,
+              },
             });
           }
-          const image = req.file;
-          const price = req.body.price;
-          const description = req.body.description;
-          const stock = req.body.stock;
-          const categoryId =new ObjectId(req.body.categoryId);
           if(stock<=0 || price<=0){
             return res.status(422).render("admin/edit-product", {
               layout: "main",
@@ -57,6 +66,7 @@ exports.postAddProduct = (req, res, next) => {
                 description:description,
                 stock:stock,
                 price:price,
+                category: categoryId,
               }
             });
           }
@@ -66,13 +76,17 @@ exports.postAddProduct = (req, res, next) => {
               layout: "main",
               pageTitle: "Plantso||Admin-Product",
               categories: updatedCategories,
-              errorMessage:'Attached file is not an image.'
+              errorMessage:'Attached file is not an image.',
+              oldInput:{
+                title:title,
+                description:description,
+                stock:stock,
+                price:price,
+                category:categoryId,
+              }
             });
           }
 
-          const fileName = req.file.filename;
-          const basePath = `/images/product-images/`;
-          const imageUrl = `${basePath}${fileName}`;
           const product = new Product({
             title: title,
             price: price,
@@ -85,7 +99,6 @@ exports.postAddProduct = (req, res, next) => {
           product
             .save()
             .then((result) => {
-              console.log(result);
               res
                 .status(201)
                 .redirect(
