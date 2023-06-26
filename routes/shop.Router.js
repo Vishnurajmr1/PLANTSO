@@ -29,18 +29,24 @@ shopRouter.get('/checkout/cancel',shopController.getCheckout);
 // shopRouter.post('/create-order',isAuth.isauth,orderController.postOrder);
 shopRouter.get('/orders',isAuth.isauth,orderController.getOrders);
 shopRouter.get('/orderDetails/:orderId',shopController.getOrder);
-shopRouter.get('/edit-profile',(req,res)=>{
+shopRouter.get('/account/',shopController.getAccount);
+shopRouter.get('/editProfile',(req,res)=>{
   res.render('shop/edit-profile',{user:true})
 })
-shopRouter.get('/account',(req,res)=>{
-  res.render('shop/account',{user:true})
-})
+// shopRouter.get('/account',(req,res)=>{
+//   res.render('shop/account',{user:true})
+// })
 shopRouter.get('/profile',(req,res)=>{
   res.render('shop/profile',{user:true})
 })
-shopRouter.get('/checkout',(req,res)=>{
-  res.render('shop/checkout',{user:true})
+shopRouter.get('/addresses',(req,res)=>{
+  res.render('shop/addresBook',{user:true})
 })
+
+shopRouter.get('/Addaddress',(req,res)=>{
+  res.render('shop/add-address',{user:true})
+})
+
 shopRouter.get('/wishlist',(req,res)=>{
   res.render('shop/wishlist',{user:true})
 })

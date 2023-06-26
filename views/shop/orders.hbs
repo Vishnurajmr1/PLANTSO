@@ -87,7 +87,7 @@
                                     <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
                                         <div class="dash__pad-2">
                                             <h1 class="dash__h1 u-s-m-b-14">My Orders</h1>
-
+                                             {{#if hasOrders}}
                                             <span class="dash__text u-s-m-b-30">Here you can see all products that have been orderd.</span>
                                             <form class="m-order u-s-m-b-30">
                                                 <div class="m-order__select-wrapper">
@@ -101,7 +101,7 @@
                                                         <option>All Orders</option>
                                                     </select></div>
                                             </form>
-                                                {{#if hasOrders}}
+                                               
                                              <div class="m-order__list">
                                                 <div class="empty">
                                                 {{#each orders}}

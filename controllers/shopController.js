@@ -367,3 +367,7 @@ exports.getOrder = (req, res, next) => {
     res.status(500).json({error:"An error occurred while fetching order details"});
   })
 };
+exports.getAccount=(req,res,next)=>{
+  
+  res.render('shop/account',{user:true});
+}

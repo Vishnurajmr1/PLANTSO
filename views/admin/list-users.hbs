@@ -94,53 +94,32 @@
                                             <i class="ri-more-2-line"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-0">
-                                            <li><a class="dropdown-item" href="#" onclick="document.getElementById('id01').style.display='block'" style="display: flex;justify-content: space-between;">Edit
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                              </svg>
-                                              </a>
-                                            </li>
-                                    
-                                            <li><a class="dropdown-item" href="#" style="display: flex;justify-content: space-between;" onclick="blockUnblockUsers('{{this._id}}',{{this.status}})">{{#if this.status}}Block{{else}}Unblock{{/if}}
+                                           <li><a class="dropdown-item" href="#" style="display: flex;justify-content: space-between;" onclick="blockUnblockUsers('{{this._id}}',{{this.status}})">{{#if this.status}}Block{{else}}Unblock{{/if}}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" {{#if this.status}}fill="yellow"{{else}}fill="green"{{/if}} class="bi bi-slash-circle" viewBox="0 0 16 16">
                                               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                               <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"/>
                                             </svg>
                                             </a>
                                             </li>
-                                            <li><a class="dropdown-item" href="#" style="display: flex;justify-content: space-between;">Delete
+                                            <li><a class="dropdown-item" href="#" onclick="EditUser('{{this._id}}')" style="display: flex;justify-content: space-between;">Edit
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                              </svg>
+                                              </a>
+                                            </li>
+                                           
+                                            {{!-- <li><a class="dropdown-item" href="#" style="display: flex;justify-content: space-between;">Delete
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
                                               <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
                                               <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
                                             </svg>
                                             </a>
-                                            </li>
+                                            </li> --}}
                                         </ul>
                                     </div>
                                     <!-- The form -->
                                     <!--Step 1:Adding HTML-->
-                             {{!-- <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button> --}}
-                                <div id="id01" class="modal">
-                                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span>
-                                    <form class="modal-content animate" action="/action_page.php" method="post">
-                                        <div class="container">
-                                            <label><b>Username</b></label>
-                                            <input type="text" placeholder="Username" name="name" value="{{this.name}}">
-                                            <span id="nameError"></span>
-                                            <label><b>Email</b></label>
-                                            <input type="email" placeholder="Enter Email" name="email" value="{{this.email}}">
-                                            <span id="emailError"></span>
-                                            <label><b>Phone No:</b></label>
-                                            <input type="text" placeholder="Enter PhoneNumber" name="phone" value="{{this.phone}}">
-                                            <span id="phoneError"></span>
-                                            <div class="clearfix">
-                                            <button type="submit" class="signupbtn">Update User</button>
-                                                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Go Back</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
   {{!-- end of the form --}}
                                 </td>
                             </tr>
@@ -158,6 +137,7 @@
                       <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
                   </nav>
+  
             </div>
         </div>
 
@@ -418,10 +398,92 @@
                 </div>
               </div>
             </div>
-          </div>  
+          </div>  --}}
 
-           <!-- / Footer-->--}}
+                                <div id="id01" class="modal">
+                                     <span onclick="document.getElementById('id01').style.display = 'none'" class="close" title="Close Modal">×</span>
+                                      <form class="modal-content animate" action="/admin/editUserDetails/" method="POST">
+                                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                                        <input type="hidden" name="userId" id="userId">
+                                        <div class="container">
+                                            <label><b>Username</b></label>
+                                            <input type="text" placeholder="Username" name="name" id="name">
+                                            <span id="nameError"></span>
+                                            <label><b>Email</b></label>
+                                            <input type="email" placeholder="Enter Email" name="email" id="email">
+                                            <span id="emailError"></span>
+                                            <label><b>Phone No:</b></label>
+                                            <input type="text" placeholder="Enter PhoneNumber" name="phone" id="phone">
+                                            <span id="phoneError"></span>
+                                            <div class="clearfix">
+                                            <button type="submit" class="signupbtn">Update User</button>
+                                                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Go Back</button>
+                                            </div>
+                                        </div>
+                                    </form>
+</div>
+
+           <!-- / Footer-->
 
         </section>
         <!-- / Content-->
 </main>
+
+<script>
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const phoneInput = document.getElementById('phone');
+const nameError = document.getElementById('nameError');
+const emailError = document.getElementById('emailError');
+const phoneError = document.getElementById('phoneError');
+
+nameInput.addEventListener('input', validateName);
+emailInput.addEventListener('input', validateEmail);
+phoneInput.addEventListener('input', validatePhoneNumber);
+
+function validateName() {
+  const name = nameInput.value.trim();
+
+  if (name === '') {
+    nameInput.classList.add('error');
+    nameError.textContent = 'Name field cannot be empty';
+  } else {
+    nameInput.classList.remove('error');
+    nameError.textContent = '';
+  }
+}
+
+function validateEmail() {
+  const email = emailInput.value.trim();
+
+  if (email === '') {
+    emailInput.classList.add('error');
+    emailError.textContent = 'Email field cannot be empty';
+  } else {
+    emailInput.classList.remove('error');
+    emailError.textContent = '';
+  }
+}
+
+function validatePhoneNumber() {
+  const phoneNumber = phoneInput.value.trim();
+
+  if (phoneNumber.startsWith('+91')) {
+    const phoneNumberDigits = phoneNumber.substring(3); // Remove the +91 prefix
+
+    const isValid = /^\d{10}$/.test(phoneNumberDigits);
+
+    if (isValid) {
+      phoneInput.classList.remove('error');
+      phoneError.textContent = '';
+    } else {
+      phoneInput.classList.add('error');
+      phoneError.textContent = 'Please enter a valid phone number with 10 digits';
+    }
+  } else {
+    phoneInput.classList.add('error');
+    phoneError.textContent = 'Please enter a phone number starting with +91';
+  }
+}
+
+</script>

@@ -50,6 +50,8 @@ adminRouter.post('/delete-product',isAdmin.isAdmin,adminController.postDeletePro
 //user managment Admin Routes
 adminRouter.get('/users',isAdmin.isAdmin,adminController.getUsers);
 adminRouter.post('/blockUser',isAdmin.isAdmin,adminController.blockUser);
+adminRouter.get('/editUser/:userId',isAdmin.isAdmin,adminController.getUserDetails);
+adminRouter.post('/editUserDetails/',isAdmin.isAdmin,adminController.editUser);
 //Order Admin Routes
 adminRouter.get('/orders',isAdmin.isAdmin,adminController.getOrders);
 

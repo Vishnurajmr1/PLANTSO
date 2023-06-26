@@ -260,7 +260,6 @@ function addToCart(productId){
     }).then(async(res)=>{
       console.log(res);
     const response =  await res.json();
-    console.log(response);
      let productName = document.getElementById(`productName${productId}`).textContent;
      let productPrice = document.getElementById(`productPrice${productId}`).textContent;
      let productImage = document.getElementById(`productImage${productId}`).src;
@@ -288,6 +287,12 @@ function addToCart(productId){
         document.getElementById('stock-not-available').classList.add('show');
         document.body.classList.add('modal-open');
      document.getElementById('modal-view-stock').hidden = false;
+       }
+       if(response.message==="Admin users cannot make purchases."){
+          document.getElementById('adminCart-notAvailable').style.display = 'block';
+          document.getElementById('adminCart-notAvailable').classList.add('show');
+          document.body.classList.add('modal-open');
+          document.getElementById('modal-AdminLogin').hidden = false;
        }
     //   document.getElementById(`prodName`).textContent = productName;
     //   document.getElementById(`prodPrice`).textContent = productPrice;

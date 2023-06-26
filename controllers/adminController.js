@@ -677,3 +677,79 @@ exports.blockUser=(req,res,next)=>{
     res.status(500).json({error:"An error occured while blocking users"});
   });
 }
+
+exports.getUserDetails=async(req,res,next)=>{
+  try{
+    const {userId}=req.params;
+    //Fetch the user details
+    const user=await adminUserHelpers.fetchUserDetails(userId);
+    if(!user){
+      return res.status(404).json({error:"User not found"});
+    }
+    res.status(200).json(user);
+  }
+  catch(error){
+    res.status(500).json({error:'Internal server error'});
+  }
+}
+
+exports.editUser=async(req,res,next)=>{
+  try{
+    const {userId}=req.body;
+    const {email,phone,name}=req.body;
+    console.log(userId,email,phone,name)
+    
+    const existingUser=await  adminUserHelpers.getUserById(userId);
+    //Check  email uniqueness
+    //Check if email and phone are modified
+
+    //Check  email uniqueness
+    const isEmailModified=email!==existingUser.email;
+    const isPhoneModified=phone!==existingUser.phone;
+    const isNameModified=name!==existingUser.name;
+    if(isEmailModified){
+      const isEmailUnqiue=await adminUserHelpers.checkEmailUnqiue(email,userId);
+    if(!isEmailUnqiue){
+      return res.status(400).json({
+        success:false,
+        message:"Email already exists"});
+    }
+  }
+  //Check phone  unqiueness only if it is modified
+  if(isPhoneModified){
+    const isPhoneUnqiue=await adminUserHelpers.checkPhoneUnqiue(phone,userId);
+    if(!isPhoneUnqiue){
+      return res.status(400).json({
+        success:false,
+        message:"Phone number already exists"});
+    }
+  }
+   //Check  name uniqueness
+   if(isNameModified){
+    const isUsernameUnqiue=await adminUserHelpers.checkUsernameUnqiue(name,userId);
+   if(!isUsernameUnqiue){
+     return res.status(400).json({
+      success:false,
+      message:"Username already exists"});
+     }
+   }
+   
+  //Update the user details
+  const updatedUser = {
+    // name: name || existingUser.name, // Keep existing name if not modified
+    email: isEmailModified ? email : existingUser.email, // Keep existing email if not modified
+    name: isNameModified ? name : existingUser.name, // Keep existing name if not modified
+    phone: isPhoneModified ? phone : existingUser.phone, // Keep existing phone if not modified
+  };
+
+   await adminUserHelpers.updateUser(userId,updatedUser)
+   return res.status(200).json({
+    success: true,
+    message: "User details updated successfully",
+  });
+  }catch(error){
+    res.status(500).json({error:'Internal Server Error'});
+  }
+}
+
+
