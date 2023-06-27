@@ -43,9 +43,9 @@ shopRouter.get('/addresses',(req,res)=>{
   res.render('shop/addresBook',{user:true})
 })
 
-shopRouter.get('/Addaddress',(req,res)=>{
-  res.render('shop/add-address',{user:true})
-})
+shopRouter.get('/add-address',isAuth.isauth,shopController.getAddAccount);
+shopRouter.get('/getStateList/:code',isAuth.isauth,shopController.getStateList);
+shopRouter.post('/add-address',isAuth.isauth,shopController.postAddress);
 
 shopRouter.get('/wishlist',(req,res)=>{
   res.render('shop/wishlist',{user:true})

@@ -1,9 +1,10 @@
+
 require('dotenv').config()
 const Category = require("../models/category");
 const Product = require("../models/product");
 const User = require("../models/user");
 const orderController=require('../controllers/orderController');
-
+const countryStatePicker=require('country-state-picker');
 const stripe=require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 
@@ -337,12 +338,14 @@ exports.getCheckout = async (req, res, next) => {
       cancel_url:req.protocol+'://'+req.get('host')+'/checkout/cancel', // Replace with your cancel URL
     });
     const total = products.reduce((sum, item) => sum + parseFloat(item.subtotal), 0).toFixed(2);
+    let countries=countryStatePicker.getCountries();
     res.render("shop/checkout", {
       products: products,
       user: true,
       hasProducts: products.length > 0,
       totalSum: total,
       sessionId:session.id,
+      country:countries,
     });
   } catch (error) {
     console.log(error);
@@ -368,6 +371,30 @@ exports.getOrder = (req, res, next) => {
   })
 };
 exports.getAccount=(req,res,next)=>{
-  
-  res.render('shop/account',{user:true});
+  res.render('shop/account',
+  {user:true,
+    path:'/address',
+    title:'Address',
+  });
 }
+
+exports.getAddAccount=(req,res,next)=>{
+  let countries=countryStatePicker.getCountries();
+  // console.log(countries)
+  res.render('shop/add-address',{
+    user:true,
+    country:countries,
+    path:'/add-address',
+    title:'AddAddress',
+  });
+}
+
+exports.getStateList=(req,res,next)=>{
+  const countryCode=req.params.code;
+  console.log(countryCode);
+  const states=countryStatePicker.getStates(countryCode);
+  console.log(states);
+  return res.json(states);
+}
+
+exports.postAddress=()

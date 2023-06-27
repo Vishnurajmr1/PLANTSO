@@ -286,7 +286,7 @@ function addToCart(productId){
         document.getElementById('stock-not-available').style.display = 'block';
         document.getElementById('stock-not-available').classList.add('show');
         document.body.classList.add('modal-open');
-     document.getElementById('modal-view-stock').hidden = false;
+        document.getElementById('modal-view-stock').hidden = false;
        }
        if(response.message==="Admin users cannot make purchases."){
           document.getElementById('adminCart-notAvailable').style.display = 'block';
@@ -294,23 +294,9 @@ function addToCart(productId){
           document.body.classList.add('modal-open');
           document.getElementById('modal-AdminLogin').hidden = false;
        }
-    //   document.getElementById(`prodName`).textContent = productName;
-    //   document.getElementById(`prodPrice`).textContent = productPrice;
-    //   document.getElementById(`prodImage`).src = productImage;
-    //   document.getElementById('modal-view').hidden = false;
-    //    console.log('Error:Product not added to cart');
      }
     }).catch((err)=>{
-    //   let productName = document.getElementById(`productName${productId}`).textContent;
-    //  let productPrice = document.getElementById(`productPrice${productId}`).textContent;
-    //  let productImage = document.getElementById(`productImage${productId}`).src;
-    //   document.getElementById(`prodName`).textContent = productName;
-    //   document.getElementById(`prodPrice`).textContent = productPrice;
-    //   document.getElementById(`prodImage`).src = productImage;
-    //   document.getElementById('modal-view').hidden = false;
-       console.log('Error:Product not added to cart');
-    //    document.getElementById('modal-view').hidden = false;
-    //   console.log(err)
+       throw new err('Error:Product not added to cart');
     });
   }
 
@@ -339,6 +325,7 @@ output.innerHTML =slider.value;
 slider.oninput = function() {
   output.innerHTML = `${this.value}`;
 }
+
 
 
 // Get the close button element

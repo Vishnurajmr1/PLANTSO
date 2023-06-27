@@ -164,11 +164,13 @@
 
                                                 <!--====== Select Box ======-->
 
-                                                <label class="gl-label" for="billing-country">COUNTRY *</label><select class="select-box select-box--primary-style" id="billing-country" data-bill="">
+                                                <label class="gl-label" for="billing-country">COUNTRY *</label><select class="select-box select-box--primary-style" id="address-country" data-bill="">
                                                     <option selected value="">Choose Country</option>
-                                                    <option value="uae">United Arab Emirate (UAE)</option>
-                                                    <option value="uk">United Kingdom (UK)</option>
-                                                    <option value="us">United States (US)</option>
+                                                    {{#each country}}
+                                                    <option value="{{code}}">{{name}}</option>
+                                                    {{/each}}
+                                                    {{!-- <option value="uk">United Kingdom (UK)</option>
+                                                    <option value="us">United States (US)</option> --}}
                                                 </select>
                                                 <!--====== End - Select Box ======-->
                                             </div>
@@ -189,11 +191,11 @@
 
                                                 <!--====== Select Box ======-->
 
-                                                <label class="gl-label" for="billing-state">STATE/PROVINCE *</label><select class="select-box select-box--primary-style" id="billing-state" data-bill="">
+                                                <label class="gl-label" for="billing-state">STATE/PROVINCE *</label><select class="select-box select-box--primary-style" id="address-state" data-bill="">
                                                     <option selected value="">Choose State/Province</option>
-                                                    <option value="al">Alabama</option>
+                                                    {{!-- <option value="al">Alabama</option>
                                                     <option value="al">Alaska</option>
-                                                    <option value="ny">New York</option>
+                                                    <option value="ny">New York</option> --}}
                                                 </select>
                                                 <!--====== End - Select Box ======-->
                                             </div>
@@ -491,3 +493,39 @@
           <script src="https://js.stripe.com/v3/"></script>
         </div>
 </main>
+
+
+<script>
+  const countries=document.getElementById('address-country')
+  const states=document.getElementById('address-state')
+   countries.addEventListener('change',function(){
+    const selectedCountry=countries.value;
+ // const csrfToken = document.querySelector('[name="_csrf"]').value;
+    console.log(selectedCountry);
+    //console.log(csrfToken);
+     fetch(`/getStateList/${selectedCountry}`,{
+     method: "GET",
+     headers: {
+      "Content-Type": "application/json",
+    },
+      //body:JSON.stringify({country:selectedCountry})
+     })
+     .then(response=>{
+      // response.json()
+      return response.json();
+     })
+    .then(data => {
+      // Clear the state dropdown
+      states.innerHTML = '<option value="">Choose State/Province</option>';
+      // Populate the state dropdown with the received data
+      data.forEach(state => {
+        const option = document.createElement('option');
+        option.value =state;
+        option.textContent =state;
+        states.appendChild(option);
+      });
+    }).catch(error=>{
+      console.log(error);
+     });
+   });
+</script>

@@ -46,6 +46,10 @@ const userSchema = new Schema({
       default:0,
     },
   },
+  address:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'Address',
+  },
   dateCreated: {
     type: Date,
     default: Date.now,
