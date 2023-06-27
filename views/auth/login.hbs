@@ -1,0 +1,107 @@
+<main>
+<section class="bg-gray-50 flex items-center justify-center">
+    {{!-- {{! login container }} --}}
+    <div class="bg-gray-100 flex rounded-2xl shadow-lg max-w-5xl p-5 items-center">
+      {{! form }}
+      <div class="md:w-1/2 px-16">
+      <h2 class="font-bold text-2xl text-green-500">Login</h2>
+      <p class="text-sm mt-4 text-blue-950">If you already a member,easily login</p>
+      {{!-- {{#if message}}
+          {{#if success}}
+              <h5 class="text-green-500 font-semibold">{{message}}</h5>
+              {{else}}
+              <h5 class="text-red-600 font-semibold" id="error-message">{{message}}</h5>
+              {{/if}}
+      {{/if}} --}}
+      {{#if errorMessage}}
+            <h5 class="text-red-600 font-semibold" id="error-message">{{errorMessage}}</h5>
+      {{/if}}
+        <h5 class="text-red-600 font-semibold" id="errorMessage"></h5>
+      <form action="/login" 
+        method="POST"
+        class="flex flex-col gap-4 mt-4">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <div id="email-field"  class="flex flex-col gap-2">
+              <label for="email" class="font-semibold text-xs">Email</label>
+             <div class="relative">
+              <input  class="p-2 mt-1 rounded-xl w-full  border focus:outline-none focus:ring focus:border-blue-500" type="email" 
+                name="email" id="email"
+                placeholder="Email" oninput="validateEmail()">
+                <p id="email-error" class="hidden text-red-500 text-xs mt-1">Please enter a valid email address</p>
+                <img src="/images/img/checked.png" alt="" width="16" height="16" class="absolute  top-2 right-2 hidden" id="checked">
+                </div>
+        </div>
+         <div id="password-field" class="flex flex-col gap-2">
+                <label for="password" class="font-semibold text-xs">Password</label>
+              <div class="relative">
+                <input class="p-2 rounded-xl border w-full focus:outline-none focus:ring focus:border-blue-500" 
+                type="password" name="password" id="password" 
+                placeholder="Password" oninput="validatePassword()">
+                  <svg  width="16" height="16" fill="gray" class="bi bi-eye-fill absolute top-2 right-2 cursor-pointer" viewBox="0 0 16 16" id="show-password">
+                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                  </svg>
+                  <svg width="16" height="16" fill="gray" class="bi bi-eye-slash-fill absolute top-2 right-2 cursor-pointer hidden" viewBox="0 0 16 16" id="hide-password">
+                      <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"/>
+                      <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"/>
+                  </svg>
+                  <span id="passwordError" class="text-sm text-red-500"></span>
+              </div>
+            </div>
+            <div id="phone-field" class="hidden flex-col gap-2">
+              <label for="phone" class="font-semibold text-xs">Phone Number</label>
+              <div class="flex">
+                  <select name="countryCode" id="countryCode" class="p-2 mt-1 rounded-xl border focus:outline-none focus:ring focus:border-blue-500">
+                      <option value="+91">+91</option>
+                      <option value="+1">+1</option>
+                      <option value="+44">+44</option>
+                      <option value="+86">+86</option>
+                      <option value="+81">+81</option>
+              </select>
+              <input type="tel" name="phone" id="phone" class="p-2 mt-1 w-full rounded-xl border focus:outline-none focus:ring focus:border-blue-500" placeholder="Phone number">
+              </div>
+            </div>
+             <div class=" text-xs text-right" id="reset">
+          <a href="/reset">Forgot your password?</a>
+          </div>
+            <div id="otp-field" class="hidden flex-col gap-2">
+              <label for="phone" class="font-semibold text-xs">OTP</label>
+              <div class="relative">
+              <input type="text" name="otp" id="otp" class="p-2 mt-1 w-full rounded-xl border focus:outline-none focus:ring focus:border-blue-500">
+              </div>
+            </div>
+        <button class="bg-blue-950 rounded-xl text-white py-2 hover:scale-105 duration-300 hover:bg-green-400 hover:font-semibold" type="submit">Log in</button>
+      </form>
+      <div class="mt-10 grid grid-cols-3 items-center text-gray-400">
+        <hr class="border-gray-400">
+        <p class="text-center text-sm">OR</p>
+        <hr class="border-gray-400">
+      </div>
+
+      <div class="bg-white border py-2 w-full rounded-xl mt-5 flex gap-5 justify-center items-center text-sm">
+        {{!-- <a href="#" class="hover:scale-110 duration-300 cursor-pointer focus:outline-none" title="Login with google">
+          <img src="/images/img/google.png"  class="mr-3" alt="">
+        </a> --}}
+        <button id="phone-logo-button" class="hover:scale-110 duration-300 cursor-pointer focus:outline-none" title="Login with phone">
+          <img src="/images/img/telephone-call.png" class="mr-3" alt="">
+        </button>
+        <button id="email-logo-button" class="hover:scale-110 duration-300 cursor-pointer hidden focus:outline-none" title="sign up with email">
+          <img src="/images/img/gmail.png" class="mr-3" alt="">
+        </button>
+        </div>
+       
+          <div class="text-xs flex justify-between 
+          items-center mt-3">
+            <p>Don't have an account?</p>
+            <a href="/signup" class="py-2 px-5 bg-white border rounded-xl  hover:scale-110 duration-300 hover:border-green-500 focus:bg-green-200 focus:outline-none">Register</a>
+          </div>
+      </div>
+      {{! image }}
+      <div class=" md:block w-1/2 hidden">
+        <img class=" rounded-lg" src="\images\img\login2.jpg" alt="login" />
+      </div>
+    </div>
+</section>
+
+<script src="/javascripts/signup.js"></script>
+</main>

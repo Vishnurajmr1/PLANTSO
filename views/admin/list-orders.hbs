@@ -1,0 +1,767 @@
+<style>
+  .gradient-custom {
+/* fallback for old browsers */
+background: #cd9cf2;
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 255, 1));
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 255, 1))
+}
+#editStatusDropdown {
+  display: none;
+}
+
+.show-dropdown #editStatusDropdown {
+  display: block;
+}
+</style>
+<main id="main">
+    {{>admin-header}}
+    {{>admin-sidebar}}
+     <!-- Content-->
+        <section class="container-fluid">
+        
+        <div class="card mb-4">
+            <div class="card-header justify-content-between align-items-center d-flex">
+                <h6 class="card-title m-0">Order Management</h6>
+            </div>
+            <div class="card-body">
+
+                <!-- User listing Actions-->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <form class="bg-light rounded px-3 py-1 flex-shrink-0 d-flex align-items-center">
+                        <input class="form-control border-0 bg-transparent px-0 py-2 me-5 fw-bolder" type="search"
+                          placeholder="Search" aria-label="Search">
+                        <button class="btn btn-link p-0 text-muted" type="submit"><i class="ri-search-2-line"></i></button>
+                    </form>
+                    {{!-- <div class="d-flex justify-content-end">
+                        <a class="btn btn-sm btn-primary" href="#"><i class="ri-add-circle-line align-bottom"></i> New User</a>
+                    </div> --}}
+                </div>
+                <!-- /user listing Actions-->
+
+                <!-- User Listing Table-->
+                {{!-- <div class="table-responsive">
+                    <table class="table m-0 table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Order Id
+                                </th>
+                                <th>Name</th>
+                                <th>Phone NO</th>
+                                <th>Location</th>
+                                <th>Ordered Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each orders}}
+                            <tr>
+                                <td>
+                                   #{{this._id}}
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-start align-items-start">
+                                        <div class="avatar avatar-xs me-3 flex-shrink-0">
+                                            <picture>
+                                                <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-4.jpeg"
+                                                alt="">
+                                            </picture>
+                                        </div>
+                                        <div>
+                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">{{this.user.userId.name}}
+                                                    <span class="d-block f-w-4 ms-1 lh-1 text-primary">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                                        </svg>
+                                                    </span>
+                                            </p>
+                                            <span class="d-block text-muted">{{this.user.userId.email}}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{this.user.userId.phone}}</td>
+                                <td class="text-muted"><i class="ri-map-pin-line align-bottom"></i> London, UK</td>
+                                <td class="text-muted">{{formatDate dateCreated}}</td>
+                                <td>
+                                    {{#if this.user.userId.status}}
+                                    <div class="d-flex align-items-center">
+                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Active</span>
+                                    </div>
+                                    {{else}}
+                                    <div class="d-flex align-items-center">
+                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">InActive</span>
+                                    </div>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
+                                            id="dropdownOrder-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="ri-more-2-line"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-0">
+                                            <li style="display: flex;cursor:pointer;"><a class="dropdown-item" href="#" onclick="document.getElementById('id01').style.display='block'">Edit</a>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                              </svg>
+                                            </li>
+                                            <li style="display: flex;"><a class="dropdown-item" href="#" onclick="document.getElementById('viewDetails').style.display='block'">View Details</a>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-slash-circle" viewBox="0 0 16 16">
+                                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                              <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"/>
+                                            </svg>
+                                            </li>
+                                             <li style="display: flex;"> <a class="dropdown-item" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">View Details</a>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                            </svg>
+                                            </li>
+                                            <li style="display: flex;cursor:pointer;color:red"><a class="dropdown-item" href="#">Delete</a>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                            </svg>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- The form -->
+                                    <!--Step 1:Adding HTML-->
+                             <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
+                                <div id="id01" class="modal">
+                                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span>
+                                    <form class="modal-content animate" action="/action_page.php">
+                                        <div class="container">
+                                            <label><b>OrderId</b></label>
+                                            <input type="text" placeholder="Username" name="username" value="#{{this._id}}" required readonly>
+                                            <label><b>Change status</b></label>
+                                            <select name="status" id="">
+                                                <option value="">Change status</option>
+                                                <option value="">Processing</option>
+                                                <option value="">Cancelled</option>
+                                                <option value="">Delivered</option>
+                                            </select>
+                                            <input type="email" placeholder="Enter Email" name="email" required>
+                                            <label><b>Phone No:</b></label>
+                                            <input type="number" placeholder="Enter PhoneNumber" name="phno" required>
+                                            <div class="clearfix">
+                                                <button type="submit" class="signupbtn">Update Order</button>
+                                                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Go Back</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                        end of the form
+                        view Details
+                         <div id="viewDetails" class="modal">
+                                    <span onclick="document.getElementById('viewDetails').style.display='none'" class="close" title="Close Modal">×</span>
+                                    <form class="modal-content animate" action="/action_page.php">
+                                        <div class="container">
+                                            <label><b>OrderId</b></label>
+                                            <input type="text" placeholder="Username" name="username" value="#{{this._id}}" required readonly>
+                                            <label><b>Change status</b></label>
+                                            <select name="status" id="">
+                                                <option value="">Accepted</option>
+                                                <option value="">In Progress</option>
+                                                <option value="">Shipped</option>
+                                                <option value="">Delivered</option>
+                                                <option value="">Completed</option>
+                                            </select>
+                                            <input type="email" placeholder="Enter Email" name="email" required>
+                                            <label><b>Phone No:</b></label>
+                                            <input type="number" placeholder="Enter PhoneNumber" name="phno" required>
+                                            <div class="clearfix">
+                                                <button type="submit" class="signupbtn">Update Order</button>
+                                                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Go Back</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                        End of details
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>     --}}
+                <!-- /User Listing Table-->
+
+                  <!-- Latest Orders-->
+                <div class="col-12">
+                    <div class="card mb-4 h-100">
+                        <div class="card-header justify-content-between align-items-center d-flex">
+                            <h6 class="card-title m-0">Full orders List</h6>
+                            <a href="#" class="btn btn-outline-secondary btn-sm text-body"><i class="ri-download-2-line align-middle"></i> Export</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table m-0 table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Billing Name</th>
+                                            <th>Date</th>
+                                            <th>Payment Method</th>
+                                            <th>Items</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each orders}}
+                                        <tr>
+                                            <td>
+                                                <span class="fw-bolder">#{{this._id}}</span>
+                                            </td>
+                                            <td>{{this.user.userId.name}}</td>
+                                            <td class="text-muted">{{formatDate dateCreated}}</td>
+                                            <td class="text-muted">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="ri-visa-line ri-lg me-2"></i> **** 6789
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">{{this.products.length}}</td>
+                                            <th class="text-muted">$123.99</th>
+                                            <td><span class="badge rounded-pill bg-success-faded text-success">completed</span></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
+                                                        id="dropdownOrder-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="ri-more-2-line"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-0">
+                                                        <li style="display: flex;justify-content:space-between;position: relative;">
+                                                         <button class="btn-link dropdown-toggle01 dropdown-toggle-icon01 p-0"
+                                                        id="dropdownOrder-01" type="button" onclick="toggleEditStatusDropDown(event)" >
+                                                        {{!-- <i class="ri-more-2-line"></i> --}}
+                                                        Edit Status
+                                                         </button>
+                                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                                         </svg>
+                                                    </li>
+                                                      <ul class="dropdown-menu dropdown01" id="editStatusDropdown" aria-labelledby="dropdownOrder-01">
+                                                        <li><a class="dropdown-item badge rounded-pill bg-info-faded text-info" href="#">Pending</a></li>
+                                                        <li><a class="dropdown-item badge rounded-pill bg-danger-faded text-danger" href="#">Cancelled</a></li>
+                                                        <li>
+                                                          <a class="dropdown-item badge rounded-pill bg-secondary-faded text-dark">Out For Delivery</a></li>
+                                                        <li><a class="dropdown-item badge rounded-pill bg-success-faded text-success" href="#" >Completed</a></li>
+                                                      </ul>
+                                                        <li>
+                                                          <a class="dropdown-item" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                                                         role="button" aria-controls="offcanvasExample" style="display: flex;justify-content: space-between;">
+                                                           View Details
+                                                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
+                                                           <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"/>
+                                                            </svg>
+                                                                </a></li>
+                                                        <li><a class="dropdown-item" href="#" style="display: flex;justify-content: space-between;">Delete Order
+                                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+                                              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                            </svg>
+                                                        </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div id="statusOptions-0" class="statusOptions" style="display: none;position: absolute;z-index: 999999;top:10rem;right:10rem">
+                                              <ul class="list-group list-group-vertical p-2">
+                                             <li class="list-group-item bg-info">
+                                            <a class="text-decoration-none text-white" href="#">Pending</a>
+                                            </li>
+                                         <li class="list-group-item bg-danger">
+                                             <a class="text-decoration-none text-white" href="#">Cancelled</a>
+                                          </li>
+                                         <li class="list-group-item bg-secondary">
+                                        <a class="text-decoration-none text-white" href="#">Out For Delivery</a>
+                                        </li>
+                                      <li class="list-group-item bg-success">
+                                       <a class="text-decoration-none text-white" href="#">Completed</a>
+                                      </li>
+                                      </ul>
+                                        </div>
+                                        </td>
+                                        </tr>
+
+                                                 {{!-- sample canvas from chatgpt --}}
+                                          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Order Details</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-10 col-xl-12">
+          <div class="card" style="border-radius: 10px;">
+            <div class="card-header px-4 py-5">
+              <h5 class="text-muted mb-0">Order Summary of <span style="color: #202020;">#{{this._id}}</span>!</h5>
+            </div>
+            <div class="card-body p-4">
+              <!-- Product 1 -->
+              {{#each this.products}}
+              <div class="card shadow-0 border mb-4">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <img src="{{this.product.imageUrl}}"
+                        class="img-fluid" alt="Phone">
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0">{{this.product.title}}</p>
+                    </div>
+                    {{log this.product.category}}
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    {{#each this.product.category}}
+                      <p class="text-muted mb-0 small">{{this.name}}</p>
+                    {{/each}}
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">Price: ₹{{this.product.price}}</p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">Qty: {{this.quantity}}</p>
+                    </div>
+                    {{log this.totalPrice}}
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">Total Price:₹{{this.totalPrice}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {{/each}}
+              
+              <!-- Product 2 -->
+              {{!-- <div class="card shadow-0 border mb-4">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/1.webp"
+                        class="img-fluid" alt="Phone">
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0">iPad</p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">Pink rose</p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">Capacity: 32GB</p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">Qty: 1</p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">$399</p>
+                    </div>
+                  </div>
+                </div>
+              </div> --}}
+              
+              <!-- Order Details -->
+              <div class="d-flex justify-content-between pt-2">
+                <p class="fw-bold mb-0">Order Details</p>
+                <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> $898.00</p>
+              </div>
+
+              <div class="d-flex justify-content-between pt-2">
+                <p class="text-muted mb-0">Invoice Number: 788152</p>
+                <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> $19.00</p>
+              </div>
+
+              <div class="d-flex justify-content-between">
+                <p class="text-muted mb-0">Invoice Date: 22 Dec, 2019</p>
+                <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span> 123</p>
+              </div>
+
+              <div class="d-flex justify-content-between mb-5">
+                <p class="text-muted mb-0">Receipt Voucher: 18KU-62IIK</p>
+                <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery Charges</span> Free</p>
+              </div>
+            </div>
+            <div class="card-footer border-0 px-4 py-5" style="background-color: #202020; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+              <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+                paid: <span class="h2 mb-0 ms-2">$1040</span></h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+                                          </div>
+              {{!-- sample end canvas from chatgpt --}}
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>    
+                        
+                        </div>
+                    </div>
+                </div>
+                <!-- Latest Orders-->
+                <nav>
+                    <ul class="pagination justify-content-end mt-3 mb-0">
+                      <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                  </nav>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="  footer">
+            <p class="small text-muted m-0">All rights reserved | © 2021</p>
+            <p class="small text-muted m-0">Template created by <a href="https://www.pixelrocket.store/">PixelRocket</a></p>
+        </footer>
+        
+        
+        <!-- Sidebar Menu Overlay-->
+        <div class="menu-overlay-bg"></div>
+        <!-- / Sidebar Menu Overlay-->
+        
+        <!-- Modal Imports-->
+        <!-- Place your modal imports here-->
+        
+        <!-- Default Example Modal Import-->
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Here goes modal body content
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- Offcanvas Imports-->
+        <!-- Place your offcanvas imports here-->
+        
+        <!-- Default Example Offcanvas Import-->
+        {{!-- <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Order Details</h5>
+              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+               <div>
+                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+              </div> 
+              <div class="dropdown mt-3">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+               {{this._id}}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </div>
+            </div>
+          </div> --}}
+
+          {{!-- Demo offcanvas other form --}}
+            
+        <!-- Default Example Offcanvas Import-->
+        {{!-- <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Order Details</h5>
+              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+             <div>
+                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+              </div>
+              <div class="dropdown mt-3">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+               {{this._id}}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </div>
+            </div>
+          </div> --}}
+
+          {{!-- {{end of the canvas}} --}}
+        <!-- Activity Offcanvas Import-->
+         {{!-- <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                <div class="offcanvas-header">
+                  <h5 class="offcanvas-title" id="offcanvasExampleLabel">Order Details</h5>
+                  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                   <div class="container py-5 h-100">
+                      <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col-lg-10 col-xl-8">
+                              <div class="card" style="border-radius: 10px;">
+                                <div class="card-header px-4 py-5">
+                                   <h5 class="text-muted mb-0">Thanks for your Order, <span style="color: #a8729a;">Anna</span>!</h5>
+          </div>
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <p class="lead fw-normal mb-0" style="color: #a8729a;">Receipt</p>
+              <p class="small text-muted mb-0">Receipt Voucher : 1KAU9-84UIL</p>
+            </div>
+            <div class="card shadow-0 border mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/13.webp"
+                      class="img-fluid" alt="Phone">
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0">Samsung Galaxy</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">White</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Capacity: 64GB</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Qty: 1</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">$499</p>
+                  </div>
+                </div>
+                <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+                <div class="row d-flex align-items-center">
+                  <div class="col-md-2">
+                    <p class="text-muted mb-0 small">Track Order</p>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="progress" style="height: 6px; border-radius: 16px;">
+                      <div class="progress-bar" role="progressbar"
+                        style="width: 65%; border-radius: 16px; background-color: #a8729a;" aria-valuenow="65"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="d-flex justify-content-around mb-1">
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivary</p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card shadow-0 border mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/1.webp"
+                      class="img-fluid" alt="Phone">
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0">iPad</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Pink rose</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Capacity: 32GB</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Qty: 1</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">$399</p>
+                  </div>
+                </div>
+                <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+                <div class="row d-flex align-items-center">
+                  <div class="col-md-2">
+                    <p class="text-muted mb-0 small">Track Order</p>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="progress" style="height: 6px; border-radius: 16px;">
+                      <div class="progress-bar" role="progressbar"
+                        style="width: 20%; border-radius: 16px; background-color: #a8729a;" aria-valuenow="20"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="d-flex justify-content-around mb-1">
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivary</p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between pt-2">
+              <p class="fw-bold mb-0">Order Details</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> $898.00</p>
+            </div>
+
+            <div class="d-flex justify-content-between pt-2">
+              <p class="text-muted mb-0">Invoice Number : 788152</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> $19.00</p>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <p class="text-muted mb-0">Invoice Date : 22 Dec,2019</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span> 123</p>
+            </div>
+
+            <div class="d-flex justify-content-between mb-5">
+              <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery Charges</span> Free</p>
+            </div>
+          </div>
+          <div class="card-footer border-0 px-4 py-5"
+            style="background-color: #a8729a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+            <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+              paid: <span class="h2 mb-0 ms-2">$1040</span></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+                </div>
+              </div> --}}
+     
+        
+        {{!-- <!-- Message Offcanvas Import-->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMessage" aria-labelledby="offcanvasMessageLabel">
+            <div class="offcanvas-header position-relative">
+              <div class="d-flex flex-column w-100">
+                <h5 class="offcanvas-title mb-3" id="offcanvasMessageLabel">Company Meetup</h5>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="avatar-group me-4">
+                    <picture class="avatar-group-img">
+                        <img class="f-w-10 rounded-circle" src="/images/profile-small.jpeg"
+                        alt="HTML Bootstrap Admin Template by Pixel Rocket">
+                    </picture>
+                    <picture class="avatar-group-img">
+                        <img class="f-w-10 rounded-circle" src="/images/profile-small-2.jpeg"
+                        alt="HTML Bootstrap Admin Template by Pixel Rocket">
+                    </picture>
+                    <picture class="avatar-group-img">
+                        <img class="f-w-10 rounded-circle" src="/images/profile-small-3.jpeg"
+                        alt="HTML Bootstrap Admin Template by Pixel Rocket">
+                    </picture>
+                    <picture class="avatar-group-img">
+                        <img class="f-w-10 rounded-circle" src="/images/profile-small-4.jpeg"
+                        alt="HTML Bootstrap Admin Template by Pixel Rocket">
+                    </picture>
+                    <span class="small fw-bolder ms-2 text-muted opacity-90">+ 12 others</span>
+                  </div>
+                  <div class="dropdown">
+                    <button class="btn btn-link dropdown-toggle dropdown-toggle-icon p-0" type="button"
+                        id="dropdownTop" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="ri-settings-3-line text-muted ri-lg"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown" aria-labelledby="dropdownTop">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </div>
+                </div>
+              </div>
+              <button type="button" class="btn-close text-reset position-absolute top-20 end-5" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body h-100 d-flex justify-content-between flex-column pb-0">
+              <div class="overflow-auto py-4">
+                <div class="overflow-hidden">
+                  <!-- Messages-->
+                  <div class="d-flex align-items-end justify-content-start mb-4 flex-wrap">
+                      <div class="avatar avatar-xs me-3 flex-shrink-0">
+                          <picture>
+                              <img class="f-w-10 rounded-circle" src="/images/profile-small-4.jpeg"
+                              alt="HTML Bootstrap Admin Template by Pixel Rocket">
+                          </picture>
+                          <span class="avatar-dot bg-success"></span>
+                      </div>
+                      <div class="d-flex justify-content-start flex-column align-items-start col">
+                          <small class="text-muted fs-xs fw-bolder"><span class="fw-bold">Patrick Johnson</span> &middot; 2 mins ago</small>
+                          <div class="bg-light p-3 mt-2 rounded-t-s-4 rounded-t-e-4 rounded-b-e-4">
+                              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                          </div>
+                      </div>
+                  </div>          <div class="d-flex align-items-end justify-content-start mb-4 flex-wrap">
+                      <div class="d-flex justify-content-end flex-column align-items-end col">
+                          <small class="text-muted fs-xs fw-bolder"><span class="fw-bold">You</span> &middot; 5 mins ago</small>
+                          <div class="bg-primary text-white p-3 mt-2 rounded-t-s-4 rounded-t-e-4 rounded-b-s-4">
+                              Maecenas aliquet eu felis vel.
+                          </div>
+                      </div>
+                      <div class="avatar avatar-xs ms-3 flex-shrink-0">
+                          <picture>
+                              <img class="f-w-10 rounded-circle" src="./assets/images/profile-small-3.jpeg"
+                              alt="HTML Bootstrap Admin Template by Pixel Rocket">
+                          </picture>
+                          <span class="avatar-dot bg-success"></span>
+                      </div>
+                  </div>          <div class="d-flex align-items-end justify-content-start mb-4 flex-wrap">
+                      <div class="avatar avatar-xs me-3 flex-shrink-0">
+                          <picture>
+                              <img class="f-w-10 rounded-circle" src="./assets/images/profile-small-4.jpeg"
+                              alt="HTML Bootstrap Admin Template by Pixel Rocket">
+                          </picture>
+                          <span class="avatar-dot bg-success"></span>
+                      </div>
+                      <div class="d-flex justify-content-start flex-column align-items-start col">
+                          <small class="text-muted fs-xs fw-bolder"><span class="fw-bold">Patrick Johnson</span> &middot; 25 mins ago</small>
+                          <div class="bg-light p-3 mt-2 rounded-t-s-4 rounded-t-e-4 rounded-b-e-4">
+                              Cras sit amet gravida augue.
+                          </div>
+                      </div>
+                  </div>          
+                  <!-- / Messages-->
+                </div>
+              </div>
+              <div class="border-top p-4 mx-n3">
+                <div class="d-flex flex-column align-items-end">
+                  <input type="text" class="form-control d-flex w-100 bg-light border-0 text-muted mb-3" placeholder="Add new message...">
+                  <div class="d-flex justify-content-between w-100 align-items-center">
+                    <i class="ri-attachment-line text-muted ri-lg"></i>
+                    <button class="btn btn-sm btn-primary">Send</button>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>        
+          <!-- / Footer-->--}}
+        </section>
+        <!-- / Content-->
+</main>
+
+<script>
+function toggleEditStatusDropDown(event) {
+  event.stopPropagation();
+  var dropdown = document.getElementById("statusOptions-0");
+  dropdown.style.display = (dropdown.style.display === "none") ? "block " : "none";
+}
+
+document.addEventListener("click", function(event) {
+  var dropdown = document.getElementById("statusOptions-0");
+  if (dropdown.style.display === "block") {
+    dropdown.style.display = "none";
+  }
+});
+
+
+</script>

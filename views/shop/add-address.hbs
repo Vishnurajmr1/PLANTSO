@@ -1,0 +1,375 @@
+<main>
+  <!--====== Section 1 ======-->
+    {{>user-profile-sidebar}}
+  <!--====== End - Section 1 ======-->
+
+  <!--====== Section 2 ======-->
+  <div class="u-s-p-b-60">
+
+    <!--====== Section Content ======-->
+    <div class="section__content">
+      <div class="dash">
+        <div class="container">
+          <div class="row">
+            {{>account-detail-sidebar}}
+            <div class="col-lg-9 col-md-12">
+  <div
+    class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white"
+  >
+    <div class="dash__pad-2">
+      <h1 class="dash__h1 u-s-m-b-14">Add new Address</h1>
+
+      <span class="dash__text u-s-m-b-30">We need an address where we could
+        deliver products.</span>
+      <form class="dash-address-manipulation" method="post" action="/add-address" id="add-address-form">
+        <div class="gl-inline">
+          <div class="u-s-m-b-30">
+
+            <label class="gl-label" for="address-fname">FIRST NAME *</label>
+
+            <input
+              class="input-text input-text--primary-style"
+              type="text"
+              id="address-fname"
+              placeholder="First Name"
+            />
+             <span id="fError" style="color: red;font-weight: 100;font-size: small;"></span>
+            </div>
+          <div class="u-s-m-b-30">
+
+            <label class="gl-label" for="address-lname">LAST NAME *</label>
+
+            <input
+              class="input-text input-text--primary-style"
+              type="text"
+              id="address-lname"
+              placeholder="Last Name"
+            />
+             <span id="lError" style="color: red;font-weight: 100;font-size: small;"></span>
+            
+            </div>
+        </div>
+        <div class="gl-inline">
+          <div class="u-s-m-b-30">
+            <label class="gl-label" for="address-phone">PHONE *</label>
+            <input
+              class="input-text input-text--primary-style"
+              type="text"
+              id="address-phone"
+              placeholder="{{loggedUser.phone}}"
+            />
+             <span id="phoneError" style="color: red;font-weight: 100;font-size: small;"></span>
+            </div>
+          <div class="u-s-m-b-30">
+
+            <label class="gl-label" for="address-street">STREET ADDRESS *</label>
+
+            <input
+              class="input-text input-text--primary-style"
+              type="text"
+              id="address-street"
+              placeholder="House Name and Street"
+            />
+             <span id="streetAddressError" style="color: red;font-weight: 100;font-size: small;"></span>
+
+            </div>
+        </div>
+        <div class="gl-inline">
+          <div class="u-s-m-b-30">
+
+            <!--====== Select Box ======-->
+
+            <label class="gl-label" for="address-country">COUNTRY *</label>
+            <select
+              class="select-box select-box--primary-style"
+              id="address-country"
+              name="country"
+            >
+              <option selected value="">Choose Country</option>
+              {{#each country}}
+              <option value="{{code}}">{{name}}</option>
+              {{/each}}
+            </select>
+             <span id="countryError" style="color: red;font-weight: 100;font-size: small;"></span>
+
+            <!--====== End - Select Box ======-->
+          </div>
+          <div class="u-s-m-b-30">
+
+            <!--====== Select Box ======-->
+
+            <label class="gl-label" for="address-state">STATE/PROVINCE *</label>
+            <select
+              class="select-box select-box--primary-style"
+              id="address-state"
+              name="state"
+            >
+              <option selected value="">Choose State/Province</option>
+            </select>
+            <!--====== End - Select Box ======-->
+          </div>
+        </div>
+        <div class="gl-inline">
+          <div class="u-s-m-b-30">
+
+            <label class="gl-label" for="address-city">TOWN/CITY *</label>
+
+            <input
+              class="input-text input-text--primary-style"
+              type="text"
+              id="address-city"
+              placeholder="Town/City"
+            />
+             <span id="cityError" style="color: red;font-weight: 100;font-size: small;"></span>
+
+            </div>
+          <div class="u-s-m-b-30">
+
+            <label class="gl-label" for="address-street">ZIP/POSTAL CODE *</label>
+
+            <input
+              class="input-text input-text--primary-style"
+              type="text"
+              id="address-postal"
+              placeholder="Zip/Postal Code"
+            />
+             <span id="zipCodeError" style="color: red;font-weight: 100;font-size: small;"></span>
+            </div>
+        </div>
+
+        <button class="btn btn--e-brand-b-2" type="submit" id="save-button">SAVE</button>
+          <input type="hidden" name="_csrf" value="{{csrfToken}}">
+      </form>
+    </div>
+  </div>
+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--====== End - Section Content ======-->
+  </div>
+  <!--====== End - Section 2 ======-->
+</main>
+
+
+<script>
+  const countries=document.getElementById('address-country')
+  const states=document.getElementById('address-state')
+   countries.addEventListener('change',function(){
+    const selectedCountry=countries.value;
+ // const csrfToken = document.querySelector('[name="_csrf"]').value;
+    console.log(selectedCountry);
+    //console.log(csrfToken);
+     fetch(`/getStateList/${selectedCountry}`,{
+     method: "GET",
+     headers: {
+      "Content-Type": "application/json",
+    },
+      //body:JSON.stringify({country:selectedCountry})
+     })
+     .then(response=>{
+      // response.json()
+      return response.json();
+     })
+    .then(data => {
+      // Clear the state dropdown
+      states.innerHTML = '<option value="">Choose State/Province</option>';
+      // Populate the state dropdown with the received data
+      data.forEach(state => {
+        const option = document.createElement('option');
+        option.value =state;
+        option.textContent =state;
+        states.appendChild(option);
+      });
+    }).catch(error=>{
+      console.log(error);
+     });
+   });
+</script>
+
+
+<script>
+  //Decalaring variables to check the validation
+const firstName = document.getElementById('address-fname');
+const lastName = document.getElementById('address-lname');
+const streetAddress = document.getElementById('address-street');
+const phoneInput = document.getElementById('address-phone');
+const country = document.getElementById('address-country');
+const state = document.getElementById('address-state');
+const city = document.getElementById('address-city');
+const zipCode = document.getElementById('address-postal');
+
+const fnameError = document.getElementById('fError');
+const lnameError = document.getElementById('lError');
+const streetAddressError = document.getElementById('streetAddressError');
+const phoneError = document.getElementById('phoneError');
+const zipCodeError = document.getElementById('zipCodeError');
+
+phoneInput.addEventListener('input', validatePhoneNumber);
+firstName.addEventListener('input', validateFname);
+lastName.addEventListener('input', validateLname);
+/*
+streetAddress.addEventListener('input', validateAddress);
+country.addEventListener('input', validateCountry);
+state.addEventListener('input', validateState);
+city.addEventListener('input', validateCity);
+zipCode.addEventListener('input', validateZipCode);
+*/
+
+const form = document.getElementById('add-address-form');
+
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  const isValid = validateForm();
+  if (isValid) {
+    form.submit();
+  }
+});
+
+function validatePhoneNumber() {
+  const phoneNumberRegex=/^\d{10}$/; //Matches a 10-digit phone number
+  const phoneNumber = phoneInput.value.trim();
+   if (phoneNumber === '') {
+    hideErrorMessage(phoneError);
+   }else if(phoneInput.startsWith('+91')) {
+    const phoneNumberDigits = phoneInput.substring(3);
+    const isphoneValid =phoneNumberRegex.test(phoneNumberDigits);
+    if (isphoneValid) {
+      hideErrorMessage(phoneError);
+      //phoneInput.classList.remove('error');
+      //phoneError.textContent = '';
+    } else {
+      displayErrorMessage(phoneError,'Please enter a valid phone number with 10 digits');
+     // phoneInput.classList.add('error');
+     // phoneError.textContent = 'Please enter a valid phone number with 10 digits';
+    }
+  } else {
+    displayErrorMessage(phoneError,'Please enter a phone number starting with +91');
+    //phoneInput.classList.add('error');
+   // phoneError.textContent = 'Please enter a phone number starting with +91';
+  }
+}
+function hideErrorMessage(errorElement){
+  errorElement.textContent='';
+  errorElement.style.display='none';
+   errorElement.previousElementSibling.classList.remove('error');
+}
+ function displayErrorMessage(errorElement, message) {
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+    errorElement.previousElementSibling.classList.add('error');
+  }
+/*
+function validatePhoneNumber(){
+  const phoneNumberRegex=/^\d{10}$;
+  const phoneNumber=phoneInput.value.trim();
+
+  if(phoneNumber===''){
+    isValid=false;
+    phoneInput.classList.add('error');
+    phoneError.textContent='Phone number is required';
+  }else if(!phoneNumberRegex.test(phoneNumber)){
+    phoneInput.classList.add('error');
+    phoneError.textContent='Please enter a valid 10-digit phone number';
+  }else{
+    phoneInput.classList.remove('error');
+    phoneError.textContent='';
+  }
+}
+
+*/
+function validateForm() {
+  let isValid = true;
+
+  if (firstName.value.trim() === '') {
+    isValid = false;
+    firstName.classList.add('error');
+    fnameError.textContent = 'First name is required';
+  } else {
+    firstName.classList.remove('error');
+    fnameError.textContent = '';
+  }
+
+  if (lastName.value.trim() === '') {
+    isValid = false;
+    lastName.classList.add('error');
+    lnameError.textContent = 'Last name is required';
+  } else {
+    lastName.classList.remove('error');
+    lnameError.textContent = '';
+  }
+
+  if (streetAddress.value.trim() === '') {
+    isValid = false;
+    streetAddress.classList.add('error');
+    streetAddressError.textContent = 'Street address is required';
+  } else {
+    streetAddress.classList.remove('error');
+    streetAddressError.textContent = '';
+  }
+
+  if (country.value.trim() === '') {
+    isValid = false;
+    country.classList.add('error');
+  } else {
+    country.classList.remove('error');
+  }
+
+  if (state.value.trim() === '') {
+    isValid = false;
+    state.classList.add('error');
+  } else {
+    state.classList.remove('error');
+  }
+
+  if (city.value.trim() === '') {
+    isValid = false;
+    city.classList.add('error');
+  } else {
+    city.classList.remove('error');
+  }
+
+  if (zipCode.value.trim() === '') {
+    isValid = false;
+    zipCode.classList.add('error');
+    zipCodeError.textContent = 'Zip code is required';
+  } else {
+    zipCode.classList.remove('error');
+    zipCodeError.textContent = '';
+  }
+
+  return isValid;
+}
+
+function validateFname() {
+  const firstNameRegex = /^[A-Za-z]+$/; // Matches alphabetic characters only
+  const firstName = firstNameInput.value.trim();
+
+  if (!firstNameRegex.test(firstName)) {
+    firstNameInput.classList.add('error');
+  } else {
+    firstNameInput.classList.remove('error');
+    fnameError.textContent='';
+  }
+}
+
+
+function validateLname() {
+  const lastNameRegex = /^[A-Za-z]+$/; // Matches alphabetic characters only
+  const lastName = lastNameInput.value.trim();
+
+  if (!lastNameRegex.test(lastName)) {
+    lastNameInput.classList.add('error');
+  } else {
+    lastNameInput.classList.remove('error');
+    lastError.textContent='';
+  }
+}
+
+// Add the validateAddress, validateCountry, validateState, and validateCity functions as needed
+// Update the error message elements accordingly
+
+
+</script>
