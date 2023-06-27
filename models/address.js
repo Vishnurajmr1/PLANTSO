@@ -32,9 +32,6 @@ const addressSchema = new mongoose.Schema({
   phone: {
     type: String,
   },
-  email: {
-    type: String,
-  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

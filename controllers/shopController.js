@@ -3,6 +3,7 @@ require('dotenv').config()
 const Category = require("../models/category");
 const Product = require("../models/product");
 const User = require("../models/user");
+const userHelper=require('../helpers/userhelpers');
 const orderController=require('../controllers/orderController');
 const countryStatePicker=require('country-state-picker');
 const stripe=require('stripe')(process.env.STRIPE_SECRET_KEY)
@@ -397,6 +398,55 @@ exports.getStateList=(req,res,next)=>{
   return res.json(states);
 }
 
+exports.getAddress=(req,res,next)=>{
+  const userId=req.user._id;
+  const successMessage=req.flash('success');
+  userHelper.getAddress(userId)
+  .then((address)=>{
+    const formattedAddress=address.map((address)=>({
+      ...address,
+      countryName:countryStatePicker.getCountry(address.country),
+    }));
+    res.status(200).render('shop/addressBook',{
+      user:true,
+      Address:formattedAddress,
+      hasAddress:address.length>0,
+      path:'/addresses',
+      success:successMessage,
+      title:'Address',
+    });
+  })
+  .catch((error)=>{
+    res.status(500).json({error:"Error retrieving addresses"});
+  })
+}
+
 exports.postAddress=(req,res,next)=>{
-  
+ const addressData=req.body;
+  const userId=req.user._id;
+  console.log(req.body);
+  userHelper.saveAddress(addressData,userId)
+  .then(saveAddress=>{
+    console.log(saveAddress);
+    req.flash('success','New Address Added successfully');
+    res.status(200).redirect('/addresses');
+  })
+  .catch(error=>{
+    res.status(500).json({error:'Failed to save Address'});
+  })
 };
+
+exports.defaultAddress=(req,res,next)=>{
+  const userId=req.user._id;
+  userHelper.defaultAddress(userId)
+  .then(defaultAddress=>{
+    return res.json(defaultAddress);
+  })
+  .catch(error=>{
+    if (error === 'No default address found') {
+      return res.status(404).json({ error: 'No default address found. Please set a default address.' });
+    } else {
+      return res.status(500).json({ error: 'Failed to get Default Address'});
+    }
+  })
+}

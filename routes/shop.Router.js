@@ -39,9 +39,8 @@ shopRouter.get('/editProfile',(req,res)=>{
 shopRouter.get('/profile',(req,res)=>{
   res.render('shop/profile',{user:true})
 })
-shopRouter.get('/addresses',(req,res)=>{
-  res.render('shop/addresBook',{user:true})
-})
+shopRouter.get('/addresses',isAuth.isauth,shopController.getAddress);
+shopRouter.get('/defaultAddress',isAuth.isauth,shopController.defaultAddress);
 
 shopRouter.get('/add-address',isAuth.isauth,shopController.getAddAccount);
 shopRouter.get('/getStateList/:code',isAuth.isauth,shopController.getStateList);

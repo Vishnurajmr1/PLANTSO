@@ -54,6 +54,14 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  couponHistory: {
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Coupon',
+    }],
+    default: [],
+  },
+
 });
 
 // userSchema.methods.addToCart = function (product) {

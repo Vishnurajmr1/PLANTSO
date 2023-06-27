@@ -221,21 +221,6 @@
                                                 </div>
                                                 <!--====== End - Check Box ======-->
                                             </div>
-                                            <div class="u-s-m-b-10">
-
-                                                <a class="gl-link" href="#create-account" data-toggle="collapse">Want to create a new account?</a></div>
-                                            <div class="collapse u-s-m-b-15" id="create-account">
-
-                                                <span class="gl-text u-s-m-b-15">Create an account by entering the information below. If you are a returning customer please login at the top of the page.</span>
-                                                <div>
-
-                                                    <label class="gl-label" for="reg-password">Account Password *</label>
-
-                                                    <input class="input-text input-text--primary-style" type="text" data-bill id="reg-password"></div>
-                                            </div>
-                                            <div class="u-s-m-b-10">
-
-                                                <label class="gl-label" for="order-note">ORDER NOTE</label><textarea class="text-area text-area--primary-style" id="order-note"></textarea></div>
                                             <div>
 
                                                 <button class="btn btn--e-transparent-brand-b-2" type="submit">SAVE</button></div>
@@ -459,7 +444,7 @@
                                                         <a class="gl-link">Terms of Service.</a>
                                                     </div>
                                                     <div>
-                                                        <button class="btn btn--e-brand-b-2" id="order-btn">PLACE ORDER</button>
+                                                        <button class="btn btn--e-brand-b-2" id="order-btn">Continue</button>
                                                          <script src="https://js.stripe.com/v3/"></script>
                                                          <script>
                                                             var stripe=Stripe('pk_test_51NM52USGoyjO6bGWzt6sBpPIgATb25DWYwIDfxfWYMKfMHMN4UxOeJj3RJy5Tgz20px7SWSnl4pMlfZr181itejI00yTNJJYdu');
@@ -528,4 +513,70 @@
       console.log(error);
      });
    });
+</script>
+<script>
+    const getAddressCheckbox=document.getElementById('get-address');
+    getAddressCheckbox.addEventListener('change',handleGetAddressChange);
+
+    function handleGetAddressChange(){
+        if(getAddressCheckbox.checked){
+            console.log(getAddressCheckbox);
+            retrieveDefaultAddress();
+        }else{
+            clearDefaultAddress();
+        }
+    }
+
+    function retrieveDefaultAddress(){
+        fetch('/defaultAddress',{
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        }).then((response)=>{
+            console.log(response)
+            return response.json();
+        }).then((data)=>{
+            console.log(data);
+            if(data.error){
+                Swal.fire({
+                icon: 'warning',
+                 title: 'No default address Found!',
+                text: 'Please make any one address default',
+            footer: '<a href="/addresses">Make a default address</a>'
+            })
+            }
+            displayAddressDetails(data);
+        })
+        .catch((error)=>{
+            console.error('Failed to retrieve default Address',error);
+        })
+    }
+
+    function displayAddressDetails(address) {
+  // Update the DOM elements with the address details
+  // Replace the DOM element IDs with the appropriate ones from your page
+     document.getElementById('billing-fname').value = address.fname;
+    document.getElementById('billing-lname').value  = address.lname;
+    document.getElementById('billing-phone').value  = address.phone;
+    document.getElementById('billing-town-city').value = address.city;
+    document.getElementById('address-country').value  = address.country;
+    const stateSelect=document.getElementById('address-state');
+      stateSelect.innerHTML ='<option value="">Choose State/Province</option>';
+      if(address.state){
+       const option = document.createElement('option');
+        option.value =address.state;
+        option.textContent =address.state;
+        option.selected=true;
+        states.appendChild(option);
+      }
+    document.getElementById('billing-street').value  = address.street_address;
+    document.getElementById('billing-zip').value  = address.zipcode;
+}
+    function clearAddressDetails() {
+  // Clear the DOM elements displaying the address details
+  // Replace the DOM element IDs with the appropriate ones from your page
+        document.getElementById('billing-street').value = '';
+        document.getElementById('billing-zip').value = '';
+    }
 </script>

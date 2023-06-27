@@ -31,6 +31,7 @@
               class="input-text input-text--primary-style"
               type="text"
               id="address-fname"
+              name="fname"
               placeholder="First Name"
             />
              <span id="fError" style="color: red;font-weight: 100;font-size: small;"></span>
@@ -43,6 +44,7 @@
               class="input-text input-text--primary-style"
               type="text"
               id="address-lname"
+              name="lname"
               placeholder="Last Name"
             />
              <span id="lError" style="color: red;font-weight: 100;font-size: small;"></span>
@@ -55,8 +57,9 @@
             <input
               class="input-text input-text--primary-style"
               type="text"
+              name="phone"
               id="address-phone"
-              placeholder="{{loggedUser.phone}}"
+              value="{{loggedUser.phone}}"
             />
              <span id="phoneError" style="color: red;font-weight: 100;font-size: small;"></span>
             </div>
@@ -67,6 +70,7 @@
             <input
               class="input-text input-text--primary-style"
               type="text"
+              name="streetAddress"
               id="address-street"
               placeholder="House Name and Street"
             />
@@ -118,6 +122,7 @@
               class="input-text input-text--primary-style"
               type="text"
               id="address-city"
+              name="city"
               placeholder="Town/City"
             />
              <span id="cityError" style="color: red;font-weight: 100;font-size: small;"></span>
@@ -131,6 +136,7 @@
               class="input-text input-text--primary-style"
               type="text"
               id="address-postal"
+              name="zipcode"
               placeholder="Zip/Postal Code"
             />
              <span id="zipCodeError" style="color: red;font-weight: 100;font-size: small;"></span>
@@ -209,13 +215,7 @@ const zipCodeError = document.getElementById('zipCodeError');
 phoneInput.addEventListener('input', validatePhoneNumber);
 firstName.addEventListener('input', validateFname);
 lastName.addEventListener('input', validateLname);
-/*
-streetAddress.addEventListener('input', validateAddress);
-country.addEventListener('input', validateCountry);
-state.addEventListener('input', validateState);
-city.addEventListener('input', validateCity);
-zipCode.addEventListener('input', validateZipCode);
-*/
+
 
 const form = document.getElementById('add-address-form');
 
@@ -345,12 +345,12 @@ function validateForm() {
 
 function validateFname() {
   const firstNameRegex = /^[A-Za-z]+$/; // Matches alphabetic characters only
-  const firstName = firstNameInput.value.trim();
+  const firstNameInput = firstName.value.trim();
 
-  if (!firstNameRegex.test(firstName)) {
-    firstNameInput.classList.add('error');
+  if (!firstNameRegex.test(firstNameInput)) {
+    firstName.classList.add('error');
   } else {
-    firstNameInput.classList.remove('error');
+    firstName.classList.remove('error');
     fnameError.textContent='';
   }
 }
@@ -358,13 +358,13 @@ function validateFname() {
 
 function validateLname() {
   const lastNameRegex = /^[A-Za-z]+$/; // Matches alphabetic characters only
-  const lastName = lastNameInput.value.trim();
+  const lastNameInput = lastName.value.trim();
 
-  if (!lastNameRegex.test(lastName)) {
-    lastNameInput.classList.add('error');
+  if (!lastNameRegex.test(lastNameInput)) {
+    lastName.classList.add('error');
   } else {
-    lastNameInput.classList.remove('error');
-    lastError.textContent='';
+    lastName.classList.remove('error');
+    lError.textContent='';
   }
 }
 

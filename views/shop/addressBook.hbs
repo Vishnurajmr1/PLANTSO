@@ -13,7 +13,11 @@
           <div class="row">
             {{>account-detail-sidebar}}
             <div class="col-lg-9 col-md-12">
-                 <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
+                {{#if success}}
+                    <div class="alert alert-success">{{success}}</div>
+                        {{/if}}
+                {{#if hasAddress}}
+                                    <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
                                         <div class="dash__pad-2">
                                             <div class="dash__address-header">
                                                 <h1 class="dash__h1">Address Book</h1>
@@ -35,27 +39,32 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Action</th>
-                                                        <th>Full Name</th>
+                                                        <th>First Name</th>
+                                                        <th>Last Name</th>
                                                         <th>Address</th>
                                                         <th>Region</th>
+                                                        <th>PostalCode</th>
                                                         <th>Phone Number</th>
                                                         <th>Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    {{#each Address}}
                                                     <tr>
                                                         <td>
-
                                                             <a class="address-book-edit btn--e-transparent-platinum-b-2" href="dash-address-edit.html">Edit</a></td>
-                                                        <td>{{loggedUser.name}}</td>
-                                                        <td>4247 Ashford Drive Virginia VA-20006 USA</td>
-                                                        <td>Virginia VA-20006 USA</td>
-                                                        <td>{{loggedUser.phone}}</td>
+                                                        <td>{{fname}}</td>
+                                                        <td>{{lname}}</td>
+                                                        <td>{{street_address}}</td>
+                                                        <td>{{countryName.name}},{{city}}</td>
+                                                        <td>{{zipcode}}</td>
+                                                        <td>{{phone}}</td>
                                                         <td>
                                                             <div class="gl-text">Default Shipping Address</div>
                                                             <div class="gl-text">Default Billing Address</div>
                                                         </td>
                                                     </tr>
+                                                    {{/each}}
                                                     {{!-- <tr>
                                                         <td>
 
@@ -70,10 +79,43 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div>
+                                      <div>
 
                                         <a class="dash__custom-link btn--e-brand-b-2" href="/add-address"><i class="fas fa-plus u-s-m-r-8"></i>
-                                            <span>Add New Address</span></a></div>
+                                            <span>Add New Address</span></a>
+                                            </div>
+                                    {{else}}
+                                    <!--======emptycart Section 1 ======-->
+                                        <div class="u-s-p-y-60">
+
+                                 <!--====== emptycartSection Content ======-->
+                                <div class="section__content">
+                                 <div class="container">
+                                     <div class="row">
+                             <div class="col-lg-12 col-md-12 u-s-m-b-30">
+                                     <div class="empty">
+                                     <div class="empty__wrap">
+
+                                <span class="empty__big-text">No Address Found!</span>
+
+                                <span class="empty__text-1">No saved address on this account.</span>
+
+                <a
+                  class="empty__redirect-link btn--e-brand"
+                  href="/add-address"
+                >Add New Address</a>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--====== End - emptycart Section Content ======-->
+  </div>
+  <!--====== End - emptycart Section 1 ======-->
+                                    {{/if}}
+                                    
+                                  
                                 </div>
           </div>
         </div>
@@ -83,3 +125,17 @@
   </div>
   <!--====== End - Section 2 ======-->
 </main>
+
+<script>
+    // Get the success alert element
+const successAlert = document.querySelector('.alert-success');
+
+// Show the success alert
+successAlert.style.display = 'block';
+
+// Set a timeout to hide the success alert after 3000 milliseconds (3 seconds)
+setTimeout(() => {
+  successAlert.style.display = 'none';
+}, 3000);
+
+</script>
