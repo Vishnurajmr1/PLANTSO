@@ -354,6 +354,41 @@ slider.oninput = function() {
 // });
 
 
+function handlePayment(addressDetails,paymentMethodId){
+  const csrfToken = document.querySelector('[name="_csrf"]').value;
+  fetch(`/checkout`,{
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": csrfToken,
+    },
+    body:JSON.stringify({address:addressDetails,paymentMethodId:paymentMethodId}),
+  }).then((response)=>{
+    if(!response.ok){
+      throw new Error('An error occured during the request.');
+    }
+    console.log(response);
+    return response.json();
+    })
+    .then((data)=>{
+      console.log(data);
+      console.log('Order placed successfully:',data);
+      if (data.success) {
+        // Show success alert using SweetAlert
+        swal.fire({
+          title: "Success",
+          text: "Order placed successfully",
+          icon: "success",
+          button: "OK",
+        }).then(() => {
+          window.location.href = '/orders'; // Redirect the user to the /orders page
+        });
+      }
+    })
+    .catch(error=>{
+      console.error('An error during  payment',error);
+    })
+}
 
 
 

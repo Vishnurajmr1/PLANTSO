@@ -3,6 +3,7 @@ require('dotenv').config()
 const Category = require("../models/category");
 const Product = require("../models/product");
 const User = require("../models/user");
+const Address=require('../models/address');
 const userHelper=require('../helpers/userhelpers');
 const orderController=require('../controllers/orderController');
 const countryStatePicker=require('country-state-picker');
@@ -326,7 +327,7 @@ exports.getCheckout = async (req, res, next) => {
       payment_method_types: ["card"],
       line_items: products.map((item) => ({
         price_data: {
-          currency: "usd",
+          currency: "INR",
           product_data: {
             name: item.product,
           },
@@ -449,4 +450,92 @@ exports.defaultAddress=(req,res,next)=>{
       return res.status(500).json({ error: 'Failed to get Default Address'});
     }
   })
+}
+
+exports.getDefault=(req,res,next)=>{
+  const userId=req.user._id;
+  const successMessage=req.flash('success');
+  userHelper.getAddress(userId)
+  .then((address)=>{
+    const formattedAddress=address.map((address)=>({
+      ...address,
+      countryName:countryStatePicker.getCountry(address.country),
+    }));
+    res.status(200).render('shop/makedefault',{
+      user:true,
+      Address:formattedAddress,
+      hasAddress:address.length>0,
+      path:'/addresses',
+      success:successMessage,
+      title:'Address',
+    });
+  })
+  .catch((error)=>{
+    res.status(500).json({error:"Error retrieving addresses"});
+  })
+}
+
+exports.postCheckout=(req,res,next)=>{
+  const {address,paymentMethodId}=req.body;
+  if(paymentMethodId==='COD'){
+    const user=req.user;
+    const cartItems=user.cart.items;
+    if(address.addressId){
+      Address.findById(address.addressId)
+      .then((existingAddress)=>{
+        console.log(existingAddress)
+        if(existingAddress){
+          return orderController.createOrder(
+            user,
+            cartItems,
+            existingAddress._id,
+            paymentMethodId
+            );
+        }
+      })
+      .then((order)=>{
+        return req.user.clearCart()
+      })
+      .then((order)=>{
+        return res.json({success:true,message:"order placed successfully"})
+      })
+      .catch((error)=>{
+        console.log('Failed to process the order',error);
+      })
+    }else{
+      console.log(address);
+    const newAddress=new Address({
+      fname:address.firstName,
+      lname:address.lastName,
+      street_address:address.address,
+      country:address.country,
+      state:address.state,
+      phone:address.phone,
+      zipcode:address.zipCode,
+      city:address.town,
+    });
+    console.log(newAddress);
+    newAddress
+    .save()
+    .then((savedAddress)=>{
+      return orderController.createOrder(
+        user,
+        cartItems,
+        savedAddress._id,
+        paymentMethodId,
+      )
+    })
+    .then((order)=>{
+      return req.user.clearCart()
+      .then(()=>{
+        return res.json({success:true,message:"order placed successfully"})
+      });
+    })
+    .catch((error)=>{
+      console.log('Failed to process the order',error);
+    })
+  }
+}else{
+  res.json({message:'Payment method handled successfully'});
+}
 }

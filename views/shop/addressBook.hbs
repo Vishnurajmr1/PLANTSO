@@ -25,11 +25,8 @@
 
                                                     <span class="dash__link dash__link--black u-s-m-r-8">
 
-                                                        <a href="dash-address-make-default.html">Make default shipping address</a></span>
-
-                                                    <span class="dash__link dash__link--black">
-
-                                                        <a href="dash-address-make-default.html">Make default shipping address</a></span></div>
+                                                        <a href="/selectDefault">Make default shipping address</a></span>
+                                                        </div>
                                             </div>
                                         </div>
                                     </div>
@@ -52,7 +49,7 @@
                                                     {{#each Address}}
                                                     <tr>
                                                         <td>
-                                                            <a class="address-book-edit btn--e-transparent-platinum-b-2" href="dash-address-edit.html">Edit</a></td>
+                                                            <a class="address-book-edit btn--e-transparent-platinum-b-2" href="/editAddress">Edit</a></td>
                                                         <td>{{fname}}</td>
                                                         <td>{{lname}}</td>
                                                         <td>{{street_address}}</td>
@@ -60,8 +57,12 @@
                                                         <td>{{zipcode}}</td>
                                                         <td>{{phone}}</td>
                                                         <td>
+                                                          {{#if isDefaultShipping}}
                                                             <div class="gl-text">Default Shipping Address</div>
+                                                            {{/if}}
+                                                            {{#if isDefaultBilling}}
                                                             <div class="gl-text">Default Billing Address</div>
+                                                            {{/if}}
                                                         </td>
                                                     </tr>
                                                     {{/each}}

@@ -632,10 +632,10 @@ exports.getUser = (req, res, next) => {
   });
 };
 
-exports.getOrders = (req, res, next) => {
+exports.getOrders = (req,res,next) => {
   console.log('hiii')
   orderController.getAllOrders()
-  .then(orders => {
+  .then((orders) => {
       console.log(orders);
       res.render("admin/list-orders", {
         pageTitle: "Plantso||Admin-OrderList",

@@ -21,10 +21,7 @@ shopRouter.post('/cart',isAuth.isauth,shopController.postCart);
 shopRouter.post('/cart-delete-item',isAuth.isauth,shopController.postCartDeleteProduct);
 shopRouter.patch('/cart',isAuth.isauth,shopController.updateQuantity);
 shopRouter.get('/filterview/:categoryId',productController.getProductsByCategory);
-//router used for checkout 
-shopRouter.get('/checkout',isAuth.isauth,shopController.getCheckout);
-shopRouter.get('/checkout/success',orderController.getCheckoutSuccess);
-shopRouter.get('/checkout/cancel',shopController.getCheckout);
+
 //orders router
 // shopRouter.post('/create-order',isAuth.isauth,orderController.postOrder);
 shopRouter.get('/orders',isAuth.isauth,orderController.getOrders);
@@ -41,6 +38,7 @@ shopRouter.get('/profile',(req,res)=>{
 })
 shopRouter.get('/addresses',isAuth.isauth,shopController.getAddress);
 shopRouter.get('/defaultAddress',isAuth.isauth,shopController.defaultAddress);
+shopRouter.get('/selectDefault',isAuth.isauth,shopController.getDefault);
 
 shopRouter.get('/add-address',isAuth.isauth,shopController.getAddAccount);
 shopRouter.get('/getStateList/:code',isAuth.isauth,shopController.getStateList);
@@ -50,4 +48,11 @@ shopRouter.get('/wishlist',(req,res)=>{
   res.render('shop/wishlist',{user:true})
 })
 
+
+//router used for checkout 
+shopRouter.get('/checkout',isAuth.isauth,shopController.getCheckout);
+shopRouter.get('/checkout/success',orderController.getCheckoutSuccess);
+shopRouter.get('/checkout/cancel',shopController.getCheckout);
+
+shopRouter.post('/checkout',isAuth.isauth,shopController.postCheckout);
 module.exports = shopRouter;

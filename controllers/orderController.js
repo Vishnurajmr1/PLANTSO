@@ -4,6 +4,9 @@ const Product = require("../models/product");
 const User = require('../models/user');
 
 exports.getCheckoutSuccess = (req, res, next) => {
+  const paymentMethod=req.body.paymentMethod;
+  const totalPrice=req.body.totalPrice;
+  const address=req.body.address;
   req.user
     .populate("cart.items.productId")
     .then((user) => {
@@ -16,6 +19,9 @@ exports.getCheckoutSuccess = (req, res, next) => {
           userId: req.user,
         },
         products: products,
+        paymentMethod:paymentMethod,
+        totalPrice:totalPrice,
+        address:address
       });
       return order.save();
     })
@@ -28,19 +34,21 @@ exports.getCheckoutSuccess = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-exports.postOrder = (req, res, next) => {
+exports.postOrder = (req,res,next) => {
   req.user
     .populate("cart.items.productId")
     .then((user) => {
       const products = user.cart.items.map((i) => {
         return { quantity: i.quantity, product: { ...i.productId._doc } };
       });
+      console.log(addressId)
       const order = new Order({
         user: {
-          username:req.user.name,
+          name:req.user.name,
           email: req.user.email,
           userId: req.user,
         },
+        shippingAddress:addressId,
         products: products,
       });
       return order.save();
@@ -70,33 +78,58 @@ exports.getOrders = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-exports.getAllOrders =() => {
-  return new Promise((resolve,reject)=>{
-    Order.find()
-    .populate({
-      path:'products.product',
-      populate:{
-        path:'category',
-        model:'Category',
-      },
-    })
-    .populate('user.userId')
-    .lean()
-    .then((orders) => {
-      orders.forEach((order)=>{
-        order.products.forEach((product)=>{
-          product.totalPrice=product.product.price*product.quantity;
-        })
+// exports.getAllOrders =() => {
+//   return new Promise((resolve,reject)=>{
+//     Order.find()
+//     .populate({
+//       path:'products.product',
+//       populate:{
+//         path:'category',
+//         model:'Category',
+//       },
+//     })
+//     .populate('user.userId')
+//     .lean()
+//     .then((orders) => {
+//       orders.forEach((order)=>{
+//         order.products.forEach((product)=>{
+//           product.totalPrice=product.product.price*product.quantity;
+//         })
+//       })
+//       console.log(orders);
+//       resolve(orders);
+//     })
+//     .catch((err) => {
+//       console.log(err.message);
+//       reject(err)
+//     });
+//   });
+// };
+
+
+exports.getAllOrders=async ()=>{
+  try {
+    const orders = await Order.find()
+      .populate({
+        path: 'products.product',
+        populate: {
+          path: 'category',
+          model: 'Category',
+        },
       })
-      console.log(orders);
-      resolve(orders);
-    })
-    .catch((err) => {
-      console.log(err.message);
-      reject(err)
+      .populate('user.userId')
+      .lean();
+    orders.forEach((order) => {
+      order.products.forEach((product) => {
+        product.totalPrice = product.product.price * product.quantity;
+      });
     });
-  });
-};
+    return orders;
+  } catch (err) {
+    console.log(err.message);
+    throw err;
+  }
+}
 
 exports.getOrder =(orderId) => {
   return new Promise((resolve,reject)=>{
@@ -114,20 +147,59 @@ exports.getOrder =(orderId) => {
   });
 };
 
+exports.createOrder=(user,cartItems,addressId,paymentMethodId)=>{
+  return new Promise((resolve,reject)=>{
+      // console.log(user);
+      console.log(cartItems);
+      const productPromises =cartItems.map(async (item) => {
+        const product = await Product.findById(item.productId)
+          .exec();
+        return { quantity: item.quantity, product };
+      });
+      console.log(productPromises);
+      Promise.all(productPromises)
+      .then((products)=>{
+        const order = new Order({
+          user: {
+            name:user.name,
+            email: user.email,
+            userId:user._id,
+          },
+          status:'pending',
+          total:user.cart.totalPrice,
+          shippingAddress:addressId,
+          products:products,
+          paymentmethod:paymentMethodId
+        });
+     order
+     .save()
+    .then((savedOrder)=>{
+      resolve(savedOrder);
+    })
+    .catch((error)=>{
+      console.log(error);
+      reject(error);
+    });
+  }).catch((error)=>{
+    console.log(error);
+    reject(error);
+  });
+  });
+};
 
-// exports.getAllOrders =(req,res,next) => {
-//     Order.find()
-//     .lean()
-//     .then((orders) => {
-//       res.render("admin/list-orders", {
-//         pageTitle: "Plantso||Admin-OrderList",
-//         layout: "main",
-//         // orders: orders, //Pass the orders to the view
-//         title: "orders",
-//       });
-//     })
-//     .catch((err) => {
-//       console.log(err.message);
-//     });
-// };
+exports.getAllOrders =(req,res,next) => {
+    Order.find()
+    .lean()
+    .then((orders) => {
+      res.render("admin/list-orders", {
+        pageTitle: "Plantso||Admin-OrderList",
+        layout: "main",
+        orders: orders, //Pass the orders to the view
+        title: "orders",
+      });
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
 

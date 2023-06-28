@@ -97,6 +97,7 @@
                                 <div class="col-lg-6">
                                     <h1 class="checkout-f__h1">DELIVERY INFORMATION</h1>
                                     <form class="checkout-f__delivery">
+                                       {{!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> --}}
                                         <div class="u-s-m-b-30">
                                             <div class="u-s-m-b-15">
 
@@ -128,11 +129,12 @@
 
 
                                             <!--====== E-MAIL ======-->
-                                            <div class="u-s-m-b-15">
+                                            {{!-- <div class="u-s-m-b-15">
 
                                                 <label class="gl-label" for="billing-email">E-MAIL *</label>
 
-                                                <input class="input-text input-text--primary-style" type="text" id="billing-email" data-bill=""></div>
+                                                <input class="input-text input-text--primary-style" type="text" id="billing-email" data-bill="">
+                                                </div> --}}
                                             <!--====== End - E-MAIL ======-->
 
 
@@ -213,7 +215,7 @@
 
                                                 <!--====== Check Box ======-->
                                                 <div class="check-box">
-
+                                                    <input type="hidden" name="addressId" id="address_id">
                                                     <input type="checkbox" id="make-default-address" data-bill="">
                                                     <div class="check-box__state check-box__state--primary">
 
@@ -239,12 +241,10 @@
                                                 <div class="o-card">
                                                     <div class="o-card__flex">
                                                         <div class="o-card__img-wrap">
-
                                                             <img class="u-img-fluid" src="{{this.imageUrl}}" alt="{{this.productId.title}}"></div>
                                                         <div class="o-card__info-wrap">
 
                                                             <span class="o-card__name">
-                                                                {{log this.productId}}
                                                                 <a href="/products/{{this.productId}}">{{this.product}}</a></span>
 
                                                             <span class="o-card__quantity">Quantity x {{this.quantity}}</span>
@@ -349,7 +349,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td>GRAND TOTAL</td>
-                                                            <td>₹{{totalSum}}</td>
+                                                            <td class="totalSum">₹{{totalSum}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -359,12 +359,13 @@
                                             <div class="o-summary__box">
                                                 <h1 class="checkout-f__h1">PAYMENT INFORMATION</h1>
                                                 <form class="checkout-f__payment">
+                                                 <input type="hidden" name="_csrf" value="{{csrfToken}}">
                                                     <div class="u-s-m-b-10">
 
                                                         <!--====== Radio Box ======-->
                                                         <div class="radio-box">
 
-                                                            <input type="radio" id="cash-on-delivery" name="payment">
+                                                            <input type="radio" id="cash-on-delivery" name="payment" value="COD">
                                                             <div class="radio-box__state radio-box__state--primary">
 
                                                                 <label class="radio-box__label" for="cash-on-delivery">Cash on Delivery</label></div>
@@ -378,7 +379,7 @@
                                                         <!--====== Radio Box ======-->
                                                         <div class="radio-box">
 
-                                                            <input type="radio" id="direct-bank-transfer" name="payment">
+                                                            <input type="radio" id="direct-bank-transfer" name="payment" value="bankTransfer">
                                                             <div class="radio-box__state radio-box__state--primary">
 
                                                                 <label class="radio-box__label" for="direct-bank-transfer">Direct Bank Transfer</label></div>
@@ -392,7 +393,7 @@
                                                         <!--====== Radio Box ======-->
                                                         <div class="radio-box">
 
-                                                            <input type="radio" id="pay-with-check" name="payment">
+                                                            <input type="radio" id="pay-with-check" name="payment" value="PayWithCheck">
                                                             <div class="radio-box__state radio-box__state--primary">
 
                                                                 <label class="radio-box__label" for="pay-with-check">Pay With Check</label></div>
@@ -406,7 +407,7 @@
                                                         <!--====== Radio Box ======-->
                                                         <div class="radio-box">
 
-                                                            <input type="radio" id="pay-with-card" name="payment">
+                                                            <input type="radio" id="pay-with-card" name="payment" value="StripePayment">
                                                             <div class="radio-box__state radio-box__state--primary">
 
                                                                 <label class="radio-box__label" for="pay-with-card">Pay With Credit / Debit Card</label></div>
@@ -420,14 +421,14 @@
                                                         <!--====== Radio Box ======-->
                                                         <div class="radio-box">
 
-                                                            <input type="radio" id="pay-pal" name="payment">
+                                                            <input type="radio" id="pay-pal" name="payment" value="payPal">
                                                             <div class="radio-box__state radio-box__state--primary">
 
                                                                 <label class="radio-box__label" for="pay-pal">Pay Pal</label></div>
                                                         </div>
                                                         <!--====== End - Radio Box ======-->
 
-                                                        <span class="gl-text u-s-m-t-6">When you click "Place Order" below we'll take you to Paypal's site to set up your billing information.</span>
+                                                        <span class="gl-text u-s-m-t-6">When you click "Continue" below we'll take you to Paypal's site to set up your billing information.</span>
                                                     </div>
                                                     <div class="u-s-m-b-15">
 
@@ -445,7 +446,7 @@
                                                     </div>
                                                     <div>
                                                         <button class="btn btn--e-brand-b-2" id="order-btn">Continue</button>
-                                                         <script src="https://js.stripe.com/v3/"></script>
+                                                         {{!-- <script src="https://js.stripe.com/v3/"></script>
                                                          <script>
                                                             var stripe=Stripe('pk_test_51NM52USGoyjO6bGWzt6sBpPIgATb25DWYwIDfxfWYMKfMHMN4UxOeJj3RJy5Tgz20px7SWSnl4pMlfZr181itejI00yTNJJYdu');
                                                             var orderBtn=document.getElementById('order-btn');
@@ -457,7 +458,7 @@
                                                                     console.log(result);
                                                                 })
                                                             });
-                                                         </script>
+                                                         </script> --}}
                                                         </div>
                                                 </form>
                                             </div>
@@ -561,6 +562,7 @@
     document.getElementById('billing-phone').value  = address.phone;
     document.getElementById('billing-town-city').value = address.city;
     document.getElementById('address-country').value  = address.country;
+    document.getElementById('address_id').value=address._id;
     const stateSelect=document.getElementById('address-state');
       stateSelect.innerHTML ='<option value="">Choose State/Province</option>';
       if(address.state){
@@ -579,4 +581,108 @@
         document.getElementById('billing-street').value = '';
         document.getElementById('billing-zip').value = '';
     }
+
+    var orderBtn=document.getElementById('order-btn');
+    orderBtn.addEventListener('click',function(event){
+        event.preventDefault();
+        handleOrder();
+    });
+    function handleOrder(){
+        var paymentOption=document.querySelector('input[name=payment]:checked');
+        if(!paymentOption){
+           Swal.fire({
+             icon: 'error',
+                title: 'PLEASE CHOOSE',
+             text: 'Select any payment method to continue!',
+           // footer: '<a href="">Why do I have this issue?</a>'
+})
+            return;
+        }
+    var paymentMethodId=paymentOption.value;
+    console.log(paymentMethodId);
+    if(paymentMethodId==='COD' && !validateAddressDetails()){
+        Swal.fire({
+        title: 'Please fill the address Details',
+        text: "You won't be able to continue this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'OK'
+        }).then((result) => {
+        if (!result.isConfirmed) {
+        Swal.fire(
+         'Cancel!',
+        'Checkout operation failed!',
+        'error'
+         )
+    }
+    })
+        return;
+    }else if(paymentMethodId==='StripePayment'){
+    var stripe=Stripe('pk_test_51NM52USGoyjO6bGWzt6sBpPIgATb25DWYwIDfxfWYMKfMHMN4UxOeJj3RJy5Tgz20px7SWSnl4pMlfZr181itejI00yTNJJYdu');
+      stripe.redirectToCheckout({
+          sessionId:`{{sessionId}}`
+         })
+         .then(function(result){
+              console.log(result);
+          })
+    }
+      // Create the addressDetails object inside the handleOrder function
+  var phoneNumber = document.getElementById('billing-phone').value;
+  var country = document.getElementById('address-country').value;
+  var state = document.getElementById('address-state').value;
+  var firstName = document.getElementById('billing-fname').value;
+  var lastName = document.getElementById('billing-lname').value;
+  var town = document.getElementById('billing-town-city').value;
+  var address = document.getElementById('billing-street').value;
+  var zipCode = document.getElementById('billing-zip').value;
+  var addressId=document.getElementById('address_id').value;
+  //var totalPrice=document.getElementById('totalSum').value;
+  const addressDetails = {
+    phoneNumber: phoneNumber,
+    country: country,
+    state: state,
+    firstName: firstName,
+    lastName: lastName,
+    town: town,
+    address: address,
+    zipCode: zipCode,
+    addressId:addressId
+    //totalPrice:totalPrice,
+
+  };
+
+  handlePayment(addressDetails,paymentMethodId);
+}
+
+
+function validateAddressDetails() {
+  var phoneNumber = document.getElementById('billing-phone').value;
+  var country = document.getElementById('address-country').value;
+  var state = document.getElementById('address-state').value;
+  var firstName = document.getElementById('billing-fname').value;
+  var lastName = document.getElementById('billing-lname').value;
+  var town = document.getElementById('billing-town-city').value;
+  var address = document.getElementById('billing-street').value;
+  var zipCode = document.getElementById('billing-zip').value;
+  if (
+    phoneNumber.trim() === '' ||
+    address.trim() === '' ||
+    country.trim() === '' ||
+    state.trim() === '' ||
+    firstName.trim() === '' ||
+    lastName.trim() === '' ||
+    town.trim() === '' ||
+    zipCode.trim() === ''
+  ) {
+    return false;
+  }
+  return true;
+}
+
+
+
+
+
 </script>
