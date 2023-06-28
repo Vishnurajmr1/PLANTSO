@@ -33,7 +33,12 @@ const getUserProductsLength=async(userId)=>{
     return 0;
   }
 }
+
+const eq=(a,b)=>a===b;
+
+
 module.exports={
+  eq,
   formatDate:formatDate,
   getUserProductsLength:getUserProductsLength,
 }

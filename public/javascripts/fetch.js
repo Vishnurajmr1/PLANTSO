@@ -112,3 +112,26 @@ const EditUserDetails=(userId)=>{
 }
 
 
+
+
+function updateOrderStatus(orderId,status){
+  const csrfToken = document.querySelector('[name="_csrf"]').value;
+  fetch(`/orders/${orderId}/status`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRT-Token": csrfToken,
+    },
+    body:JSON.stringify({status}),
+  })
+  .then((response)=>{
+    if(response.ok){
+      console.log('Order status updated Successfully');
+    }else{
+      console.log('Error updating order status');
+    }
+  })
+  .catch((error)=>{
+    console.log('Error updating order Status',error);
+  })
+}

@@ -28,7 +28,9 @@
     {{/if}}
     {{{body}}}
     {{#if isAuthenticated}}
+    {{#unless is_Admin}}
    <script src="//code.tidio.co/6tx9wgxlgrwvhnabhn7aad8ya4yvgqwx.js" async></script>
+   {{/unless}}
    {{/if}}
     <!--======JAVASCRIPT FILES ======-->
 

@@ -632,24 +632,47 @@ exports.getUser = (req, res, next) => {
   });
 };
 
-exports.getOrders = (req,res,next) => {
-  console.log('hiii')
-  orderController.getAllOrders()
-  .then((orders) => {
+// exports.getOrders = async (req,res,next) => {
+//   console.log('hiii')
+//   try{
+//     const orders=await orderController.getAllOrders()
+//     .then(()=>{
+//       res.render("admin/list-orders", {
+//         pageTitle: "Plantso||Admin-OrderList",
+//         layout: "main",
+//         orders: orders, //Pass the orders to the view
+//         title: "orders",
+//     })
+//     }).catch((error)=>{
+//       console.log(error)
+//     })
+ 
+//   }
+//   catch(error)  {
+//       console.log(error);
+//       res.status(500).json({error:"An error occured while fetching orders"});
+//     };
+// };
+
+
+exports.getOrders = (req, res, next) => {
+  console.log('hiii');
+  orderController
+    .getAllOrders()
+    .then((orders) => {
       console.log(orders);
       res.render("admin/list-orders", {
         pageTitle: "Plantso||Admin-OrderList",
         layout: "main",
-        orders: orders, //Pass the orders to the view
+        orders: orders,
         title: "orders",
       });
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).json({error:"An error occured while fetching orders"});
+      res.status(500).json({ error: "An error occurred while fetching orders" });
     });
 };
-
 exports.getUsers = (req, res, next) => {
   adminUserHelpers.viewAllUser()
   .then(users => {
@@ -752,4 +775,11 @@ exports.editUser=async(req,res,next)=>{
   }
 }
 
+
+exports.updateOrderStatus=(req,res,next)=>{
+  const orderId=req.params.orderId;
+  const status=req.body.status();
+
+  orderController.updateStatus(orderId,status).then()
+}
 

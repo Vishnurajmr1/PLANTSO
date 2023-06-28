@@ -78,48 +78,21 @@ exports.getOrders = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-// exports.getAllOrders =() => {
-//   return new Promise((resolve,reject)=>{
-//     Order.find()
-//     .populate({
-//       path:'products.product',
-//       populate:{
-//         path:'category',
-//         model:'Category',
-//       },
-//     })
-//     .populate('user.userId')
-//     .lean()
-//     .then((orders) => {
-//       orders.forEach((order)=>{
-//         order.products.forEach((product)=>{
-//           product.totalPrice=product.product.price*product.quantity;
-//         })
-//       })
-//       console.log(orders);
-//       resolve(orders);
-//     })
-//     .catch((err) => {
-//       console.log(err.message);
-//       reject(err)
-//     });
-//   });
-// };
 
-
-exports.getAllOrders=async ()=>{
+exports.getAllOrders=async()=>{
   try {
+    console.log('hello');
     const orders = await Order.find()
-      .populate({
-        path: 'products.product',
-        populate: {
-          path: 'category',
-          model: 'Category',
-        },
-      })
-      .populate('user.userId')
-      .lean();
-    orders.forEach((order) => {
+    .populate({
+      path: 'products.product',
+      populate: {
+        path: 'category',
+        model: 'Category',
+      },
+    })
+    .populate('user.userId')
+    .lean();
+      orders.forEach((order) => {
       order.products.forEach((product) => {
         product.totalPrice = product.product.price * product.quantity;
       });
@@ -187,19 +160,15 @@ exports.createOrder=(user,cartItems,addressId,paymentMethodId)=>{
   });
 };
 
-exports.getAllOrders =(req,res,next) => {
-    Order.find()
-    .lean()
-    .then((orders) => {
-      res.render("admin/list-orders", {
-        pageTitle: "Plantso||Admin-OrderList",
-        layout: "main",
-        orders: orders, //Pass the orders to the view
-        title: "orders",
-      });
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-};
 
+exports.updateStatus=(orderId,status)=>{
+  Order.findByIdAndUpdate(orderId,{status},{new:true})
+  .then((updateOrder)=>{
+    return res.json({success:true,message:'Order status updated successfully'});
+  })
+  .catch((error)=>{
+    console.log('Error updating order Status',error);
+    return res.status(500).json({success:false,message:'Failed to update order status'});
+  })
+
+}
