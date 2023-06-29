@@ -54,5 +54,5 @@ adminRouter.get('/editUser/:userId',isAdmin.isAdmin,adminController.getUserDetai
 adminRouter.post('/editUserDetails/',isAdmin.isAdmin,adminController.editUser);
 //Order Admin Routes
 adminRouter.get('/orders',isAdmin.isAdmin,adminController.getOrders);
-adminRouter.put('/orders/:orderId/status',isAdmin.isAdmin,adminController.updateOrderStatus)
+adminRouter.put('/orders/:orderId',isAdmin.isAdmin,adminController.updateOrderStatus)
 module.exports = adminRouter;

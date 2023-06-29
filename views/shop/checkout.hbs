@@ -177,17 +177,6 @@
                                                 <!--====== End - Select Box ======-->
                                             </div>
                                             <!--====== End - Country ======-->
-
-
-                                            <!--====== Town / City ======-->
-                                            <div class="u-s-m-b-15">
-
-                                                <label class="gl-label" for="billing-town-city">TOWN/CITY *</label>
-
-                                                <input class="input-text input-text--primary-style" type="text" id="billing-town-city" data-bill=""></div>
-                                            <!--====== End - Town / City ======-->
-
-
                                             <!--====== STATE/PROVINCE ======-->
                                             <div class="u-s-m-b-15">
 
@@ -195,13 +184,17 @@
 
                                                 <label class="gl-label" for="billing-state">STATE/PROVINCE *</label><select class="select-box select-box--primary-style" id="address-state" data-bill="">
                                                     <option selected value="">Choose State/Province</option>
-                                                    {{!-- <option value="al">Alabama</option>
-                                                    <option value="al">Alaska</option>
-                                                    <option value="ny">New York</option> --}}
                                                 </select>
                                                 <!--====== End - Select Box ======-->
                                             </div>
                                             <!--====== End - STATE/PROVINCE ======-->
+                                    <!--====== Town / City ======-->
+                                            <div class="u-s-m-b-15">
+                                                <label class="gl-label" for="billing-town-city">TOWN/CITY *</label>
+                                                <input class="input-text input-text--primary-style" type="text" id="billing-town-city" data-bill="">
+                                            </div>
+
+                                            <!--====== End - Town / City ======-->
 
 
                                             <!--====== ZIP/POSTAL ======-->
@@ -241,7 +234,7 @@
                                                 <div class="o-card">
                                                     <div class="o-card__flex">
                                                         <div class="o-card__img-wrap">
-                                                            <img class="u-img-fluid" src="{{this.imageUrl}}" alt="{{this.productId.title}}"></div>
+                                                            <img class="u-img-fluid" src="{{this.imageUrl.[0]}}" alt="{{this.productId.title}}"></div>
                                                         <div class="o-card__info-wrap">
 
                                                             <span class="o-card__name">

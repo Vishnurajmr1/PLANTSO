@@ -122,7 +122,6 @@
                     <h1 class="section__heading u-c-secondary u-s-m-b-12">
                       SHOP BY DEALS
                     </h1>
-
                     <span class="section__span u-c-silver"
                       >BROWSE FAVOURITE DEALS</span
                     >
@@ -139,11 +138,10 @@
               <div class="row">
                 <div class="col-lg-5 col-md-5 u-s-m-b-30">
                   <a class="collection" href="/shop">
-                  {{log prods.[0].imageUrl}}
                     <div class="aspect aspect--bg-grey aspect--square">
                       <img
                         class="aspect__img collection__img"
-                        src="{{prods.[0].imageUrl}}"
+                        src="{{prods.[0].imageUrl.[0]}}"
                         alt="Hi"
                       />
                     </div>
@@ -154,7 +152,7 @@
                     <div class="aspect aspect--bg-grey aspect--1286-890">
                       <img
                         class="aspect__img collection__img"
-                        src="{{prods1.[0].imageUrl}}"
+                        src="{{prods1.[0].imageUrl.[0]}}"
                         alt="Hi"
                       />
                     </div>
@@ -165,7 +163,7 @@
                     <div class="aspect aspect--bg-grey aspect--1286-890">
                       <img
                         class="aspect__img collection__img"
-                        src="{{prods2.[0].imageUrl}}"
+                        src="{{prods2.[0].imageUrl.[0]}}"
                         alt="Hi"
                       />
                     </div>
@@ -176,7 +174,7 @@
                     <div class="aspect aspect--bg-grey aspect--square">
                       <img
                         class="aspect__img collection__img"
-                        src="{{prods3.[0].imageUrl}}"
+                        src="{{prods3.[0].imageUrl.[0]}}"
                         alt="HI"
                       />
                     </div>
@@ -284,12 +282,14 @@
                               href="product-detail.html"
                               class="aspect aspect--bg-grey aspect--square u-d-block"
                             >
-                              <img
+                                <img
                                 class="aspect__img"
-                                src="{{this.imageUrl}}"
+                                src="{{imageUrl.[0]}}"
                                 alt=""
                                 id="productImage{{this._id}}"
-                            /></a>
+                            />
+                               
+                              </a>
                             <div class="product-o__action-wrap">
                               <ul class="product-o__action-list">
                                 <li>
@@ -413,9 +413,10 @@
                           class="aspect aspect--bg-grey aspect--square u-d-block"
                           href="product-detail.html"
                         >
+                        
                           <img
                             class="aspect__img"
-                            src="{{this.imageUrl}}"
+                            src="{{imageUrl.[0]}}"
                             alt=""
                         /></a>
                         <div class="product-o__action-wrap">
@@ -1466,13 +1467,14 @@
     <!--====== Add to Cart Modal(3) ======-->
 
 <div id="modal-AdminLogin" hidden>
-  <div class="modal fade" id="adminCart-notAvailable">
+  <div class="modal" id="adminCart-notAvailable">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content modal-radius modal-shadow">
          <button  
           class="btn dismiss-button fas fa-times"
           type="button"
           data-bs-toggle="modal"
+          data-bs-dismiss="modal"
         ></button>
         <div class="modal-body stock">
           <div class="row">

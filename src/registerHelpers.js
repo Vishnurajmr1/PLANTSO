@@ -36,9 +36,12 @@ const getUserProductsLength=async(userId)=>{
 
 const eq=(a,b)=>a===b;
 
-
+const multiply=(a, b)=>{
+  return a * b;
+}
 module.exports={
   eq,
+  multiply,
   formatDate:formatDate,
   getUserProductsLength:getUserProductsLength,
 }

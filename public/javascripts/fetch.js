@@ -114,24 +114,70 @@ const EditUserDetails=(userId)=>{
 
 
 
-function updateOrderStatus(orderId,status){
+function updateOrderStatus(orderId,status,callback){
   const csrfToken = document.querySelector('[name="_csrf"]').value;
-  fetch(`/orders/${orderId}/status`, {
+  console.log(status,orderId);
+  fetch(`/admin/orders/${orderId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "X-CSRT-Token": csrfToken,
+      "X-CSRF-Token": csrfToken,
     },
     body:JSON.stringify({status}),
   })
   .then((response)=>{
+    console.log(response);
     if(response.ok){
       console.log('Order status updated Successfully');
+      return response.json();
     }else{
       console.log('Error updating order status');
+    }
+  }).then((data)=>{
+    console.log(data);
+    if(data.success){
+      console.log(data)
+      callback(data.status,data.orderId);
+    }else{
+      console.log('Error in upating the fronend data');
     }
   })
   .catch((error)=>{
     console.log('Error updating order Status',error);
   })
+}
+
+function updateStatusCallback(status,orderId) {
+  console.log(status)
+  const spanElement = document.querySelector(`[order-status="${orderId}"]`);
+  
+
+  spanElement.textContent = status
+  // Update the badge color based on the status
+  if (status === 'Completed') {
+    spanElement.classList.remove('bg-warning-faded', 'bg-info-faded', 'bg-primary-faded', 'bg-danger-faded');
+    spanElement.classList.add('bg-success-faded');
+    spanElement.classList.remove('text-warning', 'text-info', 'text-primary', 'text-danger');
+    spanElement.classList.add('text-success');
+  } else if (status === 'pending') {
+    spanElement.classList.remove('bg-success-faded', 'bg-info-faded', 'bg-primary-faded', 'bg-danger-faded');
+    spanElement.classList.add('bg-warning-faded');
+    spanElement.classList.remove('text-success', 'text-info', 'text-primary', 'text-danger');
+    spanElement.classList.add('text-warning');
+  } else if (status === 'Shipped') {
+    spanElement.classList.remove('bg-success-faded', 'bg-warning-faded', 'bg-primary-faded', 'bg-danger-faded');
+    spanElement.classList.add('bg-info-faded');
+    spanElement.classList.remove('text-success', 'text-warning', 'text-primary', 'text-danger');
+    spanElement.classList.add('text-info');
+  } else if (status === "Out For Delivery") {
+    spanElement.classList.remove('bg-success-faded', 'bg-warning-faded', 'bg-info-faded', 'bg-danger-faded');
+    spanElement.classList.add('bg-primary-faded');
+    spanElement.classList.remove('text-success', 'text-warning', 'text-info', 'text-danger');
+    spanElement.classList.add('text-primary');
+  } else {
+    spanElement.classList.remove('bg-success-faded', 'bg-warning-faded', 'bg-info-faded', 'bg-primary-faded');
+    spanElement.classList.add('bg-danger-faded');
+    spanElement.classList.remove('text-success', 'text-warning', 'text-info', 'text-primary');
+    spanElement.classList.add('text-danger');
+  }
 }

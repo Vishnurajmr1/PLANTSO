@@ -13,14 +13,20 @@ exports.postAddProduct = (req, res, next) => {
   const message2 = "Product with the same name already exists";
   const message3 = "Attached file is not an image.";
   const successMessage = "Product added successfully.";
-  const image = req.file;
+  const images = req.files;
   const price = req.body.price;
   const description = req.body.description;
   const stock = req.body.stock;
   const categoryId =new ObjectId(req.body.categoryId);
-  const fileName = req.file.filename;
   const basePath = `/images/product-images/`;
-  const imageUrl = `${basePath}${fileName}`;
+
+  const imageUrls=[];
+  images.forEach((item)=>{
+    let fileName = item.filename;
+    imageUrls.push(`${basePath}${fileName}`);
+  })
+  // const fileName = req.file.filename;
+  // const imageUrl = `${basePath}${fileName}`;
 
   Category.find({ isDeleted: false })
     .then((categories) => {
@@ -70,7 +76,7 @@ exports.postAddProduct = (req, res, next) => {
               }
             });
           }
-          if (!image) {
+          if (!images) {
             return res.status(422).render("admin/edit-product", {
               message: message3,
               layout: "main",
@@ -91,7 +97,7 @@ exports.postAddProduct = (req, res, next) => {
             title: title,
             price: price,
             description: description,
-            imageUrl: imageUrl,
+            imageUrl: imageUrls,
             category: categoryId,
             stock: stock,
             userId: req.user,
@@ -239,7 +245,9 @@ exports.getEditProduct = (req, res, next) => {
 exports.postEditProduct = (req, res, next) => {
   const prodId = req.body.productId;
   const updatedTitle = req.body.title;
-  const image = req.file;
+  const images = req.files;
+  console.log(images);
+  console.log('hiiiiiiiiiiii');
   const updatedPrice = req.body.price;
   const updatedDescription = req.body.description;
   const updatedStock = req.body.stock;
@@ -252,10 +260,15 @@ exports.postEditProduct = (req, res, next) => {
       product.title = updatedTitle;
       product.price = updatedPrice;
       product.stock = updatedStock;
-      if (image) {
-        const fileName = req.file.filename;
-        const basePath = `/images/product-images/`;
-        product.imageUrl = `${basePath}${fileName}`;
+      if (images) {
+        const basePath=`/images/product-images/`;
+        const imageUrls=[];
+        images.forEach((item)=>{
+          let fileName=item.filename;
+          imageUrls.push(`${basePath}${fileName}`);
+        })
+        console.log(imageUrls);
+      product.imageUrl =imageUrls;
       }
       product.description = updatedDescription;
       product.category = updatedCategoryId;
@@ -778,8 +791,13 @@ exports.editUser=async(req,res,next)=>{
 
 exports.updateOrderStatus=(req,res,next)=>{
   const orderId=req.params.orderId;
-  const status=req.body.status();
-
-  orderController.updateStatus(orderId,status).then()
+  const status=req.body.status;
+  console.log(orderId,status+'hiiii');
+  orderController.updateStatus(orderId,status)
+  .then((order)=>{
+    return res.json({success:true,message:'Order status updated successfully',status:order.status,orderId:orderId});
+  }).catch((error)=>{
+    console.log(error)
+  })
 }
 

@@ -16,6 +16,10 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
 .show-dropdown #editStatusDropdown {
   display: block;
 }
+
+.pointerMouse{
+  cursor: pointer;
+}
 </style>
 <main id="main">
     {{>admin-header}}
@@ -70,24 +74,28 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
                                             <td class="text-muted">{{formatDate dateCreated}}</td>
                                             <td class="text-muted">
                                                 <div class="d-flex align-items-center">
-                                                    <i class="ri-visa-line ri-lg me-2"></i> **** 6789
+                                                  {{#if (eq this.paymentmethod 'COD')}}
+                                                    <i class="ri-CUR-line ri-lg me-2"></i>cash-on-delivery
+                                                    {{else }}
+                                                    <i class="ri-visa-line ri-lg me-2"></i>StripePayment
+                                                    {{/if}}
                                                 </div>
                                             </td>
                                             <td class="text-muted">{{this.products.length}}</td>
                                             <th class="text-muted">₹{{this.total}}</th>
-                                            <td>
-                                             {{#if (eq this.status 'completed')}}
-                                    <span class="badge rounded-pill bg-success-faded text-success">{{this.status}}</span>
-                                    {{else if (eq this.status 'pending')}}
-                          <span class="badge rounded-pill bg-warning-faded text-warning">{{this.status}}</span>
-                          {{else if (eq this.status 'shipped')}}
-                          <span class="badge rounded-pill bg-info-faded text-info">{{this.status}}</span>
-                         {{else if (eq this.status 'delivered')}}
-                             <span class="badge rounded-pill bg-primary-faded text-primary">{{this.status}}</span>
-                        {{else}}
-                        <span class="badge rounded-pill bg-danger-faded text-danger">{{this.status}}</span>
-                                  {{/if}}
-                                              </td>
+                                            <td id="statusElement">
+                                             {{#if (eq this.status 'Completed')}}
+                                    <span class="badge rounded-pill bg-success-faded text-success" order-status="{{this._id}}" >{{this.status}}</span>
+                                          {{else if (eq this.status 'pending')}}
+                                    <span class="badge rounded-pill bg-warning-faded text-warning " order-status="{{this._id}}">{{this.status}}</span>
+                                           {{else if (eq this.status 'Shipped')}}
+                                   <span class="badge rounded-pill bg-info-faded text-info " order-status="{{this._id}}">{{this.status}}</span>
+                                          {{else if (eq this.status 'Out For Delivery')}}
+                                    <span class="badge rounded-pill bg-primary-faded text-primary " order-status="{{this._id}}">{{this.status}}</span>
+                                          {{else}}
+                                           <span class="badge rounded-pill bg-danger-faded text-danger " order-status="{{this._id}}">{{this.status}}</span>
+                                          {{/if}}
+                                            </td>
                                             <td>
                                                 <div class="dropdown">
                                                     <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
@@ -97,7 +105,7 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
                                                     <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-0">
                                                         <li style="display: flex;justify-content:space-between;position: relative;">
                                                          <button class="btn-link dropdown-toggle01 dropdown-toggle-icon01 p-0"
-                                                        id="dropdownOrder-01" type="button" onclick="toggleEditStatusDropDown(event)" >
+                                                        id="dropdownOrder-01" type="button" onclick="toggleEditStatusDropDown(event,'{{this._id}}','{{this.status}}',updateStatusCallback)" >
                                                         {{!-- <i class="ri-more-2-line"></i> --}}
                                                         Edit Status
                                                          </button>
@@ -106,13 +114,6 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
                                                       <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                                          </svg>
                                                     </li>
-                                                      {{!-- <ul class="dropdown-menu dropdown01" id="editStatusDropdown" aria-labelledby="dropdownOrder-01">
-                                                        <li><a class="dropdown-item badge rounded-pill bg-info-faded text-info" href="#">Shipped</a></li>
-                                                        <li><a class="dropdown-item badge rounded-pill bg-danger-faded text-danger" href="#">Cancelled</a></li>
-                                                        <li>
-                                                          <a class="dropdown-item badge rounded-pill bg-secondary-faded text-dark">Out For Delivery</a></li>
-                                                        <li><a class="dropdown-item badge rounded-pill bg-success-faded text-success" href="#" >Completed</a></li>
-                                                      </ul> --}}
                                                         <li>
                                                           <a class="dropdown-item" data-bs-toggle="offcanvas" href="#offcanvasExample"
                                                          role="button" aria-controls="offcanvasExample" style="display: flex;justify-content: space-between;">
@@ -125,17 +126,18 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
                                                 </div>
                                                 <div id="statusOptions-0" class="statusOptions" style="display: none;position: absolute;z-index: 999999;top:10rem;right:10rem">
                                               <ul class="list-group list-group-vertical p-2">
-                                             <li class="list-group-item bg-info" onclick="updateOrderStatus('{{this._id}}','shipped' , updateStatusCallback)">
-                                            <a class="text-decoration-none text-white" href="#">Shipped</a>
+                                             <li class="list-group-item bg-info">
+                                            <a class="text-decoration-none text-white clicked pointerMouse" >Shipped</a>
                                             </li>
-                                         <li class="list-group-item bg-danger"  onclick="updateOrderStatus('{{this._id}}','Cancelled', updateStatusCallback)">
-                                             <a class="text-decoration-none text-white" href="#">Cancelled</a>
+                                         <li class="list-group-item bg-danger">
+                                             <a class="text-decoration-none text-white clicked pointerMouse" >Cancelled</a>
                                           </li>
-                                         <li class="list-group-item bg-secondary"  onclick="updateOrderStatus('{{this._id}}','Out For Delivery',updateStatusCallback)">
-                                        <a class="text-decoration-none text-white" href="#">Out For Delivery</a>
+                                         <li class="list-group-item bg-secondary">
+                                        <a class="text-decoration-none text-white clicked pointerMouse">Out For Delivery</a>
                                         </li>
-                                      <li class="list-group-item bg-success"  onclick="updateOrderStatus('{{this._id}}','completed',updateStatusCallback)">
-                                       <a class="text-decoration-none text-white" href="#">Completed</a>
+                                        {{log _id}}
+                                      <li class="list-group-item bg-success">
+                                       <a class="text-decoration-none text-white pointerMouse">Completed</a>
                                       </li>
                                       </ul>
                                         </div>
@@ -143,7 +145,7 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
                                         </tr>
 
                                                  {{!-- sample canvas from chatgpt --}}
-                                          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title" id="offcanvasExampleLabel">Order Details</h5>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -282,11 +284,56 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
         <!-- / Content-->
 </main>
 
+{{!-- <script>
+function toggleEditStatusDropDown(event, dropdownId, orderId,status) {
+  event.stopPropagation();
+  
+  // Hide all dropdowns except the one with the specified dropdownId
+  var dropdowns = document.getElementsByClassName("statusOptions");
+  for (var i = 0; i < dropdowns.length; i++) {
+    var dropdown = dropdowns[i];
+    if (dropdown.id === dropdownId) {
+      dropdown.style.display = (dropdown.style.display === "none") ? "block" : "none";
+    } else {
+      dropdown.style.display = "none";
+    }
+  }
+  //document.getElementById('selectedStatusElementId').innerText=selectedStatus;
+  // Do something with the orderId
+  console.log("Selected order ID:", orderId);
+  console.log("Selected status:", status);
+
+  updateOrderStatus(orderId,status,updateStatusCallback)
+}
+
+document.addEventListener("click", function(event) {
+  var dropdowns = document.getElementsByClassName("statusOptions");
+  for (var i = 0; i < dropdowns.length; i++) {
+    var dropdown = dropdowns[i];
+    dropdown.style.display = "none";
+  }
+});
+</script> --}}
+
+
 <script>
-function toggleEditStatusDropDown(event) {
+function toggleEditStatusDropDown(event,orderId,currentstatus,updateStatusCallback) {
   event.stopPropagation();
   var dropdown = document.getElementById("statusOptions-0");
   dropdown.style.display = (dropdown.style.display === "none") ? "block " : "none";
+
+  var statusOptions=dropdown.getElementsByClassName('list-group-item');
+  for(var i=0;i<statusOptions.length;i++){
+    var statusOption=statusOptions[i];
+    statusOption.addEventListener('click',function(){
+      var selectedStatus=this.textContent.trim();
+      updateOrderStatus(orderId,selectedStatus,updateStatusCallback);
+    })
+  }
+
+  console.log("Selected order ID:", orderId);
+  console.log("Selected status:", currentstatus);
+ 
 }
 
 document.addEventListener("click", function(event) {

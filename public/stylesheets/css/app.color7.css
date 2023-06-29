@@ -6539,3 +6539,16 @@ input[type=number]::-webkit-outer-spin-button {
 .alert-success {
   background-color: #28a745;
 }
+
+.badge--completed{
+  background-color: #04AA6D;
+  color: white;
+}
+.badge--shipped{
+  background-color:#8d54ec;
+  color: #fff;
+}
+.badge--delivered{
+  background-color: #106062;
+  color: blue;
+}

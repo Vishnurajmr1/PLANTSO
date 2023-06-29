@@ -25,7 +25,20 @@
           <div class="pd u-s-m-b-30">
             <div class="slider-fouc pd-wrap">
               <div id="pd-o-initiate">
+                {{#each product.imageUrl}}
                 <div
+                  class="pd-o-img-wrap"
+                  data-src="{{this}}"
+                >
+                  <img
+                    class="u-img-fluid"
+                    src="{{this}}"
+                    data-zoom-image="{{this}}"
+                    alt=""
+                  />
+                  </div>
+                  {{/each}}
+                {{!-- <div
                   class="pd-o-img-wrap"
                   data-src="{{product.imageUrl}}"
                 >
@@ -35,18 +48,8 @@
                     src="{{product.imageUrl}}"
                     data-zoom-image="{{product.imageUrl}}"
                     alt=""
-                  /></div>
-                <div
-                  class="pd-o-img-wrap"
-                  data-src="{{product.imageUrl}}"
-                >
-
-                  <img
-                    class="u-img-fluid"
-                    src="{{product.imageUrl}}"
-                    data-zoom-image="{{product.imageUrl}}"
-                    alt=""
-                  /></div>
+                  />
+                  </div>
                 <div
                   class="pd-o-img-wrap"
                   data-src="images/product/product-d-3.jpg"
@@ -57,7 +60,8 @@
                     src="{{product.imageUrl}}"
                     data-zoom-image="images/product/product-d-3.jpg"
                     alt=""
-                  /></div>
+                  />
+                  </div>
                 <div
                   class="pd-o-img-wrap"
                   data-src="{{product.imageUrl}}"
@@ -68,7 +72,8 @@
                     src="images/product/product-d-4.jpg"
                     data-zoom-image="images/product/product-d-4.jpg"
                     alt=""
-                  /></div>
+                  />
+                  </div>
                 <div
                   class="pd-o-img-wrap"
                   data-src="images/product/product-d-5.jpg"
@@ -79,49 +84,52 @@
                     src="images/product/product-d-5.jpg"
                     data-zoom-image="images/product/product-d-5.jpg"
                     alt=""
-                  /></div>
+                  />
+                  </div> --}}
               </div>
-
               <span class="pd-text">Click for larger zoom</span>
             </div>
             <div class="u-s-m-t-15">
               <div class="slider-fouc">
                 <div id="pd-o-thumbnail">
+                  {{#each product.imageUrl}}
+                  <div>
+                    <img
+                      class="u-img-fluid"
+                      src="{{this}}"
+                      alt=""
+                    />
+                    </div>
+                    {{/each}}
+                  {{!-- <div>
+                    <img
+                      class="u-img-fluid"
+                      src="{{product.imageUrl}}"
+                      alt=""
+                    />
+                    </div>
+                  <div>
+                    <img
+                      class="u-img-fluid"
+                      src="{{product.imageUrl}}"
+                      alt=""
+                    />
+                    </div>
+                  <div>
+                    <img
+                      class="u-img-fluid"
+                      src="{{product.imageUrl}}"
+                      alt=""
+                    />
+                    </div>
                   <div>
 
                     <img
                       class="u-img-fluid"
                       src="{{product.imageUrl}}"
                       alt=""
-                    /></div>
-                  <div>
-
-                    <img
-                      class="u-img-fluid"
-                      src="{{product.imageUrl}}"
-                      alt=""
-                    /></div>
-                  <div>
-
-                    <img
-                      class="u-img-fluid"
-                      src="{{product.imageUrl}}"
-                      alt=""
-                    /></div>
-                  <div>
-
-                    <img
-                      class="u-img-fluid"
-                      src="{{product.imageUrl}}"
-                      alt=""
-                    /></div>
-                  <div>
-
-                    <img
-                      class="u-img-fluid"
-                      src="{{product.imageUrl}}"
-                      alt=""
-                    /></div>
+                    />
+                    </div> --}}
                 </div>
               </div>
             </div>
@@ -963,7 +971,7 @@
 
                     <img
                       class="aspect__img"
-                      src="{{this.imageUrl}}"
+                      src="{{this.imageUrl.[0]}}"
                       alt=""
                     /></a>
                   <div class="product-o__action-wrap">

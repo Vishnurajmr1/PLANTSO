@@ -26,6 +26,7 @@ exports.getIndex = (req, res, next) => {
         .limit(4)
         .lean()
         .then((categories) => {
+          console.log(products)
           res.render("shop/homepage", {
             prods: Prods,
             prods1: Prods1,
@@ -510,9 +511,10 @@ exports.postCheckout=(req,res,next)=>{
       street_address:address.address,
       country:address.country,
       state:address.state,
-      phone:address.phone,
+      phone:address.phoneNumber,
       zipcode:address.zipCode,
       city:address.town,
+      user:user._id,
     });
     console.log(newAddress);
     newAddress

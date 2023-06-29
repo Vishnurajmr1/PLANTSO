@@ -108,6 +108,7 @@ exports.getOrder =(orderId) => {
   return new Promise((resolve,reject)=>{
     Order.findById(orderId)
     .populate('user.userId')
+    .populate('shippingAddress')
     .lean()
     .then((order) => {
       console.log(order);
@@ -161,14 +162,17 @@ exports.createOrder=(user,cartItems,addressId,paymentMethodId)=>{
 };
 
 
-exports.updateStatus=(orderId,status)=>{
-  Order.findByIdAndUpdate(orderId,{status},{new:true})
-  .then((updateOrder)=>{
-    return res.json({success:true,message:'Order status updated successfully'});
-  })
-  .catch((error)=>{
-    console.log('Error updating order Status',error);
-    return res.status(500).json({success:false,message:'Failed to update order status'});
-  })
-
-}
+exports.updateStatus=async(orderId,status,res)=>{
+  try{
+    console.log(status,orderId);
+    const order=await Order.findByIdAndUpdate(orderId,{$set:{status:status}},{new:true});
+    if(!order){
+      return res.status(404).json({success:false,message:'Order not found'});
+    }
+    return order;
+  }
+  catch(error){
+    console.log('Error updating order status',error);
+    // res.status(500).json({success:false,message:'Error updating order status'})
+  }
+};

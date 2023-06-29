@@ -66,7 +66,7 @@ app.use(express.urlencoded({ extended: false }));
 //static files path set using express-static
 app.use(express.static(path.join(__dirname, 'public')));
 //multer middleware used
-app.use(upload.single('image'));
+app.use(upload.array('image'));
 app.use(cors());
 app.use(cookieParser());
 
