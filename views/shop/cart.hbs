@@ -155,11 +155,12 @@
                   <span>CONTINUE SHOPPING</span></a></div>
               <div class="route-box__g2">
 
-                <a class="route-box__link" href="#"><i
+                <a class="route-box__link" onclick="deleteAllFromCart()"><i
                     class="fas fa-trash"
                   ></i>
 
-                  <span>CLEAR CART</span></a>
+                  <span>CLEAR CART</span>
+                  </a>
 
                 <a class="route-box__link" href="/cart"><i
                     class="fas fa-sync"
@@ -263,7 +264,7 @@
   <div class="section__content">
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12 order-lg-2">
+        <div class="col-lg-6 col-md-12 col-sm-12 order-lg-2">
            <form class="f-cart" action="/create-order" method="POST">
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             <div class="col-lg-12 col-md-6 u-s-m-b-30">
@@ -415,7 +416,7 @@
 </main>
 
 <script>
-  /*
+/*
 function deleteFromCart(productId,productName){
   console.log(productName);
         Swal.fire({
@@ -554,8 +555,5 @@ function updateProductQuantity(productId, quantity) {
     });
 }
 
-function deleteAllFromCart(){
-  fetch:('/deleteAllCart')
-}
 */
 </script> 

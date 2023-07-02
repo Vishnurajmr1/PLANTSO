@@ -163,8 +163,7 @@ function deleteFromCart(productId,productName){
           console.log(err);
         });
      }
-    });
-        
+    });    
 }
 const minusBtn=document.querySelectorAll(".input-counter__minus");
 const plusBtn=document.querySelectorAll(".input-counter__plus");
@@ -263,15 +262,11 @@ function addToCart(productId){
      let productName = document.getElementById(`productName${productId}`).textContent;
      let productPrice = document.getElementById(`productPrice${productId}`).textContent;
      let productImage = document.getElementById(`productImage${productId}`).src;
-    // let productQuantity=parseInt(document.getElementById(`productQuantity${productId}`).value);
      if(response.success){
        document.getElementById(`prodName`).textContent = productName;
       document.getElementById(`prodPrice`).textContent = productPrice;
       document.getElementById(`prodImage`).src = productImage;
-     // document.getElementById(`prodQuantity`).textContent = `Quantity:${productQuantity}`;
-
       document.getElementById('modal-view').hidden = false;
-
       const deletedItem=document.getElementById(`product-${productId}`);
       console.log(deletedItem);
       if(deletedItem){
@@ -296,22 +291,37 @@ function addToCart(productId){
        }
      }
     }).catch((err)=>{
-       throw new err('Error:Product not added to cart');
+      console.log(err);
+      productName = document.getElementById(`productName${productId}`).textContent;
+     productPrice = document.getElementById(`productPrice${productId}`).textContent;
+      productImage = document.getElementById(`productImage${productId}`).src;
+      document.getElementById(`prodName`).textContent = productName;
+      document.getElementById(`prodPrice`).textContent = productPrice;
+      document.getElementById(`prodImage`).src = productImage;
+      document.getElementById('modal-view').hidden = false;
+       throw new Error('Error:Product not added to cart');
     });
   }
 
 
   function updatePriceRange(){
     const productPrices=Array.from(document.getElementsByClassName('product-m__price'))
-    .map((priceElement)=>parseFloat(priceElement.textContent.replace('₹','').trim()));
+    .map((priceElement)=>parseFloat(priceElement.textContent.replace('₹','').trim()))
+    .filter((price)=>!isNaN(price));
     console.log(productPrices)
+    if(productPrices.length>0){
+      const minPrice=Math.min(...productPrices);
+      const maxPrice=Math.max(...productPrices);
+      const rangeInput=document.getElementById('myRange');
+      rangeInput.min=minPrice;
+      rangeInput.max=maxPrice;
+      rangeInput.value=minPrice;
 
-    const minPrice=Math.min(...productPrices);
-    const maxPrice=Math.max(...productPrices);
-    const rangeInput=document.getElementById('myRange');
-    rangeInput.min=minPrice;
-    rangeInput.max=maxPrice;
-    rangeInput.value=minPrice;
+      let output=document.getElementById('demo');
+      if(output){
+        output.innerText=rangeInput.value;
+      }
+    }
   }
 
   //Call the function to update  the price range initially
@@ -320,7 +330,9 @@ function addToCart(productId){
 
 let slider = document.getElementById("myRange");
 let output = document.getElementById("demo");
-output.innerHTML =slider.value;
+if(slider && output){
+  output.innerText =slider.value;
+}
 
 slider.oninput = function() {
   output.innerHTML = `${this.value}`;
@@ -390,5 +402,50 @@ function handlePayment(addressDetails,paymentMethodId){
     })
 }
 
+function deleteAllFromCart(){
+  const csrfToken = document.querySelector('[name="_csrf"]').value;
+        Swal.fire({
+          title:'Are you Sure?',
+          html: `You are about to delete <span class="highlighted-text">All The Products </span> from your cart`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!',
+          customClass:{
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+          },
+        }).then((result)=>{
+          if(result.isConfirmed){
+            fetch('/deleteAllFromCart',{
+          method:"POST",
+          headers:{
+            'Content-Type':'application/json',
+            'X-CSRF-Token': csrfToken
+          },
+        }).then((response)=>{
+          console.log(response);
+          return response.json();
+        })
+        .then((data)=>{
+          if (data.success) {
+            // Show success alert using SweetAlert
+            swal.fire({
+              title: "Success",
+              text: "All items deleted successfully🙂",
+              icon: "success",
+              button: "OK",
+            }).then(() => {
+              window.location.reload(); // Redirect the user to the /orders page
+            });
+          }
 
+        })
+        .catch((err)=>{
+          console.log(err);
+        });
+     }
+    });    
+}
 
