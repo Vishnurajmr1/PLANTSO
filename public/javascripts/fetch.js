@@ -1,5 +1,6 @@
 const blockUnblockUsers = (userId, currStatus) => {
   const csrfToken = document.querySelector('[name="_csrf"]').value;
+  console.log(userId, `${currStatus} hiii`);
   fetch("/admin/blockUser", {
     method: "POST",
     headers: {
@@ -49,6 +50,7 @@ const EditUser = (userId) => {
 };
 
 const EditUserDetails=(userId)=>{
+  console.log(userId);
   document.getElementById('id01').style.display = 'block';
   const csrfToken = document.querySelector('[name="_csrf"]').value;
   fetch(`/admin/editUserDetails`, {
@@ -65,6 +67,7 @@ const EditUserDetails=(userId)=>{
     }
     throw new Error('Failed to Edit the user details');
   }).then((data)=>{
+    console.log(data);
      // Fill the form with user details
      document.querySelector('#userId').value = data._id;
      document.querySelector('#name').value = data.name;
@@ -122,6 +125,7 @@ function updateOrderStatus(orderId,status,callback){
     body:JSON.stringify({status}),
   })
   .then((response)=>{
+    console.log(response);
     if(response.ok){
       console.log('Order status updated Successfully');
       return response.json();

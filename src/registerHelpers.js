@@ -1,7 +1,5 @@
 const Order=require('../models/order');
 const mongoose=require('mongoose');
-
-
 const formatDate=function (date) {
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   return date.toLocaleDateString(undefined, options);
@@ -45,45 +43,11 @@ const StrEq = (a,b)=> a==b;
 const multiply=(a, b)=>{
   return a * b;
 }
-
-const calculateTotalProduct = (req, res, next) => {
-  if (req.user && req.user.cart && req.user.cart.items) {
-    res.locals.totalProduct = req.user.cart.items.length;
-  } else {
-    res.locals.totalProduct = 0;
-  }
-  next();
-};
-
-const addUserProductsLengthToContext = async (req, res, next) => {
-  try {
-    if (req.user) {
-      const userId = req.user._id;
-      const userProductsLength = await getUserProductsLength(
-        userId
-      );
-      res.locals.userProductsLength = userProductsLength;
-    } else {
-      res.locals.userProductsLength = 0;
-    }
-    next();
-  } catch (error) {
-    console.log(error);
-    next(error);
-  }
-  };
-
-  function replaceSpacesWithHyphens(str) {
-    return str.replace(/\s+/g, '-');
-  }
 module.exports={
   Noteq,
   eq,
   StrEq,
   multiply,
-  calculateTotalProduct,
-  replaceSpacesWithHyphens,
   formatDate:formatDate,
-  addUserProductsLengthToContext,
   getUserProductsLength:getUserProductsLength,
 }

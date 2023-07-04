@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon app.js",
-    "start-server":"node app.js",
+    "start": "nodemon ./bin/www",
     "build-css": "tailwindcss build src/input.css -o public/stylesheets/tailwind.css"
   },
   "dependencies": {

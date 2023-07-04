@@ -19,9 +19,8 @@ shopRouter.get('/products/:productId',shopController.getProduct);
 shopRouter.get('/cart',isAuth.isauth,shopController.getCart);
 shopRouter.post('/cart',isAuth.isauth,shopController.postCart);
 shopRouter.post('/cart-delete-item',isAuth.isauth,shopController.postCartDeleteProduct);
-shopRouter.post('/deleteAllFromCart',isAuth.isauth,shopController.deleteFromCart);
 shopRouter.patch('/cart',isAuth.isauth,shopController.updateQuantity);
-shopRouter.get('/filterByCategory',productController.getProductsByCategory);
+shopRouter.get('/filterview/:categoryId',productController.getProductsByCategory);
 
 //orders router
 // shopRouter.post('/create-order',isAuth.isauth,orderController.postOrder);

@@ -27,7 +27,7 @@ exports.getIndex = (req, res, next) => {
         .limit(4)
         .lean()
         .then((categories) => {
-          console.log(categories)
+          console.log(products)
           res.render("shop/homepage", {
             prods: Prods,
             prods1: Prods1,
@@ -151,12 +151,14 @@ exports.postCart = async (req, res, next) => {
           success:false,
           message:"Admin users cannot make purchases."
         })
-      } 
+      }
       const result = await req.user.addToCart(product);
       console.log(result);
       return res.json({
         success: true,
         message: "Product added to cart successfully",
+        // productStock,
+        // productQuantity
       });
     } else {
       return res.json({
@@ -230,6 +232,10 @@ exports.updateQuantity = async (req, res, next) => {
       console.log(productPrice);
       console.log(updatedPrice);
       cartItem.price = parseFloat(updatedPrice);
+
+      // const cartTotal = req.user.cart.items.reduce((accumulator, item) => {
+      //   return accumulator + item.price;
+      // }, 0);
       req.user.cart.totalPrice=req.user.cart.items.reduce((accumulator,item)=>
         accumulator+item.price,0
       ).toFixed(2);
@@ -515,6 +521,7 @@ exports.postCheckout=(req,res,next)=>{
         console.log('Failed to process the order',error);
       })
     }else{
+      console.log(address);
     const newAddress=new Address({
       fname:address.firstName,
       lname:address.lastName,
@@ -526,6 +533,7 @@ exports.postCheckout=(req,res,next)=>{
       city:address.town,
       user:user._id,
     });
+    console.log(newAddress);
     newAddress
     .save()
     .then((savedAddress)=>{
@@ -549,19 +557,4 @@ exports.postCheckout=(req,res,next)=>{
 }else{
   res.json({message:'Payment method handled successfully'});
 }
-}
-
-exports.deleteFromCart=(req,res,next)=>{
-  const user=req.user;
-  console.log(user+'hellowweiew');
-
-  user.clearCart()
-  .then(()=>{
-    res.json({success:true});
-  })
-  .catch((error)=>{
-    console.log('Failed to clear cart',error);
-    res.json({success:false});
-  })
-
 }
