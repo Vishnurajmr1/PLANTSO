@@ -166,11 +166,9 @@ exports.postSignup = (req, res, next) => {
 };
 
 exports.sendOtpSignup = async (req, res, next) => {
-  console.log("send otp function is called..........");
   const phoneNumber = `${req.body.phone}`;
-  console.log(phoneNumber);
   //Check if the phone number already exists in the database
-  User.findOne({ phone: phoneNumber })
+  User.findOne({phone: phoneNumber})
     .then((userDoc) => {
       if (userDoc) {
         // Phone number is already registered, show appropriate message
@@ -285,6 +283,7 @@ exports.postReset = (req, res, next) => {
       });
   });
 };
+
 
 exports.getNewPassword = (req, res, next) => {
   const token = req.params.token;

@@ -216,16 +216,47 @@
             <div class="u-s-p-y-60">
 
               <!--====== Pagination ======-->
-              <ul class="shop-p__pagination">
-                <li class="is-active">
-
-                  <a href="shop-side-version-2.html">1</a></li>
+              {{>pagination
+               currentPage=currentPage
+               nextPage=nextPage
+               previousPage=previousPage
+               lastPage=lastPage
+               hasNextPage=hasNextPage
+               hasPreviousPage=hasPreviousPage
+               }} 
+               {{!-- <ul class="shop-p__pagination">
+               <li class="{{#if (StrEq currentPage 1)}}is-active{{/if}}">
+                  {{#if (StrEq currentPage 1)}}
+                  {{#if (StrEq previousPage 1)}}
+                    <a href="/shop?page=1">1</a>
+                    {{/if}}
+                 {{/if}}
+                  </li>
+                       {{#if hasPreviousPage}}
                 <li>
-
-                  <a href="shop-side-version-2.html">2</a></li>
+                  <a href="/shop?page={{previousPage}}">{{previousPage}}</a>
+                  </li>
+                  {{/if}}
                 <li>
-
-                  <a href="shop-side-version-2.html">3</a></li>
+                  <a href="/shop?page={{currentPage}}">{{currentPage}}</a>
+                  </li>
+                
+                  {{#if hasNextPage}}
+                <li>
+                  <a href="/shop?page={{nextPage}}">{{nextPage}}</a>
+                  </li>
+                  {{/if}}
+                 {{#if (Noteq lastPage currentPage)}}
+                 {{#if (Noteq nextPage lastPage)}}
+                  <li>
+                  <a href="/shop?page={{lastPage}}">{{lastPage}}</a>
+                    </li>
+                    {{/if}}
+                  {{/if}}
+                  
+                 <li>
+                  <a href="shop-side-version-2.html">3</a>
+                  </li>
                 <li>
 
                   <a href="shop-side-version-2.html">4</a></li>
@@ -234,8 +265,9 @@
                   <a
                     class="fas fa-angle-right"
                     href="shop-side-version-2.html"
-                  ></a></li>
-              </ul>
+                  ></a>
+                  </li> 
+              </ul> --}}
               <!--====== End - Pagination ======-->
             </div>
           </div>

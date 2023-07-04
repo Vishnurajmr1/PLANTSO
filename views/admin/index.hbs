@@ -1,129 +1,219 @@
 <main id="main">
- {{>admin-header}}
+  {{>admin-header}}
  {{>admin-sidebar}}
 
-<!-- Content-->
-        <section class="container-fluid">
+  <!-- Content-->
+  <section class="container-fluid">
 
-            <!-- Page Title-->
-            <h2 class="fs-3 fw-bold mb-2">Welcome back, {{loggedUser.name}} 👋</h2>
-            <p class="text-muted mb-5">Get a quick overview of your company's current status below, or click into one of the sections for a more detailed breakdown.</p>
-            <!-- / Page Title-->
+    <!-- Page Title-->
+    <h2 class="fs-3 fw-bold mb-2">Welcome back, {{loggedUser.name}} 👋</h2>
+    <p class="text-muted mb-5">Get a quick overview of your company's current
+      status below, or click into one of the sections for a more detailed
+      breakdown.</p>
+    <!-- / Page Title-->
 
-            <!-- Top Row Widgets-->
-            <div class="row g-4">       
-                
-                <!-- Number Orders Widget-->
-                <div class="col-12 col-sm-6 col-xxl-3">
-                    <div class="card h-100">
-                        <div class="card-header justify-content-between align-items-center d-flex border-0 pb-0">
-                            <h6 class="card-title m-0 text-muted fs-xs text-uppercase fw-bolder tracking-wide">Monthly Income</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="row gx-4 mb-3 mb-md-1">
-                                <div class="col-12 col-md-6">
-                                    <p class="fs-3 fw-bold d-flex align-items-center"><span class="fs-9 me-1">$</span> 567,99</p>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="chart chart-sm">
-                                        <canvas id="chartMonthlyIncome"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="f-w-7 f-h-7 p-2 bg-success-faded text-success rounded-circle d-flex align-items-center justify-content-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-100"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                                </span>
-                                <span class="fw-bold text-success fs-9 ms-2">+ 10.2%</span>
-                            </div>
-                        </div>
-                    </div>                </div>
-                <!-- / Number Orders Widget-->
+    <!-- Top Row Widgets-->
+    <div class="row g-4">
 
-                <!-- Average Orders Widget-->
-                <div class="col-12 col-sm-6 col-xxl-3">
-                    <div class="card h-100">
-                        <div class="card-header justify-content-between align-items-center d-flex border-0 pb-0">
-                            <h6 class="card-title m-0 text-muted fs-xs text-uppercase fw-bolder tracking-wide">Average Order</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="row gx-4 mb-3 mb-md-1">
-                                <div class="col-12 col-md-6">
-                                    <p class="fs-3 fw-bold d-flex align-items-center"><span class="fs-9 me-1">$</span> 193,99</p>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="chart chart-sm">
-                                        <canvas id="chartAvgOrders"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="f-w-7 f-h-7 p-2 bg-danger-faded text-danger rounded-circle d-flex align-items-center justify-content-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-100"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
-                                </span>
-                                <span class="fw-bold text-danger fs-9 ms-2">- 23.5%</span>
-                            </div>
-                        </div>
-                    </div>                </div>
-                <!-- / Average Orders Widget-->
+      <!-- Number Orders Widget-->
+      <div class="col-12 col-sm-6 col-xxl-3">
+        <div class="card h-100">
+          <div
+            class="card-header justify-content-between align-items-center d-flex border-0 pb-0"
+          >
+            <h6
+              class="card-title m-0 text-muted fs-xs text-uppercase fw-bolder tracking-wide"
+            >Monthly Income</h6>
+          </div>
+          <div class="card-body">
+            <div class="row gx-4 mb-3 mb-md-1">
+              <div class="col-12 col-md-6">
+                <p class="fs-3 fw-bold d-flex align-items-center"><span
+                    class="fs-9 me-1"
+                  >$</span>
+                  567,99</p>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="chart chart-sm">
+                  <canvas id="chartMonthlyIncome"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center">
+              <span
+                class="f-w-7 f-h-7 p-2 bg-success-faded text-success rounded-circle d-flex align-items-center justify-content-center"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-100"
+                ><polyline
+                    points="23 6 13.5 15.5 8.5 10.5 1 18"
+                  ></polyline><polyline
+                    points="17 6 23 6 23 12"
+                  ></polyline></svg>
+              </span>
+              <span class="fw-bold text-success fs-9 ms-2">+ 10.2%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- / Number Orders Widget-->
 
-                <!-- Pageviews Widget-->
-                <div class="col-12 col-sm-6 col-xxl-3">
-                    <div class="card h-100">
-                        <div class="card-header justify-content-between align-items-center d-flex border-0 pb-0">
-                            <h6 class="card-title m-0 text-muted fs-xs text-uppercase fw-bolder tracking-wide">Daily Pageviews</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="row gx-4 mb-3 mb-md-1">
-                                <div class="col-12 col-md-6">
-                                    <p class="fs-3 fw-bold">95,456</p>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="chart chart-sm">
-                                        <canvas id="chartPageviews"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="f-w-7 f-h-7 p-2 bg-success-faded text-success rounded-circle d-flex align-items-center justify-content-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-100"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                                </span>
-                                <span class="fw-bold text-success fs-9 ms-2">+ 1.1%</span>
-                            </div>
-                        </div>
-                    </div>                </div>
-                <!-- / Pageviews Widget-->
+      <!-- Average Orders Widget-->
+      <div class="col-12 col-sm-6 col-xxl-3">
+        <div class="card h-100">
+          <div
+            class="card-header justify-content-between align-items-center d-flex border-0 pb-0"
+          >
+            <h6
+              class="card-title m-0 text-muted fs-xs text-uppercase fw-bolder tracking-wide"
+            >Average Order</h6>
+          </div>
+          <div class="card-body">
+            <div class="row gx-4 mb-3 mb-md-1">
+              <div class="col-12 col-md-6">
+                <p class="fs-3 fw-bold d-flex align-items-center"><span
+                    class="fs-9 me-1"
+                  >$</span>
+                  193,99</p>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="chart chart-sm">
+                  <canvas id="chartAvgOrders"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center">
+              <span
+                class="f-w-7 f-h-7 p-2 bg-danger-faded text-danger rounded-circle d-flex align-items-center justify-content-center"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-100"
+                ><polyline
+                    points="23 18 13.5 8.5 8.5 13.5 1 6"
+                  ></polyline><polyline
+                    points="17 18 23 18 23 12"
+                  ></polyline></svg>
+              </span>
+              <span class="fw-bold text-danger fs-9 ms-2">- 23.5%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- / Average Orders Widget-->
 
-                <!-- Number Refunds Widget-->
-                <div class="col-12 col-sm-6 col-xxl-3">
-                    <div class="card h-100">
-                        <div class="card-header justify-content-between align-items-center d-flex border-0 pb-0">
-                            <h6 class="card-title m-0 text-muted fs-xs text-uppercase fw-bolder tracking-wide">Refund Issued</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="row gx-4 mb-3 mb-md-1">
-                                <div class="col-12 col-md-6">
-                                    <p class="fs-3 fw-bold d-flex align-items-center"><span class="fs-9 me-1">$</span> 12,340</p>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="chart chart-sm">
-                                        <canvas id="chartNumRefunds"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="f-w-7 f-h-7 p-2 bg-success-faded text-success rounded-circle d-flex align-items-center justify-content-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-100"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                                </span>
-                                <span class="fw-bold text-success fs-9 ms-2">+ 7.5%</span>
-                            </div>
-                        </div>
-                    </div>                </div>
-                <!-- / Number Refunds Widget--> 
+      <!-- Pageviews Widget-->
+      <div class="col-12 col-sm-6 col-xxl-3">
+        <div class="card h-100">
+          <div
+            class="card-header justify-content-between align-items-center d-flex border-0 pb-0"
+          >
+            <h6
+              class="card-title m-0 text-muted fs-xs text-uppercase fw-bolder tracking-wide"
+            >Daily Pageviews</h6>
+          </div>
+          <div class="card-body">
+            <div class="row gx-4 mb-3 mb-md-1">
+              <div class="col-12 col-md-6">
+                <p class="fs-3 fw-bold">95,456</p>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="chart chart-sm">
+                  <canvas id="chartPageviews"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center">
+              <span
+                class="f-w-7 f-h-7 p-2 bg-success-faded text-success rounded-circle d-flex align-items-center justify-content-center"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-100"
+                ><polyline
+                    points="23 6 13.5 15.5 8.5 10.5 1 18"
+                  ></polyline><polyline
+                    points="17 6 23 6 23 12"
+                  ></polyline></svg>
+              </span>
+              <span class="fw-bold text-success fs-9 ms-2">+ 1.1%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- / Pageviews Widget-->
 
+      <!-- Number Refunds Widget-->
+      <div class="col-12 col-sm-6 col-xxl-3">
+        <div class="card h-100">
+          <div
+            class="card-header justify-content-between align-items-center d-flex border-0 pb-0"
+          >
+            <h6
+              class="card-title m-0 text-muted fs-xs text-uppercase fw-bolder tracking-wide"
+            >Refund Issued</h6>
+          </div>
+          <div class="card-body">
+            <div class="row gx-4 mb-3 mb-md-1">
+              <div class="col-12 col-md-6">
+                <p class="fs-3 fw-bold d-flex align-items-center"><span
+                    class="fs-9 me-1"
+                  >$</span>
+                  12,340</p>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="chart chart-sm">
+                  <canvas id="chartNumRefunds"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center">
+              <span
+                class="f-w-7 f-h-7 p-2 bg-success-faded text-success rounded-circle d-flex align-items-center justify-content-center"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-100"
+                ><polyline
+                    points="23 6 13.5 15.5 8.5 10.5 1 18"
+                  ></polyline><polyline
+                    points="17 6 23 6 23 12"
+                  ></polyline></svg>
+              </span>
+              <span class="fw-bold text-success fs-9 ms-2">+ 7.5%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- / Number Refunds Widget-->
 
-                <!-- Latest Events-->
-                <div class="col-12 col-md-6">
+      <!-- Latest Events-->
+      {{! <div class="col-12 col-md-6">
                 <div class="card h-100 bg-primary border-primary">
                     <div class="card-header bg-transparent justify-content-between align-items-center d-flex border-0 pb-0">
                         <div class="d-flex align-items-center flex-shrink-0">
@@ -320,11 +410,12 @@
                             <!-- / Swiper Latest-->
                         </div>
                     </div>
-                </div>                </div>
-                <!-- /Latest Events-->
+                </div>                
+                </div> }}
+      <!-- /Latest Events-->
 
-                <!-- Refer A Friend-->
-                <div class="col-12 col-md-6">
+      <!-- Refer A Friend-->
+      {{! <div class="col-12 col-md-6">
                 <div class="card h-100">
                     <div class="card-body overflow-hidden">
                         <div class="row gx-2 h-100">
@@ -346,62 +437,95 @@
                         </div>
                     </div>
                 </div>
-                </div>
-                <!-- /Refer A Friend-->               
+                </div> }}
+      <!-- /Refer A Friend-->
 
+    </div>
+    <!-- / Top Row Widgets-->
+
+    <!-- Middle Row Widgets-->
+    <div class="row g-4 mb-4 mt-0">
+
+      <!-- Current Sales-->
+      <div class="col-12 col-xxl-6">
+        <div class="card mb-4 h-100">
+          <div
+            class="card-header justify-content-between align-items-center d-flex"
+          >
+            <h6 class="card-title m-0">Current Sales</h6>
+            <div class="dropdown">
+              <button
+                class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0"
+                type="button"
+                id="dropdownExpenses"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="ri-more-2-line"></i>
+              </button>
+              <ul
+                class="dropdown-menu dropdown"
+                aria-labelledby="dropdownExpenses"
+              >
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
             </div>
-            <!-- / Top Row Widgets-->
+          </div>
+          <div class="card-body">
+            <div
+              class="d-flex justify-content-between align-items-start mb-4 mt-2"
+            >
+              <div class="d-flex align-items-center">
+                <h4 class="fs-3 fw-bold mb-0 me-3">$123,668</h4>
+                <span
+                  class="badge bg-success-faded text-success d-flex align-items-center"
+                >
+                  <span class="f-w-4 d-block me-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="w-100"
+                    ><polyline
+                        points="23 6 13.5 15.5 8.5 10.5 1 18"
+                      ></polyline><polyline
+                        points="17 6 23 6 23 12"
+                      ></polyline></svg>
+                  </span>
+                  + 13%
+                </span>
+              </div>
+              <div class="d-flex align-items-center ms-2 d-xxl-none">
+                <div class="d-flex align-items-center">
+                  <span
+                    class="f-w-2 f-h-2 bg-primary d-block rounded-circle me-2"
+                  ></span>
+                  <span class="small text-muted">2021</span>
+                </div>
+                <div class="d-flex align-items-center ms-4">
+                  <span
+                    class="f-w-2 f-h-2 bg-secondary-faded d-block rounded-circle me-2"
+                  ></span>
+                  <span class="small text-muted">2020</span>
+                </div>
+              </div>
+            </div>
+            <div class="chart chart-md pt-2">
+              <canvas id="chartBar"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- / Current Sales-->
 
-            <!-- Middle Row Widgets-->
-            <div class="row g-4 mb-4 mt-0">
-
-                <!-- Current Sales-->
-                <div class="col-12 col-xxl-4">
-                    <div class="card mb-4 h-100">
-                        <div class="card-header justify-content-between align-items-center d-flex">
-                            <h6 class="card-title m-0">Current Sales</h6>
-                            <div class="dropdown">
-                                <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                    id="dropdownExpenses" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="ri-more-2-line"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown" aria-labelledby="dropdownExpenses">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-4 mt-2">
-                                <div class="d-flex align-items-center">
-                                    <h4 class="fs-3 fw-bold mb-0 me-3">$123,668</h4>
-                                    <span class="badge bg-success-faded text-success d-flex align-items-center ">
-                                        <span class="f-w-4 d-block me-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-100"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                                        </span>
-                                        + 13%
-                                    </span>            </div>
-                                <div class="d-flex align-items-center ms-2 d-xxl-none">
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-primary d-block rounded-circle me-2"></span>
-                                        <span class="small text-muted">2021</span>
-                                    </div>
-                                    <div class="d-flex align-items-center ms-4">
-                                        <span class="f-w-2 f-h-2 bg-secondary-faded d-block rounded-circle me-2"></span>
-                                        <span class="small text-muted">2020</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="chart chart-md pt-2">
-                                <canvas id="chartBar"></canvas>
-                            </div>
-                        </div>
-                    </div>                </div>
-                <!-- / Current Sales-->                 
-
-                <!-- Users By Country-->
-                <div class="col-12 col-lg-6 col-xxl-4">
+      <!-- Users By Country-->
+      {{! <div class="col-12 col-lg-6 col-xxl-4">
                     <div class="card mb-4 h-100">
                         <div class="card-header justify-content-between align-items-center d-flex">
                             <h6 class="card-title m-0">Visitors By Country</h6>
@@ -499,11 +623,12 @@
                                         </li>
                             </ul>
                         </div>
-                    </div>                </div>
-                <!-- / Users By Country-->
+                    </div>                
+                    </div> }}
+      <!-- / Users By Country-->
 
-                <!-- Users By Operating System-->
-                <div class="col-12 col-lg-6 col-xxl-4">
+      <!-- Users By Operating System-->
+      {{! <div class="col-12 col-lg-6 col-xxl-4">
                     <div class="card mb-4 h-100">
                         <div class="card-header justify-content-between align-items-center d-flex">
                             <h6 class="card-title m-0">Users by OS</h6>
@@ -625,323 +750,474 @@
                                         </li>
                             </ul>
                         </div>
-                    </div>                </div>
-                <!-- / Users By Operating System-->               
+                    </div>               
+                </div> }}
+      <!-- / Users By Operating System-->
 
-                <!-- Monthly Expenses-->
-                <div class="col-12 col-lg-4">
-                    <div class="card mb-4 h-100">
-                        <div class="card-header justify-content-between align-items-center d-flex">
-                            <h6 class="card-title m-0">Monthly expenses</h6>
-                            <div class="dropdown">
-                                <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                    id="dropdownExpenses" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="ri-more-2-line"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown" aria-labelledby="dropdownExpenses">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="chart chart-lg">
-                                <canvas id="chartDoughnut"></canvas>
-                            </div>
-                    
-                            <div class="row g-1 mt-4">
-                    
-                                <div class="col-12 col-sm-4 d-flex flex-column align-items-center">
-                                    <p class="fw-bolder mb-1">$1,456</p>
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-secondary-faded d-block rounded-circle me-2"></span>
-                                        <span class="small text-muted">Rent</span>
-                                    </div>
-                                </div>
-                    
-                                <div class="col-12 col-sm-4 d-flex flex-column align-items-center">
-                                    <p class="fw-bolder mb-1">$12,325</p>
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-primary d-block rounded-circle me-2"></span>
-                                        <span class="small text-muted">Salaries</span>
-                                    </div>
-                                </div>
-                    
-                                <div class="col-12 col-sm-4 d-flex flex-column align-items-center">
-                                    <p class="fw-bolder mb-1">$14,899</p>
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-warning d-block rounded-circle me-2"></span>
-                                        <span class="small text-muted">Marketing</span>
-                                    </div>
-                                </div>
-                            </div>
-                    
-                            <a href="#" class="btn btn-light d-table mx-auto mt-4">View full expenses</a>
-                        </div>
-                    </div>                </div>
-                <!-- /Monthly Expenses-->
-
-                <!-- Yearly Income-->
-                <div class="col-12 col-lg-8">
-                    <div class="card mb-4 h-100">
-                        <div class="card-header justify-content-between align-items-center d-flex">
-                            <h6 class="card-title m-0">Yearly income</h6>
-                            <div class="dropdown">
-                                <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                    id="dropdownYearly" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="ri-more-2-line"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown" aria-labelledby="dropdownYearly">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-5">
-                                <div class="d-flex align-items-center">
-                                    <h4 class="fs-3 fw-bold mb-0 me-3">$145,778</h4>
-                                    <span class="badge bg-success-faded text-success d-flex align-items-center ">
-                                        <span class="f-w-4 d-block me-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-100"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                                        </span>
-                                        + 35%
-                                    </span>            </div>
-                                <div class="d-flex align-items-center">
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-4 rounded f-h-1 bg-primary d-block me-2"></span>
-                                        <span class="small text-muted">2021</span>
-                                    </div>
-                                    <div class="d-flex align-items-center ms-4">
-                                        <span class="f-w-4 rounded f-h-1 bg-secondary-faded d-block me-2"></span>
-                                        <span class="small text-muted">2020</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="chart">
-                                <div class="chart chart-lg">
-                                    <canvas id="chartLine"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>                </div>
-                <!-- Yearly Income-->
-
-                <!-- Latest Orders-->
-                <div class="col-12">
-                    <div class="card mb-4 h-100">
-                        <div class="card-header justify-content-between align-items-center d-flex">
-                            <h6 class="card-title m-0">Latest orders</h6>
-                            <a href="#" class="btn btn-outline-secondary btn-sm text-body"><i class="ri-download-2-line align-middle"></i> Export</a>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table m-0 table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Order ID</th>
-                                            <th>Billing Name</th>
-                                            <th>Date</th>
-                                            <th>Payment Method</th>
-                                            <th>Items</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <span class="fw-bolder">#1234-5679</span>
-                                            </td>
-                                            <td>Patria Nelson</td>
-                                            <td class="text-muted">24th June, 2021</td>
-                                            <td class="text-muted">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="ri-visa-line ri-lg me-2"></i> **** 6789
-                                                </div>
-                                            </td>
-                                            <td class="text-muted">5</td>
-                                            <th class="text-muted">$123.99</th>
-                                            <td><span class="badge rounded-pill bg-success-faded text-success">completed</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                                        id="dropdownOrder-0" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="ri-more-2-line"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-0">
-                                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="fw-bolder">#1235-7755</span>
-                                            </td>
-                                            <td>Dominic Patterson</td>
-                                            <td class="text-muted">22nd June, 2021</td>
-                                            <td class="text-muted">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="ri-mastercard-fill ri-lg me-2"></i> **** 1233
-                                                </div>
-                                            </td>
-                                            <td class="text-muted">5</td>
-                                            <th class="text-muted">$123.99</th>
-                                            <td><span class="badge rounded-pill bg-info-faded text-info">processing</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                                        id="dropdownOrder-1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="ri-more-2-line"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-1">
-                                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="fw-bolder">#1236-6579</span>
-                                            </td>
-                                            <td>Steven Smith</td>
-                                            <td class="text-muted">21st June, 2021</td>
-                                            <td class="text-muted">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="ri-paypal-line ri-lg me-2"></i> **** 7766
-                                                </div>
-                                            </td>
-                                            <td class="text-muted">5</td>
-                                            <th class="text-muted">$123.99</th>
-                                            <td><span class="badge rounded-pill bg-danger-faded text-danger">cancelled</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                                        id="dropdownOrder-2" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="ri-more-2-line"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-2">
-                                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="fw-bolder">#1237-1122</span>
-                                            </td>
-                                            <td>Courtney Lawes</td>
-                                            <td class="text-muted">19th June, 2021</td>
-                                            <td class="text-muted">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="ri-mastercard-fill ri-lg me-2"></i> **** 9087
-                                                </div>
-                                            </td>
-                                            <td class="text-muted">5</td>
-                                            <th class="text-muted">$123.99</th>
-                                            <td><span class="badge rounded-pill bg-success-faded text-success">completed</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                                        id="dropdownOrder-3" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="ri-more-2-line"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-3">
-                                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="fw-bolder">#1238-4433</span>
-                                            </td>
-                                            <td>Haley Jackson</td>
-                                            <td class="text-muted">19th June, 2021</td>
-                                            <td class="text-muted">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="ri-visa-line ri-lg me-2"></i> **** 6789
-                                                </div>
-                                            </td>
-                                            <td class="text-muted">5</td>
-                                            <th class="text-muted">$123.99</th>
-                                            <td><span class="badge rounded-pill bg-success-faded text-success">completed</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                                        id="dropdownOrder-4" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="ri-more-2-line"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-4">
-                                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="fw-bolder">#1239-8865</span>
-                                            </td>
-                                            <td>Sairaj Tackoo</td>
-                                            <td class="text-muted">18th June, 2021</td>
-                                            <td class="text-muted">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="ri-mastercard-fill ri-lg me-2"></i> **** 1233
-                                                </div>
-                                            </td>
-                                            <td class="text-muted">5</td>
-                                            <th class="text-muted">$123.99</th>
-                                            <td><span class="badge rounded-pill bg-info-faded text-info">processing</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                                        id="dropdownOrder-5" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="ri-more-2-line"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-5">
-                                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>    
-                            <nav>
-                                <ul class="pagination justify-content-end mt-3 mb-0">
-                                  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                </ul>
-                              </nav>
-                        </div>
-                    </div>
-                </div>
-                <!-- Latest Orders-->
-
+      <!-- Monthly Expenses-->
+      <div class="col-12 col-lg-6">
+        <div class="card mb-4 h-100">
+          <div
+            class="card-header justify-content-between align-items-center d-flex"
+          >
+            <h6 class="card-title m-0">Monthly expenses</h6>
+            <div class="dropdown">
+              <button
+                class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0"
+                type="button"
+                id="dropdownExpenses"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="ri-more-2-line"></i>
+              </button>
+              <ul
+                class="dropdown-menu dropdown"
+                aria-labelledby="dropdownExpenses"
+              >
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
             </div>
-            <!-- / Middle Row Widgets-->
+          </div>
+          <div class="card-body">
+            <div class="chart chart-lg">
+              <canvas id="chartDoughnut"></canvas>
+            </div>
 
-            <!-- Bottom Row Widgets-->
-            <div class="row g-4 mb-5">
+            <div class="row g-1 mt-4">
+
+              <div
+                class="col-12 col-sm-4 d-flex flex-column align-items-center"
+              >
+                <p class="fw-bolder mb-1">$1,456</p>
+                <div class="d-flex align-items-center">
+                  <span
+                    class="f-w-2 f-h-2 bg-secondary-faded d-block rounded-circle me-2"
+                  ></span>
+                  <span class="small text-muted">Rent</span>
+                </div>
+              </div>
+
+              <div
+                class="col-12 col-sm-4 d-flex flex-column align-items-center"
+              >
+                <p class="fw-bolder mb-1">$12,325</p>
+                <div class="d-flex align-items-center">
+                  <span
+                    class="f-w-2 f-h-2 bg-primary d-block rounded-circle me-2"
+                  ></span>
+                  <span class="small text-muted">Salaries</span>
+                </div>
+              </div>
+
+              <div
+                class="col-12 col-sm-4 d-flex flex-column align-items-center"
+              >
+                <p class="fw-bolder mb-1">$14,899</p>
+                <div class="d-flex align-items-center">
+                  <span
+                    class="f-w-2 f-h-2 bg-warning d-block rounded-circle me-2"
+                  ></span>
+                  <span class="small text-muted">Marketing</span>
+                </div>
+              </div>
+            </div>
+
+            <a href="#" class="btn btn-light d-table mx-auto mt-4">View full
+              expenses</a>
+          </div>
+        </div>
+      </div>
+      <!-- /Monthly Expenses-->
+
+      <!-- Yearly Income-->
+      <div class="col-12 col-lg-12">
+        <div class="card mb-4 h-100">
+          <div
+            class="card-header justify-content-between align-items-center d-flex"
+          >
+            <h6 class="card-title m-0">Yearly income</h6>
+            <a href="#" class="btn btn-outline-secondary btn-sm text-body"><i
+                class="ri-download-2-line"
+              ></i>
+              Export</a>
+                <a href="#" class="btn btn-outline-info btn-sm text-body"><i
+                class="ri-download-2-line align-middle"
+              ></i>
+              Export</a>
+              
+            {{!-- <div class="dropdown">
+              <button
+                class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0"
+                type="button"
+                id="dropdownYearly"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="ri-more-2-line"></i>
+              </button>
+              <ul
+                class="dropdown-menu dropdown"
+                aria-labelledby="dropdownYearly"
+              >
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </div> --}}
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+              <div class="d-flex align-items-center">
+                <h4 class="fs-3 fw-bold mb-0 me-3">$145,778</h4>
+                <span
+                  class="badge bg-success-faded text-success d-flex align-items-center"
+                >
+                  <span class="f-w-4 d-block me-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="w-100"
+                    ><polyline
+                        points="23 6 13.5 15.5 8.5 10.5 1 18"
+                      ></polyline><polyline
+                        points="17 6 23 6 23 12"
+                      ></polyline></svg>
+                  </span>
+                  + 35%
+                </span>
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center">
+                  <span
+                    class="f-w-4 rounded f-h-1 bg-primary d-block me-2"
+                  ></span>
+                  <span class="small text-muted">2021</span>
+                </div>
+                <div class="d-flex align-items-center ms-4">
+                  <span
+                    class="f-w-4 rounded f-h-1 bg-secondary-faded d-block me-2"
+                  ></span>
+                  <span class="small text-muted">2020</span>
+                </div>
+              </div>
+            </div>
+            <div class="chart">
+              <div class="chart chart-lg">
+                <canvas id="chartLine"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Yearly Income-->
+
+      <!-- Latest Orders-->
+      <div class="col-12">
+        <div class="card mb-4 h-100">
+          <div
+            class="card-header justify-content-between align-items-center d-flex"
+          >
+            <h6 class="card-title m-0">Latest orders</h6>
+            <a href="#" class="btn btn-outline-secondary btn-sm text-body"><i
+                class="ri-download-2-line align-middle"
+              ></i>
+              Export</a>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table m-0 table-striped">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Billing Name</th>
+                    <th>Date</th>
+                    <th>Payment Method</th>
+                    <th>Items</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span class="fw-bolder">#1234-5679</span>
+                    </td>
+                    <td>Patria Nelson</td>
+                    <td class="text-muted">24th June, 2021</td>
+                    <td class="text-muted">
+                      <div class="d-flex align-items-center">
+                        <i class="ri-visa-line ri-lg me-2"></i>
+                        **** 6789
+                      </div>
+                    </td>
+                    <td class="text-muted">5</td>
+                    <th class="text-muted">$123.99</th>
+                    <td><span
+                        class="badge rounded-pill bg-success-faded text-success"
+                      >completed</span></td>
+                    <td>
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0"
+                          type="button"
+                          id="dropdownOrder-0"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i class="ri-more-2-line"></i>
+                        </button>
+                        <ul
+                          class="dropdown-menu dropdown"
+                          aria-labelledby="dropdownOrder-0"
+                        >
+                          <li><a class="dropdown-item" href="#">Action</a></li>
+                          <li><a class="dropdown-item" href="#">Another action</a></li>
+                          <li><a class="dropdown-item" href="#">Something else
+                              here</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="fw-bolder">#1235-7755</span>
+                    </td>
+                    <td>Dominic Patterson</td>
+                    <td class="text-muted">22nd June, 2021</td>
+                    <td class="text-muted">
+                      <div class="d-flex align-items-center">
+                        <i class="ri-mastercard-fill ri-lg me-2"></i>
+                        **** 1233
+                      </div>
+                    </td>
+                    <td class="text-muted">5</td>
+                    <th class="text-muted">$123.99</th>
+                    <td><span
+                        class="badge rounded-pill bg-info-faded text-info"
+                      >processing</span></td>
+                    <td>
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0"
+                          type="button"
+                          id="dropdownOrder-1"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i class="ri-more-2-line"></i>
+                        </button>
+                        <ul
+                          class="dropdown-menu dropdown"
+                          aria-labelledby="dropdownOrder-1"
+                        >
+                          <li><a class="dropdown-item" href="#">Action</a></li>
+                          <li><a class="dropdown-item" href="#">Another action</a></li>
+                          <li><a class="dropdown-item" href="#">Something else
+                              here</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="fw-bolder">#1236-6579</span>
+                    </td>
+                    <td>Steven Smith</td>
+                    <td class="text-muted">21st June, 2021</td>
+                    <td class="text-muted">
+                      <div class="d-flex align-items-center">
+                        <i class="ri-paypal-line ri-lg me-2"></i>
+                        **** 7766
+                      </div>
+                    </td>
+                    <td class="text-muted">5</td>
+                    <th class="text-muted">$123.99</th>
+                    <td><span
+                        class="badge rounded-pill bg-danger-faded text-danger"
+                      >cancelled</span></td>
+                    <td>
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0"
+                          type="button"
+                          id="dropdownOrder-2"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i class="ri-more-2-line"></i>
+                        </button>
+                        <ul
+                          class="dropdown-menu dropdown"
+                          aria-labelledby="dropdownOrder-2"
+                        >
+                          <li><a class="dropdown-item" href="#">Action</a></li>
+                          <li><a class="dropdown-item" href="#">Another action</a></li>
+                          <li><a class="dropdown-item" href="#">Something else
+                              here</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="fw-bolder">#1237-1122</span>
+                    </td>
+                    <td>Courtney Lawes</td>
+                    <td class="text-muted">19th June, 2021</td>
+                    <td class="text-muted">
+                      <div class="d-flex align-items-center">
+                        <i class="ri-mastercard-fill ri-lg me-2"></i>
+                        **** 9087
+                      </div>
+                    </td>
+                    <td class="text-muted">5</td>
+                    <th class="text-muted">$123.99</th>
+                    <td><span
+                        class="badge rounded-pill bg-success-faded text-success"
+                      >completed</span></td>
+                    <td>
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0"
+                          type="button"
+                          id="dropdownOrder-3"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i class="ri-more-2-line"></i>
+                        </button>
+                        <ul
+                          class="dropdown-menu dropdown"
+                          aria-labelledby="dropdownOrder-3"
+                        >
+                          <li><a class="dropdown-item" href="#">Action</a></li>
+                          <li><a class="dropdown-item" href="#">Another action</a></li>
+                          <li><a class="dropdown-item" href="#">Something else
+                              here</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="fw-bolder">#1238-4433</span>
+                    </td>
+                    <td>Haley Jackson</td>
+                    <td class="text-muted">19th June, 2021</td>
+                    <td class="text-muted">
+                      <div class="d-flex align-items-center">
+                        <i class="ri-visa-line ri-lg me-2"></i>
+                        **** 6789
+                      </div>
+                    </td>
+                    <td class="text-muted">5</td>
+                    <th class="text-muted">$123.99</th>
+                    <td><span
+                        class="badge rounded-pill bg-success-faded text-success"
+                      >completed</span></td>
+                    <td>
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0"
+                          type="button"
+                          id="dropdownOrder-4"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i class="ri-more-2-line"></i>
+                        </button>
+                        <ul
+                          class="dropdown-menu dropdown"
+                          aria-labelledby="dropdownOrder-4"
+                        >
+                          <li><a class="dropdown-item" href="#">Action</a></li>
+                          <li><a class="dropdown-item" href="#">Another action</a></li>
+                          <li><a class="dropdown-item" href="#">Something else
+                              here</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="fw-bolder">#1239-8865</span>
+                    </td>
+                    <td>Sairaj Tackoo</td>
+                    <td class="text-muted">18th June, 2021</td>
+                    <td class="text-muted">
+                      <div class="d-flex align-items-center">
+                        <i class="ri-mastercard-fill ri-lg me-2"></i>
+                        **** 1233
+                      </div>
+                    </td>
+                    <td class="text-muted">5</td>
+                    <th class="text-muted">$123.99</th>
+                    <td><span
+                        class="badge rounded-pill bg-info-faded text-info"
+                      >processing</span></td>
+                    <td>
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0"
+                          type="button"
+                          id="dropdownOrder-5"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i class="ri-more-2-line"></i>
+                        </button>
+                        <ul
+                          class="dropdown-menu dropdown"
+                          aria-labelledby="dropdownOrder-5"
+                        >
+                          <li><a class="dropdown-item" href="#">Action</a></li>
+                          <li><a class="dropdown-item" href="#">Another action</a></li>
+                          <li><a class="dropdown-item" href="#">Something else
+                              here</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <nav>
+              <ul class="pagination justify-content-end mt-3 mb-0">
+                <li class="page-item"><a
+                    class="page-link"
+                    href="#"
+                  >Previous</a></li>
+                <li class="page-item active"><a
+                    class="page-link"
+                    href="#"
+                  >1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a
+                    class="page-link"
+                    href="#"
+                  >Next</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <!-- Latest Orders-->
+
+    </div>
+    <!-- / Middle Row Widgets-->
+
+    <!-- Bottom Row Widgets-->
+    {{! <div class="row g-4 mb-5">
 
                 <!-- Top Products-->
                 <div class="col-12 col-lg-6">
@@ -1132,267 +1408,448 @@
                 </div>
                 <!-- Newsletter Stats-->
 
-            </div>
-            <!-- / Bottom Row Widgets-->
+            </div> }}
+    <!-- / Bottom Row Widgets-->
 
-            <!-- Footer -->
-            <footer class="  footer">
-                <p class="small text-muted m-0">All rights reserved | © 2023</p>
-                <p class="small text-muted m-0">Template created by <a href="https://www.pixelrocket.store/">PixelRocket</a></p>
-            </footer>
-            
-            
-            <!-- Sidebar Menu Overlay-->
-            <div class="menu-overlay-bg"></div>
-            <!-- / Sidebar Menu Overlay-->
-            
-            <!-- Modal Imports-->
-            <!-- Place your modal imports here-->
-            
-            <!-- Default Example Modal Import-->
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      Here goes modal body content
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                  </div>
-                </div>
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="small text-muted m-0">All rights reserved | © 2023</p>
+      <p class="small text-muted m-0">Template created by
+        <a href="https://www.pixelrocket.store/">PixelRocket</a></p>
+    </footer>
+
+    <!-- Sidebar Menu Overlay-->
+    <div class="menu-overlay-bg"></div>
+    <!-- / Sidebar Menu Overlay-->
+
+    <!-- Modal Imports-->
+    <!-- Place your modal imports here-->
+
+    <!-- Default Example Modal Import-->
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Here goes modal body content
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Offcanvas Imports-->
+    <!-- Place your offcanvas imports here-->
+
+    <!-- Default Example Offcanvas Import-->
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="offcanvasExample"
+      aria-labelledby="offcanvasExampleLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+        <button
+          type="button"
+          class="btn-close text-reset"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <div>
+          Some text as placeholder. In real life you can have the elements you
+          have chosen. Like, text, images, lists, etc.
+        </div>
+        <div class="dropdown mt-3">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-bs-toggle="dropdown"
+          >
+            Dropdown button
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Activity Offcanvas Import-->
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="offcanvasActivity"
+      aria-labelledby="offcanvasActivityLabel"
+    >
+      <div
+        class="offcanvas-header d-flex align-items-center justify-content-between"
+      >
+        <h5 class="offcanvas-title" id="offcanvasActivityLabel">Activity</h5>
+        <button
+          type="button"
+          class="btn-close text-reset"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="list-group list-group-flush">
+
+          <li
+            class="list-group-item pt-0 pb-5 list-group-activity d-flex align-items-start"
+          >
+            <div class="avatar avatar-xs me-3 flex-shrink-0">
+              <picture>
+                <img
+                  class="f-w-10 rounded-circle"
+                  src="/images/profiles/profile-small-7.jpeg"
+                  alt=""
+                />
+              </picture>
+              <span class="avatar-dot bg-success"></span>
+            </div>
+            <div class="d-flex flex-column flex-grow-1">
+              <div
+                class="d-flex justify-content-between align-items-center mb-1"
+              >
+                <p class="fw-semibold mb-0 me-3">John Doe</p>
+                <span class="small d-block text-muted fw-bolder">5m ago</span>
               </div>
-            <!-- Offcanvas Imports-->
-            <!-- Place your offcanvas imports here-->
-            
-            <!-- Default Example Offcanvas Import-->
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-                <div class="offcanvas-header">
-                  <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
-                  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
+              <span class="small d-block text-muted">Submitted quarterly
+                marketing report for review.</span>
+              <div
+                class="bg-light border rounded-md p-2 mt-2 d-flex justify-content-start align-items-start"
+              >
+                <div class="d-flex align-items-start me-3">
+                  <i class="ri-file-word-line ri-2x lh-1 me-2 text-primary"></i>
                   <div>
-                    Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
-                  </div>
-                  <div class="dropdown mt-3">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                      Dropdown button
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
+                    <span class="d-block fw-bolder small">Year End Report</span>
+                    <span class="text-muted d-block fs-xs">24KB</span>
                   </div>
                 </div>
-              </div>
-            <!-- Activity Offcanvas Import-->
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasActivity" aria-labelledby="offcanvasActivityLabel">
-              <div class="offcanvas-header d-flex align-items-center justify-content-between">
-                <h5 class="offcanvas-title" id="offcanvasActivityLabel">Activity</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-              </div>
-              <div class="offcanvas-body">
-                <ul class="list-group list-group-flush">
-            
-                    <li class="list-group-item pt-0 pb-5 list-group-activity d-flex align-items-start">
-                      <div class="avatar avatar-xs me-3 flex-shrink-0">
-                        <picture>
-                          <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-7.jpeg" alt="">
-                        </picture>
-                        <span class="avatar-dot bg-success"></span>
-                      </div>
-                      <div class="d-flex flex-column flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                          <p class="fw-semibold mb-0 me-3">John Doe</p>
-                          <span class="small d-block text-muted fw-bolder">5m ago</span>
-                        </div>
-                        <span class="small d-block text-muted">Submitted quarterly marketing report for review.</span>
-                          <div class="bg-light border rounded-md p-2 mt-2 d-flex justify-content-start align-items-start">
-                            <div class="d-flex align-items-start me-3">
-                              <i class="ri-file-word-line ri-2x lh-1 me-2 text-primary"></i>
-                              <div>
-                                <span class="d-block fw-bolder small">Year End Report</span>
-                                <span class="text-muted d-block fs-xs">24KB</span>
-                              </div>
-                            </div>
-                          </div>
-                      </div>
-                    </li>
-                    <li class="list-group-item pt-0 pb-5 list-group-activity d-flex align-items-start">
-                      <div class="avatar avatar-xs me-3 flex-shrink-0">
-                        <picture>
-                          <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-2.jpeg" alt="">
-                        </picture>
-                        <span class="avatar-dot bg-success"></span>
-                      </div>
-                      <div class="d-flex flex-column flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                          <p class="fw-semibold mb-0 me-3">Sally Field</p>
-                          <span class="small d-block text-muted fw-bolder">1h ago</span>
-                        </div>
-                        <span class="small d-block text-muted">Marked project status as completed.</span>
-                      </div>
-                    </li>
-                    <li class="list-group-item pt-0 pb-5 list-group-activity d-flex align-items-start">
-                      <div class="avatar avatar-xs me-3 flex-shrink-0">
-                        <picture>
-                          <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-3.jpeg" alt="">
-                        </picture>
-                        <span class="avatar-dot bg-success"></span>
-                      </div>
-                      <div class="d-flex flex-column flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                          <p class="fw-semibold mb-0 me-3">Mark Robinson</p>
-                          <span class="small d-block text-muted fw-bolder">2h ago</span>
-                        </div>
-                        <span class="small d-block text-muted">Created 2 new products in Mens Shoes</span>
-                          <div class="bg-light border rounded-md p-2 mt-2 d-flex justify-content-start align-items-start">
-                            <picture class="me-2">
-                              <img class="f-w-12 rounded" src="/images/profiles/1.png"
-                                alt="">
-                            </picture>
-                            <picture>
-                              <img class="f-w-12 rounded" src="/images/profiles/3.png"
-                                alt="">
-                            </picture>
-                          </div>
-                      </div>
-                    </li>
-                    <li class="list-group-item pt-0 pb-5 list-group-activity d-flex align-items-start">
-                      <div class="avatar avatar-xs me-3 flex-shrink-0">
-                        <picture>
-                          <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-4.jpeg" alt="">
-                        </picture>
-                        <span class="avatar-dot bg-success"></span>
-                      </div>
-                      <div class="d-flex flex-column flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                          <p class="fw-semibold mb-0 me-3">Jeffrey Way</p>
-                          <span class="small d-block text-muted fw-bolder">6h ago</span>
-                        </div>
-                        <span class="small d-block text-muted">Set user status as &#x27;offline&#x27;</span>
-                      </div>
-                    </li>
-            
-                </ul>
-                <a href="#" class="btn btn-outline-secondary btn-sm text-body d-flex align-items-center justify-content-center py-3 mb-4">
-                  <span class="f-w-4 text-muted d-block me-2">
-                    <svg class="w-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                </span>
-                  View All Activity
-                </a>
               </div>
             </div>
-            <!-- Message Offcanvas Import-->
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMessage" aria-labelledby="offcanvasMessageLabel">
-                <div class="offcanvas-header position-relative">
-                  <div class="d-flex flex-column w-100">
-                    <h5 class="offcanvas-title mb-3" id="offcanvasMessageLabel">Company Meetup</h5>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="avatar-group me-4">
-                        <picture class="avatar-group-img">
-                            <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small.jpeg"
-                            alt="HTML Bootstrap Admin Template by Pixel Rocket">
-                        </picture>
-                        <picture class="avatar-group-img">
-                            <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-2.jpeg"
-                            alt="HTML Bootstrap Admin Template by Pixel Rocket">
-                        </picture>
-                        <picture class="avatar-group-img">
-                            <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-3.jpeg"
-                            alt="HTML Bootstrap Admin Template by Pixel Rocket">
-                        </picture>
-                        <picture class="avatar-group-img">
-                            <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-4.jpeg"
-                            alt="HTML Bootstrap Admin Template by Pixel Rocket">
-                        </picture>
-                        <span class="small fw-bolder ms-2 text-muted opacity-90">+ 12 others</span>
-                      </div>
-                      <div class="dropdown">
-                        <button class="btn btn-link dropdown-toggle dropdown-toggle-icon p-0" type="button"
-                            id="dropdownTop" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-settings-3-line text-muted ri-lg"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown" aria-labelledby="dropdownTop">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </div>
-                    </div>
-                  </div>
-                  <button type="button" class="btn-close text-reset position-absolute top-20 end-5" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body h-100 d-flex justify-content-between flex-column pb-0">
-                  <div class="overflow-auto py-4">
-                    <div class="overflow-hidden">
-                      <!-- Messages-->
-                      <div class="d-flex align-items-end justify-content-start mb-4 flex-wrap">
-                          <div class="avatar avatar-xs me-3 flex-shrink-0">
-                              <picture>
-                                  <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-4.jpeg"
-                                  alt="HTML Bootstrap Admin Template by Pixel Rocket">
-                              </picture>
-                              <span class="avatar-dot bg-success"></span>
-                          </div>
-                          <div class="d-flex justify-content-start flex-column align-items-start col">
-                              <small class="text-muted fs-xs fw-bolder"><span class="fw-bold">Patrick Johnson</span> &middot; 2 mins ago</small>
-                              <div class="bg-light p-3 mt-2 rounded-t-s-4 rounded-t-e-4 rounded-b-e-4">
-                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                              </div>
-                          </div>
-                      </div>          <div class="d-flex align-items-end justify-content-start mb-4 flex-wrap">
-                          <div class="d-flex justify-content-end flex-column align-items-end col">
-                              <small class="text-muted fs-xs fw-bolder"><span class="fw-bold">You</span> &middot; 5 mins ago</small>
-                              <div class="bg-primary text-white p-3 mt-2 rounded-t-s-4 rounded-t-e-4 rounded-b-s-4">
-                                  Maecenas aliquet eu felis vel.
-                              </div>
-                          </div>
-                          <div class="avatar avatar-xs ms-3 flex-shrink-0">
-                              <picture>
-                                  <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-3.jpeg"
-                                  alt="HTML Bootstrap Admin Template by Pixel Rocket">
-                              </picture>
-                              <span class="avatar-dot bg-success"></span>
-                          </div>
-                      </div>          <div class="d-flex align-items-end justify-content-start mb-4 flex-wrap">
-                          <div class="avatar avatar-xs me-3 flex-shrink-0">
-                              <picture>
-                                  <img class="f-w-10 rounded-circle" src="/images/profiles/profile-small-4.jpeg"
-                                  alt="HTML Bootstrap Admin Template by Pixel Rocket">
-                              </picture>
-                              <span class="avatar-dot bg-success"></span>
-                          </div>
-                          <div class="d-flex justify-content-start flex-column align-items-start col">
-                              <small class="text-muted fs-xs fw-bolder"><span class="fw-bold">Patrick Johnson</span> &middot; 25 mins ago</small>
-                              <div class="bg-light p-3 mt-2 rounded-t-s-4 rounded-t-e-4 rounded-b-e-4">
-                                  Cras sit amet gravida augue.
-                              </div>
-                          </div>
-                      </div>          <!-- / Messages-->
-                    </div>
-                  </div>
-                  <div class="border-top p-4 mx-n3">
-                    <div class="d-flex flex-column align-items-end">
-                      <input type="text" class="form-control d-flex w-100 bg-light border-0 text-muted mb-3" placeholder="Add new message...">
-                      <div class="d-flex justify-content-between w-100 align-items-center">
-                        <i class="ri-attachment-line text-muted ri-lg"></i>
-                        <button class="btn btn-sm btn-primary">Send</button>
-                      </div>
-                      
-                    </div>
-                  </div>
-                </div>
-              </div>            <!-- / Footer-->
+          </li>
+          <li
+            class="list-group-item pt-0 pb-5 list-group-activity d-flex align-items-start"
+          >
+            <div class="avatar avatar-xs me-3 flex-shrink-0">
+              <picture>
+                <img
+                  class="f-w-10 rounded-circle"
+                  src="/images/profiles/profile-small-2.jpeg"
+                  alt=""
+                />
+              </picture>
+              <span class="avatar-dot bg-success"></span>
+            </div>
+            <div class="d-flex flex-column flex-grow-1">
+              <div
+                class="d-flex justify-content-between align-items-center mb-1"
+              >
+                <p class="fw-semibold mb-0 me-3">Sally Field</p>
+                <span class="small d-block text-muted fw-bolder">1h ago</span>
+              </div>
+              <span class="small d-block text-muted">Marked project status as
+                completed.</span>
+            </div>
+          </li>
+          <li
+            class="list-group-item pt-0 pb-5 list-group-activity d-flex align-items-start"
+          >
+            <div class="avatar avatar-xs me-3 flex-shrink-0">
+              <picture>
+                <img
+                  class="f-w-10 rounded-circle"
+                  src="/images/profiles/profile-small-3.jpeg"
+                  alt=""
+                />
+              </picture>
+              <span class="avatar-dot bg-success"></span>
+            </div>
+            <div class="d-flex flex-column flex-grow-1">
+              <div
+                class="d-flex justify-content-between align-items-center mb-1"
+              >
+                <p class="fw-semibold mb-0 me-3">Mark Robinson</p>
+                <span class="small d-block text-muted fw-bolder">2h ago</span>
+              </div>
+              <span class="small d-block text-muted">Created 2 new products in
+                Mens Shoes</span>
+              <div
+                class="bg-light border rounded-md p-2 mt-2 d-flex justify-content-start align-items-start"
+              >
+                <picture class="me-2">
+                  <img
+                    class="f-w-12 rounded"
+                    src="/images/profiles/1.png"
+                    alt=""
+                  />
+                </picture>
+                <picture>
+                  <img
+                    class="f-w-12 rounded"
+                    src="/images/profiles/3.png"
+                    alt=""
+                  />
+                </picture>
+              </div>
+            </div>
+          </li>
+          <li
+            class="list-group-item pt-0 pb-5 list-group-activity d-flex align-items-start"
+          >
+            <div class="avatar avatar-xs me-3 flex-shrink-0">
+              <picture>
+                <img
+                  class="f-w-10 rounded-circle"
+                  src="/images/profiles/profile-small-4.jpeg"
+                  alt=""
+                />
+              </picture>
+              <span class="avatar-dot bg-success"></span>
+            </div>
+            <div class="d-flex flex-column flex-grow-1">
+              <div
+                class="d-flex justify-content-between align-items-center mb-1"
+              >
+                <p class="fw-semibold mb-0 me-3">Jeffrey Way</p>
+                <span class="small d-block text-muted fw-bolder">6h ago</span>
+              </div>
+              <span class="small d-block text-muted">Set user status as
+                &#x27;offline&#x27;</span>
+            </div>
+          </li>
 
-        </section>
-        <!-- / Content-->
-</main> 
+        </ul>
+        <a
+          href="#"
+          class="btn btn-outline-secondary btn-sm text-body d-flex align-items-center justify-content-center py-3 mb-4"
+        >
+          <span class="f-w-4 text-muted d-block me-2">
+            <svg
+              class="w-100"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="feather feather-activity"
+            ><polyline
+                points="22 12 18 12 15 21 9 3 6 12 2 12"
+              ></polyline></svg>
+          </span>
+          View All Activity
+        </a>
+      </div>
+    </div>
+    <!-- Message Offcanvas Import-->
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="offcanvasMessage"
+      aria-labelledby="offcanvasMessageLabel"
+    >
+      <div class="offcanvas-header position-relative">
+        <div class="d-flex flex-column w-100">
+          <h5 class="offcanvas-title mb-3" id="offcanvasMessageLabel">Company
+            Meetup</h5>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="avatar-group me-4">
+              <picture class="avatar-group-img">
+                <img
+                  class="f-w-10 rounded-circle"
+                  src="/images/profiles/profile-small.jpeg"
+                  alt="HTML Bootstrap Admin Template by Pixel Rocket"
+                />
+              </picture>
+              <picture class="avatar-group-img">
+                <img
+                  class="f-w-10 rounded-circle"
+                  src="/images/profiles/profile-small-2.jpeg"
+                  alt="HTML Bootstrap Admin Template by Pixel Rocket"
+                />
+              </picture>
+              <picture class="avatar-group-img">
+                <img
+                  class="f-w-10 rounded-circle"
+                  src="/images/profiles/profile-small-3.jpeg"
+                  alt="HTML Bootstrap Admin Template by Pixel Rocket"
+                />
+              </picture>
+              <picture class="avatar-group-img">
+                <img
+                  class="f-w-10 rounded-circle"
+                  src="/images/profiles/profile-small-4.jpeg"
+                  alt="HTML Bootstrap Admin Template by Pixel Rocket"
+                />
+              </picture>
+              <span class="small fw-bolder ms-2 text-muted opacity-90">+ 12
+                others</span>
+            </div>
+            <div class="dropdown">
+              <button
+                class="btn btn-link dropdown-toggle dropdown-toggle-icon p-0"
+                type="button"
+                id="dropdownTop"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="ri-settings-3-line text-muted ri-lg"></i>
+              </button>
+              <ul class="dropdown-menu dropdown" aria-labelledby="dropdownTop">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="btn-close text-reset position-absolute top-20 end-5"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div
+        class="offcanvas-body h-100 d-flex justify-content-between flex-column pb-0"
+      >
+        <div class="overflow-auto py-4">
+          <div class="overflow-hidden">
+            <!-- Messages-->
+            <div
+              class="d-flex align-items-end justify-content-start mb-4 flex-wrap"
+            >
+              <div class="avatar avatar-xs me-3 flex-shrink-0">
+                <picture>
+                  <img
+                    class="f-w-10 rounded-circle"
+                    src="/images/profiles/profile-small-4.jpeg"
+                    alt="HTML Bootstrap Admin Template by Pixel Rocket"
+                  />
+                </picture>
+                <span class="avatar-dot bg-success"></span>
+              </div>
+              <div
+                class="d-flex justify-content-start flex-column align-items-start col"
+              >
+                <small class="text-muted fs-xs fw-bolder"><span
+                    class="fw-bold"
+                  >Patrick Johnson</span>
+                  &middot; 2 mins ago</small>
+                <div
+                  class="bg-light p-3 mt-2 rounded-t-s-4 rounded-t-e-4 rounded-b-e-4"
+                >
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                </div>
+              </div>
+            </div>
+            <div
+              class="d-flex align-items-end justify-content-start mb-4 flex-wrap"
+            >
+              <div
+                class="d-flex justify-content-end flex-column align-items-end col"
+              >
+                <small class="text-muted fs-xs fw-bolder"><span
+                    class="fw-bold"
+                  >You</span>
+                  &middot; 5 mins ago</small>
+                <div
+                  class="bg-primary text-white p-3 mt-2 rounded-t-s-4 rounded-t-e-4 rounded-b-s-4"
+                >
+                  Maecenas aliquet eu felis vel.
+                </div>
+              </div>
+              <div class="avatar avatar-xs ms-3 flex-shrink-0">
+                <picture>
+                  <img
+                    class="f-w-10 rounded-circle"
+                    src="/images/profiles/profile-small-3.jpeg"
+                    alt="HTML Bootstrap Admin Template by Pixel Rocket"
+                  />
+                </picture>
+                <span class="avatar-dot bg-success"></span>
+              </div>
+            </div>
+            <div
+              class="d-flex align-items-end justify-content-start mb-4 flex-wrap"
+            >
+              <div class="avatar avatar-xs me-3 flex-shrink-0">
+                <picture>
+                  <img
+                    class="f-w-10 rounded-circle"
+                    src="/images/profiles/profile-small-4.jpeg"
+                    alt="HTML Bootstrap Admin Template by Pixel Rocket"
+                  />
+                </picture>
+                <span class="avatar-dot bg-success"></span>
+              </div>
+              <div
+                class="d-flex justify-content-start flex-column align-items-start col"
+              >
+                <small class="text-muted fs-xs fw-bolder"><span
+                    class="fw-bold"
+                  >Patrick Johnson</span>
+                  &middot; 25 mins ago</small>
+                <div
+                  class="bg-light p-3 mt-2 rounded-t-s-4 rounded-t-e-4 rounded-b-e-4"
+                >
+                  Cras sit amet gravida augue.
+                </div>
+              </div>
+            </div>
+            <!-- / Messages-->
+          </div>
+        </div>
+        <div class="border-top p-4 mx-n3">
+          <div class="d-flex flex-column align-items-end">
+            <input
+              type="text"
+              class="form-control d-flex w-100 bg-light border-0 text-muted mb-3"
+              placeholder="Add new message..."
+            />
+            <div
+              class="d-flex justify-content-between w-100 align-items-center"
+            >
+              <i class="ri-attachment-line text-muted ri-lg"></i>
+              <button class="btn btn-sm btn-primary">Send</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- / Footer-->
+
+  </section>
+  <!-- / Content-->
+</main>

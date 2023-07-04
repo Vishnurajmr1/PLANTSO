@@ -5,6 +5,7 @@ const isAdmin=require('../middleware/is-auth');
 const adminController=require('../controllers/adminController');
 const productController=require('../controllers/productController');
 const orderController=require('../controllers/orderController');
+const couponController=require('../controllers/couponController');
 const upload=require('../config/multer');
 const {body}=require('express-validator');
 const  adminRouter = express.Router();
@@ -54,5 +55,10 @@ adminRouter.get('/editUser/:userId',isAdmin.isAdmin,adminController.getUserDetai
 adminRouter.post('/editUserDetails/',isAdmin.isAdmin,adminController.editUser);
 //Order Admin Routes
 adminRouter.get('/orders',isAdmin.isAdmin,adminController.getOrders);
-adminRouter.put('/orders/:orderId',isAdmin.isAdmin,adminController.updateOrderStatus)
+adminRouter.put('/orders/:orderId',isAdmin.isAdmin,adminController.updateOrderStatus);
+//Coupon Admin Routes
+
+adminRouter.get('/coupons',isAdmin.isAdmin,couponController.getCoupon);
+// adminRouter.post('/coupons',isAdmin.isAdmin,couponController.addCoupon);
+// adminRouter.put('/coupon-status',isAdmin.isAdmin,couponController.ChangeCouponStatus);
 module.exports = adminRouter;

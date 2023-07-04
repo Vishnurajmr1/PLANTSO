@@ -7,6 +7,8 @@ const orderController = require("../controllers/orderController");
 const adminUserHelpers=require('../helpers/adminUserHelper');
 
 
+const ITEMS_PER_PAGE=6;
+
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
   const message1 = "Product name is required";
@@ -153,30 +155,40 @@ exports.getAddProduct = (req, res, next) => {
       console.log(err);
     });
 };
-exports.getProducts = (req, res, next) => {
-  const message = req.query.message;
-  Product.find()
-    .populate("category")
-    // .populate('userId','name')
-    .lean()
-    .then((products) => {
-      products.forEach((product, index) => {
-        product.serialNumber = index + 1;
-      });
-      console.log(products);
-      res.render("admin/list-products", {
-        prods: products,
-        message: message,
-        pageTitle: "Admin Products",
-        path: "/admin/products",
-        hasProducts: products.length > 0,
-        layout: "main",
-        title: "Products",
-      });
-    })
-    .catch((err) => {
-      console.log(err);
+exports.getProducts = async(req, res, next) => {
+  try {
+    const page=+req.query.page||1;
+    const message=req.query.message;
+    const totalItems=await Product.countDocuments();
+    const productsPerPage=ITEMS_PER_PAGE;
+    const skip=(page-1)*productsPerPage;
+   const products=await Product.find()
+    .skip((page-1)*ITEMS_PER_PAGE)
+    .limit(ITEMS_PER_PAGE)
+    .populate('category')
+    .lean();
+    const startingStringNumber=skip+1;
+    products.forEach((product,index) => {
+      product.serialNumber = startingStringNumber + index;
     });
+    res.render("admin/list-products", {
+      prods: products,
+      message: message,
+      pageTitle: "Admin Products",
+      path: "/admin/products",
+      hasProducts: products.length > 0,
+      layout: "main",
+      title: "Products",
+      currentPage:page,
+      hasNextPage:ITEMS_PER_PAGE*page<totalItems,
+      hasPreviousPage:page>1,
+      nextPage:page+1,
+      previousPage:page-1,
+      lastPage:Math.ceil(totalItems/ITEMS_PER_PAGE)
+    });
+  } catch (err) {
+    throw new Error('Error:',err);
+  }
 };
 
 //GET Single Product
@@ -246,8 +258,6 @@ exports.postEditProduct = (req, res, next) => {
   const prodId = req.body.productId;
   const updatedTitle = req.body.title;
   const images = req.files;
-  console.log(images);
-  console.log('hiiiiiiiiiiii');
   const updatedPrice = req.body.price;
   const updatedDescription = req.body.description;
   const updatedStock = req.body.stock;
@@ -267,7 +277,6 @@ exports.postEditProduct = (req, res, next) => {
           let fileName=item.filename;
           imageUrls.push(`${basePath}${fileName}`);
         })
-        console.log(imageUrls);
       product.imageUrl =imageUrls;
       }
       product.description = updatedDescription;
@@ -787,7 +796,6 @@ exports.editUser=async(req,res,next)=>{
     res.status(500).json({error:'Internal Server Error'});
   }
 }
-
 
 exports.updateOrderStatus=(req,res,next)=>{
   const orderId=req.params.orderId;

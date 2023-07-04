@@ -16,7 +16,6 @@ exports.viewAllUser = async () => {
 exports.blockUnblockUsers = async (userInfo) => {
   let {userId,currStatus}=userInfo;
   try {
-
     if(currStatus){
       currStatus=false;
     }else{

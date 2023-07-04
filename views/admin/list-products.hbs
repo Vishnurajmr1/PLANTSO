@@ -96,7 +96,7 @@
                                 <td class="small text-muted capitalize">{{category.name}}</td>
                                 <td>
                                     <div class="d-flex align-items-center description-box">
-                                        {{!-- <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span>  --}}
+                                         {{!-- <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span>   --}}
                                         <span class="small text-muted">{{description}}</span>
                                     </div>
                                 </td>
@@ -465,13 +465,17 @@
                                 </td>
                             </tr> --}}
                 <nav>
-                    <ul class="pagination justify-content-end mt-3 mb-0">
-                      <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
+                    {{!-- <ul class="pagination justify-content-end mt-3 mb-0"> --}}
+                        {{log currentPage nextPage}}
+                    {{>pagination
+                     currentPage=currentPage
+                    nextPage=nextPage
+                    previousPage=previousPage
+                    lastPage=lastPage
+                    hasNextPage=hasNextPage
+                    hasPreviousPage=hasPreviousPage
+                    }} 
+                    {{!-- </ul> --}}
                   </nav>
             </div>
         </div>

@@ -1,0 +1,48 @@
+<section>
+<!--====== Pagination ======-->
+              <ul class="shop-p__pagination">
+               {{!-- <li class="{{#if (StrEq currentPage 1)}}is-active{{/if}}">
+                  {{#if (Noteq currentPage 1)}}
+                  {{#if (Noteq previousPage 1)}}
+                    <a href="?page=1">1</a>
+                    {{/if}}
+                 {{/if}}
+                  </li>  --}}
+                       {{#if hasPreviousPage}}
+                <li>
+                  <a href="?page={{previousPage}}">Prev</a>
+                  </li>
+                  {{/if}}
+                <li class="{{#if (StrEq currentPage currentPage)}}is-active{{/if}}">
+                  <a href="?page={{currentPage}}">{{currentPage}}</a>
+                  </li>
+                
+                  {{#if hasNextPage}}
+                <li>
+                  <a href="?page={{nextPage}}">{{nextPage}}</a>
+                  </li> 
+                  {{/if}}
+                 {{#if (Noteq lastPage currentPage)}}
+                 {{#if (Noteq nextPage lastPage)}}
+                  <li>
+                  <a href="?page={{lastPage}}">Next</a>
+                    </li>
+                    {{/if}}
+                  {{/if}}
+                  
+                {{!-- <li>
+                  <a href="shop-side-version-2.html">3</a>
+                  </li>
+                <li>
+
+                  <a href="shop-side-version-2.html">4</a></li>
+                <li>
+
+                  <a
+                    class="fas fa-angle-right"
+                    href="shop-side-version-2.html"
+                  ></a>
+                  </li> --}}
+              </ul>
+              <!--====== End - Pagination ======-->
+</section>

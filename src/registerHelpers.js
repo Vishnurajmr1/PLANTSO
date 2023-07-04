@@ -38,6 +38,10 @@ const getUserProductsLength=async(userId)=>{
 
 const eq=(a,b)=>a===b;
 
+const Noteq = (a,b)=> a!==b;
+
+const StrEq = (a,b)=> a==b;
+
 const multiply=(a, b)=>{
   return a * b;
 }
@@ -73,7 +77,9 @@ const addUserProductsLengthToContext = async (req, res, next) => {
     return str.replace(/\s+/g, '-');
   }
 module.exports={
+  Noteq,
   eq,
+  StrEq,
   multiply,
   calculateTotalProduct,
   replaceSpacesWithHyphens,

@@ -113,7 +113,6 @@ const EditUserDetails=(userId)=>{
 
 function updateOrderStatus(orderId,status,callback){
   const csrfToken = document.querySelector('[name="_csrf"]').value;
-  console.log(status,orderId);
   fetch(`/admin/orders/${orderId}`, {
     method: "PUT",
     headers: {
@@ -146,8 +145,6 @@ function updateOrderStatus(orderId,status,callback){
 function updateStatusCallback(status,orderId) {
   console.log(status)
   const spanElement = document.querySelector(`[order-status="${orderId}"]`);
-  
-
   spanElement.textContent = status
   // Update the badge color based on the status
   if (status === 'Completed') {
