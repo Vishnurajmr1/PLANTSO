@@ -326,12 +326,13 @@ function toggleEditStatusDropDown(event,orderId,currentstatus) {
     statusOption.addEventListener('click',function(){
       var selectedStatus=this.textContent.trim();
       updateOrderStatus(orderId,selectedStatus,updateStatusCallback);
+      dropdown.style.display = "none";
     })
   }
 }
 
 document.addEventListener("click", function(event) {
-  var dropdown = document.getElementById(`statusOptions-0-${orderId}`);
+  var dropdown = document.getElementById(`statusOptions-0-`);
   if(dropdown.style.display === "block") {
     dropdown.style.display = "none";
   }

@@ -638,10 +638,12 @@ exports.postEditCategory = (req, res, next) => {
 //   }
 // };
 
-exports.getIndex = (req, res, next) => {
+exports.getIndex = async(req, res, next) => {
+  const orders= await orderController.getAllOrders()
   res.render("admin/index", {
     pageTitle: "Plantso||Admin-Dashboard",
     layout: "main",
+    orders:orders,
     title: "Dashboard",
   });
 };
