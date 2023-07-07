@@ -424,5 +424,6 @@ function clearOTPInput(){
 
 document.getElementById("resend").addEventListener("click", function() {
   clearOTPInput();
-  // Add any other logic for sending a new OTP
 });
+
+

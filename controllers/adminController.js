@@ -712,7 +712,6 @@ exports.getOrders = (req, res, next) => {
 exports.getUsers = (req, res, next) => {
   adminUserHelpers.viewAllUser()
   .then(users => {
-      console.log(users);
       res.render("admin/list-users", {
         pageTitle: "Plantso||Admin-UserList",
         layout: "main",
@@ -847,7 +846,6 @@ exports.getGraphData=async(req,res,next)=>{
 exports.getChartDataFull=async(req,res,next)=>{
   try{
     const result=await dashboardHelper.getChartData();
-    console.log(result);
     if (result.status) {
       const { popularProducts } = result;
 
@@ -875,3 +873,10 @@ exports.getChartDataFull=async(req,res,next)=>{
   }
 }
 
+exports.getsalesReport=(req,res,next)=>{
+  res.render("admin/sales", {
+    pageTitle: "Plantso||Admin-SalesReport",
+    layout: "main",
+    title: "salesReport",
+  });
+}

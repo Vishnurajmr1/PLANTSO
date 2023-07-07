@@ -88,12 +88,6 @@ exports.postLogin = (req, res, next) => {
 };
 
 
-// exports.postLogout = (req, res, next) => {
-//   req.session.destroy((err) => {
-//     res.redirect("/");
-//   });
-// };
-
 exports.postLogout=(req,res,next)=>{
   if(req.session.isAdmin){
     //Destroy admin session
