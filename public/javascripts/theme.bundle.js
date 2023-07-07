@@ -435,10 +435,10 @@
         new Chart(e, {
           type: "bar",
           data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug"],
+            labels: [],
             datasets: [
               {
-                data: [4e3, 4500, 4900, 5500, 4500, 4100, 5e3],
+                data: [],
                 backgroundColor: "#0049fa",
                 hoverBackgroundColor: "#0049fa",
                 borderColor: "#0049fa",
@@ -446,7 +446,7 @@
                 maxBarThickness: "10",
               },
               {
-                data: [4500, 4300, 4820, 4040, 4690, 3900, 4e3],
+                data: [],
                 backgroundColor: "#e3ebf6",
                 hoverBackgroundColor: "#e3ebf6",
                 borderColor: "#e3ebf6",
@@ -612,10 +612,10 @@
           new Chart(e, {
             type: "line",
             data: {
-              labels: ["Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep"],
+              labels: [],
               datasets: [
                 {
-                  data: [4e3, 4500, 4900, 5500, 4500, 4100, 4e3, 5e3],
+                  data: [],
                   borderColor: "#0049fa",
                   backgroundColor: t,
                   pointRadius: 6,
@@ -626,7 +626,7 @@
                   borderWidth: 2,
                 },
                 {
-                  data: [2500, 5700, 2820, 4040, 5690, 2900, 2500, 5e3, 4e3],
+                  data: [],
                   borderColor: "#e3ebf6",
                   borderWidth: 2,
                   fill: !1,

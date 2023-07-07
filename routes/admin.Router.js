@@ -61,4 +61,8 @@ adminRouter.put('/orders/:orderId',isAdmin.isAdmin,adminController.updateOrderSt
 adminRouter.get('/coupons',isAdmin.isAdmin,couponController.getCoupon);
 // adminRouter.post('/coupons',isAdmin.isAdmin,couponController.addCoupon);
 // adminRouter.put('/coupon-status',isAdmin.isAdmin,couponController.ChangeCouponStatus);
+
+//Dashbord graph
+adminRouter.get('/graph',isAdmin.isAdmin,adminController.getGraphData);
+adminRouter.get('/chart',isAdmin.isAdmin,adminController.getChartDataFull);
 module.exports = adminRouter;

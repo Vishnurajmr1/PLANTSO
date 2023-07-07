@@ -23,23 +23,26 @@
           >
             <h6
               class="card-title m-0 text-muted fs-xs text-uppercase fw-bolder tracking-wide"
-            >Revenue</h6>
+            >Total Revenue</h6>
           </div>
           <div class="card-body">
             <div class="row gx-4 mb-3 mb-md-1">
-              <div class="col-12 col-md-6">
+              <div class="col-12 col-md-12">
                 <p class="fs-3 fw-bold d-flex align-items-center"><span
                     class="fs-9 me-1"
-                  >$</span>
-                  567,99</p>
+                  >₹</span>
+                  {{totalRevenue}}</p>
+                  <span class="text-sm">
+                        Shipping fees are not included
+                  </span>
               </div>
-              <div class="col-12 col-md-6">
+              {{!-- <div class="col-12 col-md-6">
                 <div class="chart chart-sm">
                   <canvas id="chartMonthlyIncome"></canvas>
                 </div>
-              </div>
+              </div> --}}
             </div>
-            <div class="d-flex align-items-center">
+            {{!-- <div class="d-flex align-items-center">
               <span
                 class="f-w-7 f-h-7 p-2 bg-success-faded text-success rounded-circle d-flex align-items-center justify-content-center"
               >
@@ -59,7 +62,7 @@
                   ></polyline></svg>
               </span>
               <span class="fw-bold text-success fs-9 ms-2">+ 10.2%</span>
-            </div>
+            </div> --}}
           </div>
         </div>
       </div>
@@ -77,19 +80,20 @@
           </div>
           <div class="card-body">
             <div class="row gx-4 mb-3 mb-md-1">
-              <div class="col-12 col-md-6">
-                <p class="fs-3 fw-bold d-flex align-items-center"><span
+              <div class="col-12 col-md-12">
+                <p class="fs-3 fw-bold d-flex align-items-center">
+                  {{totalOrdersCount}}</p>
+                   <span
                     class="fs-9 me-1"
-                  >$</span>
-                  193,99</p>
+                  >   Excluding orders in transit</span>
               </div>
-              <div class="col-12 col-md-6">
+              {{!-- <div class="col-12 col-md-6">
                 <div class="chart chart-sm">
                   <canvas id="chartAvgOrders"></canvas>
                 </div>
-              </div>
+              </div> --}}
             </div>
-            <div class="d-flex align-items-center">
+            {{!-- <div class="d-flex align-items-center">
               <span
                 class="f-w-7 f-h-7 p-2 bg-danger-faded text-danger rounded-circle d-flex align-items-center justify-content-center"
               >
@@ -109,7 +113,7 @@
                   ></polyline></svg>
               </span>
               <span class="fw-bold text-danger fs-9 ms-2">- 23.5%</span>
-            </div>
+            </div> --}}
           </div>
         </div>
       </div>
@@ -123,20 +127,23 @@
           >
             <h6
               class="card-title m-0 text-muted fs-xs text-uppercase fw-bolder tracking-wide"
-            >Daily Pageviews</h6>
+            >Products</h6>
           </div>
           <div class="card-body">
             <div class="row gx-4 mb-3 mb-md-1">
-              <div class="col-12 col-md-6">
-                <p class="fs-3 fw-bold">95,456</p>
+              <div class="col-12 col-md-12">
+                <p class="fs-3 fw-bold">{{totalProductsCount}}</p>
+                    <span class="text-sm">
+                        In {{totalCategoriesCount}} Categories
+                    </span>
               </div>
-              <div class="col-12 col-md-6">
+              {{!-- <div class="col-12 col-md-6">
                 <div class="chart chart-sm">
                   <canvas id="chartPageviews"></canvas>
                 </div>
-              </div>
+              </div> --}}
             </div>
-            <div class="d-flex align-items-center">
+            {{!-- <div class="d-flex align-items-center">
               <span
                 class="f-w-7 f-h-7 p-2 bg-success-faded text-success rounded-circle d-flex align-items-center justify-content-center"
               >
@@ -156,7 +163,7 @@
                   ></polyline></svg>
               </span>
               <span class="fw-bold text-success fs-9 ms-2">+ 1.1%</span>
-            </div>
+            </div> --}}
           </div>
         </div>
       </div>
@@ -170,23 +177,26 @@
           >
             <h6
               class="card-title m-0 text-muted fs-xs text-uppercase fw-bolder tracking-wide"
-            >Refund Issued</h6>
+            >Monthly Earning</h6>
           </div>
           <div class="card-body">
             <div class="row gx-4 mb-3 mb-md-1">
-              <div class="col-12 col-md-6">
+              <div class="col-12 col-md-12">
                 <p class="fs-3 fw-bold d-flex align-items-center"><span
                     class="fs-9 me-1"
-                  >$</span>
-                  12,340</p>
+                  >₹</span>
+                  {{currentMonthEarnings}}</p>
+                    <span class="text-sm">
+                        Based on this month
+                    </span>
               </div>
-              <div class="col-12 col-md-6">
+              {{!-- <div class="col-12 col-md-6">
                 <div class="chart chart-sm">
                   <canvas id="chartNumRefunds"></canvas>
                 </div>
-              </div>
+              </div> --}}
             </div>
-            <div class="d-flex align-items-center">
+            {{!-- <div class="d-flex align-items-center">
               <span
                 class="f-w-7 f-h-7 p-2 bg-success-faded text-success rounded-circle d-flex align-items-center justify-content-center"
               >
@@ -206,7 +216,7 @@
                   ></polyline></svg>
               </span>
               <span class="fw-bold text-success fs-9 ms-2">+ 7.5%</span>
-            </div>
+            </div> --}}
           </div>
         </div>
       </div>
@@ -447,13 +457,13 @@
     <div class="row g-4 mb-4 mt-0">
 
       <!-- Current Sales-->
-      <div class="col-12 col-xxl-6">
+      <div class="col-12 col-xxl-12">
         <div class="card mb-4 h-100">
           <div
             class="card-header justify-content-between align-items-center d-flex"
           >
-            <h6 class="card-title m-0">Current Sales</h6>
-            <div class="dropdown">
+            <h6 class="card-title m-0">Top Orders and Stocks</h6>
+            {{!-- <div class="dropdown">
               <button
                 class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0"
                 type="button"
@@ -471,13 +481,13 @@
                 <li><a class="dropdown-item" href="#">Another action</a></li>
                 <li><a class="dropdown-item" href="#">Something else here</a></li>
               </ul>
-            </div>
+            </div> --}}
           </div>
           <div class="card-body">
             <div
               class="d-flex justify-content-between align-items-start mb-4 mt-2"
             >
-              <div class="d-flex align-items-center">
+              {{!-- <div class="d-flex align-items-center">
                 <h4 class="fs-3 fw-bold mb-0 me-3">$123,668</h4>
                 <span
                   class="badge bg-success-faded text-success d-flex align-items-center"
@@ -500,8 +510,8 @@
                   </span>
                   + 13%
                 </span>
-              </div>
-              <div class="d-flex align-items-center ms-2 d-xxl-none">
+              </div> --}}
+              {{!-- <div class="d-flex align-items-center ms-2 d-xxl-none">
                 <div class="d-flex align-items-center">
                   <span
                     class="f-w-2 f-h-2 bg-primary d-block rounded-circle me-2"
@@ -514,9 +524,9 @@
                   ></span>
                   <span class="small text-muted">2020</span>
                 </div>
-              </div>
+              </div> --}}
             </div>
-            <div class="chart chart-md pt-2">
+            <div class="chart chart-md pt-2" id="chart-md">
               <canvas id="chartBar"></canvas>
             </div>
           </div>
@@ -755,7 +765,7 @@
       <!-- / Users By Operating System-->
 
       <!-- Monthly Expenses-->
-      <div class="col-12 col-lg-6">
+      {{!-- <div class="col-12 col-lg-6">
         <div class="card mb-4 h-100">
           <div
             class="card-header justify-content-between align-items-center d-flex"
@@ -829,7 +839,7 @@
               expenses</a>
           </div>
         </div>
-      </div>
+      </div> --}}
       <!-- /Monthly Expenses-->
 
       <!-- Yearly Income-->
@@ -838,15 +848,11 @@
           <div
             class="card-header justify-content-between align-items-center d-flex"
           >
-            <h6 class="card-title m-0">Yearly income</h6>
-            <a href="#" class="btn btn-outline-secondary btn-sm text-body"><i
-                class="ri-download-2-line"
-              ></i>
-              Export</a>
-                <a href="#" class="btn btn-outline-info btn-sm text-body"><i
+            <h6 class="card-title m-0">Sales Statistics</h6>
+                {{!-- <a href="#" class="btn btn-outline-info btn-sm text-body"><i
                 class="ri-download-2-line align-middle"
               ></i>
-              Export</a>
+              Export</a> --}}
               
             {{!-- <div class="dropdown">
               <button
@@ -870,7 +876,7 @@
           </div>
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-5">
-              <div class="d-flex align-items-center">
+              {{!-- <div class="d-flex align-items-center">
                 <h4 class="fs-3 fw-bold mb-0 me-3">$145,778</h4>
                 <span
                   class="badge bg-success-faded text-success d-flex align-items-center"
@@ -893,8 +899,8 @@
                   </span>
                   + 35%
                 </span>
-              </div>
-              <div class="d-flex align-items-center">
+              </div> --}}
+              {{!-- <div class="d-flex align-items-center">
                 <div class="d-flex align-items-center">
                   <span
                     class="f-w-4 rounded f-h-1 bg-primary d-block me-2"
@@ -907,7 +913,7 @@
                   ></span>
                   <span class="small text-muted">2020</span>
                 </div>
-              </div>
+              </div> --}}
             </div>
             <div class="chart">
               <div class="chart chart-lg">
@@ -948,19 +954,32 @@
                     <td>
                       <span class="fw-bolder">#{{this._id}}</span>
                     </td>
-                    <td>Patria Nelson</td>
+                    <td>{{this.user.userId.name}}</td>
                     <td class="text-muted">{{formatDate dateCreated}}</td>
-                    <td class="text-muted">
-                      <div class="d-flex align-items-center">
-                        <i class="ri-visa-line ri-lg me-2"></i>
-                        **** 6789
-                      </div>
-                    </td>
-                    <td class="text-muted">5</td>
-                    <th class="text-muted">$123.99</th>
-                    <td><span
-                        class="badge rounded-pill bg-success-faded text-success"
-                      >completed</span></td>
+                      <td class="text-muted">
+                                                <div class="d-flex align-items-center">
+                                                  {{#if (eq this.paymentmethod 'COD')}}
+                                                    <i class="ri-CUR-line ri-lg me-2"></i>cash-on-delivery
+                                                    {{else }}
+                                                    <i class="ri-visa-line ri-lg me-2"></i>StripePayment
+                                                    {{/if}}
+                                                </div>
+                                            </td>
+                    <td class="text-muted">{{this.products.length}}</td>
+                    <th class="text-muted">₹{{this.total}}</th>
+                     <td id="statusElement">
+                                             {{#if (eq this.status 'Completed')}}
+                                    <span class="badge rounded-pill bg-success-faded text-success" order-status="{{this._id}}" >{{this.status}}</span>
+                                          {{else if (eq this.status 'pending')}}
+                                    <span class="badge rounded-pill bg-warning-faded text-warning " order-status="{{this._id}}">{{this.status}}</span>
+                                           {{else if (eq this.status 'Shipped')}}
+                                   <span class="badge rounded-pill bg-info-faded text-info " order-status="{{this._id}}">{{this.status}}</span>
+                                          {{else if (eq this.status 'Out For Delivery')}}
+                                    <span class="badge rounded-pill bg-primary-faded text-primary " order-status="{{this._id}}">{{this.status}}</span>
+                                          {{else}}
+                                           <span class="badge rounded-pill bg-danger-faded text-danger " order-status="{{this._id}}">{{this.status}}</span>
+                                          {{/if}}
+                                            </td>
                     <td>
                     </td>
                   </tr>

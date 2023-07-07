@@ -17747,6 +17747,9 @@ body {
 .chart-md {
   height: 10rem;
 }
+#chart-md {
+  height: 25rem;
+}
 .chart-lg {
   height: 20rem;
 }

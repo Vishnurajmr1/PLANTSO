@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 const orderController = require("../controllers/orderController");
 const adminUserHelpers=require('../helpers/adminUserHelper');
-
+const dashboardHelper=require('../helpers/dashboardHelper');
 
 const ITEMS_PER_PAGE=6;
 
@@ -639,13 +639,25 @@ exports.postEditCategory = (req, res, next) => {
 // };
 
 exports.getIndex = async(req, res, next) => {
-  const orders= await orderController.getAllOrders()
-  res.render("admin/index", {
-    pageTitle: "Plantso||Admin-Dashboard",
-    layout: "main",
-    orders:orders,
-    title: "Dashboard",
-  });
+  try{
+    const orders= await orderController.getAllOrders();
+    const result=await dashboardHelper.getDashBoardData();
+    res.render("admin/index", {
+      pageTitle: "Plantso||Admin-Dashboard",
+      layout: "main",
+      orders:orders,
+      totalRevenue:result.totalRevenue,
+      totalOrdersCount:result.totalOrdersCount,
+      totalProductsCount:result.totalProductsCount,
+      totalCategoriesCount:result.totalCategoriesCount,
+      currentMonthEarnings:result.currentMonthEarnings,
+      title: "Dashboard",
+    });
+  }
+  catch(error){
+    throw new Error('Error while fetching dashboardData',error);
+  }
+
 };
 
 exports.getUser = (req, res, next) => {
@@ -809,5 +821,57 @@ exports.updateOrderStatus=(req,res,next)=>{
   }).catch((error)=>{
     console.log(error)
   })
+}
+
+
+exports.getGraphData=async(req,res,next)=>{
+  try{
+    const result=await dashboardHelper.getGraphDate();
+    if(result.status){
+      res.json({
+        labels:result.labels,
+        sales:result.salesData,
+        products:result.productsData,
+        message:result.message,
+        success:true
+      })
+    }
+  }
+  catch(error){
+    console.error('Error while fetching graph data',error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+}
+
+
+exports.getChartDataFull=async(req,res,next)=>{
+  try{
+    const result=await dashboardHelper.getChartData();
+    console.log(result);
+    if (result.status) {
+      const { popularProducts } = result;
+
+      // Populate the chart data
+      const labels = popularProducts.map((product) => product.productName);
+      const data = popularProducts.map((product) => product.totalOrders);
+      const stocks = popularProducts.map((product) => product.stocks); // Fetch product stock data
+
+      return res.json({
+        success: true,
+        labels,
+        data,
+        stocks,
+      });
+    } else {
+      return res.json({
+        success: false,
+        message: 'Oops! Something went wrong. Chart data not found.',
+      });
+    }
+  }
+  catch(error){
+    console.error('Error while fetching graph data',error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
 }
 
