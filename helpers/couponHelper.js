@@ -4,15 +4,15 @@ const User=require('../models/user');
 
 exports.addCoupons=async(dataBody)=>{
     try{
-        const {couponName,couponDesc,discount,validFrom,validUntil,minimumPurchase}=dataBody;
+        const {couponName,couponDesc,couponDiscount,validFrom,validUntil,couponMinAmt}=dataBody;
         const randomThreeDigitNumber=Math.floor(100+Math.random()*900);
         const code=`${couponName.split('').join('')}${randomThreeDigitNumber}`.toUpperCase();
         const  coupon=new Coupon({
             couponname:couponName,
             code:code,
             couponDescription:couponDesc,
-            discount:discount,
-            minimumPurchase:minimumPurchase,
+            discount:couponDiscount,
+            minimumPurchase:couponMinAmt,
             validFrom:validFrom,
             validUntil:validUntil,
         });
@@ -46,7 +46,7 @@ exports.changeCouponStatus=async(couponId,updateStatus)=>{
 }
 exports.getAllCoupons=async()=>{
     try {
-        const result=await Coupon.find({}).sort({validFrom:1});
+        const result=await Coupon.find({}).sort({validFrom:1}).lean();
         return result;
     } catch (error) {
         throw new Error('Oops!something wrong while fetching coupons');

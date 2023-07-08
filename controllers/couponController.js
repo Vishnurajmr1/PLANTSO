@@ -3,16 +3,21 @@ const couponHelper = require("../helpers/couponHelper");
 exports.getCoupons = async (req, res, next) => {
   try {
     const coupons = await couponHelper.getAllCoupons();
-    const currentDate = new Date().toISOString().split('T')[0];
+    const currentDate = new Date();
     const maxDate=new Date();
+    const minDate=new Date();
+    minDate.setDate(currentDate.getDate()+1);
     maxDate.setFullYear(maxDate.getFullYear()+1);
+    const formattedNextDate=minDate.toISOString().split('T')[0];
+    const formattedCurrentDate=currentDate.toISOString().split('T')[0];
     const formattedMaxDate=maxDate.toISOString().split('T')[0];
     res.render("admin/coupons", {
         pageTitle: "Plantso||Admin-Coupons",
         layout: "main",
         coupons:coupons,
         CouponLength:coupons.length>0,
-        currentDate:currentDate,
+        currentDate:formattedCurrentDate,
+        nextDate:formattedNextDate,
         maxDate:formattedMaxDate,
         title: "Coupons",
       });
@@ -31,13 +36,13 @@ exports.addCoupons=async(req,res,next)=>{
         }
     }
     catch(error){
-        throw new Error('Error while adding the coupon',err);
+        throw new Error('Error while adding the coupon',error);
     }
 }
 exports.changeCouponStatus=async(req,res,next)=>{
     try{
+        const {id,status}=req.body;
         const result=await couponHelper.changeCouponStatus(id,status);
-        console.log(result);
         if(result.status){
              res.status(200).json({success:true});
         }else{
@@ -45,7 +50,7 @@ exports.changeCouponStatus=async(req,res,next)=>{
         }
     }
     catch(error){
-        throw new Error('Error while adding the coupon',err);
+        throw new Error('Error while adding the coupon',error);
     }
 }
 

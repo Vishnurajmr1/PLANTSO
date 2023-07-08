@@ -45,7 +45,35 @@ const StrEq = (a,b)=> a==b;
 const multiply=(a, b)=>{
   return a * b;
 }
+const increment=(index)=>{
+  return index+1;
+}
 
+const incrementIndex=function(coupons,index){
+  let count=0;
+  console.log(index)
+  for(let i=0;i<=index;i++){
+    if(compareDateHelper(coupons[i].validUntil,'>',new Date())){
+      count++;
+    }
+  }
+  return count;
+}
+const incrementIndexOfExp=function(coupons,index){
+  let count=0;
+  for(let i=0;i<=index;i++){
+    if(compareDateHelper(coupons[i].validUntil,'<',new Date())){
+      count++;
+    }
+  }
+  return count;
+}
+
+const getExpiredCouponLength = function(coupons, currentDate) {
+  const currentDateTime = new Date(currentDate).getTime();
+  const expiredCoupons = coupons.filter(coupon => new Date(coupon.validUntil).getTime() < currentDateTime);
+  return expiredCoupons.length;
+};
 const calculateTotalProduct = (req, res, next) => {
   if (req.user && req.user.cart && req.user.cart.items) {
     res.locals.totalProduct = req.user.cart.items.length;
@@ -76,10 +104,34 @@ const addUserProductsLengthToContext = async (req, res, next) => {
   function replaceSpacesWithHyphens(str) {
     return str.replace(/\s+/g, '-');
   }
+
+  const compareDateHelper = function(date1, operator, date2) {
+    // Convert date strings to Date objects
+    const d1 = new Date(date1).toISOString().split('T')[0];
+    const d2 = new Date(date2).toISOString().split('T')[0];
+    // Compare the dates using the specified operator
+    switch (operator) {
+      case '<':
+        return d1 < d2 ? true : false;
+      case '>':
+        return d1 > d2 ? true : false;
+      case '=':
+        return d1 === d2 ? true : false;
+      default:
+        return false;
+    }
+  };
+
+
 module.exports={
   Noteq,
   eq,
+  increment,
+  incrementIndex,
+  incrementIndexOfExp,
+  getExpiredCouponLength,
   StrEq,
+  compareDateHelper,
   multiply,
   calculateTotalProduct,
   replaceSpacesWithHyphens,

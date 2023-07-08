@@ -95,7 +95,7 @@ const EditUserDetails=(userId)=>{
         }
       }
       if(data.success){
-        res.redired("admin/users").then(()=>{
+        res.redirect("admin/users").then(()=>{
           Swal.fire({
             icon: 'success',
             title: 'User details updated successfully',
@@ -113,6 +113,7 @@ const EditUserDetails=(userId)=>{
 
 function updateOrderStatus(orderId,status,callback){
   const csrfToken = document.querySelector('[name="_csrf"]').value;
+
   fetch(`/admin/orders/${orderId}`, {
     method: "PUT",
     headers: {

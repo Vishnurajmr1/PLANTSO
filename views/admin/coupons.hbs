@@ -1,82 +1,73 @@
 <main id="main">
-    {{>admin-header}}
-    {{>admin-sidebar}}
+{{>admin-header}}
+{{>admin-sidebar}}
      <!-- Content-->
 <section class="container-fluid">
     <div class="flex gap-4">
-        {{!-- <div class="col-lg-6 col-md-12">     --}}
-              <div class="card mb-4 lg:w-1/3">
-                    <div class="card-header justify-content-between align-items-center d-flex">
-                        <h6 class="card-title m-0">Add Coupons</h6>
-                    </div>
-                    <div class="card-body">
-                        <form action="/admin/addCoupon" method="POST" id="couponForm">
-                            <div class="flex flex-col mb-3">
-                                <label for="couponName" class="form-label">Coupon Name</label>
-                                <input type="text" class="form-control" id="couponName"
-                                aria-describedby="emailHelp" placeholder="Type here" name="couponName">
-                                <span id="couponNameError" class="text-red-500 hidden">Coupon name should be at least 3 characters long</span>
-                            </div>  
-                            <div class="flex flex-col mb-3">
-                                <label for="couponDesc" class="form-label">Coupon Description</label>
-                                 <textarea id="couponDesc" name="couponDesc" rows="4" cols="50" class="border rounded-md border-gray-300 p-2" placeholder="Type Here"></textarea>
-                                    <span id="couponDescError" class="text-red-500 hidden">Minimum 5 words required</span>
-                            </div>
-                             <div class="flex flex-col mb-3">
-                                <label for="couponName" class="form-label">Minimum Purchase amount</label>
-                                <input type="text" class="form-control" id="couponMinAmt"
-                                    aria-describedby="emailHelp" placeholder="0" name="couponMinAmt" required min='0'>
-                                    <span id="couponMinAmtError" class="text-red-500 hidden">Minimum purchase amount should be a non-negative number</span>
-                            </div>
-                             <div class="flex flex-col mb-3">
-                                <label for="couponDiscount" class="form-label">Discount (%)</label>
-                                <input type="text" class="form-control" id="couponDiscount"
-                                    aria-describedby="emailHelp" placeholder=0 name="couponDiscount">
-                                    <span id="couponDiscountError" class="text-red-500 hidden">Discount should be a positive number</span>
-                            </div>
-                             <div class="flex flex-col mb-3">
-                                <label for="validCoupon" class="form-label">Valid From</label>
-                                <input type="date" class="form-control" id="couponFrom" name="validFrom"
-                                    aria-describedby="emailHelp"  name="validFrom" required min="{{currentDate}}">
-                            </div>
-                             <div class="flex flex-col mb-3">
-                                <label for="ValidCouponExp" class="form-label">Valid Until</label>
-                                <input type="date" class="form-control" id="ValidUntil" name="validUntil"
-                                    aria-describedby="emailHelp"  name="ValidUntil" required min="{{currentDate}}" max="{{maxDate}}">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Add Coupon</button>
-                        </form>
-                    </div>
-                </div>
-         {{!-- </div> --}}
-        {{!-- <div class="col-lg-6 col-12"> --}}
-                <div class="card mb-4 lg:w-2/3">
+        <div class="card mb-4 lg:w-1/3">
             <div class="card-header justify-content-between align-items-center d-flex">
-                <h6 class="card-title m-0">Coupon Listing</h6>
+                <h6 class="card-title m-0">Add Coupons</h6>
             </div>
-            {{#if CouponLength}}
             <div class="card-body">
-
-                <!-- User listing Actions-->
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <form class="bg-light rounded px-3 py-1 flex-shrink-0 d-flex align-items-center">
-                        <input class="form-control border-0 bg-transparent px-0 py-2 me-5 fw-bolder" type="search"
-                          placeholder="Search" aria-label="Search">
-                        <button class="btn btn-link p-0 text-muted" type="submit"><i class="ri-search-2-line"></i></button>
+                <form action="/admin/addCoupon" method="POST" id="couponForm">
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                        <div class="flex flex-col mb-3">
+                            <label for="couponName" class="form-label">Coupon Name</label>
+                            <input type="text" class="form-control" id="couponName"
+                            aria-describedby="emailHelp" placeholder="Type here" name="couponName">
+                            <span id="couponNameError" class="text-red-500 hidden">Coupon name should be at least 3 characters long</span>
+                        </div>  
+                        <div class="flex flex-col mb-3">
+                            <label for="couponDesc" class="form-label">Coupon Description</label>
+                            <textarea id="couponDesc" name="couponDesc" rows="4" cols="50" class="border rounded-md border-gray-300 p-2" placeholder="Type Here"></textarea>
+                            <span id="couponDescError" class="text-red-500 hidden">Minimum 5 words required</span>
+                        </div>
+                        <div class="flex flex-col mb-3">
+                            <label for="couponMinAmt" class="form-label">Minimum Purchase amount</label>
+                            <input type="text" class="form-control" id="couponMinAmt"
+                            aria-describedby="emailHelp" placeholder="0" name="couponMinAmt" required min='0'>
+                            <span id="couponMinAmtError" class="text-red-500 hidden">Minimum purchase amount should be a non-negative number</span>
+                        </div>
+                        <div class="flex flex-col mb-3">
+                            <label for="couponDiscount" class="form-label">Discount (%)</label>
+                            <input type="text" class="form-control" id="couponDiscount"
+                            aria-describedby="emailHelp" placeholder=0 name="couponDiscount">
+                            <span id="couponDiscountError" class="text-red-500 hidden">Discount should be a positive number</span>
+                        </div>
+                        <div class="flex flex-col mb-3">
+                            <label for="validCoupon" class="form-label">Valid From</label>
+                            <input type="date" class="form-control" id="couponFrom" name="validFrom"
+                            aria-describedby="emailHelp"  name="validFrom" required min="{{currentDate}}">
+                        </div>
+                        <div class="flex flex-col mb-3">
+                            <label for="ValidCouponExp" class="form-label">Valid Until</label>
+                            <input type="date" class="form-control" id="ValidUntil" name="validUntil"
+                            aria-describedby="emailHelp"  name="ValidUntil" required min="{{nextDate}}" max="{{maxDate}}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Coupon</button>
                     </form>
-                    
                 </div>
-                <!-- /user listing Actions-->
-
-                <!-- User Listing Table-->
+            </div>
+            <div class="card mb-4 lg:w-2/3">
+                 <div class="card-header justify-content-between align-items-center d-flex">
+                    <h6 class="card-title m-0">Coupon Listing</h6>
+                </div> 
+            {{#if CouponLength}} 
+             <div class="card-body">
+                <!-- Coupon listing Actions-->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                      <form class="bg-light rounded px-3 py-1 flex-shrink-0 d-flex align-items-center">
+                            <input class="form-control border-0 bg-transparent px-0 py-2 me-5 fw-bolder" type="search"
+                             placeholder="Search" aria-label="Search">
+                            <button class="btn btn-link p-0 text-muted" type="submit"><i class="ri-search-2-line"></i></button>
+                        </form>
+                </div>
+                <!-- /Coupon listing Actions-->
+                <!-- Coupon  Listing Table-->
                 <div class="table-responsive">
                     <table class="table m-0 table-striped">
                         <thead>
                             <tr>
-                                <th>
-                                    <div class="form-group form-check-custom mb-0 flex-shrink-0">
-                                    </div>
-                                </th>
                                 <th>No</th>
                                 <th>Coupon Name</th>
                                 <th>Active</th>
@@ -87,59 +78,48 @@
                         </thead>
                         <tbody>
                             {{#each coupons}}
+                            {{#if (compareDateHelper validUntil '>' ../currentDate)}}
                             <tr>
                                 <td>
-                                    <div class="form-group form-check-custom mb-0">
-                                    </div>
+                                    <div class="form-group form-check-custom mb-0">{{incrementIndex ../coupons @index}}</div>
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-start align-items-start">
                                         <div>
-                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">{{this.name}}
-                                                    <span class="d-block f-w-4 ms-1 lh-1 text-primary">
-                                                    </span>
+                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">{{this.couponname}}
                                             </p>
-                                            <span class="d-block text-muted">{{this.email}}</span>
+                                            {{!-- <span class="d-block text-muted">{{this.code}}</span> --}}
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{this.phone}}</td>
-                                <td class="text-muted">{{formatDate dateCreated}}</td>
-                                <td>
-                                    {{#if this.status}}
+                                 <td>
+                                    {{#if this.isActive}}
                                     <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Active</span>
+                                       <span class="badge rounded-pill bg-success" id="coupon-status-{{this._id}}">Active</span>
                                     </div>
                                     {{else}}
                                     <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-danger d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Blocked</span>
+                                        <span class="badge rounded-pill bg-danger" id="coupon-status-{{this._id}}">Disabled</span>
                                     </div>
                                     {{/if}}
                                 </td>
+                                <td class="text-center">{{this.discount}} %</td>
+                                <td class="">{{this.code}}</td>
+                               
                                 <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                            id="dropdownOrder-0" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-more-2-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-0">
-                                           <li><a class="dropdown-item" href="#" style="display: flex;justify-content: space-between;" onclick="blockUnblockUsers('{{this._id}}',{{this.status}})">{{#if this.status}}Block{{else}}Unblock{{/if}}
-                                           
-                                            </a>
-                                            </li>
-                                            
-                                        </ul>
-                                    </div>
-                                    <!-- The form -->
-                                    <!--Step 1:Adding HTML-->
-  {{!-- end of the form --}}
+                                    {{#if this.isActive}}
+                                    <button type="button" class="btn mb-2 btn-outline-danger" id="coupon-action-{{this._id}}" onclick="updateCoupon('{{this._id}}',false)">Disable</button>
+                                    {{else}}
+                                    <button type="button" class="btn mb-2 btn-outline-success" id="coupon-action-{{this._id}}" onclick="updateCoupon('{{this._id}}',true)">Enable</button>
+                                    {{/if}}
                                 </td>
                             </tr>
+                            {{/if}}
                             {{/each}}
                         </tbody>
                     </table>
                 </div>    
-                <!-- /User Listing Table-->
+                <!-- /Coupon Listing Table-->
                 <nav>
                     <ul class="pagination justify-content-end mt-3 mb-0">
                       <li class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -149,7 +129,6 @@
                       <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
                   </nav>
-  
             </div>
             {{else}}
         <div class="card-body d-flex flex-column align-items-center justify-content-center">
@@ -158,9 +137,9 @@
                     <button class="btn btn-primary" id="addCouponBtn">Add Coupon</button>
                 </div>
             </div>
-            {{/if}}
+            {{/if}} 
         </div>
-        {{!-- </div> --}}
+        </div>
     </div>
         {{!-- Second div body --}}
         <div class="card mb-4">
@@ -168,7 +147,6 @@
                 <h6 class="card-title m-0">Expired Coupons</h6>
             </div>
             <div class="card-body">
-
                 <!-- User listing Actions-->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <form class="bg-light rounded px-3 py-1 flex-shrink-0 d-flex align-items-center">
@@ -180,14 +158,19 @@
                 <!-- /user listing Actions-->
 
                 <!-- User Listing Table-->
+                {{#unless (getExpiredCouponLength  coupons currentDate)}}
                 <div class="table-responsive">
+                   <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                            <div class="text-center">
+                                 <p class="text-muted font-bold text-2xl">No Expired Coupons Found</p>
+                                 <p class="text-muted">No coupons have expired at the moment</p>
+                         {{!-- <button class="btn btn-primary">If Expired Coupons Available, They Will Be Shown Here</button> --}}
+                        </div>
+                     </div>
+                    {{else}}
                     <table class="table m-0 table-striped">
-                        <thead>
+                    <thead>
                             <tr>
-                                <th>
-                                    <div class="form-group form-check-custom mb-0 flex-shrink-0">
-                                    </div>
-                                </th>
                                 <th>No</th>
                                 <th>Coupon Name</th>
                                 <th>Active</th>
@@ -196,66 +179,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{#each users}}
+                            {{#each coupons}}
+                            {{#if (compareDateHelper validUntil '<' ../currentDate)}}
                             <tr>
-                                <td>
-                                    <div class="form-group form-check-custom mb-0">
-                                    </div>
+                               <td>
+                                <div class="form-group form-check-custom mb-0">{{incrementIndexOfExp ../coupons @index}}</div>
                                 </td>
-                                <td>
+                                 <td>
                                     <div class="d-flex justify-content-start align-items-start">
-                                      
                                         <div>
-                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">{{this.name}}
-                                                    <span class="d-block f-w-4 ms-1 lh-1 text-primary">
-                                                    
-                                                    </span>
+                                            <p class="fw-bolder mb-1 d-flex align-items-center lh-1">{{this.couponname}}
                                             </p>
-                                            <span class="d-block text-muted">{{this.email}}</span>
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{this.phone}}</td>
-                                {{!-- <td class="text-muted"><i class="ri-map-pin-line align-bottom"></i> London, UK</td> --}}
-                                <td class="text-muted">{{formatDate dateCreated}}</td>
+                                  <td><span class="badge rounded-pill bg-secondary" id="coupon-status-{{_id}}">Expired</span></td>
+                                <td class="text-muted">{{this.discount}} %</td>
                                 <td>
-                                    {{#if this.status}}
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-success d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Active</span>
-                                    </div>
-                                    {{else}}
-                                    <div class="d-flex align-items-center">
-                                        <span class="f-w-2 f-h-2 bg-danger d-block rounded-circle me-1 fs-xs fw-bolder"></span> <span class="small text-muted">Blocked</span>
-                                    </div>
-                                    {{/if}}
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
-                                            id="dropdownOrder-0" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-more-2-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-0">
-                                           <li><a class="dropdown-item" href="#" style="display: flex;justify-content: space-between;" onclick="blockUnblockUsers('{{this._id}}',{{this.status}})">{{#if this.status}}Block{{else}}Unblock{{/if}}
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" {{#if this.status}}fill="yellow"{{else}}fill="green"{{/if}} class="bi bi-slash-circle" viewBox="0 0 16 16">
-                                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                              <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"/>
-                                            </svg>
-                                            </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!-- The form -->
-                                    <!--Step 1:Adding HTML-->
-  {{!-- end of the form --}}
+                                    {{this.code}}
                                 </td>
                             </tr>
+                            {{/if}}
                             {{/each}}
                         </tbody>
                     </table>
-                </div>    
-                <!-- /User Listing Table-->
-                <nav>
+                    <nav>
                     <ul class="pagination justify-content-end mt-3 mb-0">
                       <li class="page-item"><a class="page-link" href="#">Previous</a></li>
                       <li class="page-item active"><a class="page-link" href="#">1</a></li>
@@ -264,7 +212,9 @@
                       <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
                   </nav>
-  
+                </div>    
+                <!-- /User Listing Table-->
+            {{/unless}}
             </div>
         </div>
         {{!-- end of second body div --}}
@@ -286,7 +236,7 @@
         <!-- / Content-->
 <script>
  // Find the add coupon button and input field
-   const addCouponBtn = document.getElementById('addCouponBtn');
+    const addCouponBtn = document.getElementById('addCouponBtn');
    const couponNameInput = document.getElementById('couponName');
    
    // Add click event listener to the button
@@ -294,29 +244,6 @@
      // Focus on the input field
      couponNameInput.focus();
    });
-   /*
-   const form=document.getElementById('couponForm');
-
-    const formData = new FormData(form);
-    const formDataObject = {};
-      for (let [key, value] of formData.entries()) {
-            formDataObject[key] = value;
-    }
-    console.log(formDataObject);
-
-   fetch('/admin/addCoupon',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(formDataObject)
-   }).then(async(res)=>{
-    res=await res.json();
-    if(res.success){
-        location.reload();
-    }
-   }).catch((error)=>{
-    console.log(error);
-   })
-   */
-
+ 
 </script>
 </main>
