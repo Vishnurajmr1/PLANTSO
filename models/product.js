@@ -33,14 +33,14 @@ const productSchema=new Schema({
         type:Date,
         default:Date.now,
     },
-    index:{
-        type:Number,
-        default:0,
-    },
     userId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
         required:true
+    },
+    isDeleted:{
+        type:Boolean,
+        default:false,
     }
 });
 module.exports=mongoose.model('Product',productSchema);

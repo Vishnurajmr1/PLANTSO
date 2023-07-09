@@ -146,12 +146,12 @@ exports.postSignup = (req, res, next) => {
         })
         .then((result) => {
           res.redirect("/login");
-          transporter.sendMail({
-            to: email,
-            from: "arunkumararun20123@gmail.com",
-            subject: "SignUp Succeeded!",
-            html: `<p>"Congratulations,${name},on a successful login👏!We're here to assist you in finding the perfect products. Enjoy your time on Plantso!😊"<p>`,
-          });
+          // transporter.sendMail({
+          //   to: email,
+          //   from: "arunkumararun20123@gmail.com",
+          //   subject: "SignUp Succeeded!",
+          //   html: `<p>"Congratulations,${name},on a successful login👏!We're here to assist you in finding the perfect products. Enjoy your time on Plantso!😊"<p>`,
+          // });
         });
     })
     .catch((err) => {
@@ -262,15 +262,15 @@ exports.postReset = (req, res, next) => {
       })
       .then((result) => {
         res.redirect("/");
-        transporter.sendMail({
-          to: req.body.email,
-          from: "arunkumararun20123@gmail.com",
-          subject: "Password-reset",
-          html: `
-          <p>You request a password reset for Plantso website🪴</p>
-          <p>Click this <a href="http://localhost:5000/reset/${token}">Redirect To Plantso website To reset!</a>to set a new password.</p>
-          `,
-        });
+        // transporter.sendMail({
+        //   to: req.body.email,
+        //   from: "arunkumararun20123@gmail.com",
+        //   subject: "Password-reset",
+        //   html: `
+        //   <p>You request a password reset for Plantso website🪴</p>
+        //   <p>Click this <a href="http://localhost:5000/reset/${token}">Redirect To Plantso website To reset!</a>to set a new password.</p>
+        //   `,
+        // });
       })
       .catch((err) => {
         console.log(err);

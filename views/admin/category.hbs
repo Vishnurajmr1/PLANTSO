@@ -44,6 +44,7 @@
                     <table class="table m-0 table-striped">
                         <thead>
                             <tr >
+                                <th>Serial NO.</th>
                                 <th class="align-top">Category Name</th>
                                 <th class="text-center align-top">Actions</th>
                             </tr>
@@ -53,6 +54,7 @@
                              {{#if this.isDeleted}}
                              {{else}}
                             <tr>
+                                    <td class="small text-muted capitalize text-center">{{increment @index}}</td>
                                 <td>
                                     <div class="d-flex justify-content-start align-items-start">
                                         <div>
