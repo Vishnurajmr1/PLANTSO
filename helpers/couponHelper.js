@@ -52,6 +52,14 @@ exports.getAllCoupons=async()=>{
         throw new Error('Oops!something wrong while fetching coupons');
     }
 }
+exports.getValidCoupons=async()=>{
+    try {
+        const result=await Coupon.find({isActive:true}).sort({validFrom:1}).lean();
+        return result;
+    } catch (error) {
+        throw new Error('Oops!something wrong while fetching coupons');
+    }
+}
 
 exports.findCoupon=async(couponName)=>{
     try{
@@ -81,10 +89,11 @@ exports.isUserValidForCoupon=async(userId,coupon)=>{
             return {
                 status:false,
                 message:'Cart total does not meet the minimum purchase requirement',
-            }
+            };
+        }else{
+            let cartTotal=cart.totalPrice;
+            return {status:true,cartTotal};
         }
-        let cartTotal=cart.totalPrice;
-        return {status:true,cartTotal};
     }
     catch(error){
         throw new Error('Oops! Something went wrong while checking if the user is valid for the coupon');

@@ -14,7 +14,7 @@ const sendgridTransport = require("nodemailer-sendgrid-transport");
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key: process.env.SENDGRID_API_KEY,
+      api_key:process.env.SENDGRID_API_KEY,
     },
   })
 );
@@ -148,7 +148,7 @@ exports.postSignup = (req, res, next) => {
           res.redirect("/login");
           transporter.sendMail({
             to: email,
-            from: "arunkumarararun20123@gmail.com",
+            from: "arunkumararun20123@gmail.com",
             subject: "SignUp Succeeded!",
             html: `<p>"Congratulations,${name},on a successful login👏!We're here to assist you in finding the perfect products. Enjoy your time on Plantso!😊"<p>`,
           });
@@ -264,7 +264,7 @@ exports.postReset = (req, res, next) => {
         res.redirect("/");
         transporter.sendMail({
           to: req.body.email,
-          from: "arunkumarararun20123@gmail.com",
+          from: "arunkumararun20123@gmail.com",
           subject: "Password-reset",
           html: `
           <p>You request a password reset for Plantso website🪴</p>

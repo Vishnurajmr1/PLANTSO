@@ -7,6 +7,7 @@ const Address=require('../models/address');
 const userHelper=require('../helpers/userhelpers');
 const orderController=require('../controllers/orderController');
 const countryStatePicker=require('country-state-picker');
+const couponHelper=require('../helpers/couponHelper');
 const stripe=require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const ITEMS_PER_PAGE=6;
@@ -319,6 +320,7 @@ exports.updateQuantity = async (req, res, next) => {
 exports.getCheckout = async (req, res, next) => {
   try {
     const user = await req.user.populate("cart.items.productId");
+    const coupons=await couponHelper.getValidCoupons();
     const products = user.cart.items.map((item) => {
       const quantity = item.quantity;
       const price = item.productId.price;
@@ -332,7 +334,7 @@ exports.getCheckout = async (req, res, next) => {
         category: item.productId.category,
         stock: item.productId.stock,
         imageUrl: item.productId.imageUrl,
-        subtotal: subtotal.toFixed(2), // Add subtotal to the product object
+        subtotal:subtotal.toFixed(2), // Add subtotal to the product object
       };
     });
     const session = await stripe.checkout.sessions.create({
@@ -356,6 +358,7 @@ exports.getCheckout = async (req, res, next) => {
     res.render("shop/checkout", {
       products: products,
       user: true,
+      coupons:coupons,
       hasProducts: products.length > 0,
       totalSum: total,
       sessionId:session.id,
@@ -488,7 +491,7 @@ exports.getDefault=(req,res,next)=>{
 }
 
 exports.postCheckout=(req,res,next)=>{
-  const {address,paymentMethodId}=req.body;
+  const {address,paymentMethodId,totalPrice}=req.body;
   if(paymentMethodId==='COD'){
     const user=req.user;
     const cartItems=user.cart.items;
@@ -501,7 +504,8 @@ exports.postCheckout=(req,res,next)=>{
             user,
             cartItems,
             existingAddress._id,
-            paymentMethodId
+            paymentMethodId,
+            totalPrice,
             );
         }
       })
@@ -509,6 +513,7 @@ exports.postCheckout=(req,res,next)=>{
         return req.user.clearCart()
       })
       .then((order)=>{
+        
         return res.json({success:true,message:"order placed successfully"})
       })
       .catch((error)=>{
@@ -534,6 +539,7 @@ exports.postCheckout=(req,res,next)=>{
         cartItems,
         savedAddress._id,
         paymentMethodId,
+        totalPrice,
       )
     })
     .then((order)=>{

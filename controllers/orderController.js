@@ -121,7 +121,7 @@ exports.getOrder =(orderId) => {
   });
 };
 
-exports.createOrder=(user,cartItems,addressId,paymentMethodId)=>{
+exports.createOrder=(user,cartItems,addressId,paymentMethodId,totalPrice)=>{
   return new Promise((resolve,reject)=>{
       // console.log(user);
       console.log(cartItems);
@@ -140,13 +140,13 @@ exports.createOrder=(user,cartItems,addressId,paymentMethodId)=>{
             userId:user._id,
           },
           status:'pending',
-          total:user.cart.totalPrice,
+          subTotal:user.cart.totalPrice,
+          total:totalPrice,
           shippingAddress:addressId,
           products:products,
           paymentmethod:paymentMethodId
         });
-     order
-     .save()
+     order.save()
     .then((savedOrder)=>{
       resolve(savedOrder);
     })

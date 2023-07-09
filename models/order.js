@@ -52,6 +52,9 @@ const orderSchema=new Schema({
       total: {
         type: Number,
       },
+      subTotal:{
+        type:Number,
+      },
 })
 
 module.exports=mongoose.model('Order',orderSchema);

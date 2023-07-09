@@ -366,7 +366,7 @@ slider.oninput = function() {
 // });
 
 
-function handlePayment(addressDetails,paymentMethodId){
+function handlePayment(addressDetails,paymentMethodId,totalPrice){
   const csrfToken = document.querySelector('[name="_csrf"]').value;
   fetch(`/checkout`,{
     method: "POST",
@@ -374,7 +374,7 @@ function handlePayment(addressDetails,paymentMethodId){
       "Content-Type": "application/json",
       "X-CSRF-Token": csrfToken,
     },
-    body:JSON.stringify({address:addressDetails,paymentMethodId:paymentMethodId}),
+    body:JSON.stringify({address:addressDetails,paymentMethodId:paymentMethodId,totalPrice}),
   }).then((response)=>{
     if(!response.ok){
       throw new Error('An error occured during the request.');
@@ -393,7 +393,7 @@ function handlePayment(addressDetails,paymentMethodId){
           icon: "success",
           button: "OK",
         }).then(() => {
-          window.location.href = '/orders'; // Redirect the user to the /orders page
+          window.location.href = `/orders`; // Redirect the user to the /orders page
         });
       }
     })

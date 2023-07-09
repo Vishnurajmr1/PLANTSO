@@ -10,7 +10,7 @@ const flash = require("connect-flash");
 const helperFunctions = require("./src/registerHelpers");
 
 //config files used for database configuration
-const { mongoConnect } = require("./config/mongoDb");
+const {mongoConnect} = require("./config/mongoDb");
 //used for multer configuration
 const upload = require("./config/multer");
 //used for middleware user to get user model
@@ -33,6 +33,8 @@ const store = new MongoDBStore({
   uri: process.env.MONGO_URL,
   collection: "sessions",
 });
+
+
 
 const csrfProtection = csrf();
 
@@ -93,8 +95,17 @@ app.listen(port,(err)=>{
   console.log(`Listening on port http://localhost:${port}/`);
 })
 
+mongoConnect();
 
-mongoConnect()
+// mongoConnect().then(() => {
+//   console.log('Connected to MongoDB');
+//   const port = process.env.PORT || 3000;
+//   app.listen(port, () => {
+//     console.log(`Listening on port http://localhost:${port}/`);
+//   });
+// }).catch((error) => {
+//   console.log('MongoDB connection failed:', error);
+// });
 
 console.clear();
 

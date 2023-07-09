@@ -6,6 +6,7 @@ const isAuth=require('../middleware/is-auth');
 const shopController=require('../controllers/shopController');
 const productController=require('../controllers/productController');
 const orderController=require('../controllers/orderController');
+const couponController=require('../controllers/couponController');
 
 
 
@@ -49,11 +50,16 @@ shopRouter.get('/wishlist',(req,res)=>{
   res.render('shop/wishlist',{user:true})
 })
 
+//router used for coupon
+shopRouter.post('/apply-coupon',isAuth.isauth,couponController.applyCoupon);
+shopRouter.put('/remove-coupon',isAuth.isauth,couponController.removeCoupon);
 
 //router used for checkout 
 shopRouter.get('/checkout',isAuth.isauth,shopController.getCheckout);
 shopRouter.get('/checkout/success',orderController.getCheckoutSuccess);
 shopRouter.get('/checkout/cancel',shopController.getCheckout);
-
 shopRouter.post('/checkout',isAuth.isauth,shopController.postCheckout);
+
+
+
 module.exports = shopRouter;

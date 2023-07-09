@@ -56,19 +56,29 @@ exports.changeCouponStatus=async(req,res,next)=>{
 
 exports.applyCoupon=async(req,res,next)=>{
     try{
-        const couponName=req.body;
+        
+        // const couponName=req.body;
+        const couponName=req.body.couponname;
         const coupon=await couponHelper.findCoupon(couponName)
 
         if(!coupon.status){
              return res.json({success:false,message:'Invalid Coupon'});
         }
         const userId=req.session.user._id;
+        console.log(userId);
         const response=await couponHelper.isUserValidForCoupon(userId,coupon.coupon);
 
         // if(req.session.app)
+        
+        if (!response.status) {
+        // Cart total does not meet the minimum purchase requirement
+        return res.json({ success: false, message: response.message });
+        }
+        
         const discountAmount=(coupon.coupon.discount/100)*response.cartTotal;
+        console.log(discountAmount);
         let cartTotal=response.cartTotal-discountAmount;
-
+        console.log(cartTotal);
         req.session.coupon=coupon.coupon;
 
         return res.json({
