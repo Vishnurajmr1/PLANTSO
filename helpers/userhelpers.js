@@ -42,20 +42,40 @@ exports.getAddress=(userId)=>{
 }
 
 
-exports.defaultAddress=async(userId)=>{
+// exports.defaultAddress=async(userId)=>{
+//     try {
+//         return await new Promise((resolve, reject) => {
+//             Address.findOne({ user: userId, isBillingAddress: true, isShippingAddress: true }).lean()
+//                 .then((addresses) => {
+//                     if (addresses.length == 0) {
+//                         resolve('No default address found');
+//                     } else {
+//                         resolve(addresses);
+//                     }
+//                 });
+//         });
+//     } catch (error) {
+//         console.log('Error retrieving default address', error);
+//         reject(error);
+//     }
+// }
+
+exports.defaultAddress = async (userId) => {
     try {
-        return await new Promise((resolve, reject) => {
-            Address.findOne({ user: userId, isBillingAddress: true, isShippingAddress: true }).lean()
-                .then((addresses) => {
-                    if (addresses.length === 0) {
-                        reject('No default address found');
-                    } else {
-                        resolve(addresses);
-                    }
-                });
-        });
+      const address = await Address.findOne({
+        user: userId,
+        isBillingAddress: true,
+        isShippingAddress: true
+      }).lean();
+  
+      if (!address) {
+        return 'No default address found';
+      } else {
+        return address;
+      }
     } catch (error) {
-        console.log('Error retrieving default address', error);
-        reject(error);
+      console.log('Error retrieving default address', error);
+      throw error;
     }
-}
+  };
+  

@@ -34,13 +34,13 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
             <div class="card-body">
 
                 <!-- User listing Actions-->
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                {{!-- <div class="d-flex justify-content-between align-items-center mb-3">
                     <form class="bg-light rounded px-3 py-1 flex-shrink-0 d-flex align-items-center">
                         <input class="form-control border-0 bg-transparent px-0 py-2 me-5 fw-bolder" type="search"
                           placeholder="Search" aria-label="Search">
                         <button class="btn btn-link p-0 text-muted" type="submit"><i class="ri-search-2-line"></i></button>
                     </form>
-                </div>
+                </div> --}}
 
                   <!-- Latest Orders-->
                 <div class="col-12">
@@ -86,7 +86,7 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
                                              {{#if (eq this.status 'Completed')}}
                                     <span class="badge rounded-pill bg-success-faded text-success" order-status="{{this._id}}" >{{this.status}}</span>
                                           {{else if (eq this.status 'pending')}}
-                                    <span class="badge rounded-pill bg-warning-faded text-warning " order-status="{{this._id}}">{{this.status}}</span>
+                                    <span class="badge rounded-pill bg-warning-faded text-success " order-status="{{this._id}}">{{this.status}}</span>
                                            {{else if (eq this.status 'Shipped')}}
                                    <span class="badge rounded-pill bg-info-faded text-info " order-status="{{this._id}}">{{this.status}}</span>
                                           {{else if (eq this.status 'Out For Delivery')}}
@@ -163,11 +163,11 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-2">
-                       <img src="{{this.product.imageUrl}}" 
+                       <img src="{{this.product.imageUrl.[0]}}" 
                         class="img-fluid" alt="Phone">
                     </div>
                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                      {{!-- <p class="text-muted mb-0">{{this.product.title}}</p> --}}
+                      <p class="text-muted mb-0">{{this.product.title}}</p>
                     </div>
                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                     {{#each this.product.category}}
@@ -190,12 +190,12 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
               <!-- Order Details -->
               <div class="d-flex justify-content-between pt-2">
                 <p class="fw-bold mb-0">Order Details</p>
-                <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span>₹{{this.total}}</p>
+                <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span>₹{{this.subTotal}}</p>
               </div>
 
               <div class="d-flex justify-content-between pt-2">
-                <p class="text-muted mb-0">Invoice Number: 788152</p>
-                <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> ₹0.00</p>
+                <p class="text-muted mb-0">Invoice Number:#{{this.orderId}}</p>
+                <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span>₹{{subtract subTotal total}}</p>
               </div>
 
               <div class="d-flex justify-content-between">

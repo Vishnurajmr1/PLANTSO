@@ -1,4 +1,506 @@
-<main>
+<main id="main">
     {{>admin-header}}
     {{>admin-sidebar}}
+
+
+    <section class="container-fluid">
+        
+        <div class="card mb-4">
+            <div class="card-header justify-content-between align-items-center d-flex">
+                <h6 class="card-title m-0">Order Management</h6>
+            </div>
+        <div class="d-flex justify-content-end gap-2 mr-4 mt-4">
+            <a id="xlsheet" onclick="ExportToExcel()" class="btn mb-2 btn-secondary">Download XLSheet</a>
+            <a href="#" id="pdf" data-value="" class="btn mb-2 btn-outline-dark">Download PDF</a>
+        </div>
+       
+            <div class="card-body ">
+                <!-- Order success listing Actions-->
+                {{!-- <div class="d-flex gap-5 align-items-center mb-3"> --}}
+                    {{!-- <form class="bg-light rounded px-3 py-1 flex-shrink-0">
+                        <div class="d-flex gap-3">
+                        <input class="form-control border-0 bg-transparent px-0 py-2 me-5 fw-bolder" type="Date"
+                           aria-label="validFrom">
+                         <input class="form-control border-0 bg-transparent px-0 py-2 me-5 fw-bolder" type="Date"
+                            aria-label="validUntil"> --}}
+                    
+                        {{!-- <button class="btn btn-link p-0 text-muted" type="submit"><i class="ri-search-2-line"></i></button> --}}
+                    {{!-- </form> --}}
+                {{!-- <div class="d-flex justify-content-between align-items-center mb-3"> --}}
+                    {{!-- <form class="bg-light rounded px-3 py-1 flex-shrink-0"> --}}
+                       
+                        {{!-- <button class="btn btn-link p-0 text-muted" type="submit"><i class="ri-search-2-line"></i></button> --}}
+                    {{!-- <button type="button" class="btn mb-2 btn-info">Get Report</button>
+                    </div>
+                </form> --}}
+            {{!-- </div> --}}
+    <div class="d-flex gap-5 align-items-center mb-3">
+  <form class="bg-light rounded px-3 py-1 flex-shrink-0" id="date-wise-report">
+    <div class="d-flex align-items-center">
+      <div class="input-group">
+        <input class="form-control border-0 bg-transparent px-3 py-2 rounded-start" type="date" aria-label="Start Date" name="startDate" value="">
+      </div>
+      <div class="input-group">
+        <input class="form-control border-0 bg-transparent px-3 py-2 rounded-end" type="date"  aria-label="End Date" name="endDate" value="">
+      </div>
+      <button type="submit" class="btn btn-info ms-3 px-4 w-64">Get Report</button>
+    </div>
+  </form>
+</div>
+</div>
+
+                  <!-- Latest Orders-->
+                <div class="col-12">
+                    <div class="card mb-4 h-100">
+                        <div class="card-header justify-content-between align-items-center d-flex">
+                            <h6 class="card-title m-0">Success Orders List</h6>
+                        </div>
+                        <div class="card-body" id="sales-report">
+                            <div class="table-responsive">
+                                <table class="table m-0 table-striped" id="sales-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Billing Name</th>
+                                            <th>Order Date</th>
+                                            <th>Payment Method</th>
+                                            <th>Items</th>
+                                            <th>Total Amount</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="defaultReport">
+                                         {{#each sales}}
+                                        <tr>
+                                            <td>
+                                                <span class="fw-bolder">#{{this._id}}</span>
+                                            </td>
+                                            <td>{{this.user.name}}</td>
+                                            <td class="text-muted">{{formatDate dateCreated}}</td>
+                                            <td class="text-muted">
+                                                <div class="d-flex align-items-center">
+                                                  {{#if (eq this.paymentmethod 'COD')}}
+                                                    <i class="ri-CUR-line ri-lg me-2"></i>COD
+                                                    {{else }}
+                                                    <i class="ri-visa-line ri-lg me-2"></i>StripePayment
+                                                    {{/if}}
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">{{this.products.length}}</td>
+                                            <th class="text-muted">₹{{this.total}}</th>
+                                            <td id="statusElement">
+                                             {{#if (eq this.status 'Completed')}}
+                                    <span class="badge rounded-pill bg-success-faded text-success" order-status="{{this._id}}" >{{this.status}}</span>
+                                          {{else if (eq this.status 'pending')}}
+                                    <span class="badge rounded-pill bg-warning-faded text-success " order-status="{{this._id}}">{{this.status}}</span>
+                                           {{else if (eq this.status 'Shipped')}}
+                                   <span class="badge rounded-pill bg-info-faded text-info " order-status="{{this._id}}">{{this.status}}</span>
+                                          {{else if (eq this.status 'Out For Delivery')}}
+                                    <span class="badge rounded-pill bg-primary-faded text-primary " order-status="{{this._id}}">{{this.status}}</span>
+                                          {{else}}
+                                           <span class="badge rounded-pill bg-danger-faded text-danger " order-status="{{this._id}}">{{this.status}}</span>
+                                          {{/if}}
+                                            </td>
+                                            {{!-- <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
+                                                        id="dropdownOrder-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="ri-more-2-line"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-0">
+                                                        <li style="display: flex;justify-content:space-between;position: relative;">
+                                                         <button class="btn-link dropdown-toggle01 dropdown-toggle-icon01 p-0"
+                                                        id="dropdownOrder-01" type="button" onclick="toggleEditStatusDropDown(event,'{{this._id}}','{{this.status}}')" >
+                                                         <i class="ri-more-2-line"></i> 
+                                                        Edit Status
+                                                         </button>
+                                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                                         </svg>
+                                                    </li>
+                                                        <li>
+                                                          <a class="dropdown-item" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                                                         role="button" aria-controls="offcanvasExample" style="display: flex;justify-content: space-between;">
+                                                           View Details
+                                                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
+                                                           <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"/>
+                                                            </svg>
+                                                                </a></li>
+                                                    </ul>
+                                                </div>
+                                                <div id="statusOptions-0-{{this._id}}" class="statusOptions" style="display:none;position: absolute;z-index: 999999;top:10rem;right:10rem">
+                                              <ul class="list-group list-group-vertical p-2">
+                                             <li class="list-group-item bg-info">
+                                            <a class="text-decoration-none text-white clicked pointerMouse" >Shipped</a>
+                                            </li>
+                                         <li class="list-group-item bg-danger">
+                                             <a class="text-decoration-none text-white clicked pointerMouse" >Cancelled</a>
+                                          </li>
+                                         <li class="list-group-item bg-secondary">
+                                        <a class="text-decoration-none text-white clicked pointerMouse">Out For Delivery</a>
+                                        </li>
+                                      <li class="list-group-item bg-success">
+                                       <a class="text-decoration-none text-white clicked pointerMouse">Completed</a>
+                                      </li>
+                                      </ul>
+                                        </div>
+                                        </td> 
+                                        </tr>
+
+                                        sample canvas from chatgpt 
+ <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Order Details</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-10 col-xl-12">
+          <div class="card" style="border-radius: 10px;">
+            <div class="card-header px-4 py-5">
+              <h5 class="text-muted mb-0">Order Summary of <span style="color: #202020;">#{{this._id}}</span>!</h5>
+            </div>
+            <div class="card-body p-4">
+              <!-- Product 1 -->
+              {{#each this.products}}
+              <div class="card shadow-0 border mb-4">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-2">
+                       <img src="{{this.product.imageUrl.[0]}}" 
+                        class="img-fluid" alt="Phone">
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0">{{this.product.title}}</p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    {{#each this.product.category}}
+                      <p class="text-muted mb-0 small">{{this.name}}</p> 
+                    {{/each}}
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">Price: ₹{{this.product.price}}</p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">Qty: {{this.quantity}}</p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">Total Price:₹{{this.totalPrice}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {{/each}}
+              <!-- Order Details -->
+              <div class="d-flex justify-content-between pt-2">
+                <p class="fw-bold mb-0">Order Details</p>
+                <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span>₹{{this.subTotal}}</p>
+              </div>
+
+              <div class="d-flex justify-content-between pt-2">
+                <p class="text-muted mb-0">Invoice Number:#{{this.orderId}}</p>
+                <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span>₹{{subtract subTotal total}}</p>
+              </div>
+
+              <div class="d-flex justify-content-between">
+                <p class="text-muted mb-0">Invoice Date: {{formatDate dateCreated}}</p>
+                 <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span>0.00</p> 
+              </div>
+
+              <div class="d-flex justify-content-between mb-5">
+                {{!-- <p class="text-muted mb-0">Receipt Voucher: 18KU-62IIK</p>
+                <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery Charges</span> Free</p>
+              </div>
+            </div>
+            <div class="card-footer border-0 px-4 py-5" style="background-color: #202020; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+              <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+                paid: <span class="h2 mb-0 ms-2">₹{{total}}</span></h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+sample end canvas from chatgpt --}}
+                        
+                        {{/each}} 
+                                    </tbody>
+                                </table>
+                            </div>    
+                        
+                        </div>
+                    </div>
+                </div>
+                <!-- Latest Orders-->
+                <nav>
+                    {{!-- <ul class="pagination justify-content-end mt-3 mb-0">
+                      <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul> --}}
+                  </nav>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="  footer">
+            <p class="small text-muted m-0">All rights reserved | © 2021</p>
+            <p class="small text-muted m-0">Template created by <a href="https://www.pixelrocket.store/">Vishnuraj</a></p>
+        </footer>
+        
+        
+        <!-- Sidebar Menu Overlay-->
+        <div class="menu-overlay-bg"></div>
+        <!-- / Sidebar Menu Overlay-->
+        
+        <!-- Modal Imports-->
+        <!-- Place your modal imports here-->
+        
+        <!-- Default Example Modal Import-->
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Here goes modal body content
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">      
+          <!-- / Footer-->
+        </section>
 </main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+crossorigin="anonymous" referrerpolicy="no-referrer">
+</script>
+
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+
+{{!-- script file used for download sales report as excel sheet and pdf sheet --}}
+<script>
+$('#date-wise-report').on('submit',function(e){
+                e.preventDefault();
+                console.log('clicked');
+                Swal.fire({
+                title: 'Are you sure?',
+                text: "Please confirm to get report?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+                })
+            .then((result) => {
+        if (result.isConfirmed) {
+         Swal.fire(
+            'Success!',
+            'Your sales report has been changed.',
+            'success'
+             )
+             .then(()=>{
+                 const csrfToken = $('input[name="_csrf"]').val();
+                //Proceed with the AJAX request
+                 $.ajax({
+                    url:`/admin/sales-report`,
+                    type:'post',
+                    data:$('#date-wise-report').serialize(),
+                    headers:{
+                        'X-CSRF-Token':csrfToken,
+                    }
+                })
+                .done((response)=>{
+                    let sales=response.sales;
+                    console.log(sales);
+                    if (sales.length === 0) {
+              $('#defaultReport').empty().append(`
+                <tr>
+                  <td colspan="7" class="text-center">No success order found for the given date range.</td>
+                </tr>
+              `);
+            } else{
+                $('#defaultReport').empty();//clear the table body before appending new data
+                for (let i = 0; i < sales.length; i++) {
+                    $('#defaultReport').append(`
+                        <tr>
+                            <td class="text-muted">#<b>`+ sales[i]._id + `</b></td>
+                            <td class="text-muted">`+ sales[i].user.name + `</td>
+                            <td class="text-muted">`+ sales[i].dateCreated + `</td>
+                            <td class="text-muted">`+ sales[i].paymentmethod + `</td>
+                            <td class="text-muted">`+ sales[i].products.length + `</td>
+                            <td class="text-muted">`+ sales[i].total + `</td>
+                            <td class="text-muted"><span class="badge rounded-pill alert-success">`+ sales[i].status + `</span></td>
+                        </tr>
+                    `);
+                    }
+                    }
+    
+                })
+                .fail((error)=>{
+                    console.log('Error:',error);
+                });
+             });
+        }
+    });
+});
+
+
+$('#pdf').on('click',function(e){
+    e.preventDefault();
+     Swal.fire({
+                title: 'Please confirm to download?',
+                text: "Do you want to download the pdf?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+                })
+            .then((result) => {
+        if (result.isConfirmed) {
+         Swal.fire(
+            'Started!',
+            'Your file has been downloaded!.',
+            'success'
+             ).then(()=>{
+                console.log('pdf');
+                let element=document.getElementById('sales-report');
+                const randonNumber=Math.floor(Math.random()* 10000);
+                console.log(randonNumber);
+
+                 var opt={
+                    margin:0,
+                    filename:`sales-report-${randonNumber}.pdf`,
+                    jsPDF:{unit:'in',format:'a4'},
+                    html2canavas:{scale:10},
+                };
+                html2pdf().set(opt).from(element).save();
+             })
+        }
+    });
+});
+
+function ExportToExcel(){
+        Swal.fire({
+                title: 'Please confirm to download?',
+                text: "Do you want to download the sheet?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+                })
+            .then((result) => {
+        if (result.isConfirmed) {
+         Swal.fire(
+            'Started!',
+            'Your file has been downloaded!.',
+            'success'
+             )
+             .then(()=>{
+                console.log('excel');
+                var elt=document.getElementById('sales-table');
+                var wb=XLSX.utils.table_to_book(elt,{sheet:"sheet1"});
+                 //Adjust column widths
+                var ws=wb.Sheets['sheet1'];
+                var columWidths=[
+                     { wch:15 },   // Width for column "Order Id"
+                    { wch: 15 },  // Width for column "Customer name"
+                    { wch: 20 },  // Width for column "Order Date"
+                    { wch: 15 },  // Width for column "Payment method"
+                    { wch: 20 },  // Width for column "Items"
+                    { wch: 15 },  // Width for column "Total Amount"
+                    { wch: 15 }   // Width for column "Order Status"
+                ];
+
+                 //Set column widths
+
+                columWidths.forEach(function(width,index){
+                    var col=XLSX.utils.encode_col(index);
+                    ws['!cols']=ws['!cols'] || [];
+                    ws['!cols'][index]=width;
+                });
+
+                XLSX.writeFile(wb,'sales-table.xlsx');
+             })
+        }
+    })
+}
+
+</script>
+
+
+
+
+<script>
+    //Get the start date input element
+
+    const startDateInput=document.querySelector('input[name="startDate"]');
+    //Get the end date input element
+    const endDateInput=document.querySelector('input[name="endDate"]');
+
+      // Function to format a date as YYYY-MM-DD
+    function formatDate(date){
+        const year=date.getFullYear();
+        const month=String(date.getMonth()+1).padStart(2,'0');
+        const day=String(date.getDate()).padStart(2,'0');
+        return `${year}-${month}-${day}`;
+    }
+
+    //Get the current Date
+
+    const currentDate=new Date();
+    // Set the maximum selectable date for the end date input to the current date
+
+    endDateInput.max = formatDate(currentDate);
+    startDateInput.max = formatDate(currentDate);
+
+    //Event listener for start date input
+
+    startDateInput.addEventListener('input',function(){
+        // Set the minimum selectable date for the end date input to the selected start date
+        endDateInput.min=this.value;
+
+        //If the end date is before the start date,reset  it to the start date
+
+        if(endDateInput.value < this.value){
+            endDateInput.value=this.value;
+        }
+    });
+
+    //Event listener for end date input
+
+    endDateInput.addEventListener('input',function(){
+        //If the end date is before the start date ,set it to the start date
+
+        if(this.value<startDateInput.value){
+            this.value=startDateInput.value;
+        }
+    });
+
+    //Auto fill start date with the current month's 1st date
+
+    const currentMonthFirstDay=new Date(currentDate.getFullYear(),currentDate.getMonth(),1);
+    startDateInput.value=formatDate(currentMonthFirstDay);
+
+    //Auto fill end date with the current date
+
+    endDateInput.value=formatDate(currentDate);
+</script>

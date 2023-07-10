@@ -26,11 +26,11 @@
                     <ul class="shop-w__category-list gl-scroll">
                        <li class="has-list">
 
-                        <button type="button" onclick="filterByCategory('all')" id="AllCategory">ALL</button>
+                        <button type="button" onclick="filter('null',null,null)" id="AllCategory">ALL</button>
                       </li>
                       {{#each categories}}
                       <li class="has-list">
-                        <button type="button"  onclick="filterByCategory('{{this.name}}')" class="categories" id="categoryFilter">{{this.name}}</button>
+                        <button type="button"  onclick="filter('{{this.name}}',null,null)" class="categories" id="categoryFilter">{{this.name}}</button>
                       </li>
                        {{/each}}
                         {{!-- <span class="category-list__text u-s-m-l-6">(23)</span> --}}
@@ -82,7 +82,7 @@
                       </div>
                     </form> --}}
                     <div class="slidecontainer">
-                     <input type="range" min="" max="" value="" class="slider" id="myRange" onchange="filterByPrice(this.value)">
+                     <input type="range" min="" max="" value="" class="slider" id="myRange" onchange="filter(null,this.value,null)">
                      <p>Value: ₹<span id="demo"></span></p>
                     </div>
                   </div>
@@ -118,23 +118,23 @@
                 <form>
                   <input type="hidden" name="_csrf" value="{{csrfToken}}">
                   <div class="tool-style__form-wrap">
-                    <div class="u-s-m-b-8"><select
+                    {{!-- <div class="u-s-m-b-8">
+                      <select
                         class="select-box select-box--transparent-b-2"
                       >
                         <option>Show: 8</option>
                         <option selected>Show: 12</option>
                         <option>Show: 16</option>
                         <option>Show: 28</option>
-                      </select></div>
-                    <div class="u-s-m-b-8"><select
+                      </select>
+                      </div> --}}
+                    <div class="u-s-m-b-8">
+                      <select onchange="filter(null, null, this.value)"
                         class="select-box select-box--transparent-b-2"
                       >
-                        <option selected>Sort By: Newest Items</option>
-                        <option>Sort By: Latest Items</option>
-                        <option>Sort By: Best Selling</option>
-                        <option>Sort By: Best Rating</option>
-                        <option>Sort By: Lowest Price</option>
-                        <option>Sort By: Highest Price</option>
+                        <option selected value="all">Sort By: Default</option>
+                        <option value="asc">Sort By: Lowest Price</option>
+                        <option value="desc">Sort By: Highest Price</option>
                       </select></div>
                   </div>
                 </form>
@@ -143,8 +143,8 @@
             <div class="shop-p__collection">
               <div class="row is-grid-active">
                 {{#each prods}}
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                  <div class="product-m">
+                <div class="col-lg-4 col-md-6 col-sm-6" id="product-list">
+                  <div class="product-m" id="product{{this._id}}">
                     <div class="product-m__thumb">
 
                       <a
@@ -157,7 +157,7 @@
                           alt=""
                           id="productImage{{this._id}}"
                         /></a>
-                      <div class="product-m__quick-look">
+                      {{!-- <div class="product-m__quick-look">
                         <a
                           class="fas fa-search"
                           data-modal="modal"
@@ -165,7 +165,8 @@
                           data-tooltip="tooltip"
                           data-placement="top"
                           title="Quick Look"
-                        ></a></div>
+                        ></a>
+                        </div> --}}
                       <div class="product-m__add-cart">
                         <a onclick="addToCart('{{this._id}}')"
                           class="btn--e-brand"
@@ -759,26 +760,83 @@
 
 
 
-<script>
+{{!-- <script>
 
 function filterByCategory(categoryName){
   console.log(categoryName);
-  fetch('/filterByCategory',{
+  fetch(`/filterByCategory?category=${categoryName}`,{
     method:'GET',
     headers:{
       'Content-Type':'application/json',
       },
-      body:JSON.stringify({category:categoryName}),
   })
   .then(response=>{
-    console.log(response);
     return response.json();
   }).then((data)=>{
+    console.log(data);
+    //window.location.reload();
+    /*
+    const productList = document.getElementById("product-list");;
+      productList.innerHTML ='';
 
+       // Iterate over the new product data and create HTML elements
+      data.prods.forEach((product) => {
+        // Create a new product element
+        const productElement = document.createElement('div');
+        productElement.classList.add('product-m');
+        productElement.setAttribute('id', `product${product._id}`);
+
+        // Set the product details
+       // productElement.innerHTML = `
+        //  <!-- Product content goes here -->
+        //`;
+
+        // Append the product element to the product list
+        //productList.appendChild(productElement);
+      });
+      */
+      /*
+    data.prods.forEach((product)=>{
+       // Update the product content dynamically
+        const productElement = document.getElementById(`product${product._id}`);
+        productElement.innerHTML = `
+          <!-- Product content goes here -->
+          <div class="product-m__thumb">
+            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="/products/${product._id}">
+              <img class="aspect__img" src="${product.imageUrl[0]}" alt="" id="productImage${product._id}">
+            </a>
+            <div class="product-m__add-cart">
+              <a onclick="addToCart('${product._id}')" class="btn--e-brand" data-modal="modal" data-target="#add-to-cart" data-modal-id="#add-to-cart">
+                Add to Cart
+              </a>
+            </div>
+          </div>
+          <div class="product-m__content">
+            <div class="product-m__category">
+              <a href="shop-side-version-2.html">${product.category.name}</a>
+            </div>
+            <div class="product-m__name">
+              <a href="product-detail.html" id="productName${product._id}">${product.title}</a>
+            </div>
+            <div class="product-m__price" id="productPrice${product._id}">
+              ₹${product.price}
+            </div>
+            <div class="product-m__hover">
+              <div class="product-m__preview-description">
+                <span>${product.description}</span>
+              </div>
+              <div class="product-m__wishlist">
+                <a class="far fa-heart" href="#" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"></a>
+              </div>
+            </div>
+          </div>`;
+      });
+  })
+  */
   })
   .catch(Error=>{
     console.log('Error:',Error);
-    throw new Error("Error while fetching the category products");
+    //throw new Error("Error while fetching the category products");
   })
 }
 /*
@@ -828,4 +886,148 @@ function filterByCategory(categoryName){
   }
 }
 */
+</script> --}}
+
+
+{{!-- function to update the ui --}}
+<script>
+  function updateUI(products){
+    var rowDiv = document.querySelector('.row.is-grid-active');
+
+  // Clear the existing products inside the row div
+  rowDiv.innerHTML = '';
+
+  // Loop through the products array and create HTML elements for each product
+  products.forEach(function(product) {
+    var colDiv = document.createElement('div');
+    colDiv.classList.add('col-lg-4', 'col-md-6', 'col-sm-6');
+    colDiv.id = 'product-list';
+
+    var productDiv = document.createElement('div');
+    productDiv.classList.add('product-m');
+    productDiv.id = 'product' + product._id;
+
+    var thumbDiv = document.createElement('div');
+    thumbDiv.classList.add('product-m__thumb');
+
+    var anchorTag = document.createElement('a');
+    anchorTag.classList.add('aspect', 'aspect--bg-grey', 'aspect--square', 'u-d-block');
+    anchorTag.href = '/products/' + product._id;
+
+    var imageTag = document.createElement('img');
+    imageTag.classList.add('aspect__img');
+    imageTag.src = product.imageUrl[0];
+    imageTag.alt = '';
+    imageTag.id = 'productImage' + product._id;
+
+    anchorTag.appendChild(imageTag);
+    thumbDiv.appendChild(anchorTag);
+
+    var addToCartDiv = document.createElement('div');
+    addToCartDiv.classList.add('product-m__add-cart');
+
+    var addToCartAnchor = document.createElement('a');
+    addToCartAnchor.classList.add('btn--e-brand');
+    addToCartAnchor.setAttribute('onclick', "addToCart('" + product._id + "')");
+    addToCartAnchor.setAttribute('data-modal', 'modal');
+    addToCartAnchor.setAttribute('data-target', '#add-to-cart');
+    addToCartAnchor.setAttribute('data-modal-id', '#add-to-cart');
+    addToCartAnchor.textContent = 'Add to Cart';
+
+    addToCartDiv.appendChild(addToCartAnchor);
+
+    productDiv.appendChild(thumbDiv);
+    productDiv.appendChild(addToCartDiv);
+
+    var contentDiv = document.createElement('div');
+    contentDiv.classList.add('product-m__content');
+
+    var categoryDiv = document.createElement('div');
+    categoryDiv.classList.add('product-m__category');
+
+    var categoryLink = document.createElement('a');
+    categoryLink.href = 'shop-side-version-2.html';
+    categoryLink.textContent = product.category.name;
+
+    categoryDiv.appendChild(categoryLink);
+
+    var nameDiv = document.createElement('div');
+    nameDiv.classList.add('product-m__name');
+
+    var nameLink = document.createElement('a');
+    nameLink.href = 'product-detail.html';
+    nameLink.id = 'productName' + product._id;
+    nameLink.textContent = product.title;
+
+    nameDiv.appendChild(nameLink);
+
+    var priceDiv = document.createElement('div');
+    priceDiv.classList.add('product-m__price');
+    priceDiv.id = 'productPrice' + product._id;
+    priceDiv.textContent = '₹' + product.price;
+
+    var hoverDiv = document.createElement('div');
+    hoverDiv.classList.add('product-m__hover');
+
+    var descriptionDiv = document.createElement('div');
+    descriptionDiv.classList.add('product-m__preview-description');
+
+    var descriptionSpan = document.createElement('span');
+    descriptionSpan.textContent = product.description;
+
+    descriptionDiv.appendChild(descriptionSpan);
+
+    var wishlistDiv = document.createElement('div');
+    wishlistDiv.classList.add('product-m__wishlist');
+
+    var wishlistLink = document.createElement('a');
+    wishlistLink.classList.add('far', 'fa-heart');
+    wishlistLink.href = '#';
+    wishlistLink.setAttribute('data-tooltip', 'tooltip');
+    wishlistLink.setAttribute('data-placement', 'top');
+    wishlistLink.setAttribute('title', 'Add to Wishlist');
+
+    wishlistDiv.appendChild(wishlistLink);
+
+    hoverDiv.appendChild(descriptionDiv);
+    hoverDiv.appendChild(wishlistDiv);
+
+    contentDiv.appendChild(categoryDiv);
+    contentDiv.appendChild(nameDiv);
+    contentDiv.appendChild(priceDiv);
+    contentDiv.appendChild(hoverDiv);
+
+    productDiv.appendChild(contentDiv);
+    colDiv.appendChild(productDiv);
+    rowDiv.appendChild(colDiv);
+  });
+  }
 </script>
+
+
+{{!-- function to filter products --}}
+<script>
+  let category = 'all';
+  let price = null;
+  let sort = null;
+  function filter(cat,prs,srt){
+
+    category = cat ? cat: category
+    price = prs  ? prs: price
+    sort = srt ? srt: sort
+
+    $.ajax({
+      url: '/qyxuqyxb',
+      method: 'POST',
+      data: {
+        category:category,
+        price:price,
+        sort:sort
+      },
+      success: (res)=>{
+        updateUI(res.products);
+      }
+    })
+  }
+</script>
+

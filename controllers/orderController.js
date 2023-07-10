@@ -2,6 +2,7 @@ const Order = require("../models/order");
 const Category = require("../models/category");
 const Product = require("../models/product");
 const User = require('../models/user');
+const orderHelper=require('../helpers/orderHelper');
 
 exports.getCheckoutSuccess = (req, res, next) => {
   const paymentMethod=req.body.paymentMethod;
@@ -175,4 +176,64 @@ exports.updateStatus=async(orderId,status,res)=>{
     console.log('Error updating order status',error);
     // res.status(500).json({success:false,message:'Error updating order status'})
   }
+};
+
+exports.getsalesReport=async(req,res,next)=>{
+  try{
+    const sales=await orderHelper.getAllDeliveredOrders();
+    sales.forEach((order)=>{
+      const orderDate=new Date(order.orderDate);
+      const formattedDate=orderDate.toLocaleDateString('en-GB',{
+        day:'2-digit',
+        month:'2-digit',
+        year:'numeric'
+      });
+      order.orderDate=formattedDate;
+    })
+    res.render("admin/sales", {
+      pageTitle: "Plantso||Admin-SalesReport",
+      layout: "main",
+      title: "salesReport",
+      sales:sales,
+    });
+  }
+  catch(error){
+    throw new Error('error while getting sales report page',error);
+  }
+  
+}
+
+exports.salesReport=async(req,res,next)=>{
+  try {
+    let {startDate,endDate}=req.body;
+    startDate=new Date(startDate);
+    endDate=new Date(endDate);
+
+    const salesReport=await orderHelper.getAllDeliveredOrdersByDate(startDate,endDate);
+    for(let i=0;i<salesReport.length;i++){
+      console.log(salesReport[i].dateCreated);
+      salesReport[i].dateCreated=formatDate(salesReport[i].dateCreated);
+      salesReport[i].total=currencyFormat(salesReport[i].total);
+    }
+    res.status(200).json({sales:salesReport});
+  } catch (error) {
+    console.error('Error while getting current date sales report:', error);
+    res.status(500).json({ error: 'An error occurred while fetching the sales report.' });
+  }
+};
+
+
+// convert a number to a indian currency format
+function currencyFormat(amount) {
+  return Number(amount).toLocaleString('en-in', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 })
+}
+
+function dateFormat(date) {
+  return date.toISOString().slice(0, 10)
+}
+
+
+const formatDate=function (date) {
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString(undefined, options);
 };

@@ -62,8 +62,10 @@ adminRouter.put('/orders/:orderId',isAdmin.isAdmin,adminController.updateOrderSt
 adminRouter.get('/graph',isAdmin.isAdmin,adminController.getGraphData);
 adminRouter.get('/chart',isAdmin.isAdmin,adminController.getChartDataFull);
 //Sales Report page
-adminRouter.get('/sales',isAdmin.isAdmin,adminController.getsalesReport);
 
+
+adminRouter.get('/sales',isAdmin.isAdmin,orderController.getsalesReport);
+adminRouter.post('/sales-report',isAdmin.isAdmin,orderController.salesReport);
 
 //Coupon Admin Routes
 

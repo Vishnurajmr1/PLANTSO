@@ -11,16 +11,16 @@
             <div class="card-body">
 
                 <!-- User listing Actions-->
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                {{!-- <div class="d-flex justify-content-between align-items-center mb-3">
                     <form class="bg-light rounded px-3 py-1 flex-shrink-0 d-flex align-items-center">
                         <input class="form-control border-0 bg-transparent px-0 py-2 me-5 fw-bolder" type="search"
                           placeholder="Search" aria-label="Search">
                         <button class="btn btn-link p-0 text-muted" type="submit"><i class="ri-search-2-line"></i></button>
-                    </form>
+                    </form> --}}
                     {{!-- <div class="d-flex justify-content-end">
                         <a class="btn btn-sm btn-primary" href="#"><i class="ri-add-circle-line align-bottom"></i> New User</a>
                     </div> --}}
-                </div>
+                {{!-- </div> --}}
                 <!-- /user listing Actions-->
 
                 <!-- User Listing Table-->
@@ -94,7 +94,7 @@
                                             <i class="ri-more-2-line"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-0">
-                                           <li><a class="dropdown-item" href="#" style="display: flex;justify-content: space-between;" onclick="blockUnblockUsers('{{this._id}}',{{this.status}})">{{#if this.status}}Block{{else}}Unblock{{/if}}
+                                           <li><a class="dropdown-item" href="#" style="display:flex;justify-content: space-between;" onclick="blockUnblockUsers('{{this._id}}',{{this.status}})">{{#if this.status}}Block{{else}}Unblock{{/if}}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" {{#if this.status}}fill="yellow"{{else}}fill="green"{{/if}} class="bi bi-slash-circle" viewBox="0 0 16 16">
                                               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                               <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"/>
@@ -128,7 +128,7 @@
                     </table>
                 </div>    
                 <!-- /User Listing Table-->
-                <nav>
+                {{!-- <nav>
                     <ul class="pagination justify-content-end mt-3 mb-0">
                       <li class="page-item"><a class="page-link" href="#">Previous</a></li>
                       <li class="page-item active"><a class="page-link" href="#">1</a></li>
@@ -136,7 +136,7 @@
                       <li class="page-item"><a class="page-link" href="#">3</a></li>
                       <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
-                  </nav>
+                  </nav> --}}
   
             </div>
         </div>

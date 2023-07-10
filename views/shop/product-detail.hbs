@@ -19,12 +19,21 @@
                 <a href="#">{{product.title}}</a></li>
             </ul>
           </div>
+           <img
+                    class="u-img-fluid"
+                    src="{{product.imageUrl.[0]}}"
+                    data-zoom-image="{{product.imageUrl.[0]}}"
+                    alt=""
+                    style="display:none;"
+                    id="productImage{{product._id}}"
+                  />
           <!--====== End - Product Breadcrumb ======-->
 
           <!--====== Product Detail Zoom ======-->
           <div class="pd u-s-m-b-30">
             <div class="slider-fouc pd-wrap">
               <div id="pd-o-initiate">
+               
                 {{#each product.imageUrl}}
                 <div
                   class="pd-o-img-wrap"
@@ -35,7 +44,9 @@
                     src="{{this}}"
                     data-zoom-image="{{this}}"
                     alt=""
+                    id="productImage{{../product._id}}"
                   />
+                  
                   </div>
                   {{/each}}
                 {{!-- <div
@@ -101,35 +112,6 @@
                     />
                     </div>
                     {{/each}}
-                  {{!-- <div>
-                    <img
-                      class="u-img-fluid"
-                      src="{{product.imageUrl}}"
-                      alt=""
-                    />
-                    </div>
-                  <div>
-                    <img
-                      class="u-img-fluid"
-                      src="{{product.imageUrl}}"
-                      alt=""
-                    />
-                    </div>
-                  <div>
-                    <img
-                      class="u-img-fluid"
-                      src="{{product.imageUrl}}"
-                      alt=""
-                    />
-                    </div>
-                  <div>
-
-                    <img
-                      class="u-img-fluid"
-                      src="{{product.imageUrl}}"
-                      alt=""
-                    />
-                    </div> --}}
                 </div>
               </div>
             </div>
@@ -142,11 +124,11 @@
           <div class="pd-detail">
             <div>
 
-              <span class="pd-detail__name">{{product.title}}</span></div>
+              <span class="pd-detail__name" id="productName{{product._id}}">{{product.title}}</span></div>
             <div>
               <div class="pd-detail__inline">
 
-                <span class="pd-detail__price">₹{{product.price}}</span>
+                <span class="pd-detail__price"id="productPrice{{product._id}}">₹{{product.price}}</span>
 
                 {{!-- <span class="pd-detail__discount">(76% OFF)</span><del
                   class="pd-detail__del"
@@ -198,7 +180,7 @@
 
                   <span class="pd-detail__click-count">(20)</span></span></div>
             </div> --}}
-            <div class="u-s-m-b-15">
+            {{!-- <div class="u-s-m-b-15">
               <ul class="pd-social-list">
                 <li>
 
@@ -226,7 +208,7 @@
                       class="fab fa-google-plus-g"
                     ></i></a></li>
               </ul>
-            </div>
+            </div> --}}
 
             {{!-- variants --}}
             <div class="u-s-m-b-15">
@@ -356,7 +338,7 @@
                     <!--====== End - Input Counter ======-->
                   </div>
                   <div class="u-s-m-b-15">
-                    <button class="btn btn--e-brand-b-2" type="button" onclick="addToCart('{{this._id}}')">Add to
+                    <button class="btn btn--e-brand-b-2" type="button" onclick="addToCart('{{product._id}}')">Add to
                       Cart</button></div>
                 </div>
               </form>
@@ -1309,12 +1291,15 @@
   </div>
   <!--====== End - Quick Look Modal ======-->
 
-  <!--====== Add to Cart Modal ======-->
-  <div class="modal fade" id="add-to-cart">
+
+  <!--====== Add to Cart Modal(1) ======-->
+  {{#if isAuthenticated}}
+<div id="modal-view" hidden>
+<div class="modal fade" id="add-to-cart">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content modal-radius modal-shadow">
 
-        <button
+        <button  
           class="btn dismiss-button fas fa-times"
           type="button"
           data-dismiss="modal"
@@ -1330,24 +1315,26 @@
 
                   <img
                     class="u-img-fluid"
-                    src="images/product/electronic/product1.jpg"
-                    alt=""
+                    src=""
+                    alt="Demo product"
+                    id="prodImage"
                   /></div>
                 <div class="success__info-wrap">
+                  
 
-                  <span class="success__name">Beats Bomb Wireless Headphone</span>
+                  <span class="success__name" id="prodName"></span>
 
-                  <span class="success__quantity">Quantity: 1</span>
+                  <span class="success__quantity" id="prodQuantity"></span>
 
-                  <span class="success__price">$170.00</span></div>
+                  <span class="success__price" id="prodPrice"></span></div>
               </div>
             </div>
             <div class="col-lg-6 col-md-12">
               <div class="s-option">
 
-                <span class="s-option__text">1 item (s) in your cart</span>
+                <span class="s-option__text" id="cartItemCount"></span>
+                {{!-- item (s) in your cart --}}
                 <div class="s-option__link-box">
-
                   <a
                     class="s-option__link btn--e-white-brand-shadow"
                     data-dismiss="modal"
@@ -1355,7 +1342,7 @@
 
                   <a
                     class="s-option__link btn--e-white-brand-shadow"
-                    href="cart.html"
+                    href="/cart"
                   >VIEW CART</a>
 
                   <a
@@ -1369,9 +1356,146 @@
       </div>
     </div>
   </div>
-  <!--====== End - Add to Cart Modal ======-->
+  </div>
+  {{else}}
+<div id="modal-view" hidden>
+<div class="modal fade" id="add-to-cart">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-radius modal-shadow">
 
+        <button  
+          class="btn dismiss-button fas fa-times"
+          type="button"
+          data-dismiss="modal"
+        ></button>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <div class="success u-s-m-b-30">
+                <div class="success__text-wrap"><i class="fas fa-exclamation-circle"></i>
 
+                  <span>Item is not added successfully!</span></div>
+                <div class="success__img-wrap">
+
+                  <img
+                    class="u-img-fluid"
+                    src=""
+                    alt="Demo product"
+                    id="prodImage"
+                  /></div>
+                <div class="success__info-wrap">
+                  
+
+                  <span class="success__name" id="prodName"></span>
+
+                  <span class="success__quantity">Quantity: 1</span>
+
+                  <span class="success__price" id="prodPrice"></span></div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <div class="s-option">
+
+                <span class="s-option__text">0 item (s) in your cart</span>
+                <div class="s-option__link-box">
+                  <a
+                    {{!-- class="s-option__link btn--e-white-brand-shadow" --}}
+                    data-dismiss="modal"
+                  >PLEASE LOGIN TO ADD PRODUCT!</a>
+                  <a
+                    class="s-option__link btn--e-white-brand-shadow"
+                    href="/login"
+                  >LOGIN</a>
+
+                  {{!-- <a
+                    class="s-option__link btn--e-brand-shadow"
+                    href="/login"
+                  >PROCEED TO CHECKOUT</a> --}}
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  {{/if}}
+  <!--====== End - Add to Cart Modal(1) ======-->
+
+    <!--====== Add to Cart Modal(2) ======-->
+
+<div id="modal-view-stock" hidden aria-hidden="true">
+  <div class="modal fade" id="stock-not-available">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-radius modal-shadow">
+         <a  
+          class="btn dismiss-button fas fa-times"
+          data-bs-dismiss="modal"
+          {{!-- href="/shop" --}}
+        ></a>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="stock-not-available u-s-m-b-30">
+                <div class="stock-not-available__text-wrap">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <span>Currently, the stock is not available.</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+              <div class="s-option">
+                <span class="s-option__text">Please choose a different product or continue shopping.</span>
+                <div class="s-option__link-box">
+                  <a class="s-option__link btn--e-white-brand-shadow" data-bs-dismiss="modal" href="/shop">CONTINUE SHOPPING</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <!--====== End - Add to Cart Modal(2) ======-->
+
+      <!--====== Add to Cart Modal(3) ======-->
+
+<div id="modal-AdminLogin" hidden>
+  <div class="modal fade" id="adminCart-notAvailable">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-radius modal-shadow">
+         <button  
+          class="btn dismiss-button fas fa-times"
+          type="button"
+          data-bs-toggle="modal"
+        ></button>
+        <div class="modal-body stock">
+          <div class="row">
+            <div class="col-12">
+              <div class="stock-not-available u-s-m-b-30">
+                <div class="stock-not-available__text-wrap">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <span>Currently, Admin cannot add products to cart.</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+              <div class="s-option">
+                <span class="s-option__text">Please Login as a user or continue exploring user interface.</span>
+                <div class="s-option__link-box">
+                  <a class="s-option__link btn--e-white-brand-shadow" data-bs-dismiss="modal" href="/login">Login as User</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 
 <script>

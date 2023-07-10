@@ -48,6 +48,9 @@ const multiply=(a, b)=>{
 const increment=(index)=>{
   return index+1;
 }
+const subtract=(a,b)=>{
+  return a-b;
+}
 
 const incrementIndex=function(coupons,index){
   let count=0;
@@ -131,6 +134,7 @@ module.exports={
   incrementIndexOfExp,
   getExpiredCouponLength,
   StrEq,
+  subtract,
   compareDateHelper,
   multiply,
   calculateTotalProduct,

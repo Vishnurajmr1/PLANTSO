@@ -545,6 +545,15 @@
             return response.json();
         }).then((data)=>{
             console.log(data);
+            if(data=='No default address found'){
+                  Swal.fire({
+                icon: 'warning',
+                 title: 'No default address Found!',
+                text: 'Please make any one address default',
+            footer: '<a href="/addresses">Make a default address</a>'
+            })
+            return;
+            }
             if(data.error){
                 Swal.fire({
                 icon: 'warning',

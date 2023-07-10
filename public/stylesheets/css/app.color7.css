@@ -6568,3 +6568,8 @@ input[type=number]::-webkit-outer-spin-button {
   cursor: pointer;
 }
 
+#truck-class{
+  display: flex;
+  justify-content: space-between;
+}
+ 

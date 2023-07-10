@@ -61,10 +61,10 @@ exports.getGraphDate=async()=>{
         const productsData=[];
         let currentMonth = startOfYear.getMonth();
         let currentYear = startOfYear.getFullYear();
+        console.log(currentMonth,currentYear);
     
         for (const sale of sales) {
           const { month, year } = sale._id;
-    
           while (currentYear < year || (currentYear === year && currentMonth <= month)) {
             labels.push(`${currentMonth + 1}/${currentYear}`);
             salesData.push(0);
@@ -240,7 +240,7 @@ async function calculateTotalRevenue() {
         {
           $match: {
             status: 'Completed',
-            date: {
+            dateCreated: {
               $gte: new Date(currentYear, currentMonth - 1, 1),
               $lt: new Date(currentYear, currentMonth, 1),
             },
@@ -248,7 +248,7 @@ async function calculateTotalRevenue() {
         },
         { $group: { _id: null, total: { $sum: '$total' } } },
       ]);
-  
+
       if (currentMonthEarnings.length > 0) {
         return currentMonthEarnings[0].total;
       } else {

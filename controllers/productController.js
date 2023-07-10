@@ -1,7 +1,8 @@
 const Product = require("../models/product");
 
 exports.getProductsByCategory = (req, res, next) => {
-  const {category} = req.body;
+  const category = req.query.category;
+  console.log(category)
 
   Product.aggregate([
     {

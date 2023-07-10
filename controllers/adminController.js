@@ -327,7 +327,7 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.deleteOne({_id:prodId,userId:req.user._id})
+  Product.findByIdAndUpdate({_id:prodId,userId:req.user._id},{isDeleted:true})
     .then((deletedProduct) => {
       if (!deletedProduct) {
         // Product not found
@@ -487,6 +487,48 @@ exports.getEditCategory = (req, res, next) => {
 // };
 
 // another method to hide the category which is deleted
+// exports.postDeleteCategory = (req, res, next) => {
+//   const catId = req.body.categoryId;
+//   const categoryMessage = "Category not found";
+//   Category.findById(catId)
+//     .then((category) => {
+//       if (!category) {
+//         return res.status(404).render("admin/category", {
+//           message: categoryMessage,
+//           layout: "main",
+//           pageTitle: "Plantso||Admin-Category",
+//         });
+//       }
+//       Product.countDocuments({category:catId})
+//       .then((productCount)=>{
+//         if (productCount > 0) {
+//           // Products exist under the category, cannot delete/disable the category
+//           const message = "Cannot delete/disable the category as it contains products";
+//           return res.redirect(
+//             `/admin/category?message=${encodeURIComponent(message)}`
+//           );
+//         }
+//       //Delete the products under the category
+//       // Product.deleteMany({ category: catId })
+//       //   .then(() => {
+//           //Set the category as deleted
+//           category.isDeleted = true;
+//           category
+//             .save()
+//             .then(() => {
+//               const message = "Category deleted successfully";
+//               res.redirect(
+//                 `/admin/category?message=${encodeURIComponent(message)}`
+//               );
+//             })
+//             .catch((err) => console.log(err));
+//         })
+//         .catch((err) => console.log(err));
+//     })
+//     .catch((err) => console.log(err));
+// };
+
+
 exports.postDeleteCategory = (req, res, next) => {
   const catId = req.body.categoryId;
   const categoryMessage = "Category not found";
@@ -499,10 +541,17 @@ exports.postDeleteCategory = (req, res, next) => {
           pageTitle: "Plantso||Admin-Category",
         });
       }
-      //Delete the products under the category
-      Product.deleteMany({ category: catId })
-        .then(() => {
-          //Set the category as deleted
+      // Check if there are any products under the category
+      Product.countDocuments({ category: catId })
+        .then((productCount) => {
+          if (productCount > 0) {
+            // Products exist under the category, cannot delete/disable the category
+            const message = "Cannot delete/disable the category as it contains products";
+            return res.redirect(
+              `/admin/category?message=${encodeURIComponent(message)}`
+            );
+          }
+          // No products under the category, set the category as deleted/disabled
           category.isDeleted = true;
           category
             .save()
@@ -518,6 +567,7 @@ exports.postDeleteCategory = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
+
 exports.postEditCategory = (req, res, next) => {
   const categoryId = req.body.categoryId;
   console.log(categoryId);
@@ -873,10 +923,3 @@ exports.getChartDataFull=async(req,res,next)=>{
   }
 }
 
-exports.getsalesReport=(req,res,next)=>{
-  res.render("admin/sales", {
-    pageTitle: "Plantso||Admin-SalesReport",
-    layout: "main",
-    title: "salesReport",
-  });
-}

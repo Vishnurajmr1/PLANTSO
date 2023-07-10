@@ -31,10 +31,16 @@
                                     <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
                                         <div class="dash__pad-2">
                                             <div class="manage-o">
-                                                <div class="manage-o__header u-s-m-b-30">
+                                                <div class="manage-o__header u-s-m-b-30" id="truck-class">
                                                     <div class="manage-o__icon"><i class="fas fa-box u-s-m-r-5"></i>
-
-                                                        <span class="manage-o__text">Package 1</span></div>
+                                                        <span class="manage-o__text">Package 1</span>
+                                                        </div>
+                                                          <div class="manage-o__icon">
+                                                        <a onclick="CancelOrder('{{order._id}}')">
+                                                        <i class="fas fa-window-close u-s-m-r-5"></i>
+                                                        <span class="manage-o__text badge--cancelled" style="color: red;">Cancel Order</span>
+                                                        </a>
+                                                        </div>
                                                 </div>
                                                 <div class="dash-l-r">
                                                     <div class="manage-o__text u-c-secondary">Delivered on 3-4 days</div>
@@ -104,8 +110,9 @@
                                             </div>
                                         </div>
                                     </div>
+                              </div>
                                     <div class="row">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-12">
                                             <div class="dash__box dash__box--bg-white dash__box--shadow u-s-m-b-30">
                                                 <div class="dash__pad-3">
                                                     <h2 class="dash__h2 u-s-m-b-8">Shipping Address</h2>
@@ -127,20 +134,20 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-12">
                                             <div class="dash__box dash__box--bg-white dash__box--shadow u-h-100">
                                                 <div class="dash__pad-3">
                                                     <h2 class="dash__h2 u-s-m-b-8">Total Summary</h2>
                                                     <div class="dash-l-r u-s-m-b-8">
-                                                        <div class="manage-o__text-2 u-c-secondary">Subtotal</div>
-                                                        <div class="manage-o__text-2 u-c-secondary">₹{{order.total}}</div>
+                                                        <div class="manage-o__text-2 u-c-secondary">Subtotal:</div>
+                                                        <div class="manage-o__text-2 u-c-secondary">₹{{order.subTotal}}</div>
                                                     </div>
                                                     <div class="dash-l-r u-s-m-b-8">
-                                                        <div class="manage-o__text-2 u-c-secondary">Shipping Fee</div>
+                                                        <div class="manage-o__text-2 u-c-secondary">Shipping Fee:</div>
                                                         <div class="manage-o__text-2 u-c-secondary">Free shiping</div>
                                                     </div>
                                                     <div class="dash-l-r u-s-m-b-8">
-                                                        <div class="manage-o__text-2 u-c-secondary">Total</div>
+                                                        <div class="manage-o__text-2 u-c-secondary">Total After dis:</div>
                                                         <div class="manage-o__text-2 u-c-secondary">₹{{order.total}}</div>
                                                     </div>
 
@@ -150,7 +157,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>

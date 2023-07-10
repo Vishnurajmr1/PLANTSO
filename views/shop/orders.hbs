@@ -113,6 +113,21 @@
                                                                 <div class="manage-o__text u-c-silver">Placed on {{formatDate dateCreated}}</div>
                                                             </div>
                                                             <div>
+                                                    {{#if status}}
+                                                            {{#if (eq status 'completed')}}
+                                                            <span class="manage-o__badge badge--completed">{{status}}</span>
+                                                                 {{else if (eq status 'pending')}}
+                                                            <span class="manage-o__badge badge--processing">{{status}}</span>
+                                                    {{else if (eq status 'shipped')}}
+                                                    <span class="manage-o__badge badge--shipped">{{status}}</span>
+                                                     {{else if (eq status 'delivered')}}
+                                                    <span class="manage-o__badge badge--delivered">{{status}}</span>
+                                                        {{else}}
+                                                    <span class="manage-o__badge badge--cancelled">{{status}}</span>
+                                                    {{/if}}
+                                                    {{/if}}  
+                                                            </div>
+                                                            <div>
                                                                 <div class="dash__link dash__link--brand">
                                                                     <a href="/orderDetails/{{this._id}}">MANAGE</a></div>
                                                             </div>
@@ -128,10 +143,10 @@
                                                             <div class="description-title">{{product.title}}</div>
                                                         </div>
                                                         <div class="description__info-wrap">
-                                                            <div>
+                                                            {{!-- <div>
                                                                   {{#if ../status}}
                                                                     {{#if (eq ../status 'completed')}}
-                                                         <span class="manage-o__badge badge--completed">{{../status}}</span>
+                                                            <span class="manage-o__badge badge--completed">{{../status}}</span>
                                                                  {{else if (eq ../status 'pending')}}
                                                             <span class="manage-o__badge badge--processing">{{../status}}</span>
                                                     {{else if (eq ../status 'shipped')}}
@@ -142,8 +157,8 @@
                                               <span class="manage-o__badge badge--cancelled">{{../status}}</span>
                                         {{/if}}
                                         {{/if}}
-                                     </div>
-                                    <div>
+                                                             </div> --}}
+                                                             <div>
 
                                                                 <span class="manage-o__text-2 u-c-silver">Quantity:
 
@@ -152,16 +167,15 @@
 
                                                             <div>
 
-                                                                <span class="manage-o__text-2 u-c-silver">Price:
-
+                                                                <span class="manage-o__text-2 u-c-silver">Price per qty:
                                                                     <span class="manage-o__text-2 u-c-secondary">₹ {{product.price}}</span></span>
                                                                     </div>
                                                                     
                                                             <div>
 
-                                                                <span class="manage-o__text-2 u-c-silver">Total: 
-
-                                                                <span class="manage-o__text-2 u-c-secondary">₹{{multiply quantity product.price}}</span></span></div>
+                                                                <span class="manage-o__text-2 u-c-silver">Total Amt/prod: 
+                                                                    <br>
+                                                                <span class="manage-o__text-2 u-c-secondary">₹ {{multiply quantity product.price}}</span></span></div>
                                                         </div>
                                                     </div>
                                                {{/each}} 
