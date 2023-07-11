@@ -83,7 +83,7 @@
                     </form> --}}
                     <div class="slidecontainer">
                      <input type="range" min="" max="" value="" class="slider" id="myRange" onchange="filter(null,this.value,null)">
-                     <p>Value: ₹<span id="demo"></span></p>
+                     <p>Price:₹<span id="demo"></span></p>
                     </div>
                   </div>
                 </div>
@@ -214,6 +214,7 @@
                 {{/each}}
               </div>
             </div>
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">      
             <div class="u-s-p-y-60">
 
               <!--====== Pagination ======-->
@@ -1011,21 +1012,25 @@ function filterByCategory(categoryName){
   let price = null;
   let sort = null;
   function filter(cat,prs,srt){
-
+ const csrfToken = $('input[name="_csrf"]').val();
     category = cat ? cat: category
     price = prs  ? prs: price
     sort = srt ? srt: sort
 
     $.ajax({
-      url: '/qyxuqyxb',
+      url: '/filterMethodUrl',
       method: 'POST',
       data: {
         category:category,
         price:price,
         sort:sort
       },
+      headers:{
+        'X-CSRF-Token':csrfToken,
+        },
       success: (res)=>{
-        updateUI(res.products);
+        console.log(res);
+        updateUI(res.prods);
       }
     })
   }

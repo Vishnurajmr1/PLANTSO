@@ -22,7 +22,7 @@ shopRouter.post('/cart',isAuth.isauth,shopController.postCart);
 shopRouter.post('/cart-delete-item',isAuth.isauth,shopController.postCartDeleteProduct);
 shopRouter.post('/deleteAllFromCart',isAuth.isauth,shopController.deleteFromCart);
 shopRouter.patch('/cart',isAuth.isauth,shopController.updateQuantity);
-shopRouter.get('/filterByCategory',productController.getProductsByCategory);
+shopRouter.post('/filterMethodUrl',productController.getProductsByFilter);
 
 //orders router
 // shopRouter.post('/create-order',isAuth.isauth,orderController.postOrder);

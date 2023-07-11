@@ -1,8 +1,11 @@
 const Product = require("../models/product");
 
-exports.getProductsByCategory = (req, res, next) => {
-  const category = req.query.category;
-  console.log(category)
+exports.getProductsByFilter = (req, res, next) => {
+  const category = req.body.category;
+  const price = req.body.price;
+  const sort = req.body.sort;
+  const page= +req.query.page || 1;
+  console.log(category,price,sort,page)
 
   Product.aggregate([
     {
@@ -20,7 +23,6 @@ exports.getProductsByCategory = (req, res, next) => {
     }
   ])
   .then((products)=>{
-    console.log(products);
     return res.json({prods:products});
   })
     .catch((err) => {
