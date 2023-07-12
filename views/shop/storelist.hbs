@@ -1029,8 +1029,8 @@ function filterByCategory(categoryName){
         'X-CSRF-Token':csrfToken,
         },
       success: (res)=>{
-        console.log(res);
-        updateUI(res.prods);
+        console.log(res.filterProducts);
+        updateUI(res.filterProducts);
       }
     })
   }
