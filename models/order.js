@@ -1,4 +1,4 @@
-const  mongoose=require('mongoose');
+const  mongoose=require("mongoose");
 
 
 const Schema=mongoose.Schema;
@@ -18,7 +18,7 @@ const orderSchema=new Schema({
         userId:{
             type:mongoose.Schema.Types.ObjectId,
             required:true,
-            ref:'User'
+            ref:"User"
         },
         name:{
             type:String,
@@ -27,34 +27,34 @@ const orderSchema=new Schema({
     status: {
         type: String,
         enum: [
-          'pending',
-          'processing',
-          'shipped',
-          'delivered',
-          'canceled',
-          'cancelPending',
-          'returnPending',
-          'returned',
+            "pending",
+            "processing",
+            "shipped",
+            "delivered",
+            "canceled",
+            "cancelPending",
+            "returnPending",
+            "returned",
         ],
-        default: 'pending',
-      },
-      shippingAddress: {
+        default: "pending",
+    },
+    shippingAddress: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Address',
-      },
+        ref: "Address",
+    },
     dateCreated:{
         type:Date,
         default:Date.now,
     },
     paymentmethod: {
         type: String,
-      },
-      total: {
+    },
+    total: {
         type: Number,
-      },
-      subTotal:{
+    },
+    subTotal:{
         type:Number,
-      },
-})
+    },
+});
 
-module.exports=mongoose.model('Order',orderSchema);
+module.exports=mongoose.model("Order",orderSchema);

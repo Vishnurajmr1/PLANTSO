@@ -1,4 +1,4 @@
-const mongoose=require('mongoose');
+const mongoose=require("mongoose");
 
 const Schema=mongoose.Schema;
 
@@ -21,7 +21,7 @@ const productSchema=new Schema({
     }],
     category:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Category',
+        ref:"Category",
         required:true
     },
     stock:{
@@ -35,7 +35,7 @@ const productSchema=new Schema({
     },
     userId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
+        ref:"User",
         required:true
     },
     isDeleted:{
@@ -43,4 +43,4 @@ const productSchema=new Schema({
         default:false,
     }
 });
-module.exports=mongoose.model('Product',productSchema);
+module.exports=mongoose.model("Product",productSchema);

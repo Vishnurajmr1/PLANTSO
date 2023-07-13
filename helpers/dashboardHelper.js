@@ -1,6 +1,6 @@
-const orderDatabase=require('../models/order');
-const productDatabase=require('../models/product');
-const categoryDatabase=require('../models/category');
+const orderDatabase=require("../models/order");
+const productDatabase=require("../models/product");
+const categoryDatabase=require("../models/category");
 
 
 function getStartOfYear(){
@@ -21,20 +21,20 @@ exports.getGraphDate=async()=>{
             {
                 $match:{
                     dateCreated:{$gte:startOfYear,$lte:currentDate},
-                    status:{$in:['Pending','Shipped','Completed','Out For Delivery'] },
+                    status:{$in:["Pending","Shipped","Completed","Out For Delivery"] },
                 }
             },
             {
                 $group:{
                     _id:{
-                        month:{$month:'$dateCreated'},
-                        year:{$year:'$dateCreated'},
+                        month:{$month:"$dateCreated"},
+                        year:{$year:"$dateCreated"},
                     },
-                    totalSales:{$sum:'$total'},
+                    totalSales:{$sum:"$total"},
                 }
             },
             {
-                $sort:{'_id.year':1,'_id.month':1}
+                $sort:{"_id.year":1,"_id.month":1}
             }
         ]);
 
@@ -45,14 +45,14 @@ exports.getGraphDate=async()=>{
             {
                 $group:{
                     _id:{
-                        month:{$month:'$dateCreated'},
-                        year:{$year:'$dateCreated'}
+                        month:{$month:"$dateCreated"},
+                        year:{$year:"$dateCreated"}
                     },
                     count:{$sum:1},
                 }
             },
             {
-                $sort:{'_id.year':1,'_id.month':1},
+                $sort:{"_id.year":1,"_id.month":1},
             }
         ]);
 
@@ -64,197 +64,197 @@ exports.getGraphDate=async()=>{
         console.log(currentMonth,currentYear);
     
         for (const sale of sales) {
-          const { month, year } = sale._id;
-          while (currentYear < year || (currentYear === year && currentMonth <= month)) {
-            labels.push(`${currentMonth + 1}/${currentYear}`);
-            salesData.push(0);
-            productsData.push(0);
+            const { month, year } = sale._id;
+            while (currentYear < year || (currentYear === year && currentMonth <= month)) {
+                labels.push(`${currentMonth + 1}/${currentYear}`);
+                salesData.push(0);
+                productsData.push(0);
     
-            if (currentMonth === 11) {
-              currentMonth = 0;
-              currentYear++;
-            } else {
-              currentMonth++;
+                if (currentMonth === 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                } else {
+                    currentMonth++;
+                }
             }
-          }
     
-          const index = labels.findIndex((label) => {
-            const [m, y] = label.split('/');
-            return parseInt(m, 10) === month && parseInt(y, 10) === year;
-          });
+            const index = labels.findIndex((label) => {
+                const [m, y] = label.split("/");
+                return parseInt(m, 10) === month && parseInt(y, 10) === year;
+            });
     
-          salesData[index] = sale.totalSales;
+            salesData[index] = sale.totalSales;
         }
     
         for (const product of products) {
-          const { month, year } = product._id;
+            const { month, year } = product._id;
     
-          const index = labels.findIndex((label) => {
-            const [m, y] = label.split('/');
-            return parseInt(m, 10) === month && parseInt(y, 10) === year;
-          });
+            const index = labels.findIndex((label) => {
+                const [m, y] = label.split("/");
+                return parseInt(m, 10) === month && parseInt(y, 10) === year;
+            });
     
-          productsData[index] = product.count;
+            productsData[index] = product.count;
         }
-        console.log(productsData)
+        console.log(productsData);
         return {
-          status: true,
-          labels,
-          salesData,
-          productsData,
-          message: 'Data found successfully',
+            status: true,
+            labels,
+            salesData,
+            productsData,
+            message: "Data found successfully",
         };
     }
     catch(error){
-        throw new Error(`Error while fetching graph data : ${error.message}`)
+        throw new Error(`Error while fetching graph data : ${error.message}`);
     }
-}
+};
 
 exports.getChartData=async()=>{
     try {
         const popularProducts = await orderDatabase.aggregate([
-          {
-            $unwind: '$products',
-          },
-          {
-            $group: {
-              _id: '$products.product._id',
-              totalOrders: { $sum: 1 },
+            {
+                $unwind: "$products",
             },
-          },
-          {
-            $lookup: {
-              from: 'products',
-              localField: '_id',
-              foreignField: '_id',
-              as: 'product',
+            {
+                $group: {
+                    _id: "$products.product._id",
+                    totalOrders: { $sum: 1 },
+                },
             },
-          },
-          {
-            $unwind: '$product',
-          },
-          {
-            $sort: { totalOrders: -1 },
-          },
-          {
-            $limit: 5,
-          },
-          {
-            $project: {
-              _id: 0,
-              productName: '$product.title',
-              totalOrders: 1,
-              stocks: '$product.stock',
+            {
+                $lookup: {
+                    from: "products",
+                    localField: "_id",
+                    foreignField: "_id",
+                    as: "product",
+                },
             },
-          },
+            {
+                $unwind: "$product",
+            },
+            {
+                $sort: { totalOrders: -1 },
+            },
+            {
+                $limit: 5,
+            },
+            {
+                $project: {
+                    _id: 0,
+                    productName: "$product.title",
+                    totalOrders: 1,
+                    stocks: "$product.stock",
+                },
+            },
         ]);
         console.log(popularProducts);
         return { status: true, popularProducts };
-      } catch (error) {
+    } catch (error) {
         throw new Error(`Error fetching chart data: ${error.message}`);
     }
-}
+};
 
 exports.getDashBoardData=async()=>{
     try {
         const [
-          totalRevenue,
-          totalOrdersCount,
-          totalProductsCount,
-          totalCategoriesCount,
-          currentMonthEarnings,
+            totalRevenue,
+            totalOrdersCount,
+            totalProductsCount,
+            totalCategoriesCount,
+            currentMonthEarnings,
         ] = await Promise.all([
-          calculateTotalRevenue(),
-          calculateTotalOrdersCount(),
-          calculateTotalProductsCount(),
-          calculateTotalCategoriesCount(),
-          calculateCurrentMonthEarnings(),
+            calculateTotalRevenue(),
+            calculateTotalOrdersCount(),
+            calculateTotalProductsCount(),
+            calculateTotalCategoriesCount(),
+            calculateCurrentMonthEarnings(),
         ]);
     
         return {
-          totalRevenue,
-          totalOrdersCount,
-          totalProductsCount,
-          totalCategoriesCount,
-          currentMonthEarnings,
+            totalRevenue,
+            totalOrdersCount,
+            totalProductsCount,
+            totalCategoriesCount,
+            currentMonthEarnings,
         };
-      } catch (error) {
+    } catch (error) {
         throw new Error(`Error fetching dashboard data: ${error.message}`);
-      }
-}
+    }
+};
 
 //functions for dashboard
 async function calculateTotalRevenue() {
     try {
-      const totalRevenue = await orderDatabase.aggregate([
-        { $match: { status: 'Completed' } },
-        { $group: { _id: null, total: { $sum: '$total' } } },
-      ]);
+        const totalRevenue = await orderDatabase.aggregate([
+            { $match: { status: "Completed" } },
+            { $group: { _id: null, total: { $sum: "$total" } } },
+        ]);
   
-      if (totalRevenue.length > 0) {
-        return totalRevenue[0].total;
-      } else {
-        return 0;
-      }
+        if (totalRevenue.length > 0) {
+            return totalRevenue[0].total;
+        } else {
+            return 0;
+        }
     } catch (error) {
-      throw new Error(`Error calculating total revenue: ${error.message}`);
+        throw new Error(`Error calculating total revenue: ${error.message}`);
     }
-  }
+}
   
-  async function calculateTotalOrdersCount() {
+async function calculateTotalOrdersCount() {
     try {
-      const totalOrdersCount = await orderDatabase
-        .find({ status: { $in: ['Shipped', 'Pending','Cancelled','Completed'] } })
-        .countDocuments();
-      return totalOrdersCount;
+        const totalOrdersCount = await orderDatabase
+            .find({ status: { $in: ["Shipped", "Pending","Cancelled","Completed"] } })
+            .countDocuments();
+        return totalOrdersCount;
     } catch (error) {
-      throw new Error(`Error calculating total orders count: ${error.message}`);
+        throw new Error(`Error calculating total orders count: ${error.message}`);
     }
-  }
+}
   
-  async function calculateTotalProductsCount() {
+async function calculateTotalProductsCount() {
     try {
-      const totalProductsCount = await productDatabase.countDocuments();
-      return totalProductsCount;
+        const totalProductsCount = await productDatabase.countDocuments();
+        return totalProductsCount;
     } catch (error) {
-      throw new Error(`Error calculating total products count: ${error.message}`);
+        throw new Error(`Error calculating total products count: ${error.message}`);
     }
-  }
+}
   
-  async function calculateTotalCategoriesCount() {
+async function calculateTotalCategoriesCount() {
     try {
-      const totalCategoriesCount = await categoryDatabase.countDocuments({isDeleted:false});
-      return totalCategoriesCount;
+        const totalCategoriesCount = await categoryDatabase.countDocuments({isDeleted:false});
+        return totalCategoriesCount;
     } catch (error) {
-      throw new Error(`Error calculating total categories count: ${error.message}`);
+        throw new Error(`Error calculating total categories count: ${error.message}`);
     }
-  }
+}
   
-  async function calculateCurrentMonthEarnings() {
+async function calculateCurrentMonthEarnings() {
     try {
-      const currentDate = new Date();
-      const currentMonth = currentDate.getMonth() + 1;
-      const currentYear = currentDate.getFullYear();
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth() + 1;
+        const currentYear = currentDate.getFullYear();
   
-      const currentMonthEarnings = await orderDatabase.aggregate([
-        {
-          $match: {
-            status: 'Completed',
-            dateCreated: {
-              $gte: new Date(currentYear, currentMonth - 1, 1),
-              $lt: new Date(currentYear, currentMonth, 1),
+        const currentMonthEarnings = await orderDatabase.aggregate([
+            {
+                $match: {
+                    status: "Completed",
+                    dateCreated: {
+                        $gte: new Date(currentYear, currentMonth - 1, 1),
+                        $lt: new Date(currentYear, currentMonth, 1),
+                    },
+                },
             },
-          },
-        },
-        { $group: { _id: null, total: { $sum: '$total' } } },
-      ]);
+            { $group: { _id: null, total: { $sum: "$total" } } },
+        ]);
 
-      if (currentMonthEarnings.length > 0) {
-        return currentMonthEarnings[0].total;
-      } else {
-        return 0;
-      }
+        if (currentMonthEarnings.length > 0) {
+            return currentMonthEarnings[0].total;
+        } else {
+            return 0;
+        }
     } catch (error) {
-      throw new Error(`Error calculating current month earnings: ${error.message}`);
+        throw new Error(`Error calculating current month earnings: ${error.message}`);
     }
-  }
+}

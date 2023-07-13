@@ -30,8 +30,8 @@ const authRoutes = require("./routes/auth");
 const app = express();
 
 const store = new MongoDBStore({
-  uri: process.env.MONGO_URL,
-  collection: "sessions",
+    uri: process.env.MONGO_URL,
+    collection: "sessions",
 });
 
 
@@ -42,14 +42,14 @@ const csrfProtection = csrf();
 
 app.set("views", path.join(__dirname, "views"));
 app.engine(
-  "hbs",
-  hbs.engine({
-    extname: ".hbs",
-    layoutsDir: __dirname + "/views/layouts",
-    defaultLayout: "layout",
-    partialsDir: __dirname + "/views/partials/",
-    helpers: helperFunctions,
-  })
+    "hbs",
+    hbs.engine({
+        extname: ".hbs",
+        layoutsDir: __dirname + "/views/layouts",
+        defaultLayout: "layout",
+        partialsDir: __dirname + "/views/partials/",
+        helpers: helperFunctions,
+    })
 );
 app.set("view engine", "hbs");
 app.use(logger("dev"));
@@ -65,35 +65,35 @@ app.use(cookieParser());
 
 //session config necessary data
 app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-    },
-    store: store,
-  })
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+        },
+        store: store,
+    })
 );
 app.use(csrfProtection);
 app.use(flash());
 
 
 app.use((req, res, next) => {
-  res.header(
-    "Cache-Control",
-    "no-cache,private,no-Store,must-revalidate,max-scale=0,post-check=0,pre-check=0"
-  );
-  next();
+    res.header(
+        "Cache-Control",
+        "no-cache,private,no-Store,must-revalidate,max-scale=0,post-check=0,pre-check=0"
+    );
+    next();
 });
 
 const port=process.env.PORT||5000;
 app.listen(port,(err)=>{
-  if(err){
-    throw new Error(err);
-  }
-  console.log(`Listening on port http://localhost:${port}/`);
-})
+    if(err){
+        throw new Error(err);
+    }
+    console.log(`Listening on port http://localhost:${port}/`);
+});
 
 mongoConnect();
 
@@ -112,50 +112,24 @@ console.clear();
 //Routes used
 
 app.use((req, res, next) => {
-  if (!req.session.user) {
-    return next();
-  }
-  User.findById(req.session.user._id)
-    .then((user) => {
-      req.user = user;
-      next();
-    })
-    .catch((err) => console.log(err));
+    if (!req.session.user) {
+        return next();
+    }
+    User.findById(req.session.user._id)
+        .then((user) => {
+            req.user = user;
+            next();
+        })
+        .catch((err) => console.log(err));
 });
 
 app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.session.isLoggedIn;
-  res.locals.csrfToken = req.csrfToken();
-  res.locals.loggedUser = req.session.user;
-  next();
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
+    res.locals.loggedUser = req.session.user;
+    next();
 });
 
-// const calculateTotalProduct = (req, res, next) => {
-//   if (req.user && req.user.cart && req.user.cart.items) {
-//     res.locals.totalProduct = req.user.cart.items.length;
-//   } else {
-//     res.locals.totalProduct = 0;
-//   }
-//   next();
-// };
-
-// const addUserProductsLengthToContext = async (req, res, next) => {
-//   try {
-//     if (req.user) {
-//       const userId = req.user._id;
-//       const userProductsLength = await helperFunctions.getUserProductsLength(
-//         userId
-//       );
-//       res.locals.userProductsLength = userProductsLength;
-//     } else {
-//       res.locals.userProductsLength = 0;
-//     }
-//     next();
-//   } catch (error) {
-//     console.log(error);
-//     next(error);
-//   }
-//   };
 
 
 app.use(helperFunctions.addUserProductsLengthToContext);
@@ -167,18 +141,18 @@ app.use(authRoutes);
 //Error page rendering
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
+    next(createError(404));
 });
 
 // error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+app.use(function (err, req, res,next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+    // render the error page
+    res.status(err.status || 500);
+    res.render("error");
 });
 
 module.exports = app;
