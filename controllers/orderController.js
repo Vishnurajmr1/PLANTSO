@@ -228,9 +228,7 @@ function currencyFormat(amount) {
     return Number(amount).toLocaleString("en-in", { style: "currency", currency: "INR", minimumFractionDigits: 0 });
 }
 
-// function dateFormat(date) {
-//     return date.toISOString().slice(0, 10);
-// }
+
 
 
 const formatDate=function (date) {

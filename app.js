@@ -8,6 +8,7 @@ const cors = require("cors");
 const csrf = require("csurf");
 const flash = require("connect-flash");
 const helperFunctions = require("./src/registerHelpers");
+const errorController = require('./controllers/errorController');
 
 //config files used for database configuration
 const {mongoConnect} = require("./config/mongoDb");
@@ -138,22 +139,21 @@ app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
 
-//Error page rendering
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    next(createError(404));
-});
+
+app.get('/500', errorController.get500);
+
+app.use(errorController.get404);
 
 // error handler
-app.use(function (err, req, res,next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get("env") === "development" ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    res.render("error");
-});
+app.use((error, req, res, next) => {
+    // res.status(error.httpStatusCode).render(...);
+    // res.redirect('/500');
+    res.status(500).render('500', {
+      pageTitle: 'Error!',
+      path: '/500',
+      isAuthenticated: req.session.isLoggedIn
+    });
+  });
 
 module.exports = app;
 
