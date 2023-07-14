@@ -8,7 +8,7 @@ const cors = require("cors");
 const csrf = require("csurf");
 const flash = require("connect-flash");
 const helperFunctions = require("./src/registerHelpers");
-const errorController = require('./controllers/errorController');
+const errorController = require("./controllers/errorController");
 
 //config files used for database configuration
 const {mongoConnect} = require("./config/mongoDb");
@@ -140,7 +140,7 @@ app.use(shopRoutes);
 app.use(authRoutes);
 
 
-app.get('/500', errorController.get500);
+app.get("/500", errorController.get500);
 
 app.use(errorController.get404);
 
@@ -148,12 +148,12 @@ app.use(errorController.get404);
 app.use((error, req, res, next) => {
     // res.status(error.httpStatusCode).render(...);
     // res.redirect('/500');
-    res.status(500).render('500', {
-      pageTitle: 'Error!',
-      path: '/500',
-      isAuthenticated: req.session.isLoggedIn
+    res.status(500).render("500", {
+        pageTitle: "Error!",
+        path: "/500",
+        isAuthenticated: req.session.isLoggedIn
     });
-  });
+});
 
 module.exports = app;
 
