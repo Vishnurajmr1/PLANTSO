@@ -27,7 +27,7 @@ exports.getLogin = (req, res,next) => {
         message = null;
     }
     res.render("auth/login", {
-        layout: "noLayout",
+        layout: "nolayout",
         errorMessage: message,
     });
 };
@@ -74,7 +74,7 @@ exports.postLogin = (req, res, next) => {
                     } else {
                         req.flash("error", "Password doesn't match!");
                         return   res.render("auth/login", {
-                            layout: "noLayout",
+                            layout: "nolayout",
                             // errorMessage: message,
                         });
                     }
@@ -107,7 +107,7 @@ exports.postLogout=(req,res,next)=>{
 
 exports.getSignup = (req, res, next) => {
     res.render("auth/phoneotp", {
-        layout: "noLayout",
+        layout: "nolayout",
     });
 };
 
@@ -203,7 +203,7 @@ exports.getOtpSignup = (req, res,next) => {
         const otp = req.body.otp;
         if (!otp) {
             return res.render("auth/phoneotp", {
-                layout: "noLayout",
+                layout: "nolayout",
                 message: "Invalid OTP!",
                 phone: phone,
             });
@@ -237,7 +237,7 @@ exports.getReset = (req, res,next) => {
         message = null;
     }
     res.render("auth/resetpassword", {
-        layout: "noLayout",
+        layout: "nolayout",
         errorMessage: message,
     });
 };
@@ -289,7 +289,7 @@ exports.getNewPassword = (req, res, next) => {
                 message = null;
             }
             res.render("auth/new-password", {
-                layout: "noLayout",
+                layout: "nolayout",
                 errorMessage: message,
                 userId: user._id.toString(),
                 passwordToken: token,
