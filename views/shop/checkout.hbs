@@ -97,24 +97,25 @@
                 <!--====== Section Content ======-->
                 <div class="section__content">
                     <div class="container">
-                        <div class="checkout-f">
+                        <div class="checkout-f" id="checkout-f">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <h1 class="checkout-f__h1">DELIVERY INFORMATION</h1>
+                                    
+                                                <!--====== Check Box ======-->
+                                                <div class="check-box gl-link" data-toggle="collapse" href="#have-address">
+                                                    <input type="checkbox" id="get-address" >
+                                                    <div class="check-box__state check-box__state--primary">
+                                                    <label class="check-box__label" for="get-address">Use default shipping and billing address from account</label>
+                                                    </div>
+                                                </div>
+                                                <!--====== End - Check Box ======-->
+                                <div class="collapse" id="have-address" data-parent="#checkout-f">
                                     <form class="checkout-f__delivery">
                                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
                                         <div class="u-s-m-b-30">
                                             <div class="u-s-m-b-15">
 
-                                                <!--====== Check Box ======-->
-                                                <div class="check-box">
-
-                                                    <input type="checkbox" id="get-address">
-                                                    <div class="check-box__state check-box__state--primary">
-
-                                                        <label class="check-box__label" for="get-address">Use default shipping and billing address from account</label></div>
-                                                </div>
-                                                <!--====== End - Check Box ======-->
                                             </div>
 
                                             <!--====== First Name, Last Name ======-->
@@ -229,6 +230,7 @@
                                             </div> --}}
                                         </div>
                                     </form>
+                             </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <h1 class="checkout-f__h1">ORDER SUMMARY</h1>
