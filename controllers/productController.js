@@ -340,7 +340,7 @@ exports.getProductsByFilter = (req, res) => {
 
     //Prepare the filter options based on category and price
     const filterOptions={};
-    if(category!="all"){
+    if(category!=="all"){
         filterOptions["category.name"]=category;
     }
     if(price){
@@ -375,10 +375,12 @@ exports.getProductsByFilter = (req, res) => {
         // 'category.name':category 
         },
     ];
-    if(sortOption.price||(price && !category)){
-        aggregationStages.push({
-            $sort:sortOption,
-        });
+    if(category){
+        if(sortOption.price||(price && !category)){
+            aggregationStages.push({
+                $sort:sortOption,
+            });
+        }
     }
     aggregationStages.push(
         {
@@ -388,17 +390,53 @@ exports.getProductsByFilter = (req, res) => {
             $limit:perPage,
         }
     );
+    let totalProductsQuery=[];
+    if(category ==="all"){
+        totalProductsQuery.push(
+            {
+                $lookup:{
+                    from:"categories",
+                    localField:"category",
+                    foreignField:"_id",
+                    as:"category",
+                },
+            },
+            {
+                $count:"totalProducts",
+            }
+        );
+    }
     Product.aggregate(aggregationStages)
         .then((products)=>{
             // Calculate the total number of filtered products
-            const totalProducts=products.length;
-            // Perform pagination on the filtered products
-            const paginatedProducts=products.slice((page-1)*perPage,page*perPage);
-            return res.json({
-                prods:products,
-                totalProducts,
-                filterProducts:paginatedProducts,
-            });
+            let totalProducts=products.length;
+
+            if(category==="all"){
+                Product.aggregate(totalProductsQuery)
+                    .then((result)=>{
+                        if(result.length>0){
+                            totalProducts=result[0].totalProducts;
+                        }
+                        // Perform pagination on the filtered products
+                        const paginatedProducts=products.slice((page-1)*perPage,page*perPage);
+                        return res.json({
+                            prods:products,
+                            totalProducts,
+                            filterProducts:paginatedProducts,
+                        });
+                    })
+                    .catch((error)=>{
+                        return res.status(500).json({ error: "Failed to fetch products." });
+                    });
+            }else{
+                // Perform pagination on the filtered products
+                const paginatedProducts=products.slice((page-1)*perPage,page*perPage);
+                return res.json({
+                    prods:products,
+                    totalProducts,
+                    filterProducts:paginatedProducts,
+                });
+            }   
         })
         .catch((err) => {
             console.log(err);

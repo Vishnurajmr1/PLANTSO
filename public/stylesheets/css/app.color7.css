@@ -6573,3 +6573,11 @@ input[type=number]::-webkit-outer-spin-button {
   justify-content: space-between;
 }
  
+
+#select_address{
+  cursor: pointer;
+  width: 2rem;
+  height: 20px;
+  accent-color:green;
+}
+

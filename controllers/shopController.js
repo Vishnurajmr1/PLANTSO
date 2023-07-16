@@ -333,6 +333,7 @@ exports.getCheckout = async (req, res) => {
                 subtotal:subtotal.toFixed(2), // Add subtotal to the product object
             };
         });
+        const addresses=await Address.find({user:req.user._id}).lean();
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             line_items: products.map((item) => ({
@@ -357,11 +358,11 @@ exports.getCheckout = async (req, res) => {
             coupons:coupons,
             hasProducts: products.length > 0,
             totalSum: total,
+            addresses:addresses,
             sessionId:session.id,
             country:countries,
         });
     } catch (error) {
-        console.log(error);
         res.status(500).send("Error occurred while fetching user cart.");
     }
 };
@@ -556,8 +557,6 @@ exports.postCheckout=(req,res)=>{
 
 exports.deleteFromCart=(req,res)=>{
     const user=req.user;
-    console.log(user+"hellowweiew");
-
     user.clearCart()
         .then(()=>{
             res.json({success:true});
