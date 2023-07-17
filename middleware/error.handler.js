@@ -8,5 +8,5 @@ function handleError(res,error){
 //     res.status(500).json({status:false,message: error?.message });
 //   }
 
-module.exports=handleError;
+module.exports={handleError};
 

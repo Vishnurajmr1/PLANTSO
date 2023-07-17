@@ -360,7 +360,6 @@ function sendOTPToServer() {
             if (response.ok) {
                 return response.json();
             }
-            console.log(response);
             throw new Error("Network response was not ok.");
         })
         .then(data=>{
@@ -374,6 +373,11 @@ function sendOTPToServer() {
                 verifyOTPBtn.classList.remove("hidden");
                 sendOTPBtn.classList.add("hidden");
                 timerOut();
+            }else 
+            if(data.message==="Invalid OTP!"){
+                otpField.classList.remove("hidden");
+                verifyOTPBtn.classList.remove("hidden");
+                sendOTPBtn.classList.add("hidden");
             }else{
                 Swal.fire({
                     icon: "warning",
@@ -384,7 +388,6 @@ function sendOTPToServer() {
                     cancelButtonText: "Close",
                     showConfirmButton: false
                 });
-                console.log(data.message);
             }
      
         })
@@ -398,7 +401,6 @@ function sendOTPToServer() {
                 cancelButtonText: "Close",
                 showConfirmButton: false
             });
-            console.log(error.message);
         });
 }
 

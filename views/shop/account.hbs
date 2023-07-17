@@ -1,26 +1,7 @@
 <main>
-    <!--====== Section 1 ======-->
-            <div class="u-s-p-y-60">
-
-                <!--====== Section Content ======-->
-                <div class="section__content">
-                    <div class="container">
-                        <div class="breadcrumb">
-                            <div class="breadcrumb__wrap">
-                                <ul class="breadcrumb__list">
-                                    <li class="has-separator">
-
-                                        <a href="index.html">Home</a></li>
-                                    <li class="is-marked">
-
-                                        <a href="dash-my-profile.html">My Account</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--====== End - Section 1 ======-->
+  <!--====== Section 1 ======-->
+    {{>user-profile-sidebar}}
+  <!--====== End - Section 1 ======-->
 
   <!--====== Section 2 ======-->
   <div class="u-s-p-b-60">
@@ -189,7 +170,7 @@
                   </div>
                 </div>
               </div>
-              {{!-- <div
+              <div
                 class="dash__box dash__box--shadow dash__box--bg-white dash__box--radius"
               >
                 <h2 class="dash__h2 u-s-p-xy-20">RECENT ORDERS</h2>
@@ -295,7 +276,7 @@
                     </tbody>
                   </table>
                 </div>
-              </div> --}}
+              </div>
             </div>
           </div>
         </div>

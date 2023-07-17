@@ -89,6 +89,7 @@ exports.postLogin = (req, res, next) => {
                         }
                     })
                     .catch((err) => {
+                        req.flash("error", "Password doesn't match!");
                         res.redirect("/login");
                     });
             })
@@ -146,63 +147,118 @@ exports.getSignup = (req, res, next) => {
    
 };
 
-exports.postSignup = (req, res,next) => {
+// exports.postSignup = (req, res,next) => {
+//     try {
+//         let message = req.flash("error");
+//         if (message.length > 0) {
+//             message = message[0];
+//         } else {
+//             message = null;
+//         }
+//         const name = req.body.name;
+//         const email = req.body.email;
+//         const phone = req.body.phone;
+//         const password = req.body.password;
+//         User.findOne({ $or: [{ email: email }, { name: name }] })
+//             .then((userDoc) => {
+//                 if (userDoc) {
+//                     req.flash("error", "E-Mail exists already,please pick a different one");
+//                     return res.render("auth/signup", {
+//                         errorMessage: message,
+//                         phone: phone,
+//                     });
+//                 }
+//                 return bcrypt
+//                     .hash(password, 12)
+//                     .then((hashedPassword) => {
+//                         const user = new User({
+//                             name: name,
+//                             email: email,
+//                             phone: phone,
+//                             password: hashedPassword,
+//                             cart: { items: [] },
+//                         });
+//                         return user.save();
+//                     })
+//                     .then(() => {
+//                         req.session.isAdmin = false;
+//                                 req.session.save((err) => {
+//                                     if (err) {
+//                                         console.log(err);
+//                                     }
+//                                     res.redirect("/");
+//                                 })
+//                             req.session.isLoggedIn = true;
+//                             req.session.user = user;
+
+
+
+//                         res.redirect("/");
+//                     // transporter.sendMail({
+//                     //   to: email,
+//                     //   from: "arunkumararun20123@gmail.com",
+//                     //   subject: "SignUp Succeeded!",
+//                     //   html: `<p>"Congratulations,${name},on a successful login👏!We're here to assist you in finding the perfect products. Enjoy your time on Plantso!😊"<p>`,
+//                     // });
+//                     });
+//             })
+//             .catch((err) => {
+//                 return res.render("auth/signup", {
+//                     errorMessage: message,
+//                     phone: phone,
+//                 });
+//             });
+//     } catch (err) {
+//         if(!err.statusCode){
+//             err.statusCode=500;
+//         }
+//         handleError(res,err);
+//     }
+// };
+
+
+
+exports.postSignup=async(req,res,next)=>{
     try {
-        let message = req.flash("error");
-        if (message.length > 0) {
-            message = message[0];
-        } else {
-            message = null;
-        }
-        const name = req.body.name;
-        const email = req.body.email;
-        const phone = req.body.phone;
-        const password = req.body.password;
-        User.findOne({ $or: [{ email: email }, { name: name }] })
-            .then((userDoc) => {
-                if (userDoc) {
-                    req.flash("error", "E-Mail exists already,please pick a different one");
-                    return res.render("auth/signup", {
-                        errorMessage: message,
-                        phone: phone,
-                    });
-                }
-                return bcrypt
-                    .hash(password, 12)
-                    .then((hashedPassword) => {
-                        const user = new User({
-                            name: name,
-                            email: email,
-                            phone: phone,
-                            password: hashedPassword,
-                            cart: { items: [] },
-                        });
-                        return user.save();
-                    })
-                    .then(() => {
-                        res.redirect("/login");
-                    // transporter.sendMail({
-                    //   to: email,
-                    //   from: "arunkumararun20123@gmail.com",
-                    //   subject: "SignUp Succeeded!",
-                    //   html: `<p>"Congratulations,${name},on a successful login👏!We're here to assist you in finding the perfect products. Enjoy your time on Plantso!😊"<p>`,
-                    // });
-                    });
-            })
-            .catch((err) => {
-                return res.render("auth/signup", {
-                    errorMessage: message,
-                    phone: phone,
-                });
+        const {name,email,phone,password}=req.body;
+        const userExists=await User.findOne({$or:[{email:email},{name:name}]});
+        console.log(req.body);
+        if(userExists){
+            req.flash('error',"E-mail exists already, please pick a different one");
+            return res.render("auth/signup",{
+                errorMessage:req.flash("error")[0],
+                name:name,
+                email:email,
+                phone:phone,
             });
-    } catch (err) {
+        };
+        const hashedPassword= await bcrypt.hash(password,12);
+
+        const newUser=new User({
+            name:name,
+            phone:phone,
+            email:email,
+            password:hashedPassword,
+            cart:{items:[]},
+        });
+
+        const savedUser=await newUser.save();
+        req.session.isAdmin=false;
+        req.session.isLoggedIn=true;
+        req.session.user=savedUser;
+        req.session.save((err)=>{
+            if(err){
+                handleError(res,err);
+            }
+            res.redirect('/');
+        });   
+    }catch(err){
         if(!err.statusCode){
             err.statusCode=500;
         }
         handleError(res,err);
     }
-};
-
+}
 exports.sendOtpSignup = async (req, res,next) => {
     try{
         const phoneNumber = `${req.body.phone}`;
@@ -270,17 +326,32 @@ exports.getOtpSignup = (req, res,next) => {
                     console.log(verification_check.status);
                     if (verification_check.status === "approved") {
                         res.render("auth/signup", { phone: phoneNumber });
-                    } else {
-                        console.log("Error");
+                    } else if(verification_check.status==="pending"){
+                        // res.render("auth/phoneotp", {
+                        //     layout: "nolayout",
+                        //     message: "Invalid OTP!",
+                        //     phone: phone,
+                        //     showOTPfield:true,
+                        // });
+                        return res.render("auth/phoneotp", {
+                            layout: "nolayout",
+                            message: "Invalid OTP!",
+                            phone: phone,
+                        });
                     }
                 })
                 .catch((error) => {
-                    console.log(error);
+                    return res.render("auth/phoneotp", {
+                        layout: "nolayout",
+                        message: "Invalid OTP!",
+                        phone: phone,
+                        showOTPfield:true,
+                    });
                 });
         }
     } catch (err) {
-        if(!err.statusCode){
-            err.statusCode=500;
+        if(!err.httpstatusCode){
+            err.httpstatusCode=500;
         }
         handleError(res,err);
     }

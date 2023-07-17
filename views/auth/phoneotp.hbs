@@ -26,7 +26,6 @@
           class="flex flex-col gap-4 mt-4"
           id="otpform"
         >
-        {{log csrfToken}}
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
         {{!-- <input type="hidden" name="csrf-token" value="{{csrfToken}}"> --}}
           <div id="phone-field" class="flex-col gap-2">
@@ -88,13 +87,14 @@
           <button
             class="bg-blue-950 rounded-xl text-white py-2 hover:scale-105 duration-300 hover:bg-green-400 hover:font-semibold hidden"
             id="verifyOTPBtn"
+            onsubmit="verifyOtp()"
           >Verify OTP</button>
-
+          </form>
           {{!-- <button
             class="bg-blue-950 rounded-xl text-white py-2 hover:scale-105 duration-300 hover:bg-green-400 hover:font-semibold hidden"
             id="signupBtn"
           >Signup</button> --}}
-        </form>
+     
 
         <div class="mt-10 grid grid-cols-3 items-center text-gray-400">
           <hr class="border-gray-400" />
