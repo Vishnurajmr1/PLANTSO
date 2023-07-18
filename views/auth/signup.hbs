@@ -30,12 +30,16 @@
           <label for="name" class="font-semibold text-xs">Username</label>
           <div class="relative">
             <input
-              class="p-2 mt-1 rounded-xl w-full border focus:outline-none focus:ring focus:border-blue-500"
+              class="p-2 mt-1 rounded-xl w-full border focus:outline-none focus:ring focus:border-blue-500 {{#if nameError}}border-red-500{{/if}}"
               type="text"
               name="name"
+              value="{{name}}"
               id="name"
               placeholder="Username"
             />
+            {{#if nameError}}
+             <p class="text-red-500 text-xs mt-1">{{nameError}}</p>
+            {{/if}}
             {{! <p id="username-error" class="hidden text-red-500 text-xs mt-1">Please enter a valid username</p> }}
             {{! <img src="/images/img/checked.png" alt="" width="16" height="16" class="absolute  top-2 right-2 hidden" id="checked"> }}
           </div>
@@ -44,17 +48,20 @@
           <label for="email" class="font-semibold text-xs">Email</label>
           <div class="relative">
             <input
-              class="p-2 mt-1 rounded-xl w-full border focus:outline-none focus:ring focus:border-blue-500"
+              class="p-2 mt-1 rounded-xl w-full border focus:outline-none focus:ring focus:border-blue-500 {{#if emailError}}border-red-500{{/if}}"
               type="email"
               name="email"
               id="email"
+              value="{{email}}"
               placeholder="Email"
               oninput="validateEmail()"
-              value="{{oldInput.email}}"
               required
             />
             <p id="email-error" class="hidden text-red-500 text-xs mt-1">Please
               enter a valid email address</p>
+              {{#if emailError}}
+              <p class="text-red-500 text-xs mt-1">{{emailError}}</p>
+               {{/if}}
             <img
               src="/images/img/checked.png"
               alt=""

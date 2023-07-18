@@ -1,8 +1,5 @@
 const  mongoose=require("mongoose");
-
-
 const Schema=mongoose.Schema;
-
 const orderSchema=new Schema({
     products:[
         {
@@ -42,6 +39,12 @@ const orderSchema=new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Address",
     },
+    total: {
+        type:Number,
+    },
+    subTotal:{
+        type:Number,
+    },
     dateCreated:{
         type:Date,
         default:Date.now,
@@ -49,12 +52,22 @@ const orderSchema=new Schema({
     paymentmethod: {
         type: String,
     },
-    total: {
-        type: Number,
+    paymentStatus:{
+        type: String,
+        enum: ['failed', 'success'],
+        default: 'failed',
     },
-    subTotal:{
+    cancel_reason:{
+        type:String,
+    },
+    discount:{
         type:Number,
+        default:0,
     },
+    wallet:{
+        type:Number,
+        default:0,
+    }
 });
 
 module.exports=mongoose.model("Order",orderSchema);

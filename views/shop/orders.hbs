@@ -102,7 +102,7 @@
                                                     </select></div>
                                             </form>
                                                
-                                             <div class="m-order__list">
+                                             <div class="m-order__list" style="max-height:600px;overflow-y:auto;">
                                                 <div class="empty">
                                                 {{#each orders}}
                                                 <div class="m-order__get">
@@ -114,15 +114,15 @@
                                                             </div>
                                                             <div>
                                                     {{#if status}}
-                                                            {{#if (eq status 'completed')}}
+                                                            {{#if (eq status 'Completed')}}
                                                             <span class="manage-o__badge badge--completed">{{status}}</span>
                                                                  {{else if (eq status 'pending')}}
                                                             <span class="manage-o__badge badge--processing">{{status}}</span>
-                                                    {{else if (eq status 'shipped')}}
+                                                    {{else if (eq status 'Shipped')}}
                                                     <span class="manage-o__badge badge--shipped">{{status}}</span>
-                                                     {{else if (eq status 'delivered')}}
+                                                     {{else if (eq status 'Delivered')}}
                                                     <span class="manage-o__badge badge--delivered">{{status}}</span>
-                                                        {{else}}
+                                                    {{else}}
                                                     <span class="manage-o__badge badge--cancelled">{{status}}</span>
                                                     {{/if}}
                                                     {{/if}}  

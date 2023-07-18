@@ -222,16 +222,24 @@ exports.postSignup=async(req,res,next)=>{
     try {
         const {name,email,phone,password}=req.body;
         const userExists=await User.findOne({$or:[{email:email},{name:name}]});
-        console.log(req.body);
         if(userExists){
-            req.flash('error',"E-mail exists already, please pick a different one");
+            let nameError="";
+            let emailError="";
+
+            if(userExists.name===name){
+                nameError="Username already Exists";
+            }
+            if(userExists.email===email){
+                emailError="Email already Exists";
+            }
             return res.render("auth/signup",{
-                errorMessage:req.flash("error")[0],
                 name:name,
                 email:email,
                 phone:phone,
+                nameError:nameError?nameError:"",
+                emailError:emailError?emailError:""
             });
-        };
+        }
         const hashedPassword= await bcrypt.hash(password,12);
 
         const newUser=new User({
@@ -248,9 +256,15 @@ exports.postSignup=async(req,res,next)=>{
         req.session.user=savedUser;
         req.session.save((err)=>{
             if(err){
-                handleError(res,err);
+                let errorMessage="Something went wrong!";
+                return res.render("auth/signup",{
+                    errorMessage:errorMessage,
+                    name:name,
+                    email:email,
+                    phone:phone,
+                });
             }
-            res.redirect('/');
+            res.redirect("/");
         });   
     }catch(err){
         if(!err.statusCode){
@@ -258,7 +272,7 @@ exports.postSignup=async(req,res,next)=>{
         }
         handleError(res,err);
     }
-}
+};
 exports.sendOtpSignup = async (req, res,next) => {
     try{
         const phoneNumber = `${req.body.phone}`;
