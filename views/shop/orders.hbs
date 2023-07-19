@@ -113,16 +113,16 @@
                                                                 <div class="manage-o__text u-c-silver">Placed on {{formatDate dateCreated}}</div>
                                                             </div>
                                                             <div>
-                                                    {{#if status}}
-                                                            {{#if (eq status 'Completed')}}
-                                                            <span class="manage-o__badge badge--completed">{{status}}</span>
-                                                                 {{else if (eq status 'pending')}}
-                                                            <span class="manage-o__badge badge--processing">{{status}}</span>
-                                                    {{else if (eq status 'Shipped')}}
-                                                    <span class="manage-o__badge badge--shipped">{{status}}</span>
-                                                     {{else if (eq status 'Delivered')}}
-                                                    <span class="manage-o__badge badge--delivered">{{status}}</span>
-                                                    {{else}}
+                                                            {{#if status}}
+                                                            {{#if (eq status 'completed')}}
+                                                            <span class="manage-o__badge badge--completed">Completed</span>
+                                                            {{else if (eq status 'pending')}}
+                                                            <span class="manage-o__badge badge--processing">Processing</span>
+                                                            {{else if (eq status 'shipped')}}
+                                                    <span class="manage-o__badge badge--shipped">Shipped</span>
+                                                            {{else if (eq status 'delivered')}}
+                                                    <span class="manage-o__badge badge--delivered">Delivered</span>
+                                                             {{else}}
                                                     <span class="manage-o__badge badge--cancelled">{{status}}</span>
                                                     {{/if}}
                                                     {{/if}}  

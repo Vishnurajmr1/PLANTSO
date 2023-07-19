@@ -244,7 +244,11 @@
                                                 {{#each addresses}}
                                                 <div class="o-card">
                                                     <div class="o-card__flex">
-                                                            <input type="radio" name="value" id="select_address">
+                                                            <input type="radio" name="select_address" id="select_address" value="{{this._id}}"
+                                                                data-fname="{{this.fname}}" data-lname="{{this.lname}}"
+                                                                data-phone="{{this.phone}}" data-city="{{this.city}}"
+                                                                data-country="{{this.country}}" data-state="{{this.state}}"
+                                                                data-street="{{this.street_address}}" data-zip="{{this.zipcode}}">
                                                         {{!-- <div class="o-card__img-wrap">
                                                             <img class="u-img-fluid" src="{{this.imageUrl.[0]}}" alt="{{this.productId.title}}">
                                                             <span class="o-card__name">

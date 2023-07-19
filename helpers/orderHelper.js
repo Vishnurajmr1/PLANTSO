@@ -10,7 +10,7 @@ exports.getAllDeliveredOrders = async () => {
         );
         const orderDetails = await Order.aggregate([
             {
-                $match: { status: "Completed" },
+                $match: { status: "completed" },
             },
             {
                 $lookup: {
@@ -36,7 +36,7 @@ exports.getAllDeliveredOrdersByDate =async (startDate, endDate) => {
     try {
         const deliveredOrders = await Order.find({
             dateCreated: { $gte: startDate, $lte: endDate },
-            status: "Completed",
+            status: "completed",
         }).lean();
         console.log(deliveredOrders);
         return(deliveredOrders);
@@ -47,7 +47,6 @@ exports.getAllDeliveredOrdersByDate =async (startDate, endDate) => {
 
 exports.updateStatus=async(orderId,status,res)=>{
     try{
-        console.log(status,orderId);
         const order=await Order.findByIdAndUpdate(orderId,{$set:{status:status}},{new:true});
         if(!order){
             return res.status(404).json({success:false,message:"Order not found"});

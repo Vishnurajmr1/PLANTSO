@@ -83,11 +83,11 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
                                             <td class="text-muted">{{this.products.length}}</td>
                                             <th class="text-muted">₹{{this.total}}</th>
                                             <td id="statusElement">
-                                             {{#if (eq this.status 'Completed')}}
+                                             {{#if (eq this.status 'completed')}}
                                     <span class="badge rounded-pill bg-success-faded text-success" order-status="{{this._id}}" >{{this.status}}</span>
                                           {{else if (eq this.status 'pending')}}
                                     <span class="badge rounded-pill bg-warning-faded text-success " order-status="{{this._id}}">{{this.status}}</span>
-                                           {{else if (eq this.status 'Shipped')}}
+                                           {{else if (eq this.status 'shipped')}}
                                    <span class="badge rounded-pill bg-info-faded text-info " order-status="{{this._id}}">{{this.status}}</span>
                                           {{else if (eq this.status 'Out For Delivery')}}
                                     <span class="badge rounded-pill bg-primary-faded text-primary " order-status="{{this._id}}">{{this.status}}</span>
@@ -126,16 +126,16 @@ background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 
                                                 <div id="statusOptions-0-{{this._id}}" class="statusOptions" style="display:none;position: absolute;z-index: 999999;top:10rem;right:10rem">
                                               <ul class="list-group list-group-vertical p-2">
                                              <li class="list-group-item bg-info">
-                                            <a class="text-decoration-none text-white clicked pointerMouse" >Shipped</a>
+                                            <a class="text-decoration-none text-white clicked pointerMouse" >shipped</a>
                                             </li>
                                          <li class="list-group-item bg-danger">
-                                             <a class="text-decoration-none text-white clicked pointerMouse" >Cancelled</a>
+                                             <a class="text-decoration-none text-white clicked pointerMouse" >cancelled</a>
                                           </li>
                                          <li class="list-group-item bg-secondary">
                                         <a class="text-decoration-none text-white clicked pointerMouse">Out For Delivery</a>
                                         </li>
                                       <li class="list-group-item bg-success">
-                                       <a class="text-decoration-none text-white clicked pointerMouse">Completed</a>
+                                       <a class="text-decoration-none text-white clicked pointerMouse">completed</a>
                                       </li>
                                       </ul>
                                         </div>

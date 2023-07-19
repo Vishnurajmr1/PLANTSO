@@ -6581,3 +6581,20 @@ input[type=number]::-webkit-outer-spin-button {
   accent-color:green;
 }
 
+.status-btn-success{
+  background: #3ed092 ;
+    border-radius: 6px;
+    padding: 3px;
+}
+.status-btn-danger{
+  background: #ff3551;
+    border-radius: 6px;
+    padding: 3px;
+}
+.status-btn-info{
+  background: #18a1b7;
+    border-radius: 6px;
+    padding: 3px;
+}
+
+

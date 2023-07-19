@@ -48,24 +48,18 @@
 
                                                         <span class="manage-o__text">Standard</span></div>
                                                 </div>
-                                                <div class="manage-o__timeline">
+                                                {{!-- <div class="manage-o__timeline">
                                                     <div class="timeline-row">
                                                         <div class="col-lg-4 u-s-m-b-30">
                                                             <div class="timeline-step">
                                                                 <div class="timeline-l-i timeline-l-i--finish">
                                                                     <span class="timeline-circle"></span></div>
-                                                                    {{#if (eq status 'pending')}}
+                                                                    {{#if order.status}}
                                                                 <span class="timeline-text">Processing</span>
-                                                                {{/if}}
-                                                                {{#if (eq status 'pending')}}
-                                                                <span class="timeline-text">Shipped</span>
-                                                                {{/if}}
-                                                                {{#if (eq status 'pending')}}
-                                                                <span class="timeline-text">Completed</span>
                                                                 {{/if}}
                                                             </div>
                                                         </div>
-                                                        {{#if (eq status 'Shipped')}}
+                                                       {{#if (eq order.status 'shipped')}}
                                                         <div class="col-lg-4 u-s-m-b-30">
                                                             <div class="timeline-step">
                                                                 <div class="timeline-l-i timeline-l-i--finish">
@@ -76,7 +70,7 @@
                                                             </div>
                                                         </div>
                                                         {{/if}}
-                                                        {{#if (eq status 'Completed')}}
+                                                      {{#if (eq order.status 'completed')}}
                                                         <div class="col-lg-4 u-s-m-b-30">
                                                             <div class="timeline-step">
                                                                 <div class="timeline-l-i">
@@ -86,10 +80,11 @@
                                                                 <span class="timeline-text">Delivered</span>
                                                             </div>
                                                         </div>
-                                                        {{/if}}
+                                                         {{/if}}
+
                                                     </div>
-                                                </div>
-                                                <div style="display: grid;gap: 30px;">
+                                                </div> --}}
+                                                <div style="display: grid;gap:30px;">
                                                 {{#each order.products}}
                                                 <div class="manage-o__description">
                                                     <div class="description__container">
@@ -122,9 +117,10 @@
                                             </div>
                                         </div>
                                     </div>
-                              </div>
+                                  </div>
+                                   </div>
                                     <div class="row">
-                                        <div class="col-lg-6 col-md-12">
+                                        <div class="col-lg-3 col-md-12">
                                             <div class="dash__box dash__box--bg-white dash__box--shadow u-s-m-b-30">
                                                 <div class="dash__pad-3">
                                                     <h2 class="dash__h2 u-s-m-b-8">Shipping Address</h2>
@@ -146,7 +142,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-12">
+                                        <div class="col-lg-9 col-md-12">
                                             <div class="dash__box dash__box--bg-white dash__box--shadow u-h-100">
                                                 <div class="dash__pad-3">
                                                     <h2 class="dash__h2 u-s-m-b-8">Total Summary</h2>
@@ -162,17 +158,42 @@
                                                         <div class="manage-o__text-2 u-c-secondary">Total After dis:</div>
                                                         <div class="manage-o__text-2 u-c-secondary">₹{{order.total}}</div>
                                                     </div>
-                                                    <span class="dash__text-2">Paid by {{order.paymentmethod}}</span>
+                                                    {{!-- <span class="dash__text-2">Paid by {{order.paymentmethod}}</span> --}}
                                                      <div class="dash-l-r u-s-m-b-8">
-                                                        <div class="manage-o__text-2 u-c-secondary">Payment Status</div>
-                                                        <div class="manage-o__text-2 u-c-secondary">₹{{order.total}}</div>
+                                                        <div class="manage-o__text-2 u-c-secondary">Paid By:</div>
+                                                        <div class="manage-o__text-2 u-c-white status-btn-success">{{order.paymentmethod}}</div>
+                                                    </div>
+                                                    {{#if order.paymentStatus}}
+                                                     <div class="dash-l-r u-s-m-b-8">
+                                                        <div class="manage-o__text-2 u-c-secondary">Payment Status:</div>
+                                                        {{#if (eq order.paymentStatus 'failed')}}
+                                                        <div class="manage-o__text-2 u-c-white status-btn-danger">{{order.paymentStatus}}</div>
+                                                        {{else}}
+                                                        <div class="manage-o__text-2 u-c-white status-btn-success">{{order.paymentStatus}}</div>
+                                                        {{/if}}
+                                                    </div>
+                                                    {{/if}}
+                                                     <div class="dash-l-r u-s-m-b-8">
+                                                        <div class="manage-o__text-2 u-c-secondary">Order Status:</div>
+                                                        {{#if (eq order.status 'pending')}}
+                                                        <div class="manage-o__text-2 u-c-white status-btn-info">Processing</div>
+                                                        {{else if (eq order.status 'shipped')}}
+                                                        <div class="manage-o__text-2 u-c-white status-btn-info">Shipped</div>
+                                                        {{else if (eq order.status 'cancelled')}}
+                                                        <div class="manage-o__text-2 u-c-white status-btn-danger">Cancelled</div>
+                                                        {{else if (eq order.status 'completed')}}
+                                                        <div class="manage-o__text-2 u-c-white status-btn-success">Completed</div>
+                                                        {{/if}}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                        </div>
+
+
+                                  </div>
+                               
+                      
                     </div>
                 </div>
                 <!--====== End - Section Content ======-->

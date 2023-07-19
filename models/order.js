@@ -28,13 +28,15 @@ const orderSchema=new Schema({
             "processing",
             "shipped",
             "delivered",
-            "canceled",
+            "cancelled",
             "cancelPending",
             "returnPending",
             "returned",
         ],
         default: "pending",
     },
+    PaymentResponse:[],
+
     shippingAddress: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Address",
@@ -44,11 +46,7 @@ const orderSchema=new Schema({
     },
     subTotal:{
         type:Number,
-    },
-    dateCreated:{
-        type:Date,
-        default:Date.now,
-    },
+    }, 
     paymentmethod: {
         type: String,
     },
@@ -67,6 +65,10 @@ const orderSchema=new Schema({
     wallet:{
         type:Number,
         default:0,
+    },
+    dateCreated:{
+        type:Date,
+        default:Date.now,
     }
 });
 

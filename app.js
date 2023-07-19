@@ -146,6 +146,7 @@ app.use((req, res, next) => {
 
 
 app.use(helperFunctions.addUserProductsLengthToContext);
+app.use(helperFunctions.cancelledProducts);
 app.use(helperFunctions.calculateTotalProduct);
 app.use("/admin", adminRoutes);
 app.use('/',shopRoutes);

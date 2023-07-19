@@ -313,10 +313,12 @@ exports.updateQuantity = async (req, res) => {
 
 
 
-exports.getCheckout = async (req, res) => {
+exports.getCheckout = async (req, res,sessionId) => {
     try {
         const user = await req.user.populate("cart.items.productId");
         const coupons=await couponHelper.getValidCoupons();
+        let stripeSessionId=sessionId;
+        console.log(stripeSessionId);
         const products = user.cart.items.map((item) => {
             const quantity = item.quantity;
             const price = item.productId.price;
@@ -333,24 +335,12 @@ exports.getCheckout = async (req, res) => {
                 subtotal:subtotal.toFixed(2), // Add subtotal to the product object
             };
         });
-        const addresses=await Address.find({user:req.user._id}).lean();
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ["card"],
-            line_items: products.map((item) => ({
-                price_data: {
-                    currency: "INR",
-                    product_data: {
-                        name: item.product,
-                    },
-                    unit_amount: parseFloat(item.price) * 100,
-                },
-                quantity: item.quantity,
-            })),
-            mode: "payment",
-            success_url:req.protocol+"://"+req.get("host")+"/checkout/success", // Replace with your success URL
-            cancel_url:req.protocol+"://"+req.get("host")+"/checkout/cancel", // Replace with your cancel URL
-        });
-        const total = products.reduce((sum, item) => sum + parseFloat(item.subtotal), 0).toFixed(2);
+        const addresses=await Address.find({
+            user:req.user._id,
+            isShippingAddress:false,
+            isBillingAddress:false
+        }).lean();
+        const total = products.reduce((sum,item) => sum + parseFloat(item.subtotal), 0).toFixed(2);
         let countries=countryStatePicker.getCountries();
         res.render("shop/checkout", {
             products: products,
@@ -359,7 +349,7 @@ exports.getCheckout = async (req, res) => {
             hasProducts: products.length > 0,
             totalSum: total,
             addresses:addresses,
-            sessionId:session.id,
+            sessionId:sessionId,
             country:countries,
         });
     } catch (error) {
@@ -488,7 +478,7 @@ exports.getDefault=(req,res)=>{
         });
 };
 
-exports.postCheckout=(req,res)=>{
+exports.postCheckout= async (req,res)=>{
     const {address,paymentMethodId,totalPrice}=req.body;
     if(paymentMethodId==="COD"){
         const user=req.user;
@@ -550,8 +540,88 @@ exports.postCheckout=(req,res)=>{
                     console.log("Failed to process the order",error);
                 });
         }
-    }else{
-        res.json({message:"Payment method handled successfully"});
+    }
+    else if(paymentMethodId==="StripePayment"){
+        try{
+        const user=req.user;
+        const cartItems=user.cart.items;
+        let existingAddress;
+        if(address.addressId){
+            existingAddress=await Address.findById(address.addressId)
+        }else{
+            const newAddress=new Address({
+                fname:address.firstName,
+                lname:address.lastName,
+                street_address:address.address,
+                country:address.country,
+                state:address.state,
+                phone:address.phoneNumber,
+                zipcode:address.zipCode,
+                city:address.town,
+                user:user._id,
+            });
+            existingAddress=await newAddress.save();
+         }
+         const session = await stripe.checkout.sessions.create({
+            payment_method_types: ["card"],
+            line_items: cartItems.map((item) => ({
+                price_data: {
+                    currency: "INR",
+                    product_data: {
+                        name: item.product,
+                    },
+                    unit_amount: parseFloat(item.price) * 100,
+                },
+                quantity: item.quantity,
+            })),
+            mode: "payment",
+            success_url:req.protocol+"://"+req.get("host")+"/checkout/success", // Replace with your success URL
+            cancel_url:req.protocol+"://"+req.get("host")+"/checkout/cancel", // Replace with your cancel URL
+        });
+        const sessionId=session.id;
+        console.log(sessionId);
+
+        await exports.getCheckout(req,res,sessionId);
+        await orderController.createOrder(
+            user,
+            cartItems,
+            existingAddress._id,
+            paymentMethodId,
+            totalPrice,
+        );
+        await req.user.clearCart();
+
+        return res.json({success:true,message:"order placed successfully"}); 
+
+                // .then((existingAddress)=>{
+                //     console.log(existingAddress);
+                //     if(existingAddress){
+                //         return orderController.createOrder(
+                //             user,
+                //             cartItems,
+                //             existingAddress._id,
+                //             paymentMethodId,
+                //             totalPrice,
+                //         );
+                //     }
+                // })
+                // .then(()=>{
+                //     return req.user.clearCart();
+                // })
+                // .then(()=>{
+            
+                // })
+                // .then(()=>{
+                //     return res.json({success:true,message:"order placed successfully"});
+                // })
+                // .catch((error)=>{
+                //     console.log("Failed to process the order",error);
+                // });
+        }
+        catch(error){
+            console.log("Failed to process the order",order);
+        }
+        
     }
 };
 

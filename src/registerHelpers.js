@@ -34,6 +34,18 @@ const getUserProductsLength=async(userId)=>{
         return 0;
     }
 };
+const getUserCancelledProductsLength=async(userId)=>{
+    try{
+        const count=await Order.countDocuments({
+            "user.userId":userId,
+            status:"cancelled"
+        });
+        return count;
+    }catch(error){
+        console.log(error);
+        return 0;
+    }
+};
 
 const eq=(a,b)=>a===b;
 
@@ -102,6 +114,21 @@ const addUserProductsLengthToContext = async (req, res, next) => {
         next(error);
     }
 };
+const cancelledProducts = async (req, res, next) => {
+    try {
+        if (req.user) {
+            const userId = req.user._id;
+            const userCancelledProductsLength = await getUserCancelledProductsLength(userId);
+            res.locals.cancelledProductsLength = userCancelledProductsLength;
+        } else {
+            res.locals.cancelledProductsLength = 0;
+        }
+        next();
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
 
 function replaceSpacesWithHyphens(str) {
     return str.replace(/\s+/g, "-");
@@ -140,5 +167,6 @@ module.exports={
     replaceSpacesWithHyphens,
     formatDate:formatDate,
     addUserProductsLengthToContext,
+    cancelledProducts,
     getUserProductsLength:getUserProductsLength,
 };
