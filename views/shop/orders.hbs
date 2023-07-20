@@ -89,7 +89,7 @@
                                             <h1 class="dash__h1 u-s-m-b-14">My Orders</h1>
                                              {{#if hasOrders}}
                                             <span class="dash__text u-s-m-b-30">Here you can see all products that have been orderd.</span>
-                                            <form class="m-order u-s-m-b-30">
+                                            {{!-- <form class="m-order u-s-m-b-30">
                                                 <div class="m-order__select-wrapper">
 
                                                     <label class="u-s-m-r-8" for="my-order-sort">Show:</label><select class="select-box select-box--primary-style" id="my-order-sort">
@@ -100,7 +100,7 @@
                                                         <option>Orders placed in 2018</option>
                                                         <option>All Orders</option>
                                                     </select></div>
-                                            </form>
+                                            </form> --}}
                                                
                                              <div class="m-order__list" style="max-height:600px;overflow-y:auto;">
                                                 <div class="empty">
@@ -113,8 +113,9 @@
                                                                 <div class="manage-o__text u-c-silver">Placed on {{formatDate dateCreated}}</div>
                                                             </div>
                                                             <div>
-                                                            {{#if status}}
-                                                            {{#if (eq status 'completed')}}
+                                                            {{#if (eq paymentStatus 'failed')}}
+                                                            <span class="manage-o__badge badge--processing">Payment failed</span>
+                                                            {{else if (eq status 'completed')}}
                                                             <span class="manage-o__badge badge--completed">Completed</span>
                                                             {{else if (eq status 'pending')}}
                                                             <span class="manage-o__badge badge--processing">Processing</span>
@@ -122,14 +123,27 @@
                                                     <span class="manage-o__badge badge--shipped">Shipped</span>
                                                             {{else if (eq status 'delivered')}}
                                                     <span class="manage-o__badge badge--delivered">Delivered</span>
+                                                             {{else if (eq status 'cancelPending')}}
+                                                    <span class="manage-o__badge badge--cancelled"    
+                                                    style="background-color:rgb(255, 212, 133); color: rgb(255, 255, 255);">
+                                                        {{status}}</span>
+                                                    {{else if (eq status 'returnPending')}}
+                                                    <span class="manage-o__badge badge--cancelled"
+                                                    style="background-color:rgb(255, 212, 133); color: rgb(255, 255, 255);"
+                                                    >{{status}}</span>
+                                                    {{else if (eq status 'returned')}}
+                                                    <span class="manage-o__badge badge--cancelled"
+                                                    style="background-color:rgb(106, 136, 255); color: rgb(255, 255, 255);"
+                                                    >Refunded</span>
                                                              {{else}}
-                                                    <span class="manage-o__badge badge--cancelled">{{status}}</span>
+                                                    <span class="manage-o__badge badge--cancelled"
+                                                    style="background-color:rgb(255, 0, 0); color: rgb(255, 255, 255);"
+                                                    >{{status}}</span>
                                                     {{/if}}
-                                                    {{/if}}  
                                                             </div>
                                                             <div>
                                                                 <div class="dash__link dash__link--brand">
-                                                                    <a href="/orderDetails/{{this._id}}">MANAGE</a></div>
+                                                                    <a href="/orderDetails/{{this._id}}">View Details</a></div>
                                                             </div>
                                                         </div>
                                                     </div>

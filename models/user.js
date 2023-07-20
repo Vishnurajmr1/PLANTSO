@@ -45,6 +45,10 @@ const userSchema = new Schema({
             type:Number,
             default:0,
         },
+        status:{
+            type:Boolean,
+            default:true
+        },
     },
     address:{
         type:mongoose.Schema.Types.ObjectId,
@@ -151,5 +155,6 @@ userSchema.methods.clearCart = function () {
     this.cart = { items: [],totalPrice:0 };
     return this.save();
 };
+
 
 module.exports = mongoose.model("User", userSchema);

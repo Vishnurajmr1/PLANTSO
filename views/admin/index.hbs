@@ -933,7 +933,7 @@
           >
             <h6 class="card-title m-0">Latest orders</h6>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="max-height:600px;overflow-y:auto;">
             <div class="table-responsive">
               <table class="table m-0 table-striped">
                 <thead>
@@ -948,7 +948,7 @@
                     <th></th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody >
                   {{#each orders}}
                   <tr>
                     <td>
@@ -968,11 +968,11 @@
                     <td class="text-muted">{{this.products.length}}</td>
                     <th class="text-muted">₹{{this.total}}</th>
                      <td id="statusElement">
-                                             {{#if (eq this.status 'Completed')}}
+                                             {{#if (eq this.status 'completed')}}
                                     <span class="badge rounded-pill bg-success-faded text-success" order-status="{{this._id}}" >{{this.status}}</span>
                                           {{else if (eq this.status 'pending')}}
                                     <span class="badge rounded-pill bg-warning-faded text-warning " order-status="{{this._id}}">{{this.status}}</span>
-                                           {{else if (eq this.status 'Shipped')}}
+                                           {{else if (eq this.status 'shipped')}}
                                    <span class="badge rounded-pill bg-info-faded text-info " order-status="{{this._id}}">{{this.status}}</span>
                                           {{else if (eq this.status 'Out For Delivery')}}
                                     <span class="badge rounded-pill bg-primary-faded text-primary " order-status="{{this._id}}">{{this.status}}</span>
@@ -987,7 +987,7 @@
                 </tbody>
               </table>
             </div>
-            <nav>
+            {{!-- <nav>
               <ul class="pagination justify-content-end mt-3 mb-0">
                 <li class="page-item"><a
                     class="page-link"
@@ -1004,7 +1004,7 @@
                     href="#"
                   >Next</a></li>
               </ul>
-            </nav>
+            </nav> --}}
           </div>
         </div>
       </div>

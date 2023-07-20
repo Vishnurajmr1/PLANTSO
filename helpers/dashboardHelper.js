@@ -21,7 +21,7 @@ exports.getGraphDate=async()=>{
             {
                 $match:{
                     dateCreated:{$gte:startOfYear,$lte:currentDate},
-                    status:{$in:["Pending","Shipped","Completed","Out For Delivery"] },
+                    status:{$in:["pending","shipped","completed","Out For Delivery"] },
                 }
             },
             {
@@ -187,7 +187,7 @@ exports.getDashBoardData=async()=>{
 async function calculateTotalRevenue() {
     try {
         const totalRevenue = await orderDatabase.aggregate([
-            { $match: { status: "Completed" } },
+            { $match: { status: "completed" } },
             { $group: { _id: null, total: { $sum: "$total" } } },
         ]);
   
@@ -204,7 +204,7 @@ async function calculateTotalRevenue() {
 async function calculateTotalOrdersCount() {
     try {
         const totalOrdersCount = await orderDatabase
-            .find({ status: { $in: ["Shipped", "Pending","Cancelled","Completed"] } })
+            .find({ status: { $in: ["shipped", "pending","cancelled","completed"] } })
             .countDocuments();
         return totalOrdersCount;
     } catch (error) {
@@ -239,7 +239,7 @@ async function calculateCurrentMonthEarnings() {
         const currentMonthEarnings = await orderDatabase.aggregate([
             {
                 $match: {
-                    status: "Completed",
+                    status: "completed",
                     dateCreated: {
                         $gte: new Date(currentYear, currentMonth - 1, 1),
                         $lt: new Date(currentYear, currentMonth, 1),

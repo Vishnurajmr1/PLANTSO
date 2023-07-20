@@ -89,8 +89,11 @@ exports.postLogin = (req, res, next) => {
                         }
                     })
                     .catch((err) => {
-                        req.flash("error", "Password doesn't match!");
-                        res.redirect("/login");
+                        req.flash("error","Something went wrong try again!");
+                        return res.render("auth/login", {
+                            layout: "nolayout",
+                        // errorMessage: message,
+                        });
                     });
             })
             .catch(function (err) {

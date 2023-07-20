@@ -84,3 +84,11 @@ exports.getAllOrders=async()=>{
         throw err;
     }
 };
+
+
+exports.cancelOrder=async()=>{
+    
+}
+exports.returnOrder=async()=>{
+
+}

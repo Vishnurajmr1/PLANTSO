@@ -1,6 +1,8 @@
 const Order = require("../models/order");
 const Product = require("../models/product");
 const orderHelper=require("../helpers/orderHelper");
+const userHelper=require("../helpers/userhelpers");
+const User = require("../models/user");
 
 exports.getCheckoutSuccess = (req, res) => {
     const paymentMethod=req.body.paymentMethod;
@@ -8,11 +10,10 @@ exports.getCheckoutSuccess = (req, res) => {
     const address=req.body.address;
     req.user
         .populate("cart.items.productId")
-        .then((user) => {
+        .then(async (user) => {
             const products = user.cart.items.map((i) => {
                 return { quantity: i.quantity, product: { ...i.productId._doc } };
             });
-
             //Update stock quantites for purchased products
             const updateStockPromise=products.map((productData)=>{
                 const productId=productData.product_id;
@@ -23,23 +24,19 @@ exports.getCheckoutSuccess = (req, res) => {
                     {new:true}
                 );
             });
-            return Promise.all(updateStockPromise)
-                .then(()=>{
-                    const order = new Order({
-                        user: {
-                            email: req.user.email,
-                            userId: req.user,
-                        },
-                        products: products,
-                        paymentMethod:paymentMethod,
-                        totalPrice:totalPrice,
-                        address:address
-                    });
-                    return order.save();
-                })
-                .then(() => {
-                    return req.user.clearCart();
-                });
+            await Promise.all(updateStockPromise);
+            const order = new Order({
+                user: {
+                    email: req.user.email,
+                    userId: req.user,
+                },
+                products: products,
+                paymentMethod: paymentMethod,
+                totalPrice: totalPrice,
+                address: address
+            });
+            await order.save();
+            return req.user.clearCart();
         })
         .then(() => {
             res.redirect("/orders");
@@ -99,7 +96,14 @@ exports.getOrder =(orderId) => {
             .populate("shippingAddress")
             .lean()
             .then((order) => {
-                console.log(order);
+                //Calculate the return date
+                const returnDate=new Date(order.dateCreated);
+                returnDate.setDate(returnDate.getDate()+7)
+                order.returnDate=returnDate.toLocaleDateString('en-Us',{
+                    year:'numeric',
+                    month:'2-digit',
+                    day:'2-digit'
+                })
                 resolve(order);
             })
             .catch((err) => {
@@ -208,7 +212,6 @@ exports.getAllOrders = (req, res) => {
     orderHelper
         .getAllOrders()
         .then((orders) => {
-            console.log(orders);
             res.render("admin/list-orders", {
                 pageTitle: "Plantso||Admin-OrderList",
                 layout: "main",
@@ -221,6 +224,96 @@ exports.getAllOrders = (req, res) => {
             res.status(500).json({ error: "An error occurred while fetching orders" });
         });
 };
+
+exports.cancelOrder=async(req,res)=>{
+    try{
+        const {id,cancelreason}=req.body;
+        const cancelResult=await orderHelper.cancelOrder(id,cancelreason);
+        if(cancelResult){
+            res.json({message:'Order cancelled successfully',success:true})
+        }else{
+            res.json({message: 'something wrong! cancelled operation failed',success:false})
+        }
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+exports.returnOrder=async(req,res)=>{
+    try {
+        const {id,returnReason}=req.body;
+        const cancelResult=await orderHelper.returnOrder(id,returnReason);
+        if(cancelResult){
+            res.json({message:'order return successfully',success:true})
+        }else{
+            res.json({message:'something wrong!return operation failed'})
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+exports.getWallet=async(req,res)=>{
+    try{
+        const walletAmount=await orderHelper.getWallet(req.session.user._id);
+        if(walletAmount.status){
+            return res.render('shop/wallet',{
+                walletAmount:walletAmount.amount,
+                walletPending:walletAmount.pendingWallet,
+            })
+        }else{
+            return res.render('shop/wallet',{
+                walletAmount:walletAmount.amount,
+                walletPending:walletAmount.pendingWallet,
+            });
+        }
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+exports.applyWallet=async(req,res)=>{
+    try{
+        const walletAmount=req.body.walletInput;
+        const userId=req.session.user._id;
+        // const result=await user.cartProductTotal(userId);
+        const user=await User.findById(userId);
+        const result=await userHelper.cartTotalProduct();
+        const response=await orderHelper.getUserData(userId);
+        if(!result.status){
+            return res.status(404).json({ success: false, message: 'something wrong!cart not found' });
+        }
+
+        let cart=result.cart;
+        let totalWallet=response.amount;
+        let cartTotal=cart.total;
+        let maxAmount;
+
+        if(req.session.coupon){
+            let coupon=req.session.coupon;
+            const discountAmount=(coupon.discount/100)*cartTotal;
+            cartTotal=cartTotal-discountAmount;
+        }
+
+        if(totalWallet>cartTotal){
+            maxAmount=cartTotal;
+        }else{
+            maxAmount=totalWallet;
+        }
+        if(maxAmount<walletAmount){
+            return res.status(400).json({success:false,message:'Oops!Wrong wallet amount'});
+        }
+
+        cartTotal=cartTotal-walletAmount;
+        let walletBalance=totalWallet-walletAmount;
+        req.session.appliedWallet=walletAmount;
+        return res.json({success:true,cartTotal,walletBalance});
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
+
 
 
 // convert a number to a indian currency format
@@ -235,3 +328,4 @@ const formatDate=function (date) {
     const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
     return date.toLocaleDateString(undefined, options);
 };
+

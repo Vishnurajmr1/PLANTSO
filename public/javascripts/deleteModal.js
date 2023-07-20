@@ -448,5 +448,143 @@ function deleteAllFromCart(){
     });    
 }
 
+async function getCustomInput() {
+    const customResult = await Swal.fire({
+        title: 'Cancellation',
+        input: 'text',
+        inputPlaceholder: 'Please provide a reason for cancellation...',
+        showCancelButton: true,
+        confirmButtonText: 'ok',
+        cancelButtonText: 'cancel',
+        reverseButtons: true,
+        focusConfirm: false,
+    });
+
+    if (customResult.isConfirmed) {
+        const inputValue = customResult.value;
+        console.log(inputValue)
+        if (!inputValue) {
+            Swal.showValidationMessage('Please enter a reason for cancellation.');
+            return '';
+        } else {
+            return {reason:inputValue};
+        }
+    } else {
+        return '';
+    }
+}
+
+async function cancelOrder(orderId){  
+    // const csrfToken = document.querySelector("[name=\"_csrf\"]").value;
+    const result=await Swal.mixin({
+        title:'Cancellation',
+        input:'select',
+        inputOptions:{
+            option1: 'Item not available',
+            option2: 'Wrong item ordered',
+            option3: 'Delivery delayed',
+            other: 'Other'
+        },
+        inputPlaceholder: 'Select a reason or choose Other',
+        showCancelButton:true,
+        confirmButtonText:'ok',
+        cancelButtonText:'cancel',
+        reverseButtons: true,
+        focusConfirm:false,
+        preConfirm:async(selectedValue)=>{
+            if(selectedValue==='other'){
+                return await getCustomInput();
+            }else{
+               return{reason:selectedValue};
+            }
+        }
+    })
+    .fire();
+    if(result.isConfirmed){
+            var reason=result.value.reason;
+            if(reason===''){
+                Swal.fire('No reason provied!','Please enter a reason for cancellation.','warning')
+            }else{
+                const url='/order-cancel'
+                fetch(url,{
+                    method:'POST',
+                    body:JSON.stringify({id:orderId,cancelReason:reason}),
+                    headers:{
+                        'Content-Type':'application/json',
+                        "X-CSRF-Token": csrfToken,
+                    }
+                })
+                .then((response)=>{
+                    Swal.fire({
+                        title:'cancelation pending!',
+                    }).then((res)=>{
+                        location.reload();
+                    })
+                }).catch(error=>{
+                    console.error(error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'An error occurred while processing your return request. Please try again later.',
+                        icon: 'error'
+                    });
+                })
+            }
+        }else{
+            Swal.fire('Order cancelation failed.', '', 'info');
+    }
+}
+
+async function returnOrder(orderId){  
+    // const csrfToken = document.querySelector("[name=\"_csrf\"]").value;
+    const result=await Swal.mixin({
+        title:'Return Order',
+        input:'select',
+        inputOptions:{
+            option1: 'Item deliverd is different',
+            option2: 'Wrong item delivered',
+            option3: 'No longer needed!',
+            other: 'Other'
+        },
+        inputPlaceholder: 'Select a reason or choose Other',
+        showCancelButton:true,
+        confirmButtonText:'ok',
+        cancelButtonText:'cancel',
+        reverseButtons: true,
+        focusConfirm:false,
+    })
+    .fire();
+    if(result.isConfirmed){
+            var reason=result.value.reason;
+            if(reason===''){
+                Swal.fire('No reason provied!','Please enter a reason for reason.','warning')
+            }else{
+                const url='/order-return'
+                fetch(url,{
+                    method:'POST',
+                    body:JSON.stringify({id:orderId,returnReason:reason}),
+                    headers:{
+                        'Content-Type':'application/json',
+                        "X-CSRF-Token": csrfToken,
+                    }
+                })
+                .then((response)=>{
+                    Swal.fire({
+                        title:'return pending!',
+                    }).then((res)=>{
+                        location.reload();
+                    })
+                }).catch(error=>{
+                    console.error(error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'An error occurred while processing your return request. Please try again later.',
+                        icon: 'error'
+                    });
+                })
+            }
+        }else{
+            Swal.fire('Order cancelation failed.', '', 'info');
+    }
+}
 
          

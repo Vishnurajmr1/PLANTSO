@@ -49,6 +49,7 @@ const getUserCancelledProductsLength=async(userId)=>{
 
 const eq=(a,b)=>a===b;
 
+const gt=(a,b)=>a>b;
 const Noteq = (a,b)=> a!==b;
 
 const StrEq = (a,b)=> a==b;
@@ -62,6 +63,29 @@ const increment=(index)=>{
 const subtract=(a,b)=>{
     return a-b;
 };
+const or=()=>{
+    for(let i=0;i<arguments.length-1;i++){
+        if(arguments[i]){
+            return true;
+        }
+    }
+    return false;
+}
+
+const date=function(dateString) {
+   return dateString?new Date(dateString):new Date();
+};
+const calculateReturnDays=function(returnDate) {
+    const currentDate=new Date();
+    const returnDateObj=new Date(returnDate);
+    const differenceInTime = returnDateObj - currentDate;
+    const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24));
+    return differenceInDays;
+};
+
+const lookUp=function (obj,property){
+    return obj[property];
+}
 
 const incrementIndex=function(coupons,index){
     let count=0;
@@ -155,13 +179,18 @@ const compareDateHelper = function(date1, operator, date2) {
 module.exports={
     Noteq,
     eq,
+    or,
+    gt,
     increment,
     incrementIndex,
     incrementIndexOfExp,
     getExpiredCouponLength,
     StrEq,
+    lookUp,
     subtract,
     compareDateHelper,
+    date,
+    calculateReturnDays,
     multiply,
     calculateTotalProduct,
     replaceSpacesWithHyphens,

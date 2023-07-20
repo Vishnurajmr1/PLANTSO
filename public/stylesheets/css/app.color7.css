@@ -6596,5 +6596,40 @@ input[type=number]::-webkit-outer-spin-button {
     border-radius: 6px;
     padding: 3px;
 }
+.status-btn-secondary{
+  background: grey;
+    border-radius: 6px;
+    padding: 3px;
+}
+.status-btn-dark{
+  background: black;
+    border-radius: 6px;
+    padding: 3px;
+}
+.status-btn-warning{
+  background: #f0ad4e;
+    border-radius: 6px;
+    padding: 3px;
+}
+.daysLeft{
+  border: green 3px solid;
+  border-radius: 20px;
+  padding: 4px;
+  background: red;
+  color: yellow;
+}
+
+.manage-o_icon_a{
+  display: flex;
+  color: white;
+  background: red;
+  border-radius: 25px;
+  padding: 3px;
+  align-items: center;
+}
+#manage-o_icon_a{
+  background: #54466e;
+  gap: 2px;
+}
 
 

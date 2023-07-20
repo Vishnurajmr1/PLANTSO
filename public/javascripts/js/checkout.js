@@ -221,7 +221,8 @@
          .then(function(result){
               console.log(result);
           })
-    }else if(!checkbox.checked){
+    }
+    if(!checkbox.checked){
         errorMessage.style.display = 'block';
         return ;
     }

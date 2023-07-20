@@ -313,12 +313,10 @@ exports.updateQuantity = async (req, res) => {
 
 
 
-exports.getCheckout = async (req, res,sessionId) => {
+exports.getCheckout = async (req, res) => {
     try {
         const user = await req.user.populate("cart.items.productId");
         const coupons=await couponHelper.getValidCoupons();
-        let stripeSessionId=sessionId;
-        console.log(stripeSessionId);
         const products = user.cart.items.map((item) => {
             const quantity = item.quantity;
             const price = item.productId.price;
@@ -340,6 +338,23 @@ exports.getCheckout = async (req, res,sessionId) => {
             isShippingAddress:false,
             isBillingAddress:false
         }).lean();
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ["card"],
+            line_items: products.map((item) => ({
+                price_data: {
+                    currency: "INR",
+                    product_data: {
+                        name: item.product,
+                    },
+                    unit_amount: parseFloat(item.price) * 100,
+                },
+                quantity: item.quantity,
+            })),
+            mode: "payment",
+            success_url:req.protocol+"://"+req.get("host")+"/checkout/success", // Replace with your success URL
+            cancel_url:req.protocol+"://"+req.get("host")+"/checkout/cancel", // Replace with your cancel URL
+        });
+        console.log(session.id);
         const total = products.reduce((sum,item) => sum + parseFloat(item.subtotal), 0).toFixed(2);
         let countries=countryStatePicker.getCountries();
         res.render("shop/checkout", {
@@ -349,7 +364,7 @@ exports.getCheckout = async (req, res,sessionId) => {
             hasProducts: products.length > 0,
             totalSum: total,
             addresses:addresses,
-            sessionId:sessionId,
+            sessionId:session.id,
             country:countries,
         });
     } catch (error) {
@@ -439,6 +454,20 @@ exports.postAddress=(req,res)=>{
             res.status(500).json({error:"Error retrieving addresses"});
         });
 };
+
+exports.deleteAddress= async (req,res)=>{
+    try{
+        const addressResult=await userHelper.deleteAddress(req.body.id);
+
+        if(addressResult){
+            res.redirect('/addresses');
+        }else{
+            res.redirect('/addresses');
+        }
+    }catch(error){
+        console.log(error.message);
+    }
+}
 
 exports.defaultAddress=(req,res)=>{
     const userId=req.user._id;
@@ -562,26 +591,16 @@ exports.postCheckout= async (req,res)=>{
             });
             existingAddress=await newAddress.save();
          }
-         const session = await stripe.checkout.sessions.create({
-            payment_method_types: ["card"],
-            line_items: cartItems.map((item) => ({
-                price_data: {
-                    currency: "INR",
-                    product_data: {
-                        name: item.product,
-                    },
-                    unit_amount: parseFloat(item.price) * 100,
-                },
-                quantity: item.quantity,
-            })),
-            mode: "payment",
-            success_url:req.protocol+"://"+req.get("host")+"/checkout/success", // Replace with your success URL
-            cancel_url:req.protocol+"://"+req.get("host")+"/checkout/cancel", // Replace with your cancel URL
-        });
-        const sessionId=session.id;
-        console.log(sessionId);
+         
+        // const sessionId=session.id;
+        // console.log(sessionId);
 
-        await exports.getCheckout(req,res,sessionId);
+        const sessionId=await exports.getCheckout(req,res);
+        console.log(sessionId);
+        if(!sessionId){
+            console.log("Failed to create Stripe session");
+        return res.json({success:false,message:"Failed to create stripe session"}); 
+        }
         await orderController.createOrder(
             user,
             cartItems,
@@ -592,31 +611,6 @@ exports.postCheckout= async (req,res)=>{
         await req.user.clearCart();
 
         return res.json({success:true,message:"order placed successfully"}); 
-
-                // .then((existingAddress)=>{
-                //     console.log(existingAddress);
-                //     if(existingAddress){
-                //         return orderController.createOrder(
-                //             user,
-                //             cartItems,
-                //             existingAddress._id,
-                //             paymentMethodId,
-                //             totalPrice,
-                //         );
-                //     }
-                // })
-                // .then(()=>{
-                //     return req.user.clearCart();
-                // })
-                // .then(()=>{
-            
-                // })
-                // .then(()=>{
-                //     return res.json({success:true,message:"order placed successfully"});
-                // })
-                // .catch((error)=>{
-                //     console.log("Failed to process the order",error);
-                // });
         }
         catch(error){
             console.log("Failed to process the order",order);

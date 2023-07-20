@@ -24,14 +24,7 @@ shopRouter.post("/deleteAllFromCart",isAuth.isauth,shopController.deleteFromCart
 shopRouter.patch("/cart",isAuth.isauth,shopController.updateQuantity);
 shopRouter.post("/filterMethodUrl",productController.getProductsByFilter);
 
-//orders router
-// shopRouter.post('/create-order',isAuth.isauth,orderController.postOrder);
-shopRouter.get("/orders",isAuth.isauth,orderController.getOrders);
-shopRouter.get("/orderDetails/:orderId",shopController.getOrder);
-shopRouter.get("/account/",shopController.getAccount);
-shopRouter.get("/editProfile",(req,res)=>{
-    res.render("shop/edit-profile",{user:true});
-});
+
 // shopRouter.get('/account',(req,res)=>{
 //   res.render('shop/account',{user:true})
 // })
@@ -45,10 +38,13 @@ shopRouter.get("/selectDefault",isAuth.isauth,shopController.getDefault);
 shopRouter.get("/add-address",isAuth.isauth,shopController.getAddAccount);
 shopRouter.get("/getStateList/:code",isAuth.isauth,shopController.getStateList);
 shopRouter.post("/add-address",isAuth.isauth,shopController.postAddress);
-
+shopRouter.delete('/delete-address',isAuth.isauth,shopController.deleteAddress)
 shopRouter.get("/wishlist",(req,res)=>{
     res.render("shop/wishlist",{user:true});
 });
+//router used for wallet
+shopRouter.get('/wallet',isAuth.isauth,orderController.getWallet);
+shopRouter.post('/apply-wallet',isAuth.isauth,orderController.applyWallet);
 
 //router used for coupon
 shopRouter.post("/apply-coupon",isAuth.isauth,couponController.applyCoupon);
@@ -59,6 +55,17 @@ shopRouter.get("/checkout",isAuth.isauth,shopController.getCheckout);
 shopRouter.get("/checkout/success",orderController.getCheckoutSuccess);
 shopRouter.get("/checkout/cancel",shopController.getCheckout);
 shopRouter.post("/checkout",isAuth.isauth,shopController.postCheckout);
+
+//orders router
+// shopRouter.post('/create-order',isAuth.isauth,orderController.postOrder);
+shopRouter.get("/orders",isAuth.isauth,orderController.cancelOrder);
+shopRouter.post("/order-cancel",isAuth.isauth,orderController.returnOrder);
+shopRouter.post('//order-return',isAuth.isauth)
+shopRouter.get("/orderDetails/:orderId",shopController.getOrder);
+shopRouter.get("/account/",shopController.getAccount);
+shopRouter.get("/editProfile",(req,res)=>{
+    res.render("shop/edit-profile",{user:true});
+});
 
 
 

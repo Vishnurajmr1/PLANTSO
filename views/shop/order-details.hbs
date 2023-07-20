@@ -35,12 +35,29 @@
                                                     <div class="manage-o__icon"><i class="fas fa-box u-s-m-r-5"></i>
                                                         <span class="manage-o__text">Package 1</span>
                                                         </div>
+                                                        {{#if (eq order.status 'completed')}}
+                                                           {{#with (calculateReturnDays order.returnDate) as |returnDaysLeft|}}      
+                                                           {{#if (gt returnDaysLeft 0)}}
                                                           <div class="manage-o__icon">
-                                                        <a onclick="CancelOrder('{{order._id}}')">
-                                                        <i class="fas fa-window-close u-s-m-r-5"></i>
-                                                        <span class="manage-o__text badge--cancelled" style="color: red;">Cancel Order</span>
+                                                           <a onclick="returnOrder('{{order._id}}')" class="manage-o_icon_a" id="manage-o_icon_a">
+                                                           <span class="material-symbols-outlined">history</span>
+                                                           <span class="manage-o__text badge--cancelled">Return Order
+                                                            <span class="daysLeft">{{returnDaysLeft}}days left</span>
+                                                           </span>
                                                         </a>
                                                         </div>
+                                                        {{else}}
+                                                         <div></div>
+                                                        {{/if}}
+                                                        {{/with}}
+                                                        {{else if (Noteq order.status 'completed')}}
+                                                          <div class="manage-o__icon">
+                                                        <a onclick="cancelOrder('{{order._id}}')" class="manage-o_icon_a" >
+                                                        <span class="material-symbols-outlined">cancel</span>
+                                                        <span class="manage-o__text badge--cancelled">Cancel Order</span>
+                                                        </a>
+                                                        </div>
+                                                        {{/if}}
                                                 </div>
                                                 <div class="dash-l-r">
                                                     <div class="manage-o__text u-c-secondary">Delivered on 3-4 days</div>
@@ -176,20 +193,34 @@
                                                      <div class="dash-l-r u-s-m-b-8">
                                                         <div class="manage-o__text-2 u-c-secondary">Order Status:</div>
                                                         {{#if (eq order.status 'pending')}}
-                                                        <div class="manage-o__text-2 u-c-white status-btn-info">Processing</div>
+                                                          <span class="manage-o__text-2 u-c-white status-btn-info">Pending Confirmation</span> - Your order is awaiting confirmation.
+                                                        {{else if (eq order.status 'processing')}}
+                                                          <span class="manage-o__text-2 u-c-white status-btn-info">Processing</span> - Your order is being processed.
                                                         {{else if (eq order.status 'shipped')}}
+                                                          <span class="manage-o__text-2 u-c-white status-btn-info">Shipped</span> - Your order has been shipped.
                                                         <div class="manage-o__text-2 u-c-white status-btn-info">Shipped</div>
-                                                        {{else if (eq order.status 'cancelled')}}
-                                                        <div class="manage-o__text-2 u-c-white status-btn-danger">Cancelled</div>
+                                                        {{else if (eq order.status 'delivered')}}
+                                                          <span class="manage-o__text-2 u-c-white status-btn-success">Completed</span> - Your order has been Delivered.
                                                         {{else if (eq order.status 'completed')}}
-                                                        <div class="manage-o__text-2 u-c-white status-btn-success">Completed</div>
+                                                          <span class="manage-o__text-2 u-c-white status-btn-success">Completed</span> - Your order has been Delivered.
+                                                        {{else if (eq order.status 'cancelled')}}
+                                                          <span class="manage-o__text-2 u-c-white status-btn-danger">Cancelled</span> - Your order has been Cancelled.
+                                                        {{else if (eq order.status 'cancelPending')}}
+                                                          <span class="manage-o__text-2 u-c-white status-btn-warning">Cancellation Pending</span> - Your cancellation request is being processed.
+                                                        {{else if (eq order.status 'returnPending')}}
+                                                          <span class="manage-o__text-2 u-c-white status-btn-warning">Return Pending</span> - Your return request  is  being processed.
+                                                        {{else if (eq order.status 'returned')}}
+                                                          <span class="manage-o__text-2 u-c-white status-btn-secondary">Returned</span> - Your order has been returned.
+                                                        {{else}}
+                                                          <span class="manage-o__text-2 u-c-white status-btn-dark">Unknown</span> - The status of your order is unknown.
+                                                        {{!-- <div class="manage-o__text-2 u-c-white status-btn-success">Completed</div> --}}
                                                         {{/if}}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">      
 
                                   </div>
                                
