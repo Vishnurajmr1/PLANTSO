@@ -114,7 +114,7 @@
                                                             </div>
                                                             <div>
                                                             {{#if (eq paymentStatus 'failed')}}
-                                                            <span class="manage-o__badge badge--processing">Payment failed</span>
+                                                            <span class="manage-o__badge badge--payment">Payment failed</span>
                                                             {{else if (eq status 'completed')}}
                                                             <span class="manage-o__badge badge--completed">Completed</span>
                                                             {{else if (eq status 'pending')}}
@@ -124,9 +124,7 @@
                                                             {{else if (eq status 'delivered')}}
                                                     <span class="manage-o__badge badge--delivered">Delivered</span>
                                                              {{else if (eq status 'cancelPending')}}
-                                                    <span class="manage-o__badge badge--cancelled"    
-                                                    style="background-color:rgb(255, 212, 133); color: rgb(255, 255, 255);">
-                                                        {{status}}</span>
+                                                    <span class="manage-o__badge badge--cancelled">{{status}}</span>
                                                     {{else if (eq status 'returnPending')}}
                                                     <span class="manage-o__badge badge--cancelled"
                                                     style="background-color:rgb(255, 212, 133); color: rgb(255, 255, 255);"
@@ -185,11 +183,11 @@
                                                                     <span class="manage-o__text-2 u-c-secondary">₹ {{product.price}}</span></span>
                                                                     </div>
                                                                     
-                                                            <div>
+                                                            {{!-- <div>
 
                                                                 <span class="manage-o__text-2 u-c-silver">Total Amt/prod: 
-                                                                    <br>
-                                                                <span class="manage-o__text-2 u-c-secondary">₹ {{multiply quantity product.price}}</span></span></div>
+                                                                <span class="manage-o__text-2 u-c-secondary">₹ {{multiply quantity product.price}}</span></span>
+                                                                </div> --}}
                                                         </div>
                                                     </div>
                                                {{/each}} 

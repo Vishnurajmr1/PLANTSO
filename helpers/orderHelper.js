@@ -86,9 +86,37 @@ exports.getAllOrders=async()=>{
 };
 
 
-exports.cancelOrder=async()=>{
+exports.cancelOrder=async(orderId,cancelReason)=>{
+    try {
+        console.log(orderId,cancelReason)
+        const result=await Order.updateOne(
+            {_id:orderId},
+            {
+                $set:{
+                    status:'cancelPending',
+                    cancel_reason:cancelReason,
+                },
+            },
+        );
+        return result.modifiedCount===1;
+    } catch (error) {
+        console.log(error);
+    }
     
 }
-exports.returnOrder=async()=>{
-
+exports.returnOrder=async(orderId,returnReason)=>{
+try {
+    const result=await Order.updateOne(
+        {_id:orderId},
+        {
+            $set:{
+                status:'returnPending',
+                return_reason:returnReason,
+            }
+        }
+        )
+        return result.modifiedCount===1;
+} catch (error) {
+    console.log(error);
+}
 }

@@ -58,6 +58,9 @@ const orderSchema=new Schema({
     cancel_reason:{
         type:String,
     },
+    return_reason:{
+        type:String,
+    },
     discount:{
         type:Number,
         default:0,

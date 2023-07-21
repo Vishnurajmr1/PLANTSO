@@ -459,7 +459,6 @@ async function getCustomInput() {
         reverseButtons: true,
         focusConfirm: false,
     });
-
     if (customResult.isConfirmed) {
         const inputValue = customResult.value;
         console.log(inputValue)
@@ -467,13 +466,22 @@ async function getCustomInput() {
             Swal.showValidationMessage('Please enter a reason for cancellation.');
             return '';
         } else {
-            return {reason:inputValue};
+            return inputValue
         }
     } else {
         return '';
     }
 }
 
+function getLableFromValue(value){
+    const inputOptions={
+        option1: 'Item not available',
+        option2: 'Wrong item ordered',
+        option3: 'Delivery delayed',
+        other: 'Other'
+    }
+    return inputOptions[value]||value;
+}
 async function cancelOrder(orderId){  
     // const csrfToken = document.querySelector("[name=\"_csrf\"]").value;
     const result=await Swal.mixin({
@@ -481,9 +489,9 @@ async function cancelOrder(orderId){
         input:'select',
         inputOptions:{
             option1: 'Item not available',
-            option2: 'Wrong item ordered',
-            option3: 'Delivery delayed',
-            other: 'Other'
+        option2: 'Wrong item ordered',
+        option3: 'Delivery delayed',
+        other: 'Other'
         },
         inputPlaceholder: 'Select a reason or choose Other',
         showCancelButton:true,
@@ -493,22 +501,25 @@ async function cancelOrder(orderId){
         focusConfirm:false,
         preConfirm:async(selectedValue)=>{
             if(selectedValue==='other'){
-                return await getCustomInput();
+                const inputValue= await getCustomInput();
+                return{reason:inputValue};
             }else{
-               return{reason:selectedValue};
+                const selectedLabel=getLableFromValue(selectedValue)
+               return{reason:selectedLabel};
             }
         }
     })
     .fire();
     if(result.isConfirmed){
             var reason=result.value.reason;
+            console.log(reason);
             if(reason===''){
                 Swal.fire('No reason provied!','Please enter a reason for cancellation.','warning')
             }else{
                 const url='/order-cancel'
                 fetch(url,{
                     method:'POST',
-                    body:JSON.stringify({id:orderId,cancelReason:reason}),
+                    body:JSON.stringify({id:orderId,cancelreason:reason}),
                     headers:{
                         'Content-Type':'application/json',
                         "X-CSRF-Token": csrfToken,
@@ -534,7 +545,17 @@ async function cancelOrder(orderId){
     }
 }
 
-async function returnOrder(orderId){  
+function getLableFromreturnValue(value){
+    const inputOptions={
+        option1: 'Item deliverd is different',
+        option2: 'Wrong item delivered',
+        option3: 'No longer needed!',
+        other: 'Other'
+    }
+    return inputOptions[value]||value;
+}
+
+async function returnOrder(orderId){ 
     // const csrfToken = document.querySelector("[name=\"_csrf\"]").value;
     const result=await Swal.mixin({
         title:'Return Order',
@@ -551,6 +572,14 @@ async function returnOrder(orderId){
         cancelButtonText:'cancel',
         reverseButtons: true,
         focusConfirm:false,
+        preConfirm:async(selectedValue)=>{
+            if(selectedValue==='other'){
+                return await getCustomInput();
+            }else{
+                const selectedLabel=getLableFromreturnValue(selectedValue)
+               return{reason:selectedLabel};
+            }
+        }
     })
     .fire();
     if(result.isConfirmed){
@@ -583,7 +612,7 @@ async function returnOrder(orderId){
                 })
             }
         }else{
-            Swal.fire('Order cancelation failed.', '', 'info');
+            Swal.fire('Order return failed.', '', 'info');
     }
 }
 

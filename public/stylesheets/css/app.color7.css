@@ -6552,6 +6552,16 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: #106062;
   color: blue;
 }
+.badge--cancelled{
+  background-color:rgb(241 ,176 ,56); 
+  color: rgb(57, 45, 45);
+  width: 7rem;
+}
+.badge--payment{
+  background-color: rgb(17 245 157 / 14%);
+  color: #342e2f;
+  width: 7rem;
+}
 
 #AllCategory{
   text-transform: uppercase;

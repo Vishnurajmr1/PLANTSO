@@ -36,28 +36,30 @@
                                                         <span class="manage-o__text">Package 1</span>
                                                         </div>
                                                         {{#if (eq order.status 'completed')}}
+                                                            {{#with order as |order|}}
                                                            {{#with (calculateReturnDays order.returnDate) as |returnDaysLeft|}}      
                                                            {{#if (gt returnDaysLeft 0)}}
-                                                          <div class="manage-o__icon">
+                                                          <div class="manage-o__icon" id="returnOrder">
                                                            <a onclick="returnOrder('{{order._id}}')" class="manage-o_icon_a" id="manage-o_icon_a">
                                                            <span class="material-symbols-outlined">history</span>
-                                                           <span class="manage-o__text badge--cancelled">Return Order
+                                                           <span class="manage-o__text ">Return Order
                                                             <span class="daysLeft">{{returnDaysLeft}}days left</span>
                                                            </span>
                                                         </a>
                                                         </div>
-                                                        {{else}}
-                                                         <div></div>
                                                         {{/if}}
                                                         {{/with}}
-                                                        {{else if (Noteq order.status 'completed')}}
-                                                          <div class="manage-o__icon">
-                                                        <a onclick="cancelOrder('{{order._id}}')" class="manage-o_icon_a" >
-                                                        <span class="material-symbols-outlined">cancel</span>
-                                                        <span class="manage-o__text badge--cancelled">Cancel Order</span>
+                                                        {{/with}}
+                                                        {{else}}
+                                                       {{#if (or (eq order.status 'pending') (eq order.status 'processing') (eq order.status 'shipped'))}}
+                                                           <div class="manage-o__icon" id="cancelOrder">
+                                                        <a onclick="cancelOrder('{{order._id}}')" class="manage-o_icon_a">
+                                                          <span class="material-symbols-outlined">cancel</span>
+                                                          <span class="manage-o__text">Cancel Order</span>
                                                         </a>
-                                                        </div>
-                                                        {{/if}}
+                                                     </div>
+                                                    {{/if}}
+                                                      {{/if}}
                                                 </div>
                                                 <div class="dash-l-r">
                                                     <div class="manage-o__text u-c-secondary">Delivered on 3-4 days</div>
@@ -198,7 +200,6 @@
                                                           <span class="manage-o__text-2 u-c-white status-btn-info">Processing</span> - Your order is being processed.
                                                         {{else if (eq order.status 'shipped')}}
                                                           <span class="manage-o__text-2 u-c-white status-btn-info">Shipped</span> - Your order has been shipped.
-                                                        <div class="manage-o__text-2 u-c-white status-btn-info">Shipped</div>
                                                         {{else if (eq order.status 'delivered')}}
                                                           <span class="manage-o__text-2 u-c-white status-btn-success">Completed</span> - Your order has been Delivered.
                                                         {{else if (eq order.status 'completed')}}

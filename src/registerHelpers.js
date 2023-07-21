@@ -54,18 +54,19 @@ const Noteq = (a,b)=> a!==b;
 
 const StrEq = (a,b)=> a==b;
 
-const multiply=(a, b)=>{
+const multiply=(a,b)=>{
     return a * b;
 };
+const and =(a,b)=>a&&b;
 const increment=(index)=>{
     return index+1;
 };
 const subtract=(a,b)=>{
     return a-b;
 };
-const or=()=>{
-    for(let i=0;i<arguments.length-1;i++){
-        if(arguments[i]){
+const or=function(...args){
+    for(let i=0;i<args.length-1;i++){
+        if(args[i]){
             return true;
         }
     }
@@ -181,6 +182,7 @@ module.exports={
     eq,
     or,
     gt,
+    and,
     increment,
     incrementIndex,
     incrementIndexOfExp,

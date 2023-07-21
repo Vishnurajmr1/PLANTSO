@@ -58,9 +58,9 @@ shopRouter.post("/checkout",isAuth.isauth,shopController.postCheckout);
 
 //orders router
 // shopRouter.post('/create-order',isAuth.isauth,orderController.postOrder);
-shopRouter.get("/orders",isAuth.isauth,orderController.cancelOrder);
-shopRouter.post("/order-cancel",isAuth.isauth,orderController.returnOrder);
-shopRouter.post('//order-return',isAuth.isauth)
+shopRouter.get("/orders",isAuth.isauth,orderController.getOrders);
+shopRouter.post("/order-cancel",isAuth.isauth,orderController.cancelOrder);
+shopRouter.post('/order-return',isAuth.isauth,orderController.returnOrder)
 shopRouter.get("/orderDetails/:orderId",shopController.getOrder);
 shopRouter.get("/account/",shopController.getAccount);
 shopRouter.get("/editProfile",(req,res)=>{
