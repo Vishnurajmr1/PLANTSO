@@ -65,6 +65,10 @@ const userSchema = new Schema({
         }],
         default: [],
     },
+    wallet:{
+        type:Number,
+        default:0
+    },
 
 });
 

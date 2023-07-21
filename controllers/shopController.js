@@ -7,6 +7,7 @@ const userHelper=require("../helpers/userhelpers");
 const orderController=require("../controllers/orderController");
 const countryStatePicker=require("country-state-picker");
 const couponHelper=require("../helpers/couponHelper");
+const orderHelper=require('../helpers/orderHelper');
 const stripe=require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const ITEMS_PER_PAGE=6;
@@ -354,7 +355,6 @@ exports.getCheckout = async (req, res) => {
             success_url:req.protocol+"://"+req.get("host")+"/checkout/success", // Replace with your success URL
             cancel_url:req.protocol+"://"+req.get("host")+"/checkout/cancel", // Replace with your cancel URL
         });
-        console.log(session.id);
         const total = products.reduce((sum,item) => sum + parseFloat(item.subtotal), 0).toFixed(2);
         let countries=countryStatePicker.getCountries();
         res.render("shop/checkout", {
@@ -523,14 +523,26 @@ exports.postCheckout= async (req,res)=>{
                             existingAddress._id,
                             paymentMethodId,
                             totalPrice,
+                            req
                         );
                     }
+                })
+                .then((createdOrder)=>{
+                    return orderHelper.setSuccessStatus(createdOrder._id);
                 })
                 .then(()=>{
                     return req.user.clearCart();
                 })
-                .then(()=>{
-        
+                .then(async()=>{
+                    // Check for coupon and update coupon data if it exists in the session
+                    if(req.session.coupon){
+                        await couponHelper.addCouponData(req.session.coupon,req.session.user._id);
+                        delete req.session.coupon;
+                    }
+                     // Check for applied wallet and update wallet data if it exists in the session
+                    //  if(req.session.wallet){
+                    //     await 
+                    //  }
                     return res.json({success:true,message:"order placed successfully"});
                 })
                 .catch((error)=>{

@@ -119,6 +119,8 @@
                                                             <span class="manage-o__badge badge--completed">Completed</span>
                                                             {{else if (eq status 'pending')}}
                                                             <span class="manage-o__badge badge--processing">Processing</span>
+                                                            {{else if (eq status 'processing')}}
+                                                            <span class="manage-o__badge badge--processing">Processing</span>
                                                             {{else if (eq status 'shipped')}}
                                                     <span class="manage-o__badge badge--shipped">Shipped</span>
                                                             {{else if (eq status 'delivered')}}

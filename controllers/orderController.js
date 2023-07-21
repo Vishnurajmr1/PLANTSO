@@ -3,6 +3,7 @@ const Product = require("../models/product");
 const orderHelper=require("../helpers/orderHelper");
 const userHelper=require("../helpers/userhelpers");
 const User = require("../models/user");
+const { handleError } = require("../middleware/error.handler");
 
 exports.getCheckoutSuccess = (req, res) => {
     const paymentMethod=req.body.paymentMethod;
@@ -113,11 +114,12 @@ exports.getOrder =(orderId) => {
     });
 };
 
-exports.createOrder=(user,cartItems,addressId,paymentMethodId,totalPrice)=>{
+exports.createOrder=(user,cartItems,addressId,paymentMethodId,totalPrice,req)=>{
     return new Promise((resolve,reject)=>{
+        const orderStatus=paymentMethodId==='COD'?'processing':'pending';
         const productPromises =cartItems.map(async (item) => {
             const product = await Product.findById(item.productId)
-                .exec();
+            .exec();
             return { quantity: item.quantity, product };
         });
         Promise.all(productPromises)
@@ -128,15 +130,39 @@ exports.createOrder=(user,cartItems,addressId,paymentMethodId,totalPrice)=>{
                         email: user.email,
                         userId:user._id,
                     },
-                    status:"pending",
+                    status:orderStatus,
                     subTotal:user.cart.totalPrice,
                     total:totalPrice,
                     shippingAddress:addressId,
                     products:products,
                     paymentmethod:paymentMethodId
                 });
+                if(req.session.coupon){
+                    let coupon=req.session.coupon;
+                    const discountAmt=(coupon.discount/100)*user.cart.totalPrice;
+                    order.discount=discountAmt;
+                    order.total=user.cart.totalPrice-discountAmt.toFixed(2);
+                }
+                if(req.session.appliedWallet) {
+                    let appliedWallet = req.session.appliedWallet;
+                    order.total = order.total - appliedWallet;
+                  }
                 order.save()
                     .then((savedOrder)=>{
+                        products.forEach((item)=>{
+                            const productId=item.product._id;
+                            const orderedQuantity=item.quantity;
+
+                            Product.findByIdAndUpdate(productId,{$inc:{stock:-orderedQuantity}},{new:true})
+                            .exec()
+                            .then((updatedProduct)=>{
+                              // You can handle the updated product data here if needed
+                                console.log(`Stock updated for product ID: ${updatedProduct._id}`);
+                               })
+                                .catch((error) => {
+                                   console.log(`Error updating stock for product ID: ${productId}`);
+                             });
+                        })
                         resolve(savedOrder);
                     })
                     .catch((error)=>{
@@ -252,6 +278,26 @@ exports.returnOrder=async(req,res)=>{
         console.log(error);
     }
 }
+exports.changePaymentStatus=async(req,res)=>{
+    try {
+        
+    } catch (error) {
+        
+    }
+}
+exports.changeOrderStatus=async(req,res)=>{
+    try {
+        const {orderId,status}=req.body;
+        const result=await Order.changeOrderStatus(status,orderId);
+        if(result.status){
+            return res.json({success:true,message:result.message})
+        } else{
+            return res.json({success:false,message:result.message});
+        }
+    } catch (error) {
+        handleError(res,error);
+    }
+}
 exports.getWallet=async(req,res)=>{
     try{
         const walletAmount=await orderHelper.getWallet(req.session.user._id);
@@ -310,6 +356,33 @@ exports.applyWallet=async(req,res)=>{
     }
     catch(error){
         console.log(error);
+    }
+}
+
+exports.verifyPayment=async(req,res)=>{
+    try {
+        const verifyResult=await orderHelper.verifyPayment(req.body,res);
+        if(verifyResult){
+            let razorpay_payement_id=req.body['payment[razorpay_payment_id]'];
+            let razorpay_order_id=req.body['payment[razorpay_order_id'];
+            let razorpay_signature=req.body['payment[razorpay_signature]'];
+            let paymentDetails={razorpay_payement_id,razorpay_order_id,razorpay_signature};
+            const changePaymentresult=await Order.changePaymentStatus(
+                req.body['order[receipt]'],
+                paymentDetails,
+            );
+            if(changePaymentresult){
+                return res.json({success:true,message:'payment result updated'});
+            }else{
+                return res.json({
+                    success:false,
+                    message:'something goes wrong!payment result not updated',
+                })
+            }
+        
+        }
+    } catch (error) {
+        handleError(res,error);
     }
 }
 

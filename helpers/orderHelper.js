@@ -1,4 +1,7 @@
+const crypto = require('crypto');
 const Order = require("../models/order");
+const User=require('../models/user');
+const {handleError}=require("../middleware/error.handler");
 
 exports.getAllDeliveredOrders = async () => {
     try {
@@ -119,4 +122,109 @@ try {
 } catch (error) {
     console.log(error);
 }
+}
+
+exports.changePayStatus=async(orderId,paymentMethodId,res)=>{
+    try {
+        const changePaymentStatus=await Order.updateOne(
+            {_id:orderId},
+            {
+                $set:{
+                    status:'processing',
+                    PaymentResponse:paymentMethodId
+                },
+            },
+        );
+        if(changePaymentStatus.modifiedCount>0){
+            return true;
+        }else{
+            return false;
+        }
+    } catch (error) {
+        handleError(res,error)
+    }
+}
+
+exports.setSuccessStatus=async function(orderId){
+    try {
+        const result=await Order.updateOne(
+        {_id:orderId},
+        {
+            $set:{
+                paymentStatus:'success',
+            }
+         }
+      )
+      if(result) return true;
+    } catch (error) {
+       throw new Error('failed to change payment status!something wrong');  
+    }
+}
+
+exports.changeOrderStatus=async function(changeStatus,orderId){
+    try{
+        if(['shipped','delivered','cancelled','returned'].includes(changeStatus)){
+            throw new Error('Invalid status');
+        }
+        const orderResult=await Order.findByIdAndUpdate(orderId,{
+            $set:{
+                status:changeStatus,
+            }
+        });
+
+        if(changeStatus==='returned'){
+            const orderResult=await Order.findById(orderId).select('total user.userId');
+            const {total,user}=orderResult;
+            const userResult=await User.findById(user).select('wallet');
+            const wallet=userResult.wallet;
+            const updatedWallet=wallet+total;
+            await User.findByIdAndUpdate(user,{
+                $set:{
+                    wallet:updatedWallet,
+                }
+            });
+        }
+
+        if(orderResult){
+            return {status:true,message:'order updated'};
+        }else{
+            return {status:false,message:'Something goes wrong updation failed'};
+        }
+    }
+    catch(error){
+        throw new Error('failed to change status!Something wrong')
+    }
+}
+
+exports.orderStatus=async function(orderId){
+    try {
+        const result=await Order.findByIdAndUpdate(
+            orderId,
+            {
+                $set:{paymentmethod:'COD',status:'processing'},
+            },
+            {new:true},
+        );
+        return true; 
+    } catch (error) {
+        throw new Error('Error updating order data!');
+    }
+}
+
+exports.verifyPayment=async(req,res)=>{
+    try {
+        var expectedSignature=crypto.createHmac('sha256',process.env.RAZORPAY_KEY_SECRET);
+        expectedSignature.update(
+            `${razorData['payment[razorpay_order_id]']} | ${razorData['payment[razorpay_payment_id]']}`,
+        );
+        expectedSignature=expectedSignature.digest('hex');
+
+        if(expectedSignature===razorData['payment[razorpay_signature]']){
+            return true;
+        }else{
+            return false;
+        }
+    } catch (error) {
+        handleError(res,error);
+    }
 }

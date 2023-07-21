@@ -67,6 +67,8 @@ shopRouter.get("/editProfile",(req,res)=>{
     res.render("shop/edit-profile",{user:true});
 });
 
+shopRouter.post('/verify-payment',isAuth.isauth,orderController.verifyPayment);
+
 
 
 module.exports = shopRouter;
