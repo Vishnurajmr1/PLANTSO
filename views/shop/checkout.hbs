@@ -561,6 +561,23 @@
                                                         <span class="gl-text u-s-m-t-6">When you click "Continue" below we'll take you to Paypal's site to set up your billing information.</span>
                                                     </div> --}}
                                                     {{!-- end of paypal option --}}
+                                                    {{!-- razorpay payment  --}}
+                                                    <div class="u-s-m-b-10">
+
+                                                        <!--====== Radio Box ======-->
+                                                        <div class="radio-box">
+
+                                                            <input type="radio" id="pay-pal" name="payment" value="razorPay">
+                                                            <div class="radio-box__state radio-box__state--primary">
+
+                                                                <label class="radio-box__label" for="pay-pal">razorPay</label>
+                                                                </div>
+                                                        </div>
+                                                        <!--====== End - Radio Box ======-->
+
+                                                        <span class="gl-text u-s-m-t-6">When you click "Continue" below we'll take you to razorPay's site to set up your billing information.</span>
+                                                    </div>
+                                                    {{!-- end of paypal option --}}
                                                     <div class="u-s-m-b-15">
 
                                                         <!--====== Check Box ======-->
@@ -612,3 +629,4 @@
         </div>
 </main>
 <script src="/javascripts/js/checkout.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>

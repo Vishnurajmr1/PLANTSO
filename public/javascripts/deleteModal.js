@@ -385,7 +385,8 @@ function handlePayment(addressDetails,paymentMethodId,totalPrice){
             console.log(data);
             console.log("Order placed successfully:",data);
             if (data.success) {
-                // Show success alert using SweetAlert
+                if(data.paymethod==='COD'){
+                     // Show success alert using SweetAlert
                 swal.fire({
                     title: "Success",
                     text: "Order placed successfully",
@@ -394,6 +395,11 @@ function handlePayment(addressDetails,paymentMethodId,totalPrice){
                 }).then(() => {
                     window.location.href = "/orders"; // Redirect the user to the /orders page
                 });
+                }
+                else if(data.paymethod==='razorPay'){
+                    razorpayPayment(data.orderDetails,data.razorPay);
+                }
+               
             }
         })
         .catch(error=>{
@@ -617,3 +623,69 @@ async function returnOrder(orderId){
 }
 
          
+
+function razorpayPayment(order,receipt) {
+    var options = {
+        "key": "rzp_test_ZAX3wtcRlXdMGA", // Enter the Key ID generated from the Dashboard
+        "amount": order.total*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Plantso", //your business name
+        "description": "Test Transaction",
+        // "image": "/user/assets/imgs/theme/logo.svg",
+        // "order_id":"order_DBJOWzybf0sJbb", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "order_id":order.id,
+        "handler": function (response) {
+            // alert(response.razorpay_payment_id);
+            verifyPayment(response,order);
+        },
+        "prefill": {
+            "name": "Gaurav Kumar", //your customer's name
+            "email": "gaurav.kumar@example.com",
+            "contact": "9000090000"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+
+    var rzp1 = new Razorpay(options);
+
+    rzp1.on('payment.failed', function (response) {
+        Swal.fire({
+            title:'Payment failed!',
+        }).then((res)=>{
+            // location.reload();
+            window.location.href = `/orders`
+        })
+    });
+    rzp1.open();
+}
+
+
+function verifyPayment(payment,order) {
+    console.log(order)
+    // const csrfToken = document.querySelector("[name=\"_csrf\"]").value;
+    $.ajax({
+        type: 'post',
+        url: '/verify-payment',
+        data: {
+            payment,order
+        }, 
+        beforeSend:function(xhr){
+            xhr.setRequestHeader('X-CSRF-Token',csrfToken);
+        },
+        success: (response) => {
+            console.log(response);
+            const id = order.receipt;
+            console.log(order.receipt);
+            if (response.success) {
+                window.location.href = `/orders`;
+            } else {
+                window.location.href = `/orders`;
+            }
+        }
+    })
+}

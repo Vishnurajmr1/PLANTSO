@@ -211,7 +211,6 @@
     addressId:addressId
      };
      handlePayment(addressDetails,paymentMethodId,totalPrice);
-
     }
     }else if(paymentMethodId==='StripePayment'){
     var stripe=Stripe('pk_test_51NM52USGoyjO6bGWzt6sBpPIgATb25DWYwIDfxfWYMKfMHMN4UxOeJj3RJy5Tgz20px7SWSnl4pMlfZr181itejI00yTNJJYdu');
@@ -221,6 +220,80 @@
          .then(function(result){
               console.log(result);
           })
+    }else if(paymentMethodId==='razorPay'){
+      if (!selectAddressId && !isCheckboxChecked){
+        Swal.fire({
+          title: 'Please select the default address details or select an address',
+          text: "You won't be able to continue this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'OK'
+          }).then((result) => {
+          if (!result.isConfirmed) {
+          Swal.fire(
+           'Cancel!',
+          'Checkout operation failed!',
+          'error'
+           )
+        }
+      })
+      return;
+    }else if(!checkbox.checked){
+      errorMessage.style.display = 'block';
+      return ;
+    }else if(selectAddressId){
+      console.log(selectAddressId)
+      var selectAddressIdValue = selectAddressId.value;
+      console.log(selectAddressIdValue)
+      var selectAddressFname = selectAddressId.getAttribute('data-fname');
+      console.log(selectAddressFname)
+      var selectAddressLname = selectAddressId.getAttribute('data-lname');
+      var selectAddressPhone = selectAddressId.getAttribute('data-phone');
+      var selectAddressCity = selectAddressId.getAttribute('data-city');
+      var selectAddressCountry = selectAddressId.getAttribute('data-country');
+      var selectAddressState = selectAddressId.getAttribute('data-state');
+      var selectAddressStreet = selectAddressId.getAttribute('data-street');
+      var selectAddressZip = selectAddressId.getAttribute('data-zip');   
+      var totalPrice=document.getElementById('totalAmtSpn').textContent;   
+      const addressDetails = {
+        firstName: selectAddressFname,
+        lastName: selectAddressLname,
+        phoneNumber: selectAddressPhone,
+        country: selectAddressCountry,
+        state: selectAddressState,
+        town: selectAddressCity,
+        address: selectAddressStreet,
+        zipCode: selectAddressZip,
+        addressId: selectAddressIdValue,
+         };
+       handlePayment(addressDetails,paymentMethodId,totalPrice);
+    }else{
+           // Create the addressDetails object inside the handleOrder function var phoneNumber = document.getElementById('billing-phone').value;
+  var country = document.getElementById('address-country').value;
+  var state = document.getElementById('address-state').value;
+  var firstName = document.getElementById('billing-fname').value;
+  var lastName = document.getElementById('billing-lname').value;
+  var phoneNumber = document.getElementById('billing-phone').value;
+  var town = document.getElementById('billing-town-city').value;
+  var address = document.getElementById('billing-street').value;
+  var zipCode = document.getElementById('billing-zip').value;
+  var addressId=document.getElementById('address_id').value;
+  var totalPrice=document.getElementById('totalAmtSpn').textContent;
+  const addressDetails = {
+    phoneNumber: phoneNumber,
+    country: country,
+    state: state,
+    firstName: firstName,
+    lastName: lastName,
+    town: town,
+    address: address,
+    zipCode: zipCode,
+    addressId:addressId
+     };
+     handlePayment(addressDetails,paymentMethodId,totalPrice);
+    }
     }
     if(!checkbox.checked){
         errorMessage.style.display = 'block';

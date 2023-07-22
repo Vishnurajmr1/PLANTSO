@@ -211,7 +211,7 @@ exports.orderStatus=async function(orderId){
     }
 }
 
-exports.verifyPayment=async(req,res)=>{
+exports.verifyPayment=async(razorData,res)=>{
     try {
         var expectedSignature=crypto.createHmac('sha256',process.env.RAZORPAY_KEY_SECRET);
         expectedSignature.update(

@@ -9,6 +9,7 @@ const countryStatePicker=require("country-state-picker");
 const couponHelper=require("../helpers/couponHelper");
 const orderHelper=require('../helpers/orderHelper');
 const stripe=require("stripe")(process.env.STRIPE_SECRET_KEY);
+const { generateRazorpay } = require('../config/razorpay');
 
 const ITEMS_PER_PAGE=6;
 
@@ -543,7 +544,7 @@ exports.postCheckout= async (req,res)=>{
                     //  if(req.session.wallet){
                     //     await 
                     //  }
-                    return res.json({success:true,message:"order placed successfully"});
+                    return res.json({success:true,message:"order placed successfully",paymethod:paymentMethodId});
                 })
                 .catch((error)=>{
                     console.log("Failed to process the order",error);
@@ -628,6 +629,83 @@ exports.postCheckout= async (req,res)=>{
             console.log("Failed to process the order",order);
         }
         
+    }else if(paymentMethodId==='razorPay'){
+        const user=req.user;
+        const cartItems=user.cart.items;
+        if(address.addressId){
+            Address.findById(address.addressId)
+                .then(async (existingAddress)=>{
+                    if(existingAddress){
+                        const order=await orderController.createOrder(
+                            user,
+                            cartItems,
+                            existingAddress._id,
+                            paymentMethodId,
+                            totalPrice,
+                            req
+                    );
+                    const razorpayOrder=await generateRazorpay(order);
+                    return {order,razorpayOrder};
+                    }
+                })
+                .then(({order,razorPayOrder})=>{
+                    // return orderHelper.setSuccessStatus(createdOrder._id);
+                    return req.user.clearCart()
+                    .then(async()=>{
+                        // Check for coupon and update coupon data if it exists in the session
+                        if(req.session.coupon){
+                            await couponHelper.addCouponData(req.session.coupon,req.session.user._id);
+                            delete req.session.coupon;
+                        }
+                        // Check for applied wallet and update wallet data if it exists in the session
+                        //  if(req.session.wallet){
+                            //     await 
+                            //  }
+                            return res.json({
+                                success:true,
+                                message:"order placed successfully",
+                                paymethod:paymentMethodId,
+                                orderDetails:order,
+                                razorPay:razorPayOrder
+                            });
+                    })
+                })
+                .catch((error)=>{
+                    console.log("Failed to process the order",error);
+                });
+        }else{
+            const newAddress=new Address({
+                fname:address.firstName,
+                lname:address.lastName,
+                street_address:address.address,
+                country:address.country,
+                state:address.state,
+                phone:address.phoneNumber,
+                zipcode:address.zipCode,
+                city:address.town,
+                user:user._id,
+            });
+            newAddress
+                .save()
+                .then((savedAddress)=>{
+                    return orderController.createOrder(
+                        user,
+                        cartItems,
+                        savedAddress._id,
+                        paymentMethodId,
+                        totalPrice,
+                    );
+                })
+                .then(()=>{
+                    return req.user.clearCart()
+                        .then(()=>{
+                            return res.json({success:true,message:"order placed successfully"});
+                        });
+                })
+                .catch((error)=>{
+                    console.log("Failed to process the order",error);
+                });
+        }
     }
 };
 

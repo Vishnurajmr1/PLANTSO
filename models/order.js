@@ -61,6 +61,9 @@ const orderSchema=new Schema({
     return_reason:{
         type:String,
     },
+    transactionId: {
+        type: String,
+      },
     discount:{
         type:Number,
         default:0,

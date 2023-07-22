@@ -1,3 +1,4 @@
+const crypto=require('crypto');
 const Order = require("../models/order");
 const Product = require("../models/product");
 const orderHelper=require("../helpers/orderHelper");
@@ -122,6 +123,11 @@ exports.createOrder=(user,cartItems,addressId,paymentMethodId,totalPrice,req)=>{
             .exec();
             return { quantity: item.quantity, product };
         });
+        const transactionId = crypto
+        .createHash('sha256')
+        .update(`${Date.now()}-${Math.floor(Math.random() * 12939)}`)
+        .digest('hex')
+        .substr(0, 16);
         Promise.all(productPromises)
             .then((products)=>{
                 const order = new Order({
@@ -135,6 +141,7 @@ exports.createOrder=(user,cartItems,addressId,paymentMethodId,totalPrice,req)=>{
                     total:totalPrice,
                     shippingAddress:addressId,
                     products:products,
+                    transactionId:transactionId,
                     paymentmethod:paymentMethodId
                 });
                 if(req.session.coupon){
@@ -362,6 +369,7 @@ exports.applyWallet=async(req,res)=>{
 exports.verifyPayment=async(req,res)=>{
     try {
         const verifyResult=await orderHelper.verifyPayment(req.body,res);
+        console.log(verifyResult)
         if(verifyResult){
             let razorpay_payement_id=req.body['payment[razorpay_payment_id]'];
             let razorpay_order_id=req.body['payment[razorpay_order_id'];
