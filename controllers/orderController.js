@@ -375,7 +375,7 @@ exports.verifyPayment=async(req,res)=>{
             let razorpay_order_id=req.body['payment[razorpay_order_id'];
             let razorpay_signature=req.body['payment[razorpay_signature]'];
             let paymentDetails={razorpay_payement_id,razorpay_order_id,razorpay_signature};
-            const changePaymentresult=await Order.changePaymentStatus(
+            const changePaymentresult=await orderHelper.changePayStatus(
                 req.body['order[receipt]'],
                 paymentDetails,
             );

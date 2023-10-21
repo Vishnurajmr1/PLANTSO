@@ -38,9 +38,6 @@ const store = new MongoDBStore({
 
 
 const csrfProtection = csrf();
-
-
-
 app.set("views", path.join(__dirname, "views"));
 app.engine(
     "hbs",
@@ -90,7 +87,7 @@ app.use((req, res, next) => {
 
 const port=process.env.PORT||5000;
 
-async function startServer(){
+(async function startServer(){
     await mongoConnect();
     app.listen(port,(err)=>{
         if(err){
@@ -98,22 +95,7 @@ async function startServer(){
         }
         console.log(`Listening on port http://localhost:${port}/`);
     });
-}
-
-
-startServer();
-
-// mongoConnect().then(() => {
-//   console.log('Connected to MongoDB');
-//   const port = process.env.PORT || 3000;
-//   app.listen(port, () => {
-//     console.log(`Listening on port http://localhost:${port}/`);
-//   });
-// }).catch((error) => {
-//   console.log('MongoDB connection failed:', error);
-// });
-
-console.clear();
+})()
 
 app.use((req, res, next) => {
     res.locals.isAuthenticated = req.session.isLoggedIn;

@@ -1,0 +1,141 @@
+ <!--====== Section 2 ======-->
+<div class="u-s-p-b-60">
+    <!--====== Section Intro ======-->
+    <div class="section__intro u-s-m-b-16">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section__text-wrap">
+                        <h1 class="section__heading u-c-secondary u-s-m-b-12">
+                            TOP TRENDING
+                        </h1>
+
+                        <span class="section__span u-c-silver">CHOOSE CATEGORY</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--====== End - Section Intro ======-->
+
+    <!--====== Section Content ======-->
+    <div class="section__content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="filter-category-container">
+                        <div class="filter__category-wrapper">
+                            <button
+                                class="btn filter__btn filter__btn--style-1 js-checked"
+                                type="button"
+                                data-filter="*"
+                                id="allProductsBtn">
+                                ALL
+                            </button>
+                        </div>
+                        {{#each categories}}
+                        <div class="filter__category-wrapper">
+                            <button
+                                class="btn filter__btn filter__btn--style-1 filter__btn"
+                                type="button" ,
+                                id="{{replaceSpacesWithHyphens this.name}}"
+                                data-filter=".{{replaceSpacesWithHyphens this.name}}">
+                            {{this.name}}
+                            </button>
+                        </div>
+                        {{/each}}
+                    </div>
+                    <div class="filter__grid-wrapper u-s-m-t-30">
+                        <div class="row">
+                            {{#each allProds}}
+                            <div
+                                class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item {{replaceSpacesWithHyphens category.name}}">
+                                <div
+                                    class="product-o product-o--hover-on product-o--radius">
+                                    <div class="product-o__wrap">
+                                        <a
+                                            href="product-detail.html"
+                                            class="aspect aspect--bg-grey aspect--square u-d-block">
+                                            <img
+                                                class="aspect__img"
+                                                src="{{imageUrl.[0]}}"
+                                                alt
+                                                id="productImage{{this._id}}" />
+
+                                        </a>
+                                        <div class="product-o__action-wrap">
+                                            <ul class="product-o__action-list">
+                                                <li>
+                                                    <a
+                                                        data-modal="modal"
+                                                        data-modal-id="#quick-look"
+                                                        data-tooltip="tooltip"
+                                                        data-placement="top"
+                                                        title="Quick View"><i
+                                                            class="fas fa-search-plus"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        onclick="addToCart('{{this._id}}')"
+                                                        data-modal="modal"
+                                                        data-modal-id="#add-to-cart"
+                                                        data-tooltip="tooltip"
+                                                        data-placement="top"
+                                                        title="Add to Cart"><i
+                                                            class="fas fa-plus-circle"></i></a>
+                                                    <input type="hidden"
+                                                        name="_csrf"
+                                                        value="{{csrfToken}}">
+                                                </li>
+                                                
+                                                <li>
+                                                    <a
+                                                        href="signin.html"
+                                                        data-tooltip="tooltip"
+                                                        data-placement="top"
+                                                        title="Add to Wishlist"><i
+                                                            class="fas fa-heart"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <span class="product-o__category">
+                                        <a href="shop-side-version-2.html">{{category.name}}</a></span>
+                                    <span class="product-o__name">
+                                        <a href="product-detail.html"
+                                            id="productName{{this._id}}">{{this.title}}</a></span>
+                                    <div
+                                        class="product-o__rating gl-rating-style">
+                                        <i class="fas fa-star"></i><i
+                                            class="fas fa-star"></i><i
+                                            class="fas fa-star"></i><i
+                                            class="fas fa-star"></i><i
+                                            class="fas fa-star-half-alt"></i>
+
+                                        <span class="product-o__review">(23)</span>
+                                    </div>
+                                    <span class="product-o__price"
+                                        id="productPrice{{this._id}}">₹{{price}}
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="load-more">
+                                <button class="btn btn--e-brand" type="button"
+                                    id="loadMoreBtn">
+                                    Load More
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--====== End - Section Content ======-->
+        </div>
+
+    </div>
+    <!--====== End - Section 2 ======-->
+
+

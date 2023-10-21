@@ -430,3 +430,29 @@ document.getElementById("resend").addEventListener("click", function() {
 });
 
 
+// document.onreadystatechange = function () {
+//     if (document.readyState !== "complete") {
+//         document.querySelector(
+//             "section").style.visibility = "hidden";
+//         document.querySelector(
+//             "#loader").style.visibility = "visible";
+//     } else {
+//         document.querySelector(
+//             "#loader").style.display = "none";
+//         document.querySelector(
+//             "section").style.visibility = "visible";
+//     }
+// };
+
+document.onreadystatechange = function () {
+    if (document.readyState !== "complete") {
+        // Insert the loader HTML into the #loader-container
+        const loaderContainer = document.getElementById("loader-container");
+        loaderContainer.innerHTML = '<div id="loader" class="center"></div>';
+    } else {
+        // Remove the loader when the page is loaded
+        const loader = document.getElementById("loader");
+        loader.style.display = "none";
+    }
+};
+

@@ -85,6 +85,7 @@ select {
 [type="submit"],
 button {
   -webkit-appearance: button;
+  appearance: button;
 }
 [type="button"]::-moz-focus-inner,
 [type="reset"]::-moz-focus-inner,
@@ -127,6 +128,7 @@ textarea {
 }
 [type="search"] {
   -webkit-appearance: textfield;
+  appearance: textfield;
   outline-offset: -2px;
 }
 [type="search"]::-webkit-search-decoration {
@@ -310,18 +312,22 @@ template {
 }
 .fa-rotate-90 {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
   transform: rotate(90deg);
 }
 .fa-rotate-180 {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
   transform: rotate(180deg);
 }
 .fa-rotate-270 {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
   transform: rotate(270deg);
 }
 .fa-flip-horizontal {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
   transform: scaleX(-1);
 }
 .fa-flip-vertical {
@@ -330,6 +336,7 @@ template {
 .fa-flip-horizontal.fa-flip-vertical,
 .fa-flip-vertical {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+   filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
 }
 .fa-flip-horizontal.fa-flip-vertical {
   transform: scale(-1);
@@ -8632,6 +8639,7 @@ template {
   -ms-touch-action: pan-Y;
   touch-action: manipulation;
   -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 .owl-carousel .owl-stage:after {
   content: ".";
@@ -8645,6 +8653,7 @@ template {
   position: relative;
   overflow: hidden;
   -webkit-transform: translate3d(0, 0, 0);
+   transform: translate3d(0, 0, 0);
 }
 .owl-carousel .owl-item,
 .owl-carousel .owl-wrapper {
@@ -8654,11 +8663,14 @@ template {
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   -ms-transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
 }
 .owl-carousel .owl-item {
   min-height: 1px;
   float: left;
-  -webkit-backface-visibility: hidden;
+  -webkit-backface-visibility:hidden;
+   backface-visibility: hidden;
   -webkit-touch-callout: none;
 }
 .owl-carousel .owl-item img {
@@ -8772,6 +8784,7 @@ template {
   cursor: pointer;
   z-index: 1;
   -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   transition: transform 0.1s ease;
 }
 .owl-carousel .owl-video-play-icon:hover {
@@ -8911,7 +8924,6 @@ template {
 }
 .lg-icon {
   font-family: lg;
-  speak: none;
   font-style: normal;
   font-weight: 400;
   font-variant: normal;

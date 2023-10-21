@@ -697,6 +697,7 @@ select:disabled {
 [type="reset"],
 [type="submit"],
 button {
+  appearance: button;
   -webkit-appearance: button;
 }
 [type="button"]:not(:disabled),
@@ -749,6 +750,7 @@ legend + * {
 [type="search"] {
   outline-offset: -2px;
   -webkit-appearance: textfield;
+  appearance: textfield;
 }
 ::-webkit-search-decoration {
   -webkit-appearance: none;
@@ -2677,7 +2679,8 @@ textarea.form-control-lg {
   -moz-appearance: none;
   appearance: none;
   -webkit-print-color-adjust: exact;
-  color-adjust: exact;
+  print-color-adjust: exact;
+  --webkit-color-adjust: exact;
   transition: background-color 0.15s ease-in-out,
     background-position 0.15s ease-in-out, border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
@@ -24800,7 +24803,9 @@ body {
 }
 .swiper-slide {
   -webkit-transform: translateZ(0);
+  transform:translateZ(0);
   -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 .swiper-pagination-bullet {
   width: 8px;
