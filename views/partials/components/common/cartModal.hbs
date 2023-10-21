@@ -1,0 +1,202 @@
+      <!--====== Add to Cart Modal ======-->
+{{#if isAuthenticated}}
+<div id="modal-view" hidden>
+<div class="modal fade" id="add-to-cart">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-radius modal-shadow">
+
+        <button  
+          class="btn dismiss-button fas fa-times"
+          type="button"
+          data-dismiss="modal"
+        ></button>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <div class="success u-s-m-b-30">
+                <div class="success__text-wrap"><i class="fas fa-check"></i>
+
+                  <span>Item is added successfully!</span></div>
+                <div class="success__img-wrap">
+
+                  <img
+                    class="u-img-fluid"
+                    src=""
+                    alt="Demo product"
+                    id="prodImage"
+                  /></div>
+                <div class="success__info-wrap">
+                  
+
+                  <span class="success__name" id="prodName"></span>
+
+                  {{!-- <span class="success__quantity">Quantity: 1</span> --}}
+
+                  <span class="success__price" id="prodPrice"></span></div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <div class="s-option">
+
+                <span class="s-option__text">1 item (s) in your cart</span>
+                <div class="s-option__link-box">
+                  <a
+                    class="s-option__link btn--e-white-brand-shadow"
+                    data-dismiss="modal"
+                  >CONTINUE SHOPPING</a>
+
+                  <a
+                    class="s-option__link btn--e-white-brand-shadow"
+                    href="/cart"
+                  >VIEW CART</a>
+
+                  <a
+                    class="s-option__link btn--e-brand-shadow"
+                    href="/checkout"
+                  >PROCEED TO CHECKOUT</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+{{else}}
+<div id="modal-view" hidden>
+<div class="modal fade" id="add-to-cart">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-radius modal-shadow">
+
+        <button  
+          class="btn dismiss-button fas fa-times"
+          type="button"
+          data-dismiss="modal"
+        ></button>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <div class="success u-s-m-b-30">
+                <div class="success__text-wrap"><i class="fas fa-exclamation-circle"></i>
+
+                  <span>Item is not added successfully!</span></div>
+                <div class="success__img-wrap">
+
+                  <img
+                    class="u-img-fluid"
+                    src=""
+                    alt="Demo product"
+                    id="prodImage"
+                  /></div>
+                <div class="success__info-wrap">
+                  
+
+                  <span class="success__name" id="prodName"></span>
+
+                  <span class="success__quantity">Quantity: 1</span>
+
+                  <span class="success__price" id="prodPrice"></span></div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <div class="s-option">
+
+                <span class="s-option__text">0 item (s) in your cart</span>
+                <div class="s-option__link-box">
+                  <a
+                    {{!-- class="s-option__link btn--e-white-brand-shadow" --}}
+                    data-dismiss="modal"
+                  >PLEASE LOGIN TO ADD PRODUCT!</a>
+                  <a
+                    class="s-option__link btn--e-white-brand-shadow"
+                    href="/login"
+                  >LOGIN</a>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  {{/if}}
+  <!--====== End - Add to Cart Modal ======-->
+
+  <!--====== Add to Cart Modal(2) ======-->
+
+<div id="modal-view-stock" hidden>
+  <div class="modal fade" id="stock-not-available">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-radius modal-shadow">
+         <button  
+          class="btn dismiss-button fas fa-times"
+          type="button"
+          data-bs-toggle="modal"
+        ></button>
+        <div class="modal-body stock">
+          <div class="row">
+            <div class="col-12">
+              <div class="stock-not-available u-s-m-b-30">
+                <div class="stock-not-available__text-wrap">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <span>Currently, the stock is not available.</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+              <div class="s-option">
+                <span class="s-option__text">Please choose a different product or continue shopping.</span>
+                <div class="s-option__link-box">
+                  <a class="s-option__link btn--e-white-brand-shadow" data-bs-dismiss="modal" href="/shop">CONTINUE SHOPPING</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <!--====== End - Add to Cart Modal(2) ======-->
+
+    <!--====== Add to Cart Modal(3) ======-->
+
+<div id="modal-AdminLogin" hidden>
+  <div class="modal" id="adminCart-notAvailable">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-radius modal-shadow">
+         <button  
+          class="btn dismiss-button fas fa-times"
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-dismiss="modal"
+        ></button>
+        <div class="modal-body stock">
+          <div class="row">
+            <div class="col-12">
+              <div class="stock-not-available u-s-m-b-30">
+                <div class="stock-not-available__text-wrap">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <span>Currently, Admin cannot add products to cart.</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+              <div class="s-option">
+                <span class="s-option__text">Please Login as a user or continue exploring user interface.</span>
+                <div class="s-option__link-box">
+                  <a class="s-option__link btn--e-white-brand-shadow" data-bs-dismiss="modal" href="/login">Login as User</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <!--====== End - Add to Cart Modal(3) ======-->
+
