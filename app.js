@@ -1,6 +1,7 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-undef */
 require("dotenv").config();
 const express = require("express");
-const createError = require("http-errors");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
@@ -38,6 +39,7 @@ const store = new MongoDBStore({
 
 
 const csrfProtection = csrf();
+// eslint-disable-next-line no-undef
 app.set("views", path.join(__dirname, "views"));
 app.engine(
     "hbs",
@@ -53,7 +55,6 @@ app.set("view engine", "hbs");
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
 //static files path set using express-static
 app.use(express.static(path.join(__dirname, "public")));
 //multer middleware used
@@ -95,7 +96,7 @@ const port=process.env.PORT||5000;
         }
         console.log(`Listening on port http://localhost:${port}/`);
     });
-})()
+})();
 
 app.use((req, res, next) => {
     res.locals.isAuthenticated = req.session.isLoggedIn;
@@ -131,8 +132,8 @@ app.use(helperFunctions.addUserProductsLengthToContext);
 app.use(helperFunctions.cancelledProducts);
 app.use(helperFunctions.calculateTotalProduct);
 app.use("/admin", adminRoutes);
-app.use('/',shopRoutes);
-app.use('/',authRoutes);
+app.use("/",shopRoutes);
+app.use("/",authRoutes);
 
 
 app.get("/500", errorController.get500);
@@ -140,7 +141,7 @@ app.get("/500", errorController.get500);
 app.use(errorController.get404);
 
 // error handler
-app.use((error, req, res, next) => {
+app.use((error, req, res) => {
     // res.status(error.httpStatusCode).render(...);
     // res.redirect('/500');
     res.status(500).render("500", {

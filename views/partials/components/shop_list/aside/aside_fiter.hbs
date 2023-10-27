@@ -1,0 +1,89 @@
+ <div class="col-lg-3 col-md-12">
+          <div class="shop-w-master">
+            <h1 class="shop-w-master__heading u-s-m-b-30"><i
+                class="fas fa-filter u-s-m-r-8"
+              ></i>
+
+              <span>FILTERS</span></h1>
+            <div class="shop-w-master__sidebar">
+              <div class="u-s-m-b-30">
+                <div class="shop-w shop-w--style">
+                  <div class="shop-w__intro-wrap">
+                    <h1 class="shop-w__h">CATEGORY</h1>
+
+                    <span
+                      class="fas fa-minus shop-w__toggle"
+                      data-target="#s-category"
+                      data-toggle="collapse"
+                    ></span>
+                  </div>
+                  <div class="shop-w__wrap collapse show" id="s-category">
+                    <ul class="shop-w__category-list gl-scroll">
+                       <li class="has-list">
+
+                        <button type="button" onclick="filter('all',null,null)" id="AllCategory">ALL</button>
+                      </li>
+                      {{#each categories}}
+                      <li class="has-list">
+                        <button type="button"  onclick="filter('{{this.name}}',null,null)" class="categories" id="categoryFilter">{{this.name}}</button>
+                      </li>
+                       {{/each}}
+                        {{!-- <span class="category-list__text u-s-m-l-6">(23)</span> --}}
+
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              {{!-- start of round  --}}
+               <div class="u-s-m-b-30">
+                <div class="shop-w shop-w--style">
+                  <div class="shop-w__intro-wrap">
+                    <h1 class="shop-w__h">PRICE</h1>
+                    <span
+                      class="fas fa-minus shop-w__toggle"
+                      data-target="#s-price"
+                      data-toggle="collapse"
+                    ></span>
+                  </div>
+                  <div class="shop-w__wrap collapse show" id="s-price">
+                    {{!-- <form class="shop-w__form-p">
+                      <div class="shop-w__form-p-wrap">
+                        <div>
+
+                          <label for="price-min"></label>
+
+                          <input
+                            class="input-text input-text--primary-style"
+                            type="text"
+                            id="price-min"
+                            placeholder="Min"
+                          /></div>
+                        <div>
+
+                          <label for="price-max"></label>
+
+                          <input
+                            class="input-text input-text--primary-style"
+                            type="text"
+                            id="price-max"
+                            placeholder="Max"
+                          /></div>
+                        <div>
+
+                          <button
+                            class="btn btn--icon fas fa-angle-right btn--e-transparent-platinum-b-2"
+                            type="submit"
+                          ></button></div>
+                      </div>
+                    </form> --}}
+                    <div class="slidecontainer">
+                     <input type="range" min="" max="" value="" class="slider" id="myRange" onchange="filter(null,this.value,null)">
+                     <p>Price:₹<span id="demo"></span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {{!-- end of the round  --}}
+            </div>
+          </div>
+        </div>
