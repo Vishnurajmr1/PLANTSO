@@ -1,9 +1,11 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-unused-vars */
 require("dotenv").config();
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const twilio = require("twilio");
-const {handleError}=require("../middleware/error.handler");
+const {handleError}=require("./errorController");
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const servicesSid = process.env.TWILIO_SERVICES_SID;
@@ -20,25 +22,15 @@ const transporter = nodemailer.createTransport(
     })
 );
 
-exports.getLogin = (req, res,next) => {
+exports.showLoginPage = (req, res,next) => {
     try {
-        let message = req.flash("error");
-        if (message.length > 0) {
-            message = message[0];
-        } else {
-            message = null;
-        }
+        const message = req.flash("error")[0]||null;
         res.render("auth/login", {
-            layout: "nolayout",
-            errorMessage: message,
+            errorMessage: message
         });
     } catch (err) {
-        if(!err.statusCode){
-            err.statusCode=500;
-        }
         handleError(res,err);
     }
-   
 };
 exports.postLogin = (req, res, next) => {
     try {
@@ -137,9 +129,7 @@ exports.postLogout=(req,res,next)=>{
 
 exports.getSignup = (req, res, next) => {
     try{
-        res.render("auth/phoneotp", {
-            layout: "nolayout",
-        });
+        res.render("auth/phoneotp");
     }
     catch(err){
         if(!err.statusCode){

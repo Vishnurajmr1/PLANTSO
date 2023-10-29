@@ -1,5 +1,4 @@
 const Address = require("../models/address");
-const User=require('../models/user');
 exports.saveAddress = (addressData,userId) => {
     return new Promise((resolve, reject) => {
         const address = new Address({
@@ -44,18 +43,18 @@ exports.deleteAddress=async(addressId)=>{
     try{
         const result=await Address.findByIdAndUpdate(
             {_id:addressId},
-            {$set:{isDeleted:true}})
-            if (result){
-                return true;
-              } else {
-                return false;
-              }
+            {$set:{isDeleted:true}});
+        if (result){
+            return true;
+        } else {
+            return false;
+        }
     }
     catch(error){
         console.log(error);
     }
 
-}
+};
 
 
 // exports.defaultAddress=async(userId)=>{
@@ -97,17 +96,18 @@ exports.defaultAddress = async (userId) => {
 
 exports.cartTotalProduct=async()=>{
     try {
+        // eslint-disable-next-line no-undef, no-underscore-dangle
         const user=req.session.user._id;
         const cart=user.cart;
         if(cart && cart.totalPrice>0){
             return {status:true,cart};
         }else{
-            return {status:false}
+            return {status:false};
         }
     } catch (error) {
-        throw new Error('Error finding cart count!')
+        throw new Error("Error finding cart count!");
     }
-}
+};
 
 
   

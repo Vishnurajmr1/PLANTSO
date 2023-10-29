@@ -1,26 +1,19 @@
 <main>
-<section class="bg-gray-50 flex items-center justify-center">
+<section class="section">
     {{!-- {{! login container }} --}}
-    <div class="bg-gray-100 flex rounded-2xl shadow-lg max-w-5xl p-5 items-center">
+    <div class=" section_main_div shadow-lg">
       {{! form }}
-      <div class="md:w-1/2 px-16">
-      <h5 class="font-bold text-2xl text-green-600 text-center">PLANTSO</h5>
-      <h3 class="font-thin text-2xl text-green-500">Login</h3>
-      <p class="text-sm mt-4 text-blue-950">If you already a member,easily login</p>
-      {{!-- {{#if message}}
-          {{#if success}}
-              <h5 class="text-green-500 font-semibold">{{message}}</h5>
-              {{else}}
-              <h5 class="text-red-600 font-semibold" id="error-message">{{message}}</h5>
-              {{/if}}
-      {{/if}} --}}
+      <div class="form_main_div md:w-1/2">
+      <h5 class="form_header">PLANTSO🪴</h5>
+      <h3 class="form_subheader text-2xl text-green-500">Login</h3>
+      <p class="form_tagline">If you already a member,easily login🤝</p>
       {{#if errorMessage}}
             <h5 class="text-red-600 font-semibold" id="error-message">{{errorMessage}}</h5>
       {{/if}}
         <h5 class="text-red-600 font-semibold" id="errorMessage"></h5>
       <form action="/login" 
         method="POST"
-        class="flex flex-col gap-4 mt-4">
+        class="">
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <div id="email-field"  class="flex flex-col gap-2">
               <label for="email" class="font-semibold text-xs">Email</label>
