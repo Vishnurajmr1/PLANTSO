@@ -6077,7 +6077,9 @@ input::-ms-clear {
   .s-skeleton--h-640 {
     min-height: 640px; }
   .s-skeleton--bg-grey {
-    background-color: #f5f5f5; }
+    /* background-color: #f5f5f5; */
+    background-color: #474b4740;
+   }
   .s-skeleton--bg-black {
     background-color: #000000; }
   .s-skeleton .owl-carousel {
