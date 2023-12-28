@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev":"nodemon app.js",
+    "dev": "nodemon app.js",
     "start": "node app.js",
     "start-server": "node app.js"
   },
@@ -13,6 +13,7 @@
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "cloudinary": "^1.41.1",
     "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^3.1.1",
     "cookie-parser": "~1.4.4",
@@ -34,6 +35,10 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.3",
     "nodemailer-sendgrid-transport": "^0.2.0",
+    "passport": "^0.7.0",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth": "^2.0.0",
+    "passport-local": "^1.0.0",
     "razorpay": "^2.9.1",
     "stripe": "^12.10.0",
     "tailwindcss": "^3.3.2",

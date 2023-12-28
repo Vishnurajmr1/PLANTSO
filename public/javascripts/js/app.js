@@ -35,7 +35,6 @@
         $shopFilterBtn = $('.js-shop-filter-target');
 
 
-
     // Bind Scroll Up to all pages
     RESHOP.initScrollUp = function() {
         $.scrollUp({
@@ -44,7 +43,7 @@
             easingType: 'linear',
             scrollSpeed: 900,
             animation: 'fade',
-            zIndex: 100
+            zIndex: 100,
         });
     };
 
@@ -56,6 +55,7 @@
             });
         }
     };
+
 
     RESHOP.onClickScroll = function() {
         $collectionaClickScroll.on('click', function (e) {
@@ -292,10 +292,10 @@
         }
     };
     // Remove Class from body element
-    RESHOP.appConfiguration = function() {
-        $('body').removeAttr('class');
-        $('.preloader').removeClass('is-active');
-    };
+    // RESHOP.appConfiguration = function() {
+    //     $('body').removeAttr('class');
+    //     $('.preloader').removeClass('is-active');
+    // };
 
     // Bind isotope filter plugin
     RESHOP.isotopeFilter = function() {
@@ -683,4 +683,14 @@
         RESHOP.shopCategoryToggle();
         RESHOP.shopPerspectiveChange();
         RESHOP.shopSideFilter();
+
+        $(window).on('load', function() {
+            console.log('Window loaded.')
+            $('#preloader-active').delay(2000).fadeOut('slow',function(){
+                console.log('Preloader faded out.')
+                $('body').delay(3000).css({
+                    'overflow': 'visible'
+                });
+            });  
+        });
 })(jQuery);

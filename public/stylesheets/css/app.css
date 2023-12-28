@@ -294,7 +294,7 @@ body {
 /**
 * Preloader
 */
-.preloader.is-active {
+/* .preloader.is-active {
   width: 100%;
   text-align: center;
   height: 100%;
@@ -316,7 +316,7 @@ body {
         justify-content: center;
     height: 100%; }
   .preloader__img {
-    display: block; }
+    display: block; } */
 
 /*
   * Row modifier class
@@ -6455,6 +6455,11 @@ input::-ms-clear {
   color: #333333;
   font-size: 18px;
   text-align: center; }
+  @media only screen  and (max-width:768px) {
+    #topScroll{
+      display: none;
+    }
+  }
 
 /*--------------------------------------------------------------
 20.5 Slick Carousel

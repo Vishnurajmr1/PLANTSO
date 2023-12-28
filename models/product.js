@@ -15,6 +15,9 @@ const productSchema=new Schema({
         type:String,
         required:true
     },
+    thumnail:{
+        type:String
+    },
     imageUrl:[{
         type:String,
         required:true

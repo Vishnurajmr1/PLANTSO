@@ -207,7 +207,9 @@
         $(window).on('resize', function() {
             windowCheck();
         });
-
+       
     });
     };
 })(jQuery, window, document);
+
+

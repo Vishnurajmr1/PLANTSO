@@ -69,6 +69,9 @@ const userSchema = new Schema({
         type:Number,
         default:0
     },
+    profileImage:{
+        type:String
+    }
 
 });
 
@@ -98,6 +101,7 @@ const userSchema = new Schema({
 
 userSchema.methods.addToCart = function (product) {
     const cartProductIndex = this.cart.items.findIndex((cp) => {
+        // eslint-disable-next-line no-underscore-dangle
         return cp.productId.toString() === product._id.toString();
     });
 
@@ -120,6 +124,7 @@ userSchema.methods.addToCart = function (product) {
         }
     } else {
         updatedCartItems.push({
+            // eslint-disable-next-line no-underscore-dangle
             productId: product._id,
             quantity: newQuantity,
             price: newPrice,
