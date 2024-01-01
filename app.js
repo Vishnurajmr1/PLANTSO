@@ -19,7 +19,6 @@ const upload = require("./config/multer");
 const User = require("./models/user");
 //used for session handling
 const session = require("express-session");
-const MongoDBStore = require("connect-mongodb-session")(session);
 
 //requiring hbs module using npm
 const hbs = require("express-handlebars");
@@ -30,13 +29,6 @@ const adminRoutes = require("./routes/admin.Router");
 const authRoutes = require("./routes/auth");
 
 const app = express();
-
-const store = new MongoDBStore({
-    uri: process.env.MONGO_URL,
-    collection: "sessions",
-});
-
-
 
 const csrfProtection = csrf();
 // eslint-disable-next-line no-undef
@@ -70,8 +62,7 @@ app.use(
         saveUninitialized: false,
         cookie: {
             maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-        },
-        store: store,
+        }
     })
 );
 app.use(csrfProtection);
@@ -107,26 +98,6 @@ app.use((req, res, next) => {
 
 
 //Routes used
-
-app.use((req, res, next) => {
-    if (!req.session.user) {
-        return next();
-    }
-    User.findById(req.session.user._id)
-        .then((user) => {
-            if(!user){
-                return next();
-            }
-            req.user = user;
-            next();
-        })
-        .catch((err) =>{
-            next(new Error(err));
-        });
-});
-
-
-
 
 app.use(helperFunctions.addUserProductsLengthToContext);
 app.use(helperFunctions.cancelledProducts);
