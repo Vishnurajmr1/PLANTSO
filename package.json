@@ -2,12 +2,14 @@
   "name": "generator",
   "version": "0.0.0",
   "private": true,
+  "type":"module",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "nodemon ./src/app.js",
     "start": "node app.js",
     "start-server": "node app.js"
   },
   "dependencies": {
+    "@paypal/paypal-js": "^8.0.0",
     "animate.css": "^4.1.1",
     "aos": "^2.3.4",
     "bcrypt": "^5.1.0",
